@@ -83,8 +83,13 @@ public class GroupReservation extends BaseEntity {
 		return user;
 	}
 
-	public void setUser(final User user) {
+	void setUser(User user) {
 		this.user = user;
+	}
+	
+	public void associateUser(User user) {
+		setUser(user);
+		user.addGroupReservation(this);
 	}
 
 	public Invoice getInvoice() {

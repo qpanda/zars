@@ -55,7 +55,7 @@ public class User extends BaseEntity {
 	@JoinTable(name = User.JOINTABLENAME_USER_ROLE, joinColumns = @JoinColumn(name = User.COLUMNNAME_USERID), inverseJoinColumns = @JoinColumn(name = Role.COLUMNNAME_ROLEID))
 	private Set<Role> roles = new HashSet<Role>(0);
 
-	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST }, fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<GroupReservation> groupReservations = new HashSet<GroupReservation>(0);
 
 	public User(final String userName, final String password, final boolean enabled, final Role role) {
@@ -153,9 +153,18 @@ public class User extends BaseEntity {
 	public Set<GroupReservation> getGroupReservations() {
 		return groupReservations;
 	}
-
-	public void setGroupReservations(final Set<GroupReservation> groupReservations) {
+	
+	void setGroupReservations(Set<GroupReservation> groupReservations) {
 		this.groupReservations = groupReservations;
+	}
+	
+	void addGroupReservation(GroupReservation groupReservation) {
+		this.groupReservations.add(groupReservation);
+	}
+
+	public void associateGroupReservation(GroupReservation groupReservation) {	
+		addGroupReservation(groupReservation);
+		groupReservation.setUser(this);
 	}
 
 	@Override
