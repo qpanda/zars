@@ -58,6 +58,14 @@ public class User extends BaseEntity {
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<GroupReservation> groupReservations = new HashSet<GroupReservation>(0);
 
+	public User(final String userName, final String password, final boolean enabled, final Role role) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.enabled = enabled;
+		this.roles.add(role);
+	}
+
 	public User(final String userName, final String password, final boolean enabled, final Set<Role> roles) {
 		super();
 		this.userName = userName;
@@ -66,8 +74,7 @@ public class User extends BaseEntity {
 		this.roles = roles;
 	}
 
-	public User(final String userName, final String password, final String firstName, final String lastName,
-			final boolean enabled, final Set<Role> roles) {
+	public User(final String userName, final String password, final String firstName, final String lastName, final boolean enabled, final Set<Role> roles) {
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -75,6 +82,16 @@ public class User extends BaseEntity {
 		this.lastName = lastName;
 		this.enabled = enabled;
 		this.roles = roles;
+	}
+	
+	public User(final String userName, final String password, final String firstName, final String lastName, final boolean enabled, Role role) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.enabled = enabled;
+		this.roles.add(role);
 	}
 
 	public long getUserId() {
