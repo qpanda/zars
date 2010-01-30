@@ -41,7 +41,6 @@ public class GroupReservation extends BaseEntity {
 	private String comment;
 
 	@NotNull
-	@NotEmpty
 	@ManyToOne(cascade = { javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.REFRESH, javax.persistence.CascadeType.DETACH }, fetch = javax.persistence.FetchType.EAGER, optional = false)
 	@JoinColumn(name = User.COLUMNNAME_USERID, nullable = false)
 	private User user;

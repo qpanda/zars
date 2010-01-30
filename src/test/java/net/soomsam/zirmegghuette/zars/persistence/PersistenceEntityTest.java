@@ -1,13 +1,12 @@
 package net.soomsam.zirmegghuette.zars.persistence;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.PersistenceException;
 
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
+import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
@@ -41,6 +40,9 @@ public class PersistenceEntityTest {
 	
 	@Autowired
 	private RoomDao roomDao;
+	
+	@Autowired
+	private GroupReservationDao groupReservationDao;
 
 	@Test
 	public void testCreateUserRole() {
@@ -107,11 +109,11 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(roomDao.findByPrimaryKey(secondRoom.getRoomId()));
 	}
 	
-	@Test
-	public void testGroupReservation() {
-		// TODO
+	@Test(expected = InvalidStateException.class)
+	public void testGroupReservationWithoutReservation() {
 		GroupReservation groupReservation = createGroupReservation();
-		logger.debug("persisted group reservation as [" + groupReservation + "]");
+		groupReservationDao.persist(groupReservation);
+		groupReservationDao.flush();
 	}
 	
 	private Role createUserRole() {
