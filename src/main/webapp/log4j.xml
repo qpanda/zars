@@ -18,7 +18,7 @@
 		</layout>
 	</appender>
 
-	<logger name="net.soomsam.zirmegghuette" additivity="false">
+	<logger name="net.soomsam.zirmegghuette.zars" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="fileAppender" />
 		<appender-ref ref="consoleAppender" />

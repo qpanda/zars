@@ -12,11 +12,11 @@
         <property name="hibernate.connection.username">sa</property>
         <property name="hibernate.connection.password"></property>
         
-        <mapping class="net.soomsam.zirmegghuette.persistence.entity.Invoice" />
-        <mapping class="net.soomsam.zirmegghuette.persistence.entity.GroupReservation" />
-        <mapping class="net.soomsam.zirmegghuette.persistence.entity.Reservation" />
-        <mapping class="net.soomsam.zirmegghuette.persistence.entity.Role" />
-        <mapping class="net.soomsam.zirmegghuette.persistence.entity.Room" />
-        <mapping class="net.soomsam.zirmegghuette.persistence.entity.User" />        
+        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Invoice" />
+        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation" />
+        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Reservation" />
+        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Role" />
+        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Room" />
+        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.User" />        
     </session-factory>
 </hibernate-configuration>
