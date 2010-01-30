@@ -11,11 +11,11 @@ public class PersistenceEntityGenerator {
 	public static final String ROLE_USER = "user";
 	public static final String ROLE_ADMIN = "admin";
 	
-	public static Role createRoleUser() {
+	public static Role createUserRole() {
 		return new Role(ROLE_USER);
 	}
 	
-	public static Role createRoleAdmin() {
+	public static Role createAdminRole() {
 		return new Role(ROLE_ADMIN);
 	}
 	
@@ -23,7 +23,11 @@ public class PersistenceEntityGenerator {
 		return new User("test", "test", true, new HashSet<Role>(Arrays.asList(roles)));
 	}
 	
-	public static Room createMajorRoom() {
-		return new Room("major", 8, 1);
+	public static Room createFirstRoom() {
+		return new Room("first", 4, 1);
+	}
+	
+	public static Room createSecondRoom() {
+		return new Room("second", 4, 2);
 	}
 }

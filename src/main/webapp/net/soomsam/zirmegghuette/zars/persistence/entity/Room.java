@@ -2,6 +2,7 @@ package net.soomsam.zirmegghuette.zars.persistence.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,9 +10,11 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.validator.event.JPAValidateListener;
 
 @Entity
 @Table(name = Room.TABLENAME_ROOM)
+@EntityListeners(value = { JPAValidateListener.class })
 public class Room extends BaseEntity {
 	public static final String TABLENAME_ROOM = "room";
 	public static final String COLUMNNAME_ROOMID = "room_id";
@@ -28,9 +31,6 @@ public class Room extends BaseEntity {
 	@Column(name = Room.COLUMNNAME_NAME, nullable = false, length = 256)
 	private String name;
 
-	@Column(name = Room.COLUMNNAME_DESCRIPTION, nullable = true, length = 1024)
-	private String description;
-
 	@Column(name = Room.COLUMNNAME_CAPACITY, nullable = false, length = 256)
 	private long capacity;
 
@@ -40,14 +40,6 @@ public class Room extends BaseEntity {
 	public Room(final String name, final long capacity, final long precedence) {
 		super();
 		this.name = name;
-		this.capacity = capacity;
-		this.precedence = precedence;
-	}
-
-	public Room(final String name, final String description, final long capacity, final long precedence) {
-		super();
-		this.name = name;
-		this.description = description;
 		this.capacity = capacity;
 		this.precedence = precedence;
 	}
@@ -66,14 +58,6 @@ public class Room extends BaseEntity {
 
 	public void setName(final String name) {
 		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
 	}
 
 	public long getCapacity() {
@@ -113,6 +97,6 @@ public class Room extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getRoomId()).append(getName()).append(getDescription()).append(getCapacity()).append(getPrecedence()).toString();
+		return new ToStringBuilder(this).append(getRoomId()).append(getName()).append(getCapacity()).append(getPrecedence()).toString();
 	}
 }

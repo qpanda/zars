@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,9 +19,13 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.NotNull;
+import org.hibernate.validator.event.JPAValidateListener;
 
 @Entity
 @Table(name = User.TABLENAME_USER)
+@EntityListeners(value = { JPAValidateListener.class })
 public class User extends BaseEntity {
 	public static final String TABLENAME_USER = "user";
 	public static final String COLUMNNAME_USERID = "user_id";
@@ -51,6 +56,8 @@ public class User extends BaseEntity {
 	@Column(name = User.COLUMNNAME_ENABLED, nullable = false)
 	private boolean enabled;
 
+	@NotNull
+	@NotEmpty
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
 	@JoinTable(name = User.JOINTABLENAME_USER_ROLE, joinColumns = @JoinColumn(name = User.COLUMNNAME_USERID), inverseJoinColumns = @JoinColumn(name = Role.COLUMNNAME_ROLEID))
 	private Set<Role> roles = new HashSet<Role>(0);
@@ -60,6 +67,11 @@ public class User extends BaseEntity {
 
 	public User(final String userName, final String password, final boolean enabled, final Role role) {
 		super();
+		
+		if (null == role) {
+			throw new IllegalArgumentException("'role' must not be null");
+		}
+		
 		this.userName = userName;
 		this.password = password;
 		this.enabled = enabled;
