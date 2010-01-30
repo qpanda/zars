@@ -79,17 +79,6 @@
 							</srcFiles>
 						</configuration>
 					</execution>
-					<execution>
-						<id>drop-schema</id>
-						<phase>test</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<autocommit>true</autocommit>
-							<sqlCommand>DROP SCHEMA public CASCADE</sqlCommand>
-						</configuration>
-					</execution>
 				</executions>
 				<dependencies>
 					<dependency>
