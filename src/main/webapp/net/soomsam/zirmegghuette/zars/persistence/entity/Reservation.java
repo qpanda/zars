@@ -54,7 +54,7 @@ public class Reservation extends BaseEntity {
 	private String lastName;
 
 	@NotNull
-	@ManyToOne(cascade = { javax.persistence.CascadeType.ALL }, fetch = javax.persistence.FetchType.EAGER, optional = false)
+	@ManyToOne(cascade = { javax.persistence.CascadeType.DETACH, javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.REFRESH, javax.persistence.CascadeType.REMOVE }, fetch = javax.persistence.FetchType.EAGER, optional = false)
 	@JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID, nullable = false)
 	private GroupReservation groupReservation;
 

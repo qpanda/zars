@@ -112,6 +112,30 @@ public class PersistenceEntityTest {
 		userDao.flush();
 	}
 
+	@Test(expected = IllegalStateException.class)
+	public void testCreateUserWithTransientRole() {
+		final Role transientRole = new Role("transient");
+		final User userWithoutRoles = new User("test", "test", true, transientRole);
+		userDao.persist(userWithoutRoles);
+		userDao.flush();
+	}
+
+	@Test
+	public void testDeleteUserWithRole() {
+		final Role userRole = createUserRole();
+		final User testUser = PersistenceEntityGenerator.createUserTest(userRole);
+		userDao.persist(testUser);
+		userDao.flush();
+		logger.debug("persisted user 'test' as [" + testUser + "]");
+
+		userDao.remove(testUser);
+		userDao.flush();
+		userDao.clear();
+
+		Assert.assertNull(userDao.findByPrimaryKey(testUser.getUserId()));
+		Assert.assertNotNull(roleDao.findByPrimaryKey(userRole.getRoleId()));
+	}
+
 	@Test
 	public void testCreateFirstRoom() {
 		final Room firstRoom = createFirstRoom();
@@ -175,8 +199,47 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(fetchedGroupReservation.getReservations().contains(testReservation));
 	}
 
-	// TODO GroupReservation
-	// TODO Reservation
+	@Test(expected = InvalidStateException.class)
+	public void testCreateGroupReservationWithoutReservation() {
+		final User testUser = createTestUser();
+		final Room firstRoom = createFirstRoom();
+		final GroupReservation testGroupReservation = new GroupReservation(testUser);
+		testGroupReservation.addRoom(firstRoom);
+		groupReservationDao.persist(testGroupReservation);
+		groupReservationDao.flush();
+	}
+
+	@Test(expected = InvalidStateException.class)
+	public void testCreateGroupReservationWithoutRoom() {
+		final User testUser = createTestUser();
+		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser);
+		testGroupReservation.associateReservation(testReservation);
+		groupReservationDao.persist(testGroupReservation);
+		groupReservationDao.flush();
+	}
+
+	@Test(expected = InvalidStateException.class)
+	public void testCreateGroupReservationWithoutUser() {
+		final Room firstRoom = createFirstRoom();
+		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(null);
+		testGroupReservation.associateReservation(testReservation);
+		testGroupReservation.addRoom(firstRoom);
+		groupReservationDao.persist(testGroupReservation);
+		groupReservationDao.flush();
+	}
+
+	@Test(expected = InvalidStateException.class)
+	public void testCreateInvoice() {
+		final Room firstRoom = createFirstRoom();
+		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(null);
+		testGroupReservation.associateReservation(testReservation);
+		testGroupReservation.addRoom(firstRoom);
+		groupReservationDao.persist(testGroupReservation);
+		groupReservationDao.flush();
+	}
 
 	private Role createUserRole() {
 		final Role userRole = PersistenceEntityGenerator.createUserRole();
@@ -208,5 +271,16 @@ public class PersistenceEntityTest {
 		final User testUser = PersistenceEntityGenerator.createUserTest(userRole, adminRole);
 		userDao.persist(testUser);
 		return testUser;
+	}
+
+	private GroupReservation createTestGroupReservation() {
+		final User testUser = createTestUser();
+		final Room firstRoom = createFirstRoom();
+		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser);
+		testGroupReservation.associateReservation(testReservation);
+		testGroupReservation.addRoom(firstRoom);
+		groupReservationDao.persist(testGroupReservation);
+		return testGroupReservation;
 	}
 }
