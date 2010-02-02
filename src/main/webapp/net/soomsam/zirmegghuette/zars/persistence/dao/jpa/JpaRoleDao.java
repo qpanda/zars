@@ -6,7 +6,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
 import org.springframework.stereotype.Repository;
 
 @Repository("roleDao")
-public class JpaRoleDao extends JpaBaseDao<Role> implements RoleDao {
+public class JpaRoleDao extends JpaEntityDao<Role> implements RoleDao {
 	@Override
 	protected Class<Role> determineEntityClass() {
 		return Role.class;

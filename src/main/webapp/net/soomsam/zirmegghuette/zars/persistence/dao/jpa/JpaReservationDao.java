@@ -6,7 +6,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
 import org.springframework.stereotype.Repository;
 
 @Repository("reservationDao")
-public class JpaReservationDao extends JpaBaseDao<Reservation> implements ReservationDao {
+public class JpaReservationDao extends JpaEntityDao<Reservation> implements ReservationDao {
 	@Override
 	protected Class<Reservation> determineEntityClass() {
 		return Reservation.class;

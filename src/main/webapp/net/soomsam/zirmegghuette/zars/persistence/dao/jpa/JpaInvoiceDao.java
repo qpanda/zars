@@ -6,7 +6,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.Invoice;
 import org.springframework.stereotype.Repository;
 
 @Repository("invoiceDao")
-public class JpaInvoiceDao extends JpaBaseDao<Invoice> implements InvoiceDao {
+public class JpaInvoiceDao extends JpaEntityDao<Invoice> implements InvoiceDao {
 	@Override
 	protected Class<Invoice> determineEntityClass() {
 		return Invoice.class;

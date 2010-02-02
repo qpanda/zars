@@ -9,12 +9,12 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import net.soomsam.zirmegghuette.zars.persistence.dao.BaseDao;
+import net.soomsam.zirmegghuette.zars.persistence.dao.EntityDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public abstract class JpaBaseDao<Entity extends BaseEntity> implements BaseDao<Entity> {
+public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityDao<Entity> {
 	/**
 	 * the persistence context used for all JPA based database access
 	 */

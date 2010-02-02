@@ -6,7 +6,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
 import org.springframework.stereotype.Repository;
 
 @Repository("roomDao")
-public class JpaRoomDao extends JpaBaseDao<Room> implements RoomDao {
+public class JpaRoomDao extends JpaEntityDao<Room> implements RoomDao {
 	@Override
 	protected Class<Room> determineEntityClass() {
 		return Room.class;
