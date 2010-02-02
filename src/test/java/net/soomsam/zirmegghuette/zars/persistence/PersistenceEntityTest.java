@@ -6,6 +6,7 @@ import java.util.Set;
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
+import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
@@ -37,6 +38,9 @@ public class PersistenceEntityTest {
 	private final static Logger logger = Logger.getLogger(PersistenceEntityTest.class);
 
 	@Autowired
+	private PersistenceContextManager persistenceContextManager;
+
+	@Autowired
 	private RoleDao roleDao;
 
 	@Autowired
@@ -51,8 +55,8 @@ public class PersistenceEntityTest {
 	@Test
 	public void testCreateUserRole() {
 		final Role userRole = createUserRole();
-		roleDao.flush();
-		roleDao.clear();
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
 		logger.debug("persisted role 'user' as [" + userRole + "]");
 		Assert.assertNotNull(roleDao.findByPrimaryKey(userRole.getRoleId()));
 	}
@@ -60,8 +64,8 @@ public class PersistenceEntityTest {
 	@Test
 	public void testCreateAdminRole() {
 		final Role adminRole = createAdminRole();
-		roleDao.flush();
-		roleDao.clear();
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
 		logger.debug("persisted role 'admin' as [" + adminRole + "]");
 		Assert.assertNotNull(roleDao.findByPrimaryKey(adminRole.getRoleId()));
 	}
@@ -70,7 +74,7 @@ public class PersistenceEntityTest {
 	public void testCreateRoleWithoutName() {
 		final Role roleWithoutName = new Role(null);
 		roleDao.persist(roleWithoutName);
-		roleDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	@Test
@@ -79,10 +83,10 @@ public class PersistenceEntityTest {
 		final Role adminRole = createAdminRole();
 		final User testUser = PersistenceEntityGenerator.createUserTest(userRole, adminRole);
 		userDao.persist(testUser);
-		userDao.flush();
+		persistenceContextManager.flush();
 		logger.debug("persisted user 'test' as [" + testUser + "]");
 
-		userDao.clear();
+		persistenceContextManager.clear();
 		final User fetchedTestUser = userDao.findByPrimaryKey(testUser.getUserId());
 		Assert.assertNotNull(fetchedTestUser);
 		Assert.assertNotNull(fetchedTestUser.getRoles());
@@ -95,21 +99,21 @@ public class PersistenceEntityTest {
 	public void testCreateUserWithoutNameAndPassword() {
 		final User userWithoutNameAndPassword = new User(null, null, true, createUserRole());
 		userDao.persist(userWithoutNameAndPassword);
-		userDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateUserWithoutRole() {
 		final User userWithoutRole = new User("test", "test", true, (Role) null);
 		userDao.persist(userWithoutRole);
-		userDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	@Test(expected = InvalidStateException.class)
 	public void testCreateUserWithoutRoles() {
 		final User userWithoutRoles = new User("test", "test", true, (Set<Role>) null);
 		userDao.persist(userWithoutRoles);
-		userDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	@Test(expected = IllegalStateException.class)
@@ -117,7 +121,7 @@ public class PersistenceEntityTest {
 		final Role transientRole = new Role("transient");
 		final User userWithoutRoles = new User("test", "test", true, transientRole);
 		userDao.persist(userWithoutRoles);
-		userDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	@Test
@@ -125,12 +129,12 @@ public class PersistenceEntityTest {
 		final Role userRole = createUserRole();
 		final User testUser = PersistenceEntityGenerator.createUserTest(userRole);
 		userDao.persist(testUser);
-		userDao.flush();
+		persistenceContextManager.flush();
 		logger.debug("persisted user 'test' as [" + testUser + "]");
 
 		userDao.remove(testUser);
-		userDao.flush();
-		userDao.clear();
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
 
 		Assert.assertNull(userDao.findByPrimaryKey(testUser.getUserId()));
 		Assert.assertNotNull(roleDao.findByPrimaryKey(userRole.getRoleId()));
@@ -139,8 +143,8 @@ public class PersistenceEntityTest {
 	@Test
 	public void testCreateFirstRoom() {
 		final Room firstRoom = createFirstRoom();
-		roomDao.flush();
-		roomDao.clear();
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
 		logger.debug("persisted room 'first' as [" + firstRoom + "]");
 		Assert.assertNotNull(roomDao.findByPrimaryKey(firstRoom.getRoomId()));
 	}
@@ -148,8 +152,8 @@ public class PersistenceEntityTest {
 	@Test
 	public void testCreateSecondRoom() {
 		final Room secondRoom = createSecondRoom();
-		roomDao.flush();
-		roomDao.clear();
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
 		logger.debug("persisted room 'second' as [" + secondRoom + "]");
 		Assert.assertNotNull(roomDao.findByPrimaryKey(secondRoom.getRoomId()));
 	}
@@ -158,21 +162,21 @@ public class PersistenceEntityTest {
 	public void testCreateRoomWithoutName() {
 		final Room roomWithoutName = new Room(null, 1, 1);
 		roomDao.persist(roomWithoutName);
-		roomDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	@Test(expected = InvalidStateException.class)
 	public void testCreateRoomWithInvalidCapacity() {
 		final Room roomWithInvalidCapacity = new Room("invalid", -5, 1);
 		roomDao.persist(roomWithInvalidCapacity);
-		roomDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	@Test(expected = InvalidStateException.class)
 	public void testCreateRoomWithInvalidPrecedence() {
 		final Room roomWithInvalidPrecedence = new Room("invalid", 1, 0);
 		roomDao.persist(roomWithInvalidPrecedence);
-		roomDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	@Test
@@ -184,10 +188,10 @@ public class PersistenceEntityTest {
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.addRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
-		groupReservationDao.flush();
+		persistenceContextManager.flush();
 		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
 
-		groupReservationDao.clear();
+		persistenceContextManager.clear();
 		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
 		Assert.assertNotNull(fetchedGroupReservation);
 		Assert.assertNotNull(fetchedGroupReservation.getUser());
@@ -206,7 +210,7 @@ public class PersistenceEntityTest {
 		final GroupReservation testGroupReservation = new GroupReservation(testUser);
 		testGroupReservation.addRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
-		groupReservationDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	@Test(expected = InvalidStateException.class)
@@ -216,7 +220,7 @@ public class PersistenceEntityTest {
 		final GroupReservation testGroupReservation = new GroupReservation(testUser);
 		testGroupReservation.associateReservation(testReservation);
 		groupReservationDao.persist(testGroupReservation);
-		groupReservationDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	@Test(expected = InvalidStateException.class)
@@ -227,7 +231,7 @@ public class PersistenceEntityTest {
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.addRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
-		groupReservationDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	@Test(expected = InvalidStateException.class)
@@ -238,7 +242,7 @@ public class PersistenceEntityTest {
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.addRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
-		groupReservationDao.flush();
+		persistenceContextManager.flush();
 	}
 
 	private Role createUserRole() {

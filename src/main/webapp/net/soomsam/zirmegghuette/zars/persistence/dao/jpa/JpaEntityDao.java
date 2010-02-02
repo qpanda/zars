@@ -43,11 +43,6 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	}
 
 	@Override
-	public void clear() {
-		entityManager.clear();
-	}
-
-	@Override
 	public Query createNamedQuery(final String queryName) {
 		if (null == queryName) {
 			throw new IllegalArgumentException("[queryName] must not be null");
@@ -76,11 +71,6 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	@Override
 	public Entity findByPrimaryKey(final Serializable primaryKey) {
 		return entityManager.find(determineEntityClass(), primaryKey);
-	}
-
-	@Override
-	public void flush() {
-		entityManager.flush();
 	}
 
 	@Override

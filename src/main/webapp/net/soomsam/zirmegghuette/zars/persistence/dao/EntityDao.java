@@ -101,15 +101,4 @@ public interface EntityDao<Entity extends BaseEntity> {
 	 *            the persistence entity to remove from the persistence context
 	 */
 	public void remove(Entity entity);
-
-	/**
-	 * synchronises the persistence context with the database effectively storing all the changes to the persistence
-	 * entities to the database
-	 */
-	public void flush();
-
-	/**
-	 * clears the persistence context effectively ensuring that entities can be garbage collected
-	 */
-	public void clear();
 }
