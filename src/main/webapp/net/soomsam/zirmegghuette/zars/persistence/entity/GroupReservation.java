@@ -59,40 +59,55 @@ public class GroupReservation extends BaseEntity {
 	@ManyToMany(cascade = { javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.REFRESH, javax.persistence.CascadeType.DETACH }, fetch = javax.persistence.FetchType.EAGER)
 	@JoinTable(name = GroupReservation.JOINTABLENAME_GROUPRESERVATION_ROOM, joinColumns = @JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID), inverseJoinColumns = @JoinColumn(name = Room.COLUMNNAME_ROOMID))
 	private Set<Room> rooms = new HashSet<Room>(0);
-	
-	public GroupReservation(final User user, final Room room) {
+
+	private GroupReservation() {
 		super();
-		
-		if (null == room) {
-			throw new IllegalArgumentException("'room' must not be null");
-		}
-		
-		this.user = user;
-		this.rooms.add(room);
 	}
 
-	public GroupReservation(final User user, final Set<Room> rooms) {
+	public GroupReservation(final User user) {
 		super();
 		this.user = user;
-		this.rooms = rooms;
 	}
-	
-	public GroupReservation(final User user, final Room room, final String comment) {
+
+	public GroupReservation(final User user, final String comment) {
 		super();
-		
-		if (null == room) {
-			throw new IllegalArgumentException("'room' must not be null");
-		}
-		
 		this.user = user;
 		this.comment = comment;
-		this.rooms.add(room);
 	}
 
-	public GroupReservation(final User user, final Set<Room> rooms, final String comment) {
+	public GroupReservation(final User user, final Reservation reservation) {
+		super();
+
+		if (null == reservation) {
+			throw new IllegalArgumentException("'reservation' must not be null");
+		}
+
+		this.user = user;
+		this.reservations.add(reservation);
+	}
+
+	public GroupReservation(final User user, final Set<Reservation> reservations) {
 		super();
 		this.user = user;
-		this.rooms = rooms;
+		this.reservations = reservations;
+	}
+
+	public GroupReservation(final User user, final Reservation reservation, final String comment) {
+		super();
+
+		if (null == reservation) {
+			throw new IllegalArgumentException("'reservation' must not be null");
+		}
+
+		this.user = user;
+		this.comment = comment;
+		this.reservations.add(reservation);
+	}
+
+	public GroupReservation(final User user, final Set<Reservation> reservations, final String comment) {
+		super();
+		this.user = user;
+		this.reservations = reservations;
 		this.comment = comment;
 	}
 
@@ -116,11 +131,11 @@ public class GroupReservation extends BaseEntity {
 		return user;
 	}
 
-	void setUser(User user) {
+	void setUser(final User user) {
 		this.user = user;
 	}
-	
-	public void associateUser(User user) {
+
+	public void associateUser(final User user) {
 		setUser(user);
 		user.addGroupReservation(this);
 	}
@@ -137,8 +152,29 @@ public class GroupReservation extends BaseEntity {
 		return reservations;
 	}
 
-	public void setReservations(final Set<Reservation> reservations) {
+	void setReservations(final Set<Reservation> reservations) {
+		if (null == reservations) {
+			throw new IllegalArgumentException("'reservations' must not be null");
+		}
+
 		this.reservations = reservations;
+	}
+
+	void addReservation(final Reservation reservation) {
+		if (null == reservation) {
+			throw new IllegalArgumentException("'reservation' must not be null");
+		}
+
+		this.reservations.add(reservation);
+	}
+
+	public void associateReservation(final Reservation reservation) {
+		if (null == reservation) {
+			throw new IllegalArgumentException("'reservation' must not be null");
+		}
+
+		addReservation(reservation);
+		reservation.setGroupReservation(this);
 	}
 
 	public Set<Room> getRooms() {
@@ -146,7 +182,19 @@ public class GroupReservation extends BaseEntity {
 	}
 
 	public void setRooms(final Set<Room> rooms) {
+		if (null == rooms) {
+			throw new IllegalArgumentException("'rooms' must not be null");
+		}
+
 		this.rooms = rooms;
+	}
+
+	public void addRoom(final Room room) {
+		if (null == room) {
+			throw new IllegalArgumentException("'room' must not be null");
+		}
+
+		this.rooms.add(room);
 	}
 
 	@Override

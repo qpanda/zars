@@ -10,6 +10,9 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.validator.Min;
+import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.NotNull;
 import org.hibernate.validator.event.JPAValidateListener;
 
 @Entity
@@ -28,14 +31,22 @@ public class Room extends BaseEntity {
 	@Column(name = Room.COLUMNNAME_ROOMID, unique = true, nullable = false)
 	private long roomId;
 
+	@NotNull
+	@NotEmpty
 	@Column(name = Room.COLUMNNAME_NAME, nullable = false, length = 256)
 	private String name;
 
+	@Min(value = 1)
 	@Column(name = Room.COLUMNNAME_CAPACITY, nullable = false, length = 256)
 	private long capacity;
 
+	@Min(value = 1)
 	@Column(name = Room.COLUMNNAME_PRECEDENCE, unique = true, nullable = false)
 	private long precedence;
+
+	private Room() {
+		super();
+	}
 
 	public Room(final String name, final long capacity, final long precedence) {
 		super();

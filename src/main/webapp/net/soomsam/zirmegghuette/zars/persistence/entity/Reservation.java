@@ -9,10 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.NotNull;
 
 @Entity
 @Table(name = Reservation.TABLENAME_RESERVATION)
@@ -29,26 +33,37 @@ public class Reservation extends BaseEntity {
 	@Column(name = Reservation.COLUMNNAME_RESERVATIONID, unique = true, nullable = false)
 	private long reservationId;
 
+	@NotNull
+	@Temporal(TemporalType.DATE)
 	@Column(name = Reservation.COLUMNNAME_ARRIVAL, nullable = false)
-	private final Date arrival;
+	private Date arrival;
 
+	@NotNull
+	@Temporal(TemporalType.DATE)
 	@Column(name = Reservation.COLUMNNAME_DEPARTURE, nullable = false)
-	private final Date departure;
+	private Date departure;
 
+	@NotNull
+	@NotEmpty
 	@Column(name = Reservation.COLUMNNAME_GUESTFIRSTNAME, nullable = true, length = 256)
-	private final String firstName;
+	private String firstName;
 
+	@NotNull
+	@NotEmpty
 	@Column(name = Reservation.COLUMNNAME_GUESTLASTNAME, nullable = true, length = 256)
-	private final String lastName;
+	private String lastName;
 
+	@NotNull
 	@ManyToOne(cascade = { javax.persistence.CascadeType.ALL }, fetch = javax.persistence.FetchType.EAGER, optional = false)
 	@JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID, nullable = false)
 	private GroupReservation groupReservation;
 
-	public Reservation(final GroupReservation groupReservation, final Date arrival, final Date departure,
-			final String firstName, final String lastName) {
+	private Reservation() {
 		super();
-		this.groupReservation = groupReservation;
+	}
+
+	public Reservation(final Date arrival, final Date departure, final String firstName, final String lastName) {
+		super();
 		this.arrival = arrival;
 		this.departure = departure;
 		this.firstName = firstName;
@@ -67,24 +82,53 @@ public class Reservation extends BaseEntity {
 		return arrival;
 	}
 
+	public void setArrival(final Date arrival) {
+		this.arrival = arrival;
+	}
+
 	public Date getDeparture() {
 		return departure;
+	}
+
+	public void setDeparture(final Date departure) {
+		this.departure = departure;
 	}
 
 	public String getFirstName() {
 		return firstName;
 	}
 
+	public void setFirstName(final String firstName) {
+		this.firstName = firstName;
+	}
+
 	public String getLastName() {
 		return lastName;
+	}
+
+	public void setLastName(final String lastName) {
+		this.lastName = lastName;
 	}
 
 	public GroupReservation getGroupReservation() {
 		return groupReservation;
 	}
 
-	public void setGroupReservation(final GroupReservation groupReservation) {
+	void setGroupReservation(final GroupReservation groupReservation) {
+		if (null == groupReservation) {
+			throw new IllegalArgumentException("'groupReservation' must not be null");
+		}
+
 		this.groupReservation = groupReservation;
+	}
+
+	public void associateGroupReservation(final GroupReservation groupReservation) {
+		if (null == groupReservation) {
+			throw new IllegalArgumentException("'groupReservation' must not be null");
+		}
+
+		setGroupReservation(groupReservation);
+		groupReservation.addReservation(this);
 	}
 
 	@Override

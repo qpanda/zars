@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.NotNull;
 import org.hibernate.validator.event.JPAValidateListener;
 
 @Entity
@@ -25,8 +27,14 @@ public class Role extends BaseEntity {
 	@Column(name = Role.COLUMNNAME_ROLEID, unique = true, nullable = false)
 	private long roleId;
 
+	@NotNull
+	@NotEmpty
 	@Column(name = Role.COLUMNNAME_NAME, unique = true, nullable = false, length = 256)
 	private String name;
+
+	private Role() {
+		super();
+	}
 
 	public Role(final String name) {
 		super();

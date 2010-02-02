@@ -41,9 +41,13 @@ public class User extends BaseEntity {
 	@Column(name = User.COLUMNNAME_USERID, unique = true, nullable = false)
 	private long userId;
 
+	@NotNull
+	@NotEmpty
 	@Column(name = User.COLUMNNAME_USERNAME, unique = true, nullable = false, length = 256)
 	private String userName;
 
+	@NotNull
+	@NotEmpty
 	@Column(name = User.COLUMNNAME_PASSWORD, nullable = false, length = 256)
 	private String password;
 
@@ -58,20 +62,24 @@ public class User extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST }, fetch = FetchType.EAGER)
 	@JoinTable(name = User.JOINTABLENAME_USER_ROLE, joinColumns = @JoinColumn(name = User.COLUMNNAME_USERID), inverseJoinColumns = @JoinColumn(name = Role.COLUMNNAME_ROLEID))
 	private Set<Role> roles = new HashSet<Role>(0);
 
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST }, fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<GroupReservation> groupReservations = new HashSet<GroupReservation>(0);
 
+	private User() {
+		super();
+	}
+
 	public User(final String userName, final String password, final boolean enabled, final Role role) {
 		super();
-		
+
 		if (null == role) {
 			throw new IllegalArgumentException("'role' must not be null");
 		}
-		
+
 		this.userName = userName;
 		this.password = password;
 		this.enabled = enabled;
@@ -86,7 +94,8 @@ public class User extends BaseEntity {
 		this.roles = roles;
 	}
 
-	public User(final String userName, final String password, final String firstName, final String lastName, final boolean enabled, final Set<Role> roles) {
+	public User(final String userName, final String password, final String firstName, final String lastName,
+			final boolean enabled, final Set<Role> roles) {
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -95,8 +104,9 @@ public class User extends BaseEntity {
 		this.enabled = enabled;
 		this.roles = roles;
 	}
-	
-	public User(final String userName, final String password, final String firstName, final String lastName, final boolean enabled, Role role) {
+
+	public User(final String userName, final String password, final String firstName, final String lastName,
+			final boolean enabled, final Role role) {
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -159,22 +169,46 @@ public class User extends BaseEntity {
 	}
 
 	public void setRoles(final Set<Role> roles) {
+		if (null == roles) {
+			throw new IllegalArgumentException("'roles' must not be null");
+		}
+
 		this.roles = roles;
+	}
+
+	public void addRole(final Role role) {
+		if (null == role) {
+			throw new IllegalArgumentException("'role' must not be null");
+		}
+
+		this.roles.add(role);
 	}
 
 	public Set<GroupReservation> getGroupReservations() {
 		return groupReservations;
 	}
-	
-	void setGroupReservations(Set<GroupReservation> groupReservations) {
+
+	void setGroupReservations(final Set<GroupReservation> groupReservations) {
+		if (null == groupReservations) {
+			throw new IllegalArgumentException("'groupReservations' must not be null");
+		}
+
 		this.groupReservations = groupReservations;
 	}
-	
-	void addGroupReservation(GroupReservation groupReservation) {
+
+	void addGroupReservation(final GroupReservation groupReservation) {
+		if (null == groupReservation) {
+			throw new IllegalArgumentException("'groupReservation' must not be null");
+		}
+
 		this.groupReservations.add(groupReservation);
 	}
 
-	public void associateGroupReservation(GroupReservation groupReservation) {	
+	public void associateGroupReservation(final GroupReservation groupReservation) {
+		if (null == groupReservation) {
+			throw new IllegalArgumentException("'groupReservation' must not be null");
+		}
+
 		addGroupReservation(groupReservation);
 		groupReservation.setUser(this);
 	}

@@ -38,6 +38,10 @@ public class Invoice extends BaseEntity {
 	@Column(name = Invoice.COLUMNNAME_PAYED, nullable = false)
 	private boolean payed;
 
+	private Invoice() {
+		super();
+	}
+
 	public Invoice(final Date date, final float amount, final boolean payed) {
 		super();
 		this.date = date;
