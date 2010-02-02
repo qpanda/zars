@@ -8,6 +8,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -29,6 +31,7 @@ public class Invoice extends BaseEntity {
 	@Column(name = Invoice.COLUMNNAME_INVOICEID, unique = true, nullable = false)
 	private long invoiceId;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = Invoice.COLUMNNAME_DATE, nullable = false)
 	private Date date;
 
@@ -82,6 +85,16 @@ public class Invoice extends BaseEntity {
 	}
 
 	@Override
+	public boolean same(final BaseEntity entity) {
+		if (!(entity instanceof Invoice)) {
+			return false;
+		}
+
+		final Invoice other = (Invoice) entity;
+		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -92,12 +105,12 @@ public class Invoice extends BaseEntity {
 		}
 
 		final Invoice other = (Invoice) obj;
-		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).isEquals();
+		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getDate(), other.getDate()).append(getAmount(), other.getAmount()).append(isPayed(), other.isPayed()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getInvoiceId()).toHashCode();
+		return new HashCodeBuilder().append(getInvoiceId()).append(getDate()).append(getAmount()).append(isPayed()).toHashCode();
 	}
 
 	@Override

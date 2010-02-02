@@ -58,6 +58,16 @@ public class Role extends BaseEntity {
 	}
 
 	@Override
+	public boolean same(final BaseEntity entity) {
+		if (!(entity instanceof Role)) {
+			return false;
+		}
+
+		final Role other = (Role) entity;
+		return new EqualsBuilder().append(getRoleId(), other.getRoleId()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -68,12 +78,12 @@ public class Role extends BaseEntity {
 		}
 
 		final Role other = (Role) obj;
-		return new EqualsBuilder().append(getRoleId(), other.getRoleId()).isEquals();
+		return new EqualsBuilder().append(getRoleId(), other.getRoleId()).append(getName(), other.getName()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getRoleId()).toHashCode();
+		return new HashCodeBuilder().append(getRoleId()).append(getName()).toHashCode();
 	}
 
 	@Override

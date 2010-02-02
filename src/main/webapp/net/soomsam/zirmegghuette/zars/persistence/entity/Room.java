@@ -88,6 +88,16 @@ public class Room extends BaseEntity {
 	}
 
 	@Override
+	public boolean same(final BaseEntity entity) {
+		if (!(entity instanceof Room)) {
+			return false;
+		}
+
+		final Room other = (Room) entity;
+		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -98,12 +108,12 @@ public class Room extends BaseEntity {
 		}
 
 		final Room other = (Room) obj;
-		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).isEquals();
+		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).append(getName(), other.getName()).append(getCapacity(), other.getCapacity()).append(getPrecedence(), other.getPrecedence()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getRoomId()).toHashCode();
+		return new HashCodeBuilder().append(getRoomId()).append(getName()).append(getCapacity()).append(getPrecedence()).toHashCode();
 	}
 
 	@Override

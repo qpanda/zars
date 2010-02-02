@@ -198,6 +198,16 @@ public class GroupReservation extends BaseEntity {
 	}
 
 	@Override
+	public boolean same(final BaseEntity entity) {
+		if (!(entity instanceof GroupReservation)) {
+			return false;
+		}
+
+		final GroupReservation other = (GroupReservation) entity;
+		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -208,12 +218,12 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		final GroupReservation other = (GroupReservation) obj;
-		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).isEquals();
+		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getComment(), other.getComment()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getGroupReservationId()).toHashCode();
+		return new HashCodeBuilder().append(getGroupReservationId()).append(getComment()).toHashCode();
 	}
 
 	@Override

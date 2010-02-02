@@ -7,9 +7,11 @@ import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
+import net.soomsam.zirmegghuette.zars.persistence.dao.ReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
+import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
@@ -51,6 +53,9 @@ public class PersistenceEntityTest {
 
 	@Autowired
 	private GroupReservationDao groupReservationDao;
+
+	@Autowired
+	private ReservationDao reservationDao;
 
 	@Test
 	public void testCreateUserRole() {
@@ -125,19 +130,21 @@ public class PersistenceEntityTest {
 	}
 
 	@Test
-	public void testDeleteUserWithRole() {
+	public void testCreateUserWithTransientGroupReservation() {
 		final Role userRole = createUserRole();
-		final User testUser = PersistenceEntityGenerator.createUserTest(userRole);
+		final User testUser = new User("test", "test", true, userRole);
+		final Room firstRoom = createFirstRoom();
+		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser);
+		testGroupReservation.associateReservation(testReservation);
+		testGroupReservation.addRoom(firstRoom);
 		userDao.persist(testUser);
-		persistenceContextManager.flush();
-		logger.debug("persisted user 'test' as [" + testUser + "]");
-
-		userDao.remove(testUser);
 		persistenceContextManager.flush();
 		persistenceContextManager.clear();
 
-		Assert.assertNull(userDao.findByPrimaryKey(testUser.getUserId()));
-		Assert.assertNotNull(roleDao.findByPrimaryKey(userRole.getRoleId()));
+		final User fetchedTestUser = userDao.findByPrimaryKey(testUser.getUserId());
+		Assert.assertNotNull(fetchedTestUser);
+		Assert.assertTrue(fetchedTestUser.getGroupReservations().isEmpty());
 	}
 
 	@Test
@@ -200,17 +207,37 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));
 		Assert.assertNotNull(fetchedGroupReservation.getReservations());
 		Assert.assertEquals(1, fetchedGroupReservation.getReservations().size());
-		Assert.assertTrue(fetchedGroupReservation.getReservations().contains(testReservation));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation));
 	}
 
-	@Test(expected = InvalidStateException.class)
-	public void testCreateGroupReservationWithoutReservation() {
+	@Test
+	public void testCreateGroupReservationWithReservations() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
+		final Reservation testReservation01 = new Reservation(new Date(), new Date(), "a", "b");
+		final Reservation testReservation02 = new Reservation(new Date(), new Date(), "c", "d");
+		final Reservation testReservation03 = new Reservation(new Date(), new Date(), "e", "f");
 		final GroupReservation testGroupReservation = new GroupReservation(testUser);
+		testGroupReservation.associateReservation(testReservation01);
+		testGroupReservation.associateReservation(testReservation02);
+		testGroupReservation.associateReservation(testReservation03);
 		testGroupReservation.addRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
+		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
+
+		persistenceContextManager.clear();
+		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		Assert.assertNotNull(fetchedGroupReservation);
+		Assert.assertNotNull(fetchedGroupReservation.getUser());
+		Assert.assertNotNull(fetchedGroupReservation.getRooms());
+		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
+		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));
+		Assert.assertNotNull(fetchedGroupReservation.getReservations());
+		Assert.assertEquals(3, fetchedGroupReservation.getReservations().size());
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation01));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation02));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation03));
 	}
 
 	@Test(expected = InvalidStateException.class)
@@ -235,14 +262,47 @@ public class PersistenceEntityTest {
 	}
 
 	@Test(expected = InvalidStateException.class)
-	public void testCreateInvoice() {
+	public void testCreateGroupReservationWithoutReservation() {
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(null);
-		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.addRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
+	}
+
+	@Test
+	public void testDeleteRoleWithoutUsers() {
+		final Role userRole = createUserRole();
+		persistenceContextManager.flush();
+		logger.debug("persisted role 'user' as [" + userRole + "]");
+
+		roleDao.remove(userRole);
+		persistenceContextManager.flush();
+
+		Assert.assertNull(roleDao.findByPrimaryKey(userRole.getRoleId()));
+	}
+
+	// @Test
+	// TODO
+	public void testDeleteRoleWithUsers() {
+		final Role userRole = createUserRole();
+		final Role adminRole = createAdminRole();
+		final User testUser = PersistenceEntityGenerator.createUserTest(userRole, adminRole);
+		userDao.persist(testUser);
+		persistenceContextManager.flush();
+		logger.debug("persisted user 'test' as [" + testUser + "]");
+
+		Assert.assertNotNull(userDao.findByPrimaryKey(testUser.getUserId()));
+		Assert.assertEquals(2, userDao.findByPrimaryKey(testUser.getUserId()).getRoles().size());
+		Assert.assertTrue(userDao.findByPrimaryKey(testUser.getUserId()).getRoles().contains(userRole));
+		Assert.assertTrue(userDao.findByPrimaryKey(testUser.getUserId()).getRoles().contains(adminRole));
+
+		roleDao.remove(userRole);
+		persistenceContextManager.flush();
+
+		Assert.assertNotNull(userDao.findByPrimaryKey(testUser.getUserId()));
+		Assert.assertEquals(1, userDao.findByPrimaryKey(testUser.getUserId()).getRoles().size());
+		Assert.assertTrue(userDao.findByPrimaryKey(testUser.getUserId()).getRoles().contains(adminRole));
 	}
 
 	private Role createUserRole() {
@@ -286,5 +346,15 @@ public class PersistenceEntityTest {
 		testGroupReservation.addRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		return testGroupReservation;
+	}
+
+	private <Entity extends BaseEntity> boolean containsEntity(final Set<Entity> entitySet, final Entity otherEntity) {
+		for (final Entity entity : entitySet) {
+			if (entity.same(otherEntity)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

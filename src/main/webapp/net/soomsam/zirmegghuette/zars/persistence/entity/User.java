@@ -214,6 +214,16 @@ public class User extends BaseEntity {
 	}
 
 	@Override
+	public boolean same(final BaseEntity entity) {
+		if (!(entity instanceof User)) {
+			return false;
+		}
+
+		final User other = (User) entity;
+		return new EqualsBuilder().append(getUserId(), other.getUserId()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -224,12 +234,12 @@ public class User extends BaseEntity {
 		}
 
 		final User other = (User) obj;
-		return new EqualsBuilder().append(getUserId(), other.getUserId()).isEquals();
+		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getUserName(), other.getUserName()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).append(isEnabled(), other.isEnabled()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getUserId()).toHashCode();
+		return new HashCodeBuilder().append(getUserId()).append(getUserName()).append(getFirstName()).append(getLastName()).append(isEnabled()).toHashCode();
 	}
 
 	@Override
