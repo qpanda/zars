@@ -3,9 +3,11 @@ package net.soomsam.zirmegghuette.zars.persistence.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -41,22 +43,22 @@ public class GroupReservation extends BaseEntity {
 	private String comment;
 
 	@NotNull
-	@ManyToOne(cascade = { javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.REFRESH, javax.persistence.CascadeType.DETACH }, fetch = javax.persistence.FetchType.EAGER, optional = false)
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = User.COLUMNNAME_USERID, nullable = false)
 	private User user;
 
-	@OneToOne(cascade = { javax.persistence.CascadeType.ALL }, fetch = javax.persistence.FetchType.LAZY, optional = true)
+	@OneToOne(cascade = { CascadeType.ALL }, fetch = javax.persistence.FetchType.LAZY, optional = true)
 	@JoinColumn(name = Invoice.COLUMNNAME_INVOICEID, unique = true, nullable = true, updatable = false)
 	private Invoice invoice;
 
 	@NotNull
 	@NotEmpty
-	@OneToMany(cascade = { javax.persistence.CascadeType.ALL }, fetch = javax.persistence.FetchType.EAGER, orphanRemoval = true, mappedBy = "groupReservation")
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "groupReservation")
 	private Set<Reservation> reservations = new HashSet<Reservation>(0);
 
 	@NotNull
 	@NotEmpty
-	@ManyToMany(cascade = { javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.REFRESH, javax.persistence.CascadeType.DETACH }, fetch = javax.persistence.FetchType.EAGER)
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
 	@JoinTable(name = GroupReservation.JOINTABLENAME_GROUPRESERVATION_ROOM, joinColumns = @JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID), inverseJoinColumns = @JoinColumn(name = Room.COLUMNNAME_ROOMID))
 	private Set<Room> rooms = new HashSet<Room>(0);
 
