@@ -2,8 +2,10 @@ package net.soomsam.zirmegghuette.zars.persistence.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -54,7 +56,7 @@ public class Reservation extends BaseEntity {
 	private String lastName;
 
 	@NotNull
-	@ManyToOne(cascade = { javax.persistence.CascadeType.DETACH, javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.REFRESH, javax.persistence.CascadeType.REMOVE }, fetch = javax.persistence.FetchType.EAGER, optional = false)
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE }, fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID, nullable = false)
 	private GroupReservation groupReservation;
 
