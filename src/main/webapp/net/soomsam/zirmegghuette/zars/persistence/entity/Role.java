@@ -1,10 +1,16 @@
 package net.soomsam.zirmegghuette.zars.persistence.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -32,6 +38,9 @@ public class Role extends BaseEntity {
 	@Column(name = Role.COLUMNNAME_NAME, unique = true, nullable = false, length = 256)
 	private String name;
 
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "roles")
+	private final Set<User> users = new HashSet<User>(0);
+
 	private Role() {
 		super();
 	}
@@ -55,6 +64,64 @@ public class Role extends BaseEntity {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	void addUser(final User user) {
+		if (null == user) {
+			throw new IllegalArgumentException("'user' must not be null");
+		}
+
+		this.users.add(user);
+	}
+
+	void removeUser(final User user) {
+		if (null == user) {
+			throw new IllegalArgumentException("'user' must not be null");
+		}
+
+		this.users.remove(user);
+	}
+
+	public void associateUser(final User user) {
+		if (null == user) {
+			throw new IllegalArgumentException("'user' must not be null");
+		}
+
+		addUser(user);
+		user.addRole(this);
+	}
+
+	public void associateUsers(final Set<User> userSet) {
+		if (null == userSet) {
+			throw new IllegalArgumentException("'userSet' must not be null");
+		}
+
+		for (final User user : userSet) {
+			associateUser(user);
+		}
+	}
+
+	public void unassociateUser(final User user) {
+		if (null == user) {
+			throw new IllegalArgumentException("'user' must not be null");
+		}
+
+		removeUser(user);
+		user.removeRole(this);
+	}
+
+	public void unassociateUsers(final Set<User> userSet) {
+		if (null == userSet) {
+			throw new IllegalArgumentException("'userSet' must not be null");
+		}
+
+		for (final User user : userSet) {
+			unassociateUser(user);
+		}
 	}
 
 	@Override

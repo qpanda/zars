@@ -64,7 +64,7 @@ public class User extends BaseEntity {
 	@NotEmpty
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
 	@JoinTable(name = User.JOINTABLENAME_USER_ROLE, joinColumns = @JoinColumn(name = User.COLUMNNAME_USERID), inverseJoinColumns = @JoinColumn(name = Role.COLUMNNAME_ROLEID))
-	private Set<Role> roles = new HashSet<Role>(0);
+	private final Set<Role> roles = new HashSet<Role>(0);
 
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<GroupReservation> groupReservations = new HashSet<GroupReservation>(0);
@@ -83,7 +83,8 @@ public class User extends BaseEntity {
 		this.userName = userName;
 		this.password = password;
 		this.enabled = enabled;
-		this.roles.add(role);
+
+		associateRole(role);
 	}
 
 	public User(final String userName, final String password, final boolean enabled, final Set<Role> roles) {
@@ -91,7 +92,8 @@ public class User extends BaseEntity {
 		this.userName = userName;
 		this.password = password;
 		this.enabled = enabled;
-		this.roles = roles;
+
+		associateRoles(roles);
 	}
 
 	public User(final String userName, final String password, final String firstName, final String lastName,
@@ -102,7 +104,8 @@ public class User extends BaseEntity {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.enabled = enabled;
-		this.roles = roles;
+
+		associateRoles(roles);
 	}
 
 	public User(final String userName, final String password, final String firstName, final String lastName,
@@ -113,7 +116,8 @@ public class User extends BaseEntity {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.enabled = enabled;
-		this.roles.add(role);
+
+		associateRole(role);
 	}
 
 	public long getUserId() {
@@ -168,20 +172,58 @@ public class User extends BaseEntity {
 		return roles;
 	}
 
-	public void setRoles(final Set<Role> roles) {
-		if (null == roles) {
-			throw new IllegalArgumentException("'roles' must not be null");
-		}
-
-		this.roles = roles;
-	}
-
-	public void addRole(final Role role) {
+	void addRole(final Role role) {
 		if (null == role) {
 			throw new IllegalArgumentException("'role' must not be null");
 		}
 
 		this.roles.add(role);
+	}
+
+	void removeRole(final Role role) {
+		if (null == role) {
+			throw new IllegalArgumentException("'role' must not be null");
+		}
+
+		this.roles.remove(role);
+	}
+
+	public void associateRole(final Role role) {
+		if (null == role) {
+			throw new IllegalArgumentException("'role' must not be null");
+		}
+
+		addRole(role);
+		role.addUser(this);
+	}
+
+	public void associateRoles(final Set<Role> roleSet) {
+		if (null == roleSet) {
+			throw new IllegalArgumentException("'roleSet' must not be null");
+		}
+
+		for (final Role role : roleSet) {
+			associateRole(role);
+		}
+	}
+
+	public void unassociateRole(final Role role) {
+		if (null == role) {
+			throw new IllegalArgumentException("'role' must not be null");
+		}
+
+		removeRole(role);
+		role.removeUser(this);
+	}
+
+	public void unassociateRoles(final Set<Role> roleSet) {
+		if (null == roleSet) {
+			throw new IllegalArgumentException("'roleSet' must not be null");
+		}
+
+		for (final Role role : roleSet) {
+			unassociateRole(role);
+		}
 	}
 
 	public Set<GroupReservation> getGroupReservations() {

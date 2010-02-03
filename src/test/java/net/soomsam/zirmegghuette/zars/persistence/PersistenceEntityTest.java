@@ -34,6 +34,10 @@ import org.springframework.transaction.annotation.Transactional;
  * @author 1319361
  * 
  */
+/**
+ * @author 1319361
+ * 
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/WEB-INF/spring/core-context.xml" })
 @Transactional
@@ -116,7 +120,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.flush();
 	}
 
-	@Test(expected = InvalidStateException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testCreateUserWithoutRoles() {
 		final User userWithoutRoles = new User("test", "test", true, (Set<Role>) null);
 		userDao.persist(userWithoutRoles);
@@ -291,8 +295,7 @@ public class PersistenceEntityTest {
 		Assert.assertNull(roleDao.findByPrimaryKey(userRole.getRoleId()));
 	}
 
-	// @Test
-	// TODO
+	@Test
 	public void testDeleteRoleWithUsers() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
@@ -306,12 +309,15 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(userDao.findByPrimaryKey(testUser.getUserId()).getRoles().contains(userRole));
 		Assert.assertTrue(userDao.findByPrimaryKey(testUser.getUserId()).getRoles().contains(adminRole));
 
+		testUser.unassociateRole(userRole);
 		roleDao.remove(userRole);
 		persistenceContextManager.flush();
+		persistenceContextManager.clear();
 
 		Assert.assertNotNull(userDao.findByPrimaryKey(testUser.getUserId()));
 		Assert.assertEquals(1, userDao.findByPrimaryKey(testUser.getUserId()).getRoles().size());
 		Assert.assertTrue(userDao.findByPrimaryKey(testUser.getUserId()).getRoles().contains(adminRole));
+		Assert.assertFalse(userDao.findByPrimaryKey(testUser.getUserId()).getRoles().contains(userRole));
 	}
 
 	@Test
