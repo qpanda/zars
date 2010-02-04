@@ -58,7 +58,7 @@ public class GroupReservation extends BaseEntity {
 
 	@NotNull
 	@Size(min = 1)
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.DETACH }, fetch = FetchType.EAGER)
 	@JoinTable(name = GroupReservation.JOINTABLENAME_GROUPRESERVATION_ROOM, joinColumns = @JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID), inverseJoinColumns = @JoinColumn(name = Room.COLUMNNAME_ROOMID))
 	private Set<Room> rooms = new HashSet<Room>(0);
 
@@ -154,20 +154,20 @@ public class GroupReservation extends BaseEntity {
 		return reservations;
 	}
 
-	void setReservations(final Set<Reservation> reservations) {
-		if (null == reservations) {
-			throw new IllegalArgumentException("'reservations' must not be null");
-		}
-
-		this.reservations = reservations;
-	}
-
 	void addReservation(final Reservation reservation) {
 		if (null == reservation) {
 			throw new IllegalArgumentException("'reservation' must not be null");
 		}
 
 		this.reservations.add(reservation);
+	}
+
+	void removeReservation(final Reservation reservation) {
+		if (null == reservation) {
+			throw new IllegalArgumentException("'reservation' must not be null");
+		}
+
+		this.reservations.remove(reservation);
 	}
 
 	public void associateReservation(final Reservation reservation) {
@@ -177,6 +177,15 @@ public class GroupReservation extends BaseEntity {
 
 		addReservation(reservation);
 		reservation.setGroupReservation(this);
+	}
+
+	public void unassociateReservation(final Reservation reservation) {
+		if (null == reservation) {
+			throw new IllegalArgumentException("'reservation' must not be null");
+		}
+
+		removeReservation(reservation);
+		reservation.setGroupReservation(null);
 	}
 
 	public Set<Room> getRooms() {

@@ -56,7 +56,7 @@ public class Reservation extends BaseEntity {
 	private String lastName;
 
 	@NotNull
-	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE }, fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST }, fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID, nullable = false)
 	private GroupReservation groupReservation;
 
@@ -117,10 +117,6 @@ public class Reservation extends BaseEntity {
 	}
 
 	void setGroupReservation(final GroupReservation groupReservation) {
-		if (null == groupReservation) {
-			throw new IllegalArgumentException("'groupReservation' must not be null");
-		}
-
 		this.groupReservation = groupReservation;
 	}
 
@@ -131,6 +127,15 @@ public class Reservation extends BaseEntity {
 
 		setGroupReservation(groupReservation);
 		groupReservation.addReservation(this);
+	}
+
+	public void unassociateGroupReservation(final GroupReservation groupReservation) {
+		if (null == groupReservation) {
+			throw new IllegalArgumentException("'groupReservation' must not be null");
+		}
+
+		groupReservation.removeReservation(this);
+		setGroupReservation(null);
 	}
 
 	@Override

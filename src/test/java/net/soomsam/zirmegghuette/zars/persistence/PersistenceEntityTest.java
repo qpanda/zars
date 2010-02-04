@@ -300,6 +300,7 @@ public class PersistenceEntityTest {
 
 		roleDao.remove(userRole);
 		persistenceContextManager.flush();
+		persistenceContextManager.clear();
 
 		Assert.assertNull(roleDao.findByPrimaryKey(userRole.getRoleId()));
 	}
@@ -323,7 +324,6 @@ public class PersistenceEntityTest {
 		Assert.assertEquals(2, userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().size());
 		Assert.assertTrue(userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().contains(userRole));
 		Assert.assertTrue(userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().contains(adminRole));
-
 		Assert.assertNotNull(userDao.findByPrimaryKey(testUser02.getUserId()));
 		Assert.assertEquals(2, userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().size());
 		Assert.assertTrue(userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().contains(userRole));
@@ -333,13 +333,12 @@ public class PersistenceEntityTest {
 		testUser02.unassociateRole(userRole);
 		roleDao.remove(userRole);
 		persistenceContextManager.flush();
-		persistenceContextManager.clear();
 
+		persistenceContextManager.clear();
 		Assert.assertNotNull(userDao.findByPrimaryKey(testUser01.getUserId()));
 		Assert.assertEquals(1, userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().size());
 		Assert.assertTrue(userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().contains(adminRole));
 		Assert.assertFalse(userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().contains(userRole));
-
 		Assert.assertNotNull(userDao.findByPrimaryKey(testUser02.getUserId()));
 		Assert.assertEquals(1, userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().size());
 		Assert.assertTrue(userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().contains(adminRole));
@@ -360,6 +359,7 @@ public class PersistenceEntityTest {
 
 		groupReservationDao.remove(testGroupReservation);
 		persistenceContextManager.flush();
+		persistenceContextManager.clear();
 		Assert.assertNull(groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId()));
 		Assert.assertNull(reservationDao.findByPrimaryKey(testReservation.getReservationId()));
 		Assert.assertNotNull(userDao.findByPrimaryKey(testUser.getUserId()));
@@ -384,6 +384,7 @@ public class PersistenceEntityTest {
 
 		groupReservationDao.remove(testGroupReservation);
 		persistenceContextManager.flush();
+		persistenceContextManager.clear();
 		Assert.assertNull(groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId()));
 		Assert.assertNull(reservationDao.findByPrimaryKey(testReservation01.getReservationId()));
 		Assert.assertNull(reservationDao.findByPrimaryKey(testReservation02.getReservationId()));
@@ -392,9 +393,8 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(roomDao.findByPrimaryKey(firstRoom.getRoomId()));
 	}
 
-	// @Test
-	// TODO
-	public void testDeleteReservation() {
+	@Test
+	public void testDeleteOnlyReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
@@ -402,14 +402,52 @@ public class PersistenceEntityTest {
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.addRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
-		persistenceContextManager.flush();
 		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
-
-		testGroupReservation.getReservations().remove(testReservation);
-		reservationDao.remove(testReservation);
 		persistenceContextManager.flush();
-		Assert.assertNull(reservationDao.findByPrimaryKey(testReservation.getReservationId()));
-		Assert.assertNotNull(groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId()));
+		persistenceContextManager.clear();
+
+		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		final Reservation fetchedReservation = reservationDao.findByPrimaryKey(testReservation.getReservationId());
+		fetchedGroupReservation.unassociateReservation(fetchedReservation);
+		reservationDao.remove(fetchedReservation);
+		groupReservationDao.persist(fetchedGroupReservation);
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+
+		final GroupReservation verifyGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		Assert.assertNotNull(verifyGroupReservation);
+		Assert.assertEquals(0, verifyGroupReservation.getReservations().size());
+		Assert.assertNotNull(userDao.findByPrimaryKey(testUser.getUserId()));
+		Assert.assertNotNull(roomDao.findByPrimaryKey(firstRoom.getRoomId()));
+	}
+
+	@Test
+	public void testDeleteOneReservation() {
+		final User testUser = createTestUser();
+		final Room firstRoom = createFirstRoom();
+		final Reservation testReservation01 = new Reservation(new Date(), new Date(), "a", "b");
+		final Reservation testReservation02 = new Reservation(new Date(), new Date(), "c", "d");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser);
+		testGroupReservation.associateReservation(testReservation01);
+		testGroupReservation.associateReservation(testReservation02);
+		testGroupReservation.addRoom(firstRoom);
+		groupReservationDao.persist(testGroupReservation);
+		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+
+		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		final Reservation fetchedReservation01 = reservationDao.findByPrimaryKey(testReservation01.getReservationId());
+		fetchedGroupReservation.unassociateReservation(fetchedReservation01);
+		reservationDao.remove(fetchedReservation01);
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+
+		final GroupReservation verifyGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		final Reservation verifyReservation = reservationDao.findByPrimaryKey(testReservation02.getReservationId());
+		Assert.assertNotNull(verifyGroupReservation);
+		Assert.assertEquals(1, verifyGroupReservation.getReservations().size());
+		Assert.assertTrue(verifyGroupReservation.getReservations().contains(verifyReservation));
 		Assert.assertNotNull(userDao.findByPrimaryKey(testUser.getUserId()));
 		Assert.assertNotNull(roomDao.findByPrimaryKey(firstRoom.getRoomId()));
 	}
