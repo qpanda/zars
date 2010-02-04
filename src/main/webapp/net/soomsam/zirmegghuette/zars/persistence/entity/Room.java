@@ -1,11 +1,16 @@
 package net.soomsam.zirmegghuette.zars.persistence.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -30,6 +35,10 @@ public class Room extends BaseEntity {
 	@GeneratedValue
 	@Column(name = Room.COLUMNNAME_ROOMID, unique = true, nullable = false)
 	private long roomId;
+
+	@Version
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date timestamp;
 
 	@NotNull
 	@NotEmpty
@@ -61,6 +70,14 @@ public class Room extends BaseEntity {
 
 	public void setRoomId(final long roomId) {
 		this.roomId = roomId;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	void setTimestamp(final Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public String getName() {

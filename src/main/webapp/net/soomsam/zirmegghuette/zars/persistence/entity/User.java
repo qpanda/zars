@@ -1,5 +1,6 @@
 package net.soomsam.zirmegghuette.zars.persistence.entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +16,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -41,6 +45,10 @@ public class User extends BaseEntity {
 	@GeneratedValue
 	@Column(name = User.COLUMNNAME_USERID, unique = true, nullable = false)
 	private long userId;
+
+	@Version
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date timestamp;
 
 	@NotNull
 	@NotEmpty
@@ -127,6 +135,14 @@ public class User extends BaseEntity {
 
 	public void setUserId(final long userId) {
 		this.userId = userId;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	void setTimestamp(final Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public String getUserName() {

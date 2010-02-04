@@ -1,5 +1,6 @@
 package net.soomsam.zirmegghuette.zars.persistence.entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +18,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -38,6 +42,10 @@ public class GroupReservation extends BaseEntity {
 	@GeneratedValue
 	@Column(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID, unique = true, nullable = false)
 	private long groupReservationId;
+
+	@Version
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date timestamp;
 
 	@Column(name = GroupReservation.COLUMNNAME_COMMENT, nullable = true, length = 256)
 	private String comment;
@@ -119,6 +127,14 @@ public class GroupReservation extends BaseEntity {
 
 	public void setGroupReservationId(final long groupReservationId) {
 		this.groupReservationId = groupReservationId;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	void setTimestamp(final Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public String getComment() {

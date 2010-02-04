@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -34,6 +35,10 @@ public class Reservation extends BaseEntity {
 	@GeneratedValue
 	@Column(name = Reservation.COLUMNNAME_RESERVATIONID, unique = true, nullable = false)
 	private long reservationId;
+
+	@Version
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date timestamp;
 
 	@NotNull
 	@Temporal(TemporalType.DATE)
@@ -78,6 +83,14 @@ public class Reservation extends BaseEntity {
 
 	public void setReservationId(final long reservationId) {
 		this.reservationId = reservationId;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	void setTimestamp(final Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public Date getArrival() {

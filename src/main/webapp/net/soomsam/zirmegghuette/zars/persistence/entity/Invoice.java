@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -30,6 +31,10 @@ public class Invoice extends BaseEntity {
 	@GeneratedValue
 	@Column(name = Invoice.COLUMNNAME_INVOICEID, unique = true, nullable = false)
 	private long invoiceId;
+
+	@Version
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date timestamp;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = Invoice.COLUMNNAME_DATE, nullable = false)
@@ -58,6 +63,14 @@ public class Invoice extends BaseEntity {
 
 	public void setInvoiceId(final long invoiceId) {
 		this.invoiceId = invoiceId;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	void setTimestamp(final Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public Date getDate() {

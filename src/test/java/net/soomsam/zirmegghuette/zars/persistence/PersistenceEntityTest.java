@@ -393,7 +393,7 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(roomDao.findByPrimaryKey(firstRoom.getRoomId()));
 	}
 
-	@Test
+	@Test(expected = InvalidStateException.class)
 	public void testDeleteOnlyReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();

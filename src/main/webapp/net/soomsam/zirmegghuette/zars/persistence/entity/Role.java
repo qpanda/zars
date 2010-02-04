@@ -1,5 +1,6 @@
 package net.soomsam.zirmegghuette.zars.persistence.entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -32,6 +36,10 @@ public class Role extends BaseEntity {
 	@GeneratedValue
 	@Column(name = Role.COLUMNNAME_ROLEID, unique = true, nullable = false)
 	private long roleId;
+
+	@Version
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date timestamp;
 
 	@NotNull
 	@NotEmpty
@@ -56,6 +64,14 @@ public class Role extends BaseEntity {
 
 	public void setRoleId(final long roleId) {
 		this.roleId = roleId;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	void setTimestamp(final Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public String getName() {
