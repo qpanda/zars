@@ -21,8 +21,8 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Size;
 import org.hibernate.validator.event.JPAValidateListener;
 
 @Entity
@@ -52,12 +52,12 @@ public class GroupReservation extends BaseEntity {
 	private Invoice invoice;
 
 	@NotNull
-	@NotEmpty
+	@Size(min = 1)
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "groupReservation")
 	private Set<Reservation> reservations = new HashSet<Reservation>(0);
 
 	@NotNull
-	@NotEmpty
+	@Size(min = 1)
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
 	@JoinTable(name = GroupReservation.JOINTABLENAME_GROUPRESERVATION_ROOM, joinColumns = @JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID), inverseJoinColumns = @JoinColumn(name = Room.COLUMNNAME_ROOMID))
 	private Set<Room> rooms = new HashSet<Room>(0);

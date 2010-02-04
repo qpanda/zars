@@ -1,6 +1,8 @@
 package net.soomsam.zirmegghuette.zars.persistence;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.PersistenceException;
@@ -121,8 +123,15 @@ public class PersistenceEntityTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testCreateUserWithoutRoles() {
+	public void testCreateUserWithNullRoles() {
 		final User userWithoutRoles = new User("test", "test", true, (Set<Role>) null);
+		userDao.persist(userWithoutRoles);
+		persistenceContextManager.flush();
+	}
+
+	@Test(expected = InvalidStateException.class)
+	public void testCreateUserWithoutRoles() {
+		final User userWithoutRoles = new User("test", "test", true, new HashSet<Role>());
 		userDao.persist(userWithoutRoles);
 		persistenceContextManager.flush();
 	}
@@ -299,25 +308,42 @@ public class PersistenceEntityTest {
 	public void testDeleteRoleWithUsers() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
-		final User testUser = PersistenceEntityGenerator.createUserTest(userRole, adminRole);
-		userDao.persist(testUser);
+		final Set<Role> testUserRoles = new HashSet<Role>();
+		testUserRoles.add(userRole);
+		testUserRoles.add(adminRole);
+		final User testUser01 = new User("test01", String.valueOf(new Random().nextLong()), true, testUserRoles);
+		final User testUser02 = new User("test02", String.valueOf(new Random().nextLong()), true, testUserRoles);
+		userDao.persist(testUser01);
+		userDao.persist(testUser02);
 		persistenceContextManager.flush();
-		logger.debug("persisted user 'test' as [" + testUser + "]");
+		logger.debug("persisted user 'test' as [" + testUser01 + "]");
+		logger.debug("persisted user 'test' as [" + testUser02 + "]");
 
-		Assert.assertNotNull(userDao.findByPrimaryKey(testUser.getUserId()));
-		Assert.assertEquals(2, userDao.findByPrimaryKey(testUser.getUserId()).getRoles().size());
-		Assert.assertTrue(userDao.findByPrimaryKey(testUser.getUserId()).getRoles().contains(userRole));
-		Assert.assertTrue(userDao.findByPrimaryKey(testUser.getUserId()).getRoles().contains(adminRole));
+		Assert.assertNotNull(userDao.findByPrimaryKey(testUser01.getUserId()));
+		Assert.assertEquals(2, userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().size());
+		Assert.assertTrue(userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().contains(userRole));
+		Assert.assertTrue(userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().contains(adminRole));
 
-		testUser.unassociateRole(userRole);
+		Assert.assertNotNull(userDao.findByPrimaryKey(testUser02.getUserId()));
+		Assert.assertEquals(2, userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().size());
+		Assert.assertTrue(userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().contains(userRole));
+		Assert.assertTrue(userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().contains(adminRole));
+
+		testUser01.unassociateRole(userRole);
+		testUser02.unassociateRole(userRole);
 		roleDao.remove(userRole);
 		persistenceContextManager.flush();
 		persistenceContextManager.clear();
 
-		Assert.assertNotNull(userDao.findByPrimaryKey(testUser.getUserId()));
-		Assert.assertEquals(1, userDao.findByPrimaryKey(testUser.getUserId()).getRoles().size());
-		Assert.assertTrue(userDao.findByPrimaryKey(testUser.getUserId()).getRoles().contains(adminRole));
-		Assert.assertFalse(userDao.findByPrimaryKey(testUser.getUserId()).getRoles().contains(userRole));
+		Assert.assertNotNull(userDao.findByPrimaryKey(testUser01.getUserId()));
+		Assert.assertEquals(1, userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().size());
+		Assert.assertTrue(userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().contains(adminRole));
+		Assert.assertFalse(userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().contains(userRole));
+
+		Assert.assertNotNull(userDao.findByPrimaryKey(testUser02.getUserId()));
+		Assert.assertEquals(1, userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().size());
+		Assert.assertTrue(userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().contains(adminRole));
+		Assert.assertFalse(userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().contains(userRole));
 	}
 
 	@Test

@@ -21,6 +21,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Size;
 import org.hibernate.validator.event.JPAValidateListener;
 
 @Entity
@@ -61,7 +62,7 @@ public class User extends BaseEntity {
 	private boolean enabled;
 
 	@NotNull
-	@NotEmpty
+	@Size(min = 1)
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
 	@JoinTable(name = User.JOINTABLENAME_USER_ROLE, joinColumns = @JoinColumn(name = User.COLUMNNAME_USERID), inverseJoinColumns = @JoinColumn(name = Role.COLUMNNAME_ROLEID))
 	private final Set<Role> roles = new HashSet<Role>(0);
