@@ -30,6 +30,7 @@ public class Room extends BaseEntity {
 	public static final String COLUMNNAME_DESCRIPTION = "description";
 	public static final String COLUMNNAME_CAPACITY = "capacity";
 	public static final String COLUMNNAME_PRECEDENCE = "precedence";
+	public static final String COLUMNNAME_INUSE = "in_use";
 
 	@Id
 	@GeneratedValue
@@ -53,15 +54,19 @@ public class Room extends BaseEntity {
 	@Column(name = Room.COLUMNNAME_PRECEDENCE, unique = true, nullable = false)
 	private long precedence;
 
-	private Room() {
+	@Column(name = Room.COLUMNNAME_INUSE, nullable = false)
+	private boolean inUse;
+
+	protected Room() {
 		super();
 	}
 
-	public Room(final String name, final long capacity, final long precedence) {
+	public Room(final String name, final long capacity, final long precedence, final boolean inUse) {
 		super();
 		this.name = name;
 		this.capacity = capacity;
 		this.precedence = precedence;
+		this.inUse = inUse;
 	}
 
 	public long getRoomId() {
@@ -104,6 +109,14 @@ public class Room extends BaseEntity {
 		this.precedence = precedence;
 	}
 
+	public boolean isInUse() {
+		return inUse;
+	}
+
+	public void setInUse(final boolean inUse) {
+		this.inUse = inUse;
+	}
+
 	@Override
 	public boolean same(final BaseEntity entity) {
 		if (!(entity instanceof Room)) {
@@ -125,16 +138,16 @@ public class Room extends BaseEntity {
 		}
 
 		final Room other = (Room) obj;
-		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).append(getName(), other.getName()).append(getCapacity(), other.getCapacity()).append(getPrecedence(), other.getPrecedence()).isEquals();
+		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).append(getName(), other.getName()).append(getCapacity(), other.getCapacity()).append(getPrecedence(), other.getPrecedence()).append(isInUse(), other.isInUse()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getRoomId()).append(getName()).append(getCapacity()).append(getPrecedence()).toHashCode();
+		return new HashCodeBuilder().append(getRoomId()).append(getName()).append(getCapacity()).append(getPrecedence()).append(isInUse()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getRoomId()).append(getName()).append(getCapacity()).append(getPrecedence()).toString();
+		return new ToStringBuilder(this).append(getRoomId()).append(getName()).append(getCapacity()).append(getPrecedence()).append(isInUse()).toString();
 	}
 }

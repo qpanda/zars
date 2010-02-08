@@ -46,7 +46,7 @@ public class Invoice extends BaseEntity {
 	@Column(name = Invoice.COLUMNNAME_PAYED, nullable = false)
 	private boolean payed;
 
-	private Invoice() {
+	protected Invoice() {
 		super();
 	}
 

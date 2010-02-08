@@ -182,21 +182,21 @@ public class PersistenceEntityTest {
 
 	@Test(expected = InvalidStateException.class)
 	public void testCreateRoomWithoutName() {
-		final Room roomWithoutName = new Room(null, 1, 1);
+		final Room roomWithoutName = new Room(null, 1, 1, true);
 		roomDao.persist(roomWithoutName);
 		persistenceContextManager.flush();
 	}
 
 	@Test(expected = InvalidStateException.class)
 	public void testCreateRoomWithInvalidCapacity() {
-		final Room roomWithInvalidCapacity = new Room("invalid", -5, 1);
+		final Room roomWithInvalidCapacity = new Room("invalid", -5, 1, true);
 		roomDao.persist(roomWithInvalidCapacity);
 		persistenceContextManager.flush();
 	}
 
 	@Test(expected = InvalidStateException.class)
 	public void testCreateRoomWithInvalidPrecedence() {
-		final Room roomWithInvalidPrecedence = new Room("invalid", 1, 0);
+		final Room roomWithInvalidPrecedence = new Room("invalid", 1, 0, true);
 		roomDao.persist(roomWithInvalidPrecedence);
 		persistenceContextManager.flush();
 	}

@@ -65,7 +65,7 @@ public class Reservation extends BaseEntity {
 	@JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID, nullable = false)
 	private GroupReservation groupReservation;
 
-	private Reservation() {
+	protected Reservation() {
 		super();
 	}
 

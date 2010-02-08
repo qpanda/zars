@@ -49,7 +49,7 @@ public class Role extends BaseEntity {
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "roles")
 	private final Set<User> users = new HashSet<User>(0);
 
-	private Role() {
+	protected Role() {
 		super();
 	}
 

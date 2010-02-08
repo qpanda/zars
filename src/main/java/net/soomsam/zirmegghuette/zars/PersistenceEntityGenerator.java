@@ -25,10 +25,10 @@ public class PersistenceEntityGenerator {
 	}
 
 	public static Room createFirstRoom() {
-		return new Room("first", 4, 1);
+		return new Room("first", 4, 1, true);
 	}
 
 	public static Room createSecondRoom() {
-		return new Room("second", 4, 2);
+		return new Room("second", 4, 2, true);
 	}
 }

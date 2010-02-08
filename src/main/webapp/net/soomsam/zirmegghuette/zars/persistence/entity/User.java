@@ -78,7 +78,7 @@ public class User extends BaseEntity {
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<GroupReservation> groupReservations = new HashSet<GroupReservation>(0);
 
-	private User() {
+	protected User() {
 		super();
 	}
 

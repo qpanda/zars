@@ -70,7 +70,7 @@ public class GroupReservation extends BaseEntity {
 	@JoinTable(name = GroupReservation.JOINTABLENAME_GROUPRESERVATION_ROOM, joinColumns = @JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID), inverseJoinColumns = @JoinColumn(name = Room.COLUMNNAME_ROOMID))
 	private Set<Room> rooms = new HashSet<Room>(0);
 
-	private GroupReservation() {
+	protected GroupReservation() {
 		super();
 	}
 
