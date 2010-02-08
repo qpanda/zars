@@ -163,6 +163,26 @@ public class PersistenceEntityTest {
 	}
 
 	@Test
+	public void testDisableUser() {
+		final Role userRole = createUserRole();
+		final Role adminRole = createAdminRole();
+		final User testUser = PersistenceEntityGenerator.createUserTest(userRole, adminRole);
+		userDao.persist(testUser);
+		persistenceContextManager.flush();
+		logger.debug("persisted user 'test' as [" + testUser + "]");
+
+		testUser.setEnabled(false);
+		userDao.persist(testUser);
+		persistenceContextManager.flush();
+		logger.debug("updated user 'test' as [" + testUser + "]");
+
+		persistenceContextManager.clear();
+		final User fetchedTestUser = userDao.findByPrimaryKey(testUser.getUserId());
+		Assert.assertNotNull(fetchedTestUser);
+		Assert.assertFalse(fetchedTestUser.isEnabled());
+	}
+
+	@Test
 	public void testCreateFirstRoom() {
 		final Room firstRoom = createFirstRoom();
 		persistenceContextManager.flush();
