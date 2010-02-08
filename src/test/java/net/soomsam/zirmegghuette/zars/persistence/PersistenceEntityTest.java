@@ -10,6 +10,7 @@ import javax.persistence.PersistenceException;
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
+import net.soomsam.zirmegghuette.zars.persistence.dao.OperationNotSupportedException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.persistence.dao.ReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
@@ -182,6 +183,18 @@ public class PersistenceEntityTest {
 		Assert.assertFalse(fetchedTestUser.isEnabled());
 	}
 
+	@Test(expected = OperationNotSupportedException.class)
+	public void testDeleteUser() {
+		final Role userRole = createUserRole();
+		final Role adminRole = createAdminRole();
+		final User testUser = PersistenceEntityGenerator.createUserTest(userRole, adminRole);
+		userDao.persist(testUser);
+		persistenceContextManager.flush();
+		logger.debug("persisted user 'test' as [" + testUser + "]");
+
+		userDao.remove(testUser);
+	}
+
 	@Test
 	public void testCreateFirstRoom() {
 		final Room firstRoom = createFirstRoom();
@@ -219,6 +232,32 @@ public class PersistenceEntityTest {
 		final Room roomWithInvalidPrecedence = new Room("invalid", 1, 0, true);
 		roomDao.persist(roomWithInvalidPrecedence);
 		persistenceContextManager.flush();
+	}
+
+	@Test
+	public void testDisableFirstRoom() {
+		final Room firstRoom = createFirstRoom();
+		persistenceContextManager.flush();
+		logger.debug("persisted room 'first' as [" + firstRoom + "]");
+
+		firstRoom.setInUse(false);
+		roomDao.persist(firstRoom);
+		persistenceContextManager.flush();
+		logger.debug("updated room 'first' as [" + firstRoom + "]");
+
+		persistenceContextManager.clear();
+		final Room fetchedFirstRoom = roomDao.findByPrimaryKey(firstRoom.getRoomId());
+		Assert.assertNotNull(fetchedFirstRoom);
+		Assert.assertFalse(fetchedFirstRoom.isInUse());
+	}
+
+	@Test(expected = OperationNotSupportedException.class)
+	public void testDeleteFirstRoom() {
+		final Room firstRoom = createFirstRoom();
+		persistenceContextManager.flush();
+		logger.debug("persisted room 'first' as [" + firstRoom + "]");
+
+		roomDao.remove(firstRoom);
 	}
 
 	@Test

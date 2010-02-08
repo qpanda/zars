@@ -13,7 +13,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
  * 
  * @author erich liebmann
  * @param <Entity>
- *            the persistence entity type/class this DAO operates with
+ *            the persistence entity type the DAO operates with
  */
 public interface EntityDao<Entity extends BaseEntity> {
 	/**
