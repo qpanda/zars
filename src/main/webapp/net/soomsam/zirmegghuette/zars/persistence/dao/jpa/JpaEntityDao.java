@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityDao;
+import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,30 +34,12 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	 */
 	protected abstract Class<Entity> determineEntityClass();
 
-	public EntityManager getEntityManager() {
+	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
 
-	public JdbcTemplate getJdbcTemplate() {
+	protected JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
-	}
-
-	@Override
-	public Query createNamedQuery(final String queryName) {
-		if (null == queryName) {
-			throw new IllegalArgumentException("[queryName] must not be null");
-		}
-
-		return entityManager.createNamedQuery(queryName);
-	}
-
-	@Override
-	public Query createQuery(final String jpQueryString) {
-		if (null == jpQueryString) {
-			throw new IllegalArgumentException("[jpQueryString] must not be null");
-		}
-
-		return entityManager.createQuery(jpQueryString);
 	}
 
 	@Override
@@ -101,5 +83,35 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 		}
 
 		return entity;
+	}
+
+	/**
+	 * creates a {@link Query} object for the named query
+	 * 
+	 * @param queryName
+	 *            the name of the query to create a query object for
+	 * @return the {@link Query} object created on behalf of the named query
+	 */
+	protected Query createNamedQuery(String queryName) {
+		if (null == queryName) {
+			throw new IllegalArgumentException("[queryName] must not be null");
+		}
+
+		return entityManager.createNamedQuery(queryName);
+	}
+
+	/**
+	 * dynamically creates a query from the JPQL string provided
+	 * 
+	 * @param jpQueryString
+	 *            the JPQL string to create the query from
+	 * @return the {@link Query} object created on behalf of the JPQL string
+	 */
+	protected Query createQuery(String jpQueryString) {
+		if (null == jpQueryString) {
+			throw new IllegalArgumentException("[jpQueryString] must not be null");
+		}
+
+		return entityManager.createQuery(jpQueryString);
 	}
 }

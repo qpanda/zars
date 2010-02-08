@@ -3,9 +3,6 @@ package net.soomsam.zirmegghuette.zars.persistence.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.Query;
-
 import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
 
 /**
@@ -61,24 +58,6 @@ public interface EntityDao<Entity extends BaseEntity> {
 	public Entity findByPrimaryKey(Serializable primaryKey);
 
 	/**
-	 * creates a {@link Query} object for the named query
-	 * 
-	 * @param queryName
-	 *            the name of the query to create a query object for
-	 * @return the {@link Query} object created on behalf of the named query
-	 */
-	public Query createNamedQuery(String queryName);
-
-	/**
-	 * dynamically creates a query from the JPQL string provided
-	 * 
-	 * @param jpQueryString
-	 *            the JPQL string to create the query from
-	 * @return the {@link Query} object created on behalf of the JPQL string
-	 */
-	public Query createQuery(String jpQueryString);
-
-	/**
 	 * retrieves all persistence entities with the type/class managed by the concrete DAO implementation
 	 * 
 	 * @return a {@link List} of all persistence entities with the type/class found in the database
@@ -99,6 +78,8 @@ public interface EntityDao<Entity extends BaseEntity> {
 	 * 
 	 * @param entity
 	 *            the persistence entity to remove from the persistence context
+	 * @throws OperationNotSupportedException
+	 *             if the DAO implementation does not support remove
 	 */
-	public void remove(Entity entity);
+	public void remove(Entity entity) throws OperationNotSupportedException;
 }
