@@ -2,11 +2,15 @@ package net.soomsam.zirmegghuette.zars.persistence.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,6 +19,9 @@ import javax.persistence.Version;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.validator.Min;
+import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.NotNull;
 import org.hibernate.validator.event.JPAValidateListener;
 
 @Entity
@@ -24,8 +31,10 @@ public class Invoice extends BaseEntity {
 	public static final String TABLENAME_INVOICE = "invoice";
 	public static final String COLUMNNAME_INVOICEID = "invoice_id";
 	public static final String COLUMNNAME_DATE = "date";
+	public static final String COLUMNNAME_CURRENCY = "currency";
 	public static final String COLUMNNAME_AMOUNT = "amount";
 	public static final String COLUMNNAME_PAYED = "payed";
+	public static final String COLUMNNAME_DOCUMENT = "document";
 
 	@Id
 	@GeneratedValue
@@ -40,21 +49,40 @@ public class Invoice extends BaseEntity {
 	@Column(name = Invoice.COLUMNNAME_DATE, nullable = false)
 	private Date date;
 
-	@Column(name = Invoice.COLUMNNAME_AMOUNT, nullable = false)
-	private float amount;
+	@NotNull
+	@NotEmpty
+	@Column(name = Invoice.COLUMNNAME_CURRENCY, nullable = false)
+	private String currency;
 
+	@Min(value = 0)
+	@Column(name = Invoice.COLUMNNAME_AMOUNT, nullable = false)
+	private double amount;
+
+	@NotNull
 	@Column(name = Invoice.COLUMNNAME_PAYED, nullable = false)
 	private boolean payed;
+
+	@NotNull
+	@Lob
+	@Column(name = Invoice.COLUMNNAME_DOCUMENT, nullable = false)
+	private byte[] document;
+
+	@NotNull
+	@OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH }, fetch = FetchType.LAZY, optional = false, mappedBy = "invoice")
+	private GroupReservation groupReservation;
 
 	protected Invoice() {
 		super();
 	}
 
-	public Invoice(final Date date, final float amount, final boolean payed) {
+	public Invoice(final Date date, final String currency, final double amount, final boolean payed, final byte[] document, final GroupReservation groupReservation) {
 		super();
 		this.date = date;
+		this.currency = currency;
 		this.amount = amount;
 		this.payed = payed;
+		this.document = document;
+		this.groupReservation = groupReservation;
 	}
 
 	public long getInvoiceId() {
@@ -81,11 +109,19 @@ public class Invoice extends BaseEntity {
 		this.date = date;
 	}
 
-	public float getAmount() {
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(final float amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
@@ -95,6 +131,22 @@ public class Invoice extends BaseEntity {
 
 	public void setPayed(final boolean payed) {
 		this.payed = payed;
+	}
+
+	public byte[] getDocument() {
+		return document;
+	}
+
+	public void setDocument(byte[] document) {
+		this.document = document;
+	}
+
+	public GroupReservation getGroupReservation() {
+		return groupReservation;
+	}
+
+	public void setGroupReservation(GroupReservation groupReservation) {
+		this.groupReservation = groupReservation;
 	}
 
 	@Override
@@ -118,16 +170,16 @@ public class Invoice extends BaseEntity {
 		}
 
 		final Invoice other = (Invoice) obj;
-		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getDate(), other.getDate()).append(getAmount(), other.getAmount()).append(isPayed(), other.isPayed()).isEquals();
+		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getDate(), other.getDate()).append(getCurrency(), other.getCurrency()).append(getAmount(), other.getAmount()).append(isPayed(), other.isPayed()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getInvoiceId()).append(getDate()).append(getAmount()).append(isPayed()).toHashCode();
+		return new HashCodeBuilder().append(getInvoiceId()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getInvoiceId()).append(getDate()).append(getAmount()).append(isPayed()).toString();
+		return new ToStringBuilder(this).append(getInvoiceId()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).toString();
 	}
 }

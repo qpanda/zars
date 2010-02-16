@@ -9,7 +9,9 @@ import javax.persistence.PersistenceException;
 
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
+import net.soomsam.zirmegghuette.zars.TestUtils;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
+import net.soomsam.zirmegghuette.zars.persistence.dao.InvoiceDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.OperationNotSupportedException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.persistence.dao.ReservationDao;
@@ -18,6 +20,7 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
+import net.soomsam.zirmegghuette.zars.persistence.entity.Invoice;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
@@ -65,6 +68,9 @@ public class PersistenceEntityTest {
 
 	@Autowired
 	private ReservationDao reservationDao;
+
+	@Autowired
+	private InvoiceDao invoiceDao;
 
 	@Test
 	public void testCreateUserRole() {
@@ -509,6 +515,20 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(verifyGroupReservation.getReservations().contains(verifyReservation));
 		Assert.assertNotNull(userDao.findByPrimaryKey(testUser.getUserId()));
 		Assert.assertNotNull(roomDao.findByPrimaryKey(firstRoom.getRoomId()));
+	}
+
+	@Test
+	public void testCreateInvoice() {
+		GroupReservation testGroupReservation = createTestGroupReservation();
+		persistenceContextManager.flush();
+		byte[] testInvoiceDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
+
+		Invoice testInvoice = new Invoice(new Date(), "EUR", 123.456, true, testInvoiceDocument, testGroupReservation);
+		invoiceDao.persist(testInvoice);
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+		logger.debug("persisted invoice as [" + testInvoice + "]");
+		Assert.assertNotNull(invoiceDao.findByPrimaryKey(testInvoice.getInvoiceId()));
 	}
 
 	private Role createUserRole() {
