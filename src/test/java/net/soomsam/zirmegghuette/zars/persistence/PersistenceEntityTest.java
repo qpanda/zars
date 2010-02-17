@@ -1,5 +1,6 @@
 package net.soomsam.zirmegghuette.zars.persistence;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
@@ -528,7 +529,10 @@ public class PersistenceEntityTest {
 		persistenceContextManager.flush();
 		persistenceContextManager.clear();
 		logger.debug("persisted invoice as [" + testInvoice + "]");
-		Assert.assertNotNull(invoiceDao.findByPrimaryKey(testInvoice.getInvoiceId()));
+
+		final Invoice fetchedInvoice = invoiceDao.findByPrimaryKey(testInvoice.getInvoiceId());
+		Assert.assertNotNull(fetchedInvoice);
+		Assert.assertTrue(Arrays.equals(testInvoiceDocument, fetchedInvoice.getDocument()));
 	}
 
 	private Role createUserRole() {
