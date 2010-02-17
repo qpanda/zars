@@ -142,15 +142,6 @@ public class Reservation extends BaseEntity {
 		groupReservation.addReservation(this);
 	}
 
-	public void unassociateGroupReservation(final GroupReservation groupReservation) {
-		if (null == groupReservation) {
-			throw new IllegalArgumentException("'groupReservation' must not be null");
-		}
-
-		groupReservation.removeReservation(this);
-		setGroupReservation(null);
-	}
-
 	@Override
 	public boolean same(final BaseEntity entity) {
 		if (!(entity instanceof Reservation)) {

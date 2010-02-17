@@ -383,7 +383,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.flush();
 	}
 
-	@Test(expected = InvalidStateException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testCreateGroupReservationWithoutUser() {
 		final Room firstRoom = createFirstRoom();
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
@@ -394,7 +394,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.flush();
 	}
 
-	@Test(expected = InvalidStateException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testCreateGroupReservationWithoutReservation() {
 		final Room firstRoom = createFirstRoom();
 		final GroupReservation testGroupReservation = new GroupReservation(null);
@@ -519,11 +519,11 @@ public class PersistenceEntityTest {
 
 	@Test
 	public void testCreateInvoice() {
-		GroupReservation testGroupReservation = createTestGroupReservation();
+		final GroupReservation testGroupReservation = createTestGroupReservation();
 		persistenceContextManager.flush();
-		byte[] testInvoiceDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
+		final byte[] testInvoiceDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
 
-		Invoice testInvoice = new Invoice(new Date(), "EUR", 123.456, true, testInvoiceDocument, testGroupReservation);
+		final Invoice testInvoice = new Invoice(new Date(), "EUR", 123.456, true, testInvoiceDocument, testGroupReservation);
 		invoiceDao.persist(testInvoice);
 		persistenceContextManager.flush();
 		persistenceContextManager.clear();

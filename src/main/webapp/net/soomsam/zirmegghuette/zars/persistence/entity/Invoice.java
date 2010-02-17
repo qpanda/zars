@@ -82,7 +82,8 @@ public class Invoice extends BaseEntity {
 		this.amount = amount;
 		this.payed = payed;
 		this.document = document;
-		this.groupReservation = groupReservation;
+
+		associateGroupReservation(groupReservation);
 	}
 
 	public long getInvoiceId() {
@@ -113,7 +114,7 @@ public class Invoice extends BaseEntity {
 		return currency;
 	}
 
-	public void setCurrency(String currency) {
+	public void setCurrency(final String currency) {
 		this.currency = currency;
 	}
 
@@ -121,7 +122,7 @@ public class Invoice extends BaseEntity {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(final double amount) {
 		this.amount = amount;
 	}
 
@@ -137,7 +138,7 @@ public class Invoice extends BaseEntity {
 		return document;
 	}
 
-	public void setDocument(byte[] document) {
+	public void setDocument(final byte[] document) {
 		this.document = document;
 	}
 
@@ -145,8 +146,17 @@ public class Invoice extends BaseEntity {
 		return groupReservation;
 	}
 
-	public void setGroupReservation(GroupReservation groupReservation) {
+	void setGroupReservation(final GroupReservation groupReservation) {
 		this.groupReservation = groupReservation;
+	}
+
+	public void associateGroupReservation(final GroupReservation groupReservation) {
+		if (null == groupReservation) {
+			throw new IllegalArgumentException("'groupReservation' must not be null");
+		}
+
+		setGroupReservation(groupReservation);
+		groupReservation.setInvoice(this);
 	}
 
 	@Override
