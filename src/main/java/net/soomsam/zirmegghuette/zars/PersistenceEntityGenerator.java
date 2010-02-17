@@ -25,8 +25,8 @@ public class PersistenceEntityGenerator {
 		return new Role(ROLE_ACCOUNTANT);
 	}
 
-	public static User createUserTest(final Role... roles) {
-		return new User("test", String.valueOf(new Random().nextLong()), true, new HashSet<Role>(Arrays.asList(roles)));
+	public static User createUserTest(final String userName, final Role... roles) {
+		return new User(userName, String.valueOf(new Random().nextLong()), true, new HashSet<Role>(Arrays.asList(roles)));
 	}
 
 	public static Room createFirstRoom() {

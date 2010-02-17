@@ -155,7 +155,7 @@ public class PersistenceEntityTest {
 	public void testCreateTestUser() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
-		final User testUser = PersistenceEntityGenerator.createUserTest(userRole, adminRole);
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
 		userDao.persist(testUser);
 		persistenceContextManager.flush();
 		logger.debug("persisted user 'test' as [" + testUser + "]");
@@ -227,7 +227,7 @@ public class PersistenceEntityTest {
 	public void testDisableUser() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
-		final User testUser = PersistenceEntityGenerator.createUserTest(userRole, adminRole);
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
 		userDao.persist(testUser);
 		persistenceContextManager.flush();
 		logger.debug("persisted user 'test' as [" + testUser + "]");
@@ -247,7 +247,7 @@ public class PersistenceEntityTest {
 	public void testDeleteUser() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
-		final User testUser = PersistenceEntityGenerator.createUserTest(userRole, adminRole);
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
 		userDao.persist(testUser);
 		persistenceContextManager.flush();
 		logger.debug("persisted user 'test' as [" + testUser + "]");
@@ -347,10 +347,17 @@ public class PersistenceEntityTest {
 
 	@Test
 	public void testCreateGroupReservationWithDifferentAccountant() {
-		final User testUser = createTestUser();
+		final Role userRole = createUserRole();
+		final Role adminRole = createAdminRole();
+		final Role accountantRole = createAccountantRole();
+		final User beneficiaryUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
+		final User accountantUser = PersistenceEntityGenerator.createUserTest("accountant", userRole, adminRole, accountantRole);
+		userDao.persist(beneficiaryUser);
+		userDao.persist(accountantUser);
+
 		final Room firstRoom = createFirstRoom();
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser);
+		final GroupReservation testGroupReservation = new GroupReservation(beneficiaryUser, accountantUser);
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.addRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
@@ -362,12 +369,14 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(fetchedGroupReservation);
 		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
 		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
-		Assert.assertNotNull(fetchedGroupReservation.getRooms());
-		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
-		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));
-		Assert.assertNotNull(fetchedGroupReservation.getReservations());
-		Assert.assertEquals(1, fetchedGroupReservation.getReservations().size());
-		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation));
+		Assert.assertEquals(beneficiaryUser, fetchedGroupReservation.getBeneficiary());
+		Assert.assertEquals(accountantUser, fetchedGroupReservation.getAccountant());
+
+		Assert.assertTrue(beneficiaryUser.getAccountantGroupReservations().isEmpty());
+		Assert.assertFalse(beneficiaryUser.getBeneficiaryGroupReservations().isEmpty());
+
+		Assert.assertTrue(accountantUser.getBeneficiaryGroupReservations().isEmpty());
+		Assert.assertFalse(accountantUser.getAccountantGroupReservations().isEmpty());
 	}
 
 	@Test
@@ -588,6 +597,12 @@ public class PersistenceEntityTest {
 		return adminRole;
 	}
 
+	private Role createAccountantRole() {
+		final Role accountantRole = PersistenceEntityGenerator.createAccountantRole();
+		roleDao.persist(accountantRole);
+		return accountantRole;
+	}
+
 	private Room createFirstRoom() {
 		final Room firstRoom = PersistenceEntityGenerator.createFirstRoom();
 		roomDao.persist(firstRoom);
@@ -603,7 +618,7 @@ public class PersistenceEntityTest {
 	private User createTestUser() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
-		final User testUser = PersistenceEntityGenerator.createUserTest(userRole, adminRole);
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
 		userDao.persist(testUser);
 		return testUser;
 	}
