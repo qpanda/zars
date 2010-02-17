@@ -78,6 +78,9 @@ public class User extends BaseEntity {
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "beneficiary")
 	private Set<GroupReservation> beneficiaryGroupReservations = new HashSet<GroupReservation>(0);
 
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "accountant")
+	private Set<GroupReservation> accountantGroupReservations = new HashSet<GroupReservation>(0);
+
 	protected User() {
 		super();
 	}
@@ -268,6 +271,31 @@ public class User extends BaseEntity {
 
 		addBeneficiaryGroupReservation(beneficiaryGroupReservation);
 		beneficiaryGroupReservation.setBeneficiary(this);
+	}
+
+	public Set<GroupReservation> getAccountantGroupReservations() {
+		return accountantGroupReservations;
+	}
+
+	void setAccountantGroupReservations(final Set<GroupReservation> accountantGroupReservations) {
+		this.accountantGroupReservations = accountantGroupReservations;
+	}
+
+	void addAccountantGroupReservation(final GroupReservation accountantGroupReservation) {
+		if (null == accountantGroupReservation) {
+			throw new IllegalArgumentException("'accountantGroupReservation' must not be null");
+		}
+
+		this.accountantGroupReservations.add(accountantGroupReservation);
+	}
+
+	public void associateAccountantGroupReservation(final GroupReservation accountantGroupReservation) {
+		if (null == accountantGroupReservation) {
+			throw new IllegalArgumentException("'accountantGroupReservation' must not be null");
+		}
+
+		addAccountantGroupReservation(accountantGroupReservation);
+		accountantGroupReservation.setAccountant(this);
 	}
 
 	@Override

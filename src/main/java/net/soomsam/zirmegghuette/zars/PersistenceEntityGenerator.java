@@ -11,6 +11,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 public class PersistenceEntityGenerator {
 	public static final String ROLE_USER = "user";
 	public static final String ROLE_ADMIN = "admin";
+	public static final String ROLE_ACCOUNTANT = "accountant";
 
 	public static Role createUserRole() {
 		return new Role(ROLE_USER);
@@ -18,6 +19,10 @@ public class PersistenceEntityGenerator {
 
 	public static Role createAdminRole() {
 		return new Role(ROLE_ADMIN);
+	}
+
+	public static Role createAccountantRole() {
+		return new Role(ROLE_ACCOUNTANT);
 	}
 
 	public static User createUserTest(final Role... roles) {

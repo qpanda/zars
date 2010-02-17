@@ -37,6 +37,7 @@ public class GroupReservation extends BaseEntity {
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
 	public static final String COLUMNNAME_COMMENT = "comment";
 	public static final String COLUMNNAME_BENEFICIARY_USERID = "beneficiary_user_id";
+	public static final String COLUMNNAME_ACCOUNTANT_USERID = "accountant_user_id";
 	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "group_reservation_room";
 
 	@Id
@@ -56,6 +57,11 @@ public class GroupReservation extends BaseEntity {
 	@JoinColumn(name = GroupReservation.COLUMNNAME_BENEFICIARY_USERID, nullable = false)
 	private User beneficiary;
 
+	@NotNull
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = GroupReservation.COLUMNNAME_ACCOUNTANT_USERID, nullable = false)
+	private User accountant;
+
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, optional = true, mappedBy = "groupReservation")
 	private Invoice invoice;
 
@@ -74,20 +80,22 @@ public class GroupReservation extends BaseEntity {
 		super();
 	}
 
-	public GroupReservation(final User beneficiary) {
+	public GroupReservation(final User beneficiary, final User accountant) {
 		super();
 
 		associateBeneficiary(beneficiary);
+		associateAccountant(accountant);
 	}
 
-	public GroupReservation(final User beneficiary, final String comment) {
+	public GroupReservation(final User beneficiary, final User accountant, final String comment) {
 		super();
 		this.comment = comment;
 
 		associateBeneficiary(beneficiary);
+		associateAccountant(accountant);
 	}
 
-	public GroupReservation(final User beneficiary, final Reservation reservation) {
+	public GroupReservation(final User beneficiary, final User accountant, final Reservation reservation) {
 		super();
 
 		if (null == reservation) {
@@ -95,17 +103,19 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		associateBeneficiary(beneficiary);
+		associateAccountant(accountant);
 		associateReservation(reservation);
 	}
 
-	public GroupReservation(final User beneficiary, final Set<Reservation> reservations) {
+	public GroupReservation(final User beneficiary, final User accountant, final Set<Reservation> reservations) {
 		super();
 
 		associateBeneficiary(beneficiary);
+		associateAccountant(accountant);
 		associateReservations(reservations);
 	}
 
-	public GroupReservation(final User beneficiary, final Reservation reservation, final String comment) {
+	public GroupReservation(final User beneficiary, final User accountant, final Reservation reservation, final String comment) {
 		super();
 
 		if (null == reservation) {
@@ -115,14 +125,16 @@ public class GroupReservation extends BaseEntity {
 		this.comment = comment;
 
 		associateBeneficiary(beneficiary);
+		associateAccountant(accountant);
 		associateReservation(reservation);
 	}
 
-	public GroupReservation(final User beneficiary, final Set<Reservation> reservations, final String comment) {
+	public GroupReservation(final User beneficiary, final User accountant, final Set<Reservation> reservations, final String comment) {
 		super();
 		this.comment = comment;
 
 		associateBeneficiary(beneficiary);
+		associateAccountant(accountant);
 		associateReservations(reservations);
 	}
 
@@ -165,6 +177,23 @@ public class GroupReservation extends BaseEntity {
 
 		setBeneficiary(beneficiary);
 		beneficiary.addBeneficiaryGroupReservation(this);
+	}
+
+	public User getAccountant() {
+		return accountant;
+	}
+
+	void setAccountant(final User accountant) {
+		this.accountant = accountant;
+	}
+
+	public void associateAccountant(final User accountant) {
+		if (null == accountant) {
+			throw new IllegalArgumentException("'accountant' must not be null");
+		}
+
+		setAccountant(accountant);
+		accountant.addAccountantGroupReservation(this);
 	}
 
 	public Invoice getInvoice() {
