@@ -220,7 +220,7 @@ public class PersistenceEntityTest {
 
 		final User fetchedTestUser = userDao.findByPrimaryKey(testUser.getUserId());
 		Assert.assertNotNull(fetchedTestUser);
-		Assert.assertTrue(fetchedTestUser.getGroupReservations().isEmpty());
+		Assert.assertTrue(fetchedTestUser.getBeneficiaryGroupReservations().isEmpty());
 	}
 
 	@Test
@@ -335,7 +335,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.clear();
 		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
 		Assert.assertNotNull(fetchedGroupReservation);
-		Assert.assertNotNull(fetchedGroupReservation.getUser());
+		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
 		Assert.assertNotNull(fetchedGroupReservation.getRooms());
 		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
 		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));
@@ -363,7 +363,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.clear();
 		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
 		Assert.assertNotNull(fetchedGroupReservation);
-		Assert.assertNotNull(fetchedGroupReservation.getUser());
+		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
 		Assert.assertNotNull(fetchedGroupReservation.getRooms());
 		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
 		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));

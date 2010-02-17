@@ -75,8 +75,8 @@ public class User extends BaseEntity {
 	@JoinTable(name = User.JOINTABLENAME_USER_ROLE, joinColumns = @JoinColumn(name = User.COLUMNNAME_USERID), inverseJoinColumns = @JoinColumn(name = Role.COLUMNNAME_ROLEID))
 	private final Set<Role> roles = new HashSet<Role>(0);
 
-	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<GroupReservation> groupReservations = new HashSet<GroupReservation>(0);
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "beneficiary")
+	private Set<GroupReservation> beneficiaryGroupReservations = new HashSet<GroupReservation>(0);
 
 	protected User() {
 		super();
@@ -105,8 +105,7 @@ public class User extends BaseEntity {
 		associateRoles(roles);
 	}
 
-	public User(final String userName, final String password, final String firstName, final String lastName,
-			final boolean enabled, final Set<Role> roles) {
+	public User(final String userName, final String password, final String firstName, final String lastName, final boolean enabled, final Set<Role> roles) {
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -117,8 +116,7 @@ public class User extends BaseEntity {
 		associateRoles(roles);
 	}
 
-	public User(final String userName, final String password, final String firstName, final String lastName,
-			final boolean enabled, final Role role) {
+	public User(final String userName, final String password, final String firstName, final String lastName, final boolean enabled, final Role role) {
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -243,33 +241,33 @@ public class User extends BaseEntity {
 		}
 	}
 
-	public Set<GroupReservation> getGroupReservations() {
-		return groupReservations;
+	public Set<GroupReservation> getBeneficiaryGroupReservations() {
+		return beneficiaryGroupReservations;
 	}
 
-	void setGroupReservations(final Set<GroupReservation> groupReservations) {
-		if (null == groupReservations) {
-			throw new IllegalArgumentException("'groupReservations' must not be null");
+	void setBeneficiaryGroupReservations(final Set<GroupReservation> beneficiaryGroupReservations) {
+		if (null == beneficiaryGroupReservations) {
+			throw new IllegalArgumentException("'beneficiaryGroupReservations' must not be null");
 		}
 
-		this.groupReservations = groupReservations;
+		this.beneficiaryGroupReservations = beneficiaryGroupReservations;
 	}
 
-	void addGroupReservation(final GroupReservation groupReservation) {
-		if (null == groupReservation) {
-			throw new IllegalArgumentException("'groupReservation' must not be null");
+	void addBeneficiaryGroupReservation(final GroupReservation beneficiaryGroupReservation) {
+		if (null == beneficiaryGroupReservation) {
+			throw new IllegalArgumentException("'beneficiaryGroupReservation' must not be null");
 		}
 
-		this.groupReservations.add(groupReservation);
+		this.beneficiaryGroupReservations.add(beneficiaryGroupReservation);
 	}
 
-	public void associateGroupReservation(final GroupReservation groupReservation) {
-		if (null == groupReservation) {
-			throw new IllegalArgumentException("'groupReservation' must not be null");
+	public void associateBeneficiaryGroupReservation(final GroupReservation beneficiaryGroupReservation) {
+		if (null == beneficiaryGroupReservation) {
+			throw new IllegalArgumentException("'beneficiaryGroupReservation' must not be null");
 		}
 
-		addGroupReservation(groupReservation);
-		groupReservation.setUser(this);
+		addBeneficiaryGroupReservation(beneficiaryGroupReservation);
+		beneficiaryGroupReservation.setBeneficiary(this);
 	}
 
 	@Override

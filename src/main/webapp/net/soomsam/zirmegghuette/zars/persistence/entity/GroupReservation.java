@@ -36,6 +36,7 @@ public class GroupReservation extends BaseEntity {
 	public static final String TABLENAME_GROUPRESERVATION = "group_reservation";
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
 	public static final String COLUMNNAME_COMMENT = "comment";
+	public static final String COLUMNNAME_BENEFICIARY_USERID = "beneficiary_user_id";
 	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "group_reservation_room";
 
 	@Id
@@ -52,8 +53,8 @@ public class GroupReservation extends BaseEntity {
 
 	@NotNull
 	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = User.COLUMNNAME_USERID, nullable = false)
-	private User user;
+	@JoinColumn(name = GroupReservation.COLUMNNAME_BENEFICIARY_USERID, nullable = false)
+	private User beneficiary;
 
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, optional = true, mappedBy = "groupReservation")
 	private Invoice invoice;
@@ -73,38 +74,38 @@ public class GroupReservation extends BaseEntity {
 		super();
 	}
 
-	public GroupReservation(final User user) {
+	public GroupReservation(final User beneficiary) {
 		super();
 
-		associateUser(user);
+		associateBeneficiary(beneficiary);
 	}
 
-	public GroupReservation(final User user, final String comment) {
+	public GroupReservation(final User beneficiary, final String comment) {
 		super();
 		this.comment = comment;
 
-		associateUser(user);
+		associateBeneficiary(beneficiary);
 	}
 
-	public GroupReservation(final User user, final Reservation reservation) {
+	public GroupReservation(final User beneficiary, final Reservation reservation) {
 		super();
 
 		if (null == reservation) {
 			throw new IllegalArgumentException("'reservation' must not be null");
 		}
 
-		associateUser(user);
+		associateBeneficiary(beneficiary);
 		associateReservation(reservation);
 	}
 
-	public GroupReservation(final User user, final Set<Reservation> reservations) {
+	public GroupReservation(final User beneficiary, final Set<Reservation> reservations) {
 		super();
 
-		associateUser(user);
+		associateBeneficiary(beneficiary);
 		associateReservations(reservations);
 	}
 
-	public GroupReservation(final User user, final Reservation reservation, final String comment) {
+	public GroupReservation(final User beneficiary, final Reservation reservation, final String comment) {
 		super();
 
 		if (null == reservation) {
@@ -113,15 +114,15 @@ public class GroupReservation extends BaseEntity {
 
 		this.comment = comment;
 
-		associateUser(user);
+		associateBeneficiary(beneficiary);
 		associateReservation(reservation);
 	}
 
-	public GroupReservation(final User user, final Set<Reservation> reservations, final String comment) {
+	public GroupReservation(final User beneficiary, final Set<Reservation> reservations, final String comment) {
 		super();
 		this.comment = comment;
 
-		associateUser(user);
+		associateBeneficiary(beneficiary);
 		associateReservations(reservations);
 	}
 
@@ -149,21 +150,21 @@ public class GroupReservation extends BaseEntity {
 		this.comment = comment;
 	}
 
-	public User getUser() {
-		return user;
+	public User getBeneficiary() {
+		return beneficiary;
 	}
 
-	void setUser(final User user) {
-		this.user = user;
+	void setBeneficiary(final User beneficiary) {
+		this.beneficiary = beneficiary;
 	}
 
-	public void associateUser(final User user) {
-		if (null == user) {
-			throw new IllegalArgumentException("'user' must not be null");
+	public void associateBeneficiary(final User beneficiary) {
+		if (null == beneficiary) {
+			throw new IllegalArgumentException("'beneficiary' must not be null");
 		}
 
-		setUser(user);
-		user.addGroupReservation(this);
+		setBeneficiary(beneficiary);
+		beneficiary.addBeneficiaryGroupReservation(this);
 	}
 
 	public Invoice getInvoice() {
