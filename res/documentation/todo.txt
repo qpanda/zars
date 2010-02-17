@@ -1,3 +1,2 @@
 * settings table
 * report table
-* currency lookup or setting?
