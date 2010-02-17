@@ -535,6 +535,20 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(Arrays.equals(testInvoiceDocument, fetchedInvoice.getDocument()));
 	}
 
+	@Test(expected = OperationNotSupportedException.class)
+	public void testDeleteInvoice() {
+		final GroupReservation testGroupReservation = createTestGroupReservation();
+		persistenceContextManager.flush();
+		final byte[] testInvoiceDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
+
+		final Invoice testInvoice = new Invoice(new Date(), "EUR", 123.456, true, testInvoiceDocument, testGroupReservation);
+		invoiceDao.persist(testInvoice);
+		persistenceContextManager.flush();
+		logger.debug("persisted invoice as [" + testInvoice + "]");
+
+		invoiceDao.remove(testInvoice);
+	}
+
 	private Role createUserRole() {
 		final Role userRole = PersistenceEntityGenerator.createUserRole();
 		roleDao.persist(userRole);
