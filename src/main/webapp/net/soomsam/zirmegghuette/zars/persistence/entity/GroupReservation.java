@@ -55,8 +55,7 @@ public class GroupReservation extends BaseEntity {
 	@JoinColumn(name = User.COLUMNNAME_USERID, nullable = false)
 	private User user;
 
-	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, optional = true)
-	@JoinColumn(name = Invoice.COLUMNNAME_INVOICEID, unique = true, nullable = true, updatable = false)
+	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, optional = true, mappedBy = "groupReservation")
 	private Invoice invoice;
 
 	@NotNull
