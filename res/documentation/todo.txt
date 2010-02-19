@@ -1,2 +1,6 @@
+* add timestamp to same() check?
+* add timestamp to equals() check!
+* allways use bidirectional connections between persistence entities
+* check that user assigned to GroupReservation has role accountant or create inheritance
 * settings table
 * report table

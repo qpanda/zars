@@ -76,6 +76,9 @@ public class GroupReservation extends BaseEntity {
 	@JoinTable(name = GroupReservation.JOINTABLENAME_GROUPRESERVATION_ROOM, joinColumns = @JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID), inverseJoinColumns = @JoinColumn(name = Room.COLUMNNAME_ROOMID))
 	private Set<Room> rooms = new HashSet<Room>(0);
 
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "groupReservations")
+	private final Set<Report> reports = new HashSet<Report>(0);
+
 	protected GroupReservation() {
 		super();
 	}
@@ -289,6 +292,64 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		this.rooms.add(room);
+	}
+
+	public Set<Report> getReports() {
+		return reports;
+	}
+
+	void addReport(final Report report) {
+		if (null == report) {
+			throw new IllegalArgumentException("'report' must not be null");
+		}
+
+		this.reports.add(report);
+	}
+
+	void removeReport(final Report report) {
+		if (null == report) {
+			throw new IllegalArgumentException("'report' must not be null");
+		}
+
+		this.reports.remove(report);
+	}
+
+	public void associateReport(final Report report) {
+		if (null == report) {
+			throw new IllegalArgumentException("'report' must not be null");
+		}
+
+		addReport(report);
+		report.addGroupReservation(this);
+	}
+
+	public void associateReports(final Set<Report> reportSet) {
+		if (null == reportSet) {
+			throw new IllegalArgumentException("'reportSet' must not be null");
+		}
+
+		for (final Report report : reportSet) {
+			associateReport(report);
+		}
+	}
+
+	public void unassociateReport(final Report report) {
+		if (null == report) {
+			throw new IllegalArgumentException("'report' must not be null");
+		}
+
+		removeReport(report);
+		report.removeGroupReservation(this);
+	}
+
+	public void unassociateReports(final Set<Report> reportSet) {
+		if (null == reportSet) {
+			throw new IllegalArgumentException("'reportSet' must not be null");
+		}
+
+		for (final Report report : reportSet) {
+			unassociateReport(report);
+		}
 	}
 
 	@Override
