@@ -74,7 +74,7 @@ public class GroupReservation extends BaseEntity {
 	@Size(min = 1)
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
 	@JoinTable(name = GroupReservation.JOINTABLENAME_GROUPRESERVATION_ROOM, joinColumns = @JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID), inverseJoinColumns = @JoinColumn(name = Room.COLUMNNAME_ROOMID))
-	private Set<Room> rooms = new HashSet<Room>(0);
+	private final Set<Room> rooms = new HashSet<Room>(0);
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "groupReservations")
 	private final Set<Report> reports = new HashSet<Report>(0);
@@ -278,20 +278,58 @@ public class GroupReservation extends BaseEntity {
 		return rooms;
 	}
 
-	public void setRooms(final Set<Room> rooms) {
-		if (null == rooms) {
-			throw new IllegalArgumentException("'rooms' must not be null");
-		}
-
-		this.rooms = rooms;
-	}
-
-	public void addRoom(final Room room) {
+	void addRoom(final Room room) {
 		if (null == room) {
 			throw new IllegalArgumentException("'room' must not be null");
 		}
 
 		this.rooms.add(room);
+	}
+
+	void removeRoom(final Room room) {
+		if (null == room) {
+			throw new IllegalArgumentException("'room' must not be null");
+		}
+
+		this.rooms.remove(room);
+	}
+
+	public void associateRoom(final Room room) {
+		if (null == room) {
+			throw new IllegalArgumentException("'room' must not be null");
+		}
+
+		addRoom(room);
+		room.addGroupReservations(this);
+	}
+
+	public void associateRooms(final Set<Room> roomSet) {
+		if (null == roomSet) {
+			throw new IllegalArgumentException("'roomSet' must not be null");
+		}
+
+		for (final Room room : roomSet) {
+			associateRoom(room);
+		}
+	}
+
+	public void unassociateRoom(final Room room) {
+		if (null == room) {
+			throw new IllegalArgumentException("'room' must not be null");
+		}
+
+		removeRoom(room);
+		room.removeGroupReservations(this);
+	}
+
+	public void unassociateRooms(final Set<Room> roomSet) {
+		if (null == roomSet) {
+			throw new IllegalArgumentException("'roomSet' must not be null");
+		}
+
+		for (final Room room : roomSet) {
+			unassociateRoom(room);
+		}
 	}
 
 	public Set<Report> getReports() {

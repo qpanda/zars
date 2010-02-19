@@ -218,7 +218,7 @@ public class PersistenceEntityTest {
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser);
 		testGroupReservation.associateReservation(testReservation);
-		testGroupReservation.addRoom(firstRoom);
+		testGroupReservation.associateRoom(firstRoom);
 		userDao.persist(testUser);
 		persistenceContextManager.flush();
 		persistenceContextManager.clear();
@@ -332,7 +332,7 @@ public class PersistenceEntityTest {
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser);
 		testGroupReservation.associateReservation(testReservation);
-		testGroupReservation.addRoom(firstRoom);
+		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
 		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
@@ -364,7 +364,7 @@ public class PersistenceEntityTest {
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(beneficiaryUser, accountantUser);
 		testGroupReservation.associateReservation(testReservation);
-		testGroupReservation.addRoom(firstRoom);
+		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
 		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
@@ -395,7 +395,7 @@ public class PersistenceEntityTest {
 		testGroupReservation.associateReservation(testReservation01);
 		testGroupReservation.associateReservation(testReservation02);
 		testGroupReservation.associateReservation(testReservation03);
-		testGroupReservation.addRoom(firstRoom);
+		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
 		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
@@ -431,7 +431,7 @@ public class PersistenceEntityTest {
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(null, null);
 		testGroupReservation.associateReservation(testReservation);
-		testGroupReservation.addRoom(firstRoom);
+		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
 	}
@@ -440,7 +440,7 @@ public class PersistenceEntityTest {
 	public void testCreateGroupReservationWithoutReservation() {
 		final Room firstRoom = createFirstRoom();
 		final GroupReservation testGroupReservation = new GroupReservation(null, null);
-		testGroupReservation.addRoom(firstRoom);
+		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
 	}
@@ -459,7 +459,7 @@ public class PersistenceEntityTest {
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser);
 		testGroupReservation.associateReservation(testReservation);
-		testGroupReservation.addRoom(firstRoom);
+		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
 		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
@@ -484,7 +484,7 @@ public class PersistenceEntityTest {
 		testGroupReservation.associateReservation(testReservation01);
 		testGroupReservation.associateReservation(testReservation02);
 		testGroupReservation.associateReservation(testReservation03);
-		testGroupReservation.addRoom(firstRoom);
+		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
 		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
@@ -507,7 +507,7 @@ public class PersistenceEntityTest {
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser);
 		testGroupReservation.associateReservation(testReservation);
-		testGroupReservation.addRoom(firstRoom);
+		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
 		persistenceContextManager.flush();
@@ -537,7 +537,7 @@ public class PersistenceEntityTest {
 		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser);
 		testGroupReservation.associateReservation(testReservation01);
 		testGroupReservation.associateReservation(testReservation02);
-		testGroupReservation.addRoom(firstRoom);
+		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
 		persistenceContextManager.flush();
@@ -673,7 +673,7 @@ public class PersistenceEntityTest {
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser);
 		testGroupReservation.associateReservation(testReservation);
-		testGroupReservation.addRoom(firstRoom);
+		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		return testGroupReservation;
 	}

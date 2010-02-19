@@ -1,12 +1,17 @@
 package net.soomsam.zirmegghuette.zars.persistence.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,6 +61,9 @@ public class Room extends BaseEntity {
 
 	@Column(name = Room.COLUMNNAME_INUSE, nullable = false)
 	private boolean inUse;
+
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "rooms")
+	private final Set<GroupReservation> groupReservations = new HashSet<GroupReservation>(0);
 
 	protected Room() {
 		super();
@@ -115,6 +123,64 @@ public class Room extends BaseEntity {
 
 	public void setInUse(final boolean inUse) {
 		this.inUse = inUse;
+	}
+
+	public Set<GroupReservation> getGroupReservations() {
+		return groupReservations;
+	}
+
+	void addGroupReservations(final GroupReservation groupReservation) {
+		if (null == groupReservation) {
+			throw new IllegalArgumentException("'groupReservation' must not be null");
+		}
+
+		this.groupReservations.add(groupReservation);
+	}
+
+	void removeGroupReservations(final GroupReservation groupReservation) {
+		if (null == groupReservation) {
+			throw new IllegalArgumentException("'groupReservation' must not be null");
+		}
+
+		this.groupReservations.remove(groupReservation);
+	}
+
+	public void associateGroupReservation(final GroupReservation groupReservation) {
+		if (null == groupReservation) {
+			throw new IllegalArgumentException("'groupReservation' must not be null");
+		}
+
+		addGroupReservations(groupReservation);
+		groupReservation.addRoom(this);
+	}
+
+	public void associateGroupReservations(final Set<GroupReservation> groupReservationSet) {
+		if (null == groupReservationSet) {
+			throw new IllegalArgumentException("'groupReservationSet' must not be null");
+		}
+
+		for (final GroupReservation groupReservation : groupReservationSet) {
+			associateGroupReservation(groupReservation);
+		}
+	}
+
+	public void unassociateGroupReservation(final GroupReservation groupReservation) {
+		if (null == groupReservation) {
+			throw new IllegalArgumentException("'groupReservation' must not be null");
+		}
+
+		removeGroupReservations(groupReservation);
+		groupReservation.removeRoom(this);
+	}
+
+	public void unassociateGroupReservations(final Set<GroupReservation> groupReservationSet) {
+		if (null == groupReservationSet) {
+			throw new IllegalArgumentException("'groupReservationSet' must not be null");
+		}
+
+		for (final GroupReservation groupReservation : groupReservationSet) {
+			unassociateGroupReservation(groupReservation);
+		}
 	}
 
 	@Override
