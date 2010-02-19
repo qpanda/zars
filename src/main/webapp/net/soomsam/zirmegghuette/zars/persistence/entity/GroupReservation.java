@@ -411,16 +411,16 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		final GroupReservation other = (GroupReservation) obj;
-		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getComment(), other.getComment()).isEquals();
+		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getTimestamp(), other.getTimestamp()).append(getComment(), other.getComment()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getGroupReservationId()).append(getComment()).toHashCode();
+		return new HashCodeBuilder().append(getGroupReservationId()).append(getTimestamp()).append(getComment()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getGroupReservationId()).append(getComment()).toString();
+		return new ToStringBuilder(this).append(getGroupReservationId()).append(getTimestamp()).append(getComment()).toString();
 	}
 }

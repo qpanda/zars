@@ -161,16 +161,16 @@ public class Role extends BaseEntity {
 		}
 
 		final Role other = (Role) obj;
-		return new EqualsBuilder().append(getRoleId(), other.getRoleId()).append(getName(), other.getName()).isEquals();
+		return new EqualsBuilder().append(getRoleId(), other.getRoleId()).append(getTimestamp(), other.getTimestamp()).append(getName(), other.getName()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getRoleId()).append(getName()).toHashCode();
+		return new HashCodeBuilder().append(getRoleId()).append(getTimestamp()).append(getName()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getRoleId()).append(getName()).toString();
+		return new ToStringBuilder(this).append(getRoleId()).append(getTimestamp()).append(getName()).toString();
 	}
 }

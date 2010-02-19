@@ -192,16 +192,16 @@ public class Report extends BaseEntity {
 		}
 
 		final Report other = (Report) obj;
-		return new EqualsBuilder().append(getReportId(), other.getReportId()).append(getDate(), other.getDate()).isEquals();
+		return new EqualsBuilder().append(getReportId(), other.getReportId()).append(getTimestamp(), other.getTimestamp()).append(getDate(), other.getDate()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getReportId()).append(getDate()).toHashCode();
+		return new HashCodeBuilder().append(getReportId()).append(getTimestamp()).append(getDate()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getReportId()).append(getDate()).toString();
+		return new ToStringBuilder(this).append(getReportId()).append(getTimestamp()).append(getDate()).toString();
 	}
 }

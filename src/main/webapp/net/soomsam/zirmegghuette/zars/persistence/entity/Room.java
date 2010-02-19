@@ -204,16 +204,16 @@ public class Room extends BaseEntity {
 		}
 
 		final Room other = (Room) obj;
-		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).append(getName(), other.getName()).append(getCapacity(), other.getCapacity()).append(getPrecedence(), other.getPrecedence()).append(isInUse(), other.isInUse()).isEquals();
+		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).append(getTimestamp(), other.getTimestamp()).append(getName(), other.getName()).append(getCapacity(), other.getCapacity()).append(getPrecedence(), other.getPrecedence()).append(isInUse(), other.isInUse()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getRoomId()).append(getName()).append(getCapacity()).append(getPrecedence()).append(isInUse()).toHashCode();
+		return new HashCodeBuilder().append(getRoomId()).append(getTimestamp()).append(getName()).append(getCapacity()).append(getPrecedence()).append(isInUse()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getRoomId()).append(getName()).append(getCapacity()).append(getPrecedence()).append(isInUse()).toString();
+		return new ToStringBuilder(this).append(getRoomId()).append(getTimestamp()).append(getName()).append(getCapacity()).append(getPrecedence()).append(isInUse()).toString();
 	}
 }

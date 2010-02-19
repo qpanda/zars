@@ -319,16 +319,16 @@ public class User extends BaseEntity {
 		}
 
 		final User other = (User) obj;
-		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getUserName(), other.getUserName()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).append(isEnabled(), other.isEnabled()).isEquals();
+		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getTimestamp(), other.getTimestamp()).append(getUserName(), other.getUserName()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).append(isEnabled(), other.isEnabled()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getUserId()).append(getUserName()).append(getFirstName()).append(getLastName()).append(isEnabled()).toHashCode();
+		return new HashCodeBuilder().append(getUserId()).append(getTimestamp()).append(getUserName()).append(getFirstName()).append(getLastName()).append(isEnabled()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getUserId()).append(getUserName()).append(getFirstName()).append(getLastName()).append(isEnabled()).toString();
+		return new ToStringBuilder(this).append(getUserId()).append(getTimestamp()).append(getUserName()).append(getFirstName()).append(getLastName()).append(isEnabled()).toString();
 	}
 }

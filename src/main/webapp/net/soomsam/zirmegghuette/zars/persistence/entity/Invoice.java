@@ -182,16 +182,16 @@ public class Invoice extends BaseEntity {
 		}
 
 		final Invoice other = (Invoice) obj;
-		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getDate(), other.getDate()).append(getCurrency(), other.getCurrency()).append(getAmount(), other.getAmount()).append(isPayed(), other.isPayed()).isEquals();
+		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getTimestamp(), other.getTimestamp()).append(getDate(), other.getDate()).append(getCurrency(), other.getCurrency()).append(getAmount(), other.getAmount()).append(isPayed(), other.isPayed()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getInvoiceId()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).toHashCode();
+		return new HashCodeBuilder().append(getInvoiceId()).append(getTimestamp()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getInvoiceId()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).toString();
+		return new ToStringBuilder(this).append(getInvoiceId()).append(getTimestamp()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).toString();
 	}
 }

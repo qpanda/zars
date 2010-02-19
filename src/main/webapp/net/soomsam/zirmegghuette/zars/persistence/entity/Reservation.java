@@ -163,16 +163,16 @@ public class Reservation extends BaseEntity {
 		}
 
 		final Reservation other = (Reservation) obj;
-		return new EqualsBuilder().append(getReservationId(), other.getReservationId()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).isEquals();
+		return new EqualsBuilder().append(getReservationId(), other.getReservationId()).append(getTimestamp(), other.getTimestamp()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getReservationId()).append(getArrival()).append(getDeparture()).append(getFirstName()).append(getLastName()).toHashCode();
+		return new HashCodeBuilder().append(getReservationId()).append(getTimestamp()).append(getArrival()).append(getDeparture()).append(getFirstName()).append(getLastName()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getReservationId()).append(getArrival()).append(getDeparture()).append(getFirstName()).append(getLastName()).toString();
+		return new ToStringBuilder(this).append(getReservationId()).append(getTimestamp()).append(getArrival()).append(getDeparture()).append(getFirstName()).append(getLastName()).toString();
 	}
 }
