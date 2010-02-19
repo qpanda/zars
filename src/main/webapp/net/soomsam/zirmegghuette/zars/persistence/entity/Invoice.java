@@ -69,7 +69,7 @@ public class Invoice extends BaseEntity {
 	private byte[] document;
 
 	@NotNull
-	@OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH }, fetch = FetchType.EAGER, optional = false)
+	@OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH }, fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID, unique = true, nullable = true, updatable = false)
 	private GroupReservation groupReservation;
 
