@@ -15,6 +15,7 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.InvoiceDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.OperationNotSupportedException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
+import net.soomsam.zirmegghuette.zars.persistence.dao.ReportDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.ReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
@@ -22,6 +23,7 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Invoice;
+import net.soomsam.zirmegghuette.zars.persistence.entity.Report;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
@@ -72,6 +74,9 @@ public class PersistenceEntityTest {
 
 	@Autowired
 	private InvoiceDao invoiceDao;
+
+	@Autowired
+	private ReportDao reportDao;
 
 	@Test
 	public void testCreateUserRole() {
@@ -569,6 +574,7 @@ public class PersistenceEntityTest {
 		final Invoice fetchedInvoice = invoiceDao.findByPrimaryKey(testInvoice.getInvoiceId());
 		Assert.assertNotNull(fetchedInvoice);
 		Assert.assertTrue(Arrays.equals(testInvoiceDocument, fetchedInvoice.getDocument()));
+		Assert.assertTrue(fetchedInvoice.getGroupReservation().equals(testGroupReservation));
 	}
 
 	@Test(expected = OperationNotSupportedException.class)
@@ -583,6 +589,44 @@ public class PersistenceEntityTest {
 		logger.debug("persisted invoice as [" + testInvoice + "]");
 
 		invoiceDao.remove(testInvoice);
+	}
+
+	@Test
+	public void testCreateReport() {
+		final GroupReservation testGroupReservation = createTestGroupReservation();
+		persistenceContextManager.flush();
+		final byte[] testReportDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
+
+		final Report testReport = new Report(new Date(), testReportDocument, testGroupReservation);
+		reportDao.persist(testReport);
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+		logger.debug("persisted report as [" + testReport + "]");
+
+		final Report fetchedReport = reportDao.findByPrimaryKey(testReport.getReportId());
+		Assert.assertNotNull(fetchedReport);
+		Assert.assertTrue(Arrays.equals(testReportDocument, fetchedReport.getDocument()));
+		Assert.assertTrue(fetchedReport.getGroupReservations().contains(testGroupReservation));
+	}
+
+	@Test
+	public void testDeleteReport() {
+		final GroupReservation testGroupReservation = createTestGroupReservation();
+		persistenceContextManager.flush();
+		final byte[] testReportDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
+
+		final Report testReport = new Report(new Date(), testReportDocument, testGroupReservation);
+		reportDao.persist(testReport);
+		persistenceContextManager.flush();
+		logger.debug("persisted report as [" + testReport + "]");
+
+		reportDao.remove(testReport);
+
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		Assert.assertNotNull(fetchedGroupReservation);
+		Assert.assertTrue(fetchedGroupReservation.getReports().isEmpty());
 	}
 
 	private Role createUserRole() {
