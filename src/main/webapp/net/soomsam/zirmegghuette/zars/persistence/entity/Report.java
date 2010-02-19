@@ -59,17 +59,26 @@ public class Report extends BaseEntity {
 	@Size(min = 1)
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY)
 	@JoinTable(name = Report.JOINTABLENAME_REPORT_GROUPRESERVATION, joinColumns = @JoinColumn(name = Report.COLUMNNAME_REPORTID), inverseJoinColumns = @JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID))
-	private Set<GroupReservation> groupReservations = new HashSet<GroupReservation>(0);
+	private final Set<GroupReservation> groupReservations = new HashSet<GroupReservation>(0);
 
 	protected Report() {
 		super();
+	}
+
+	public Report(final Date date, final byte[] document, final GroupReservation groupReservation) {
+		super();
+		this.date = date;
+		this.document = document;
+
+		associateGroupReservation(groupReservation);
 	}
 
 	public Report(final Date date, final byte[] document, final Set<GroupReservation> groupReservations) {
 		super();
 		this.date = date;
 		this.document = document;
-		this.groupReservations = groupReservations;
+
+		associateGroupReservations(groupReservations);
 	}
 
 	public long getReportId() {
