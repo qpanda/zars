@@ -1,4 +1,4 @@
 * add timestamp to same() check?
-* add timestamp to equals() check!
+* consider always having an unassociate method for all associate methods?
 * check that user assigned to GroupReservation has role accountant or create inheritance
 * settings table
