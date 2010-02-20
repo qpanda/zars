@@ -3,3 +3,4 @@ http://i-proving.ca/space/Technologies/Maven/Maven+Recipes/Using+Hibernate+Annot
 http://today.java.net/pub/a/today/2007/03/01/building-web-applications-with-maven-2.html
 http://ramblingabout.wordpress.com/2007/01/12/jsf-on-jetty-and-maven/
 http://musingsofaprogrammingaddict.blogspot.com/2009/12/running-jsf-2-on-embedded-jetty.html
+http://olex.openlogic.com/wazi/2010/get-started-with-jee6/
