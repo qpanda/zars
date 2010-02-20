@@ -1,4 +1,9 @@
-* add timestamp to same() check?
-* consider always having an unassociate method for all associate methods?
-* check that user assigned to GroupReservation has role accountant or create inheritance
-* settings table
+* persistence entities
+	* add timestamp to same() check?
+	* review associate/unassociate methods
+	* add Setting entity
+	* add Guest entity
+	* add from and to Date fields to Report
+* business logic
+	* check that user assigned to GroupReservation has role accountant or create inheritance
+	* mark Invoice and Report invalid if associated GroupReservation is changed
