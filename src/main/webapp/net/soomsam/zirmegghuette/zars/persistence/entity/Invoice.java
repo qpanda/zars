@@ -47,6 +47,7 @@ public class Invoice extends BaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
 
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = Invoice.COLUMNNAME_DATE, nullable = false)
 	private Date date;

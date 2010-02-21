@@ -35,6 +35,8 @@ public class Report extends BaseEntity {
 	public static final String TABLENAME_REPORT = "report";
 	public static final String COLUMNNAME_REPORTID = "report_id";
 	public static final String COLUMNNAME_DATE = "date";
+	public static final String COLUMNNAME_PERIODSTART = "period_start";
+	public static final String COLUMNNAME_PERIODEND = "period_end";
 	public static final String COLUMNNAME_DOCUMENT = "document";
 	public static final String COLUMNNAME_STALE = "stale";
 	public static final String JOINTABLENAME_REPORT_GROUPRESERVATION = "report_group_reservation";
@@ -48,9 +50,20 @@ public class Report extends BaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
 
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = Report.COLUMNNAME_DATE, nullable = false)
 	private Date date;
+
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@Column(name = Report.COLUMNNAME_PERIODSTART, nullable = false)
+	private Date periodStart;
+
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@Column(name = Report.COLUMNNAME_PERIODEND, nullable = false)
+	private Date periodEnd;
 
 	@NotNull
 	@Lob
@@ -72,19 +85,23 @@ public class Report extends BaseEntity {
 		this.stale = false;
 	}
 
-	public Report(final Date date, final byte[] document, final GroupReservation groupReservation) {
+	public Report(final Date date, final Date periodStart, final Date periodEnd, final byte[] document, final GroupReservation groupReservation) {
 		super();
 		this.stale = false;
 		this.date = date;
+		this.periodStart = periodStart;
+		this.periodEnd = periodEnd;
 		this.document = document;
 
 		associateGroupReservation(groupReservation);
 	}
 
-	public Report(final Date date, final byte[] document, final Set<GroupReservation> groupReservations) {
+	public Report(final Date date, final Date periodStart, final Date periodEnd, final byte[] document, final Set<GroupReservation> groupReservations) {
 		super();
 		this.stale = false;
 		this.date = date;
+		this.periodStart = periodStart;
+		this.periodEnd = periodEnd;
 		this.document = document;
 
 		associateGroupReservations(groupReservations);
@@ -112,6 +129,22 @@ public class Report extends BaseEntity {
 
 	public void setDate(final Date date) {
 		this.date = date;
+	}
+
+	public Date getPeriodStart() {
+		return periodStart;
+	}
+
+	public void setPeriodStart(Date periodStart) {
+		this.periodStart = periodStart;
+	}
+
+	public Date getPeriodEnd() {
+		return periodEnd;
+	}
+
+	public void setPeriodEnd(Date periodEnd) {
+		this.periodEnd = periodEnd;
 	}
 
 	public byte[] getDocument() {
@@ -209,16 +242,16 @@ public class Report extends BaseEntity {
 		}
 
 		final Report other = (Report) obj;
-		return new EqualsBuilder().append(getReportId(), other.getReportId()).append(getTimestamp(), other.getTimestamp()).append(getDate(), other.getDate()).append(isStale(), other.isStale()).isEquals();
+		return new EqualsBuilder().append(getReportId(), other.getReportId()).append(getTimestamp(), other.getTimestamp()).append(getDate(), other.getDate()).append(getPeriodStart(), other.getPeriodStart()).append(getPeriodEnd(), other.getPeriodEnd()).append(isStale(), other.isStale()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getReportId()).append(getTimestamp()).append(getDate()).append(isStale()).toHashCode();
+		return new HashCodeBuilder().append(getReportId()).append(getTimestamp()).append(getDate()).append(getPeriodStart()).append(getPeriodEnd()).append(isStale()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getReportId()).append(getTimestamp()).append(getDate()).append(isStale()).toString();
+		return new ToStringBuilder(this).append(getReportId()).append(getTimestamp()).append(getDate()).append(getPeriodStart()).append(getPeriodEnd()).append(isStale()).toString();
 	}
 }

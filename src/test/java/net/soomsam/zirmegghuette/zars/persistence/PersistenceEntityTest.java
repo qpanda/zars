@@ -656,7 +656,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.flush();
 		final byte[] testReportDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
 
-		final Report testReport = new Report(new Date(), testReportDocument, testGroupReservation);
+		final Report testReport = new Report(new Date(), new Date(), new Date(), testReportDocument, testGroupReservation);
 		reportDao.persist(testReport);
 		persistenceContextManager.flush();
 		persistenceContextManager.clear();
@@ -674,7 +674,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.flush();
 		final byte[] testReportDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
 
-		final Report testReport = new Report(new Date(), testReportDocument, testGroupReservation);
+		final Report testReport = new Report(new Date(), new Date(), new Date(), testReportDocument, testGroupReservation);
 		reportDao.persist(testReport);
 		persistenceContextManager.flush();
 		logger.debug("persisted report as [" + testReport + "]");
