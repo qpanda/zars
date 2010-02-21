@@ -13,3 +13,5 @@ http://www.primefaces.org:8080/prime-showcase/ui/schedule.jsf
 http://www.primefaces.org:8080/prime-showcase/ui/calendarMultiplePages.jsf
 http://www.irian.at/myfacesexamples/home.jsf#_idJsp0:_idJsp123
 http://myfaces.apache.org/tomahawk-project/tomahawk/tagdoc/t_schedule.html
+http://www.coreservlets.com/JSF-Tutorial/jsf2/
+http://www.javaserverfaces.org/
