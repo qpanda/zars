@@ -18,6 +18,7 @@
         <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Role" />
         <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Room" />
         <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.User" />
-        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Report" />        
+        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Report" />
+        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Setting" />        
     </session-factory>
 </hibernate-configuration>

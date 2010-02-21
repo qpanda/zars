@@ -52,12 +52,12 @@ public class Reservation extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Reservation.COLUMNNAME_GUESTFIRSTNAME, nullable = true, length = 256)
+	@Column(name = Reservation.COLUMNNAME_GUESTFIRSTNAME, nullable = false, length = 256)
 	private String firstName;
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Reservation.COLUMNNAME_GUESTLASTNAME, nullable = true, length = 256)
+	@Column(name = Reservation.COLUMNNAME_GUESTLASTNAME, nullable = false, length = 256)
 	private String lastName;
 
 	@NotNull
