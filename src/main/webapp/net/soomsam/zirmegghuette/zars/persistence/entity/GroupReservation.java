@@ -65,8 +65,6 @@ public class GroupReservation extends BaseEntity {
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, optional = true, mappedBy = "groupReservation")
 	private Invoice invoice;
 
-	@NotNull
-	@Size(min = 1)
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "groupReservation")
 	private final Set<Reservation> reservations = new HashSet<Reservation>(0);
 

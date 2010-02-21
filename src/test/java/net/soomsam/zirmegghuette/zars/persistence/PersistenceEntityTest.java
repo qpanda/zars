@@ -436,13 +436,22 @@ public class PersistenceEntityTest {
 		persistenceContextManager.flush();
 	}
 
-	@Test(expected = IllegalArgumentException.class)
 	public void testCreateGroupReservationWithoutReservation() {
+		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final GroupReservation testGroupReservation = new GroupReservation(null, null);
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser);
 		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
+		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
+
+		persistenceContextManager.clear();
+		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		Assert.assertNotNull(fetchedGroupReservation);
+		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
+		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
+		Assert.assertNotNull(fetchedGroupReservation.getRooms());
+		Assert.assertTrue(fetchedGroupReservation.getReservations().isEmpty());
 	}
 
 	@Test(expected = PersistenceException.class)
@@ -453,7 +462,25 @@ public class PersistenceEntityTest {
 	}
 
 	@Test
-	public void testDeleteGroupReservation() {
+	public void testDeleteGroupReservationWithoutReservation() {
+		final User testUser = createTestUser();
+		final Room firstRoom = createFirstRoom();
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser);
+		testGroupReservation.associateRoom(firstRoom);
+		groupReservationDao.persist(testGroupReservation);
+		persistenceContextManager.flush();
+		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
+
+		groupReservationDao.remove(testGroupReservation);
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+		Assert.assertNull(groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId()));
+		Assert.assertNotNull(userDao.findByPrimaryKey(testUser.getUserId()));
+		Assert.assertNotNull(roomDao.findByPrimaryKey(firstRoom.getRoomId()));
+	}
+
+	@Test
+	public void testDeleteGroupReservationWithReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
@@ -500,7 +527,7 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(roomDao.findByPrimaryKey(firstRoom.getRoomId()));
 	}
 
-	@Test(expected = InvalidStateException.class)
+	@Test
 	public void testDeleteOnlyReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
@@ -523,7 +550,7 @@ public class PersistenceEntityTest {
 
 		final GroupReservation verifyGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
 		Assert.assertNotNull(verifyGroupReservation);
-		Assert.assertEquals(0, verifyGroupReservation.getReservations().size());
+		Assert.assertTrue(verifyGroupReservation.getReservations().isEmpty());
 		Assert.assertNotNull(userDao.findByPrimaryKey(testUser.getUserId()));
 		Assert.assertNotNull(roomDao.findByPrimaryKey(firstRoom.getRoomId()));
 	}
