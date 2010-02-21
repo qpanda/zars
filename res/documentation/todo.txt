@@ -2,10 +2,9 @@
 	* add timestamp to same() check?
 	* review associate/unassociate methods
 	* add Setting entity
-	* add Guest entity
-	* add from and to Date fields to Report
+	* add Guest entity or somehow reuse User
 * business logic
-	* check that user assigned to GroupReservation has role accountant or create inheritance
+	* check that user assigned to GroupReservation has role accountant
 	* mark Invoice and Report invalid if associated GroupReservation is changed
 * gui
 	* start calendar week with MO
