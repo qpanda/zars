@@ -1,5 +1,6 @@
 package net.soomsam.zirmegghuette.zars.persistence.entity;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -83,7 +84,7 @@ public class Role extends BaseEntity {
 	}
 
 	public Set<User> getUsers() {
-		return users;
+		return Collections.unmodifiableSet(users);
 	}
 
 	void addUser(final User user) {

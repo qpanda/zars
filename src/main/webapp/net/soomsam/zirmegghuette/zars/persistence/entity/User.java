@@ -1,5 +1,6 @@
 package net.soomsam.zirmegghuette.zars.persistence.entity;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -187,7 +188,7 @@ public class User extends BaseEntity {
 	}
 
 	public Set<Role> getRoles() {
-		return roles;
+		return Collections.unmodifiableSet(roles);
 	}
 
 	void addRole(final Role role) {
@@ -245,7 +246,7 @@ public class User extends BaseEntity {
 	}
 
 	public Set<GroupReservation> getBeneficiaryGroupReservations() {
-		return beneficiaryGroupReservations;
+		return Collections.unmodifiableSet(beneficiaryGroupReservations);
 	}
 
 	void setBeneficiaryGroupReservations(final Set<GroupReservation> beneficiaryGroupReservations) {
@@ -274,7 +275,7 @@ public class User extends BaseEntity {
 	}
 
 	public Set<GroupReservation> getAccountantGroupReservations() {
-		return accountantGroupReservations;
+		return Collections.unmodifiableSet(accountantGroupReservations);
 	}
 
 	void setAccountantGroupReservations(final Set<GroupReservation> accountantGroupReservations) {

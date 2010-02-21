@@ -688,6 +688,18 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(fetchedGroupReservation.getReports().isEmpty());
 	}
 
+	@Test(expected = UnsupportedOperationException.class)
+	public void testDirectlyModifyAssociation() {
+		final Role userRole = createUserRole();
+		final Role adminRole = createAdminRole();
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
+		userDao.persist(testUser);
+		persistenceContextManager.flush();
+		logger.debug("persisted user 'test' as [" + testUser + "]");
+
+		testUser.getRoles().remove(userRole);
+	}
+
 	private Role createUserRole() {
 		final Role userRole = PersistenceEntityGenerator.createUserRole();
 		roleDao.persist(userRole);
