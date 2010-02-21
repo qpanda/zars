@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,6 +37,7 @@ public class GroupReservation extends BaseEntity {
 	public static final String TABLENAME_GROUPRESERVATION = "group_reservation";
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
 	public static final String COLUMNNAME_COMMENT = "comment";
+	public static final String COLUMNNAME_GUESTS = "guests";
 	public static final String COLUMNNAME_BENEFICIARY_USERID = "beneficiary_user_id";
 	public static final String COLUMNNAME_ACCOUNTANT_USERID = "accountant_user_id";
 	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "group_reservation_room";
@@ -48,6 +50,9 @@ public class GroupReservation extends BaseEntity {
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
+
+	@Column(name = GroupReservation.COLUMNNAME_GUESTS, nullable = false)
+	private long guests;
 
 	@Column(name = GroupReservation.COLUMNNAME_COMMENT, nullable = true, length = 256)
 	private String comment;
@@ -81,15 +86,17 @@ public class GroupReservation extends BaseEntity {
 		super();
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant) {
+	public GroupReservation(final User beneficiary, final User accountant, final long guests) {
 		super();
+		this.guests = guests;
 
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final String comment) {
+	public GroupReservation(final User beneficiary, final User accountant, final long guests, final String comment) {
 		super();
+		this.guests = guests;
 		this.comment = comment;
 
 		associateBeneficiary(beneficiary);
@@ -139,6 +146,14 @@ public class GroupReservation extends BaseEntity {
 		associateReservations(reservations);
 	}
 
+	@PrePersist
+	protected void autoAdjustGuests() {
+		// TODO should depend on state field
+		if (!getReservations().isEmpty()) {
+			this.guests = getReservations().size();
+		}
+	}
+
 	public long getGroupReservationId() {
 		return groupReservationId;
 	}
@@ -153,6 +168,14 @@ public class GroupReservation extends BaseEntity {
 
 	void setTimestamp(final Date timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public long getGuests() {
+		return guests;
+	}
+
+	public void setGuests(long guests) {
+		this.guests = guests;
 	}
 
 	public String getComment() {
@@ -409,16 +432,16 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		final GroupReservation other = (GroupReservation) obj;
-		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getTimestamp(), other.getTimestamp()).append(getComment(), other.getComment()).isEquals();
+		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getTimestamp(), other.getTimestamp()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getGroupReservationId()).append(getTimestamp()).append(getComment()).toHashCode();
+		return new HashCodeBuilder().append(getGroupReservationId()).append(getTimestamp()).append(getGuests()).append(getComment()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getGroupReservationId()).append(getTimestamp()).append(getComment()).toString();
+		return new ToStringBuilder(this).append(getGroupReservationId()).append(getTimestamp()).append(getGuests()).append(getComment()).toString();
 	}
 }
