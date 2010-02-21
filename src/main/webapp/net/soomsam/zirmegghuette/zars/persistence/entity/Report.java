@@ -183,7 +183,7 @@ public class Report extends BaseEntity {
 		this.groupReservations.remove(groupReservation);
 	}
 
-	public void associateGroupReservation(final GroupReservation groupReservation) {
+	protected void associateGroupReservation(final GroupReservation groupReservation) {
 		if (null == groupReservation) {
 			throw new IllegalArgumentException("'groupReservation' must not be null");
 		}
@@ -192,32 +192,13 @@ public class Report extends BaseEntity {
 		groupReservation.addReport(this);
 	}
 
-	public void associateGroupReservations(final Set<GroupReservation> groupReservationSet) {
+	protected void associateGroupReservations(final Set<GroupReservation> groupReservationSet) {
 		if (null == groupReservationSet) {
 			throw new IllegalArgumentException("'groupReservationSet' must not be null");
 		}
 
 		for (final GroupReservation groupReservation : groupReservationSet) {
 			associateGroupReservation(groupReservation);
-		}
-	}
-
-	public void unassociateGroupReservation(final GroupReservation groupReservation) {
-		if (null == groupReservation) {
-			throw new IllegalArgumentException("'groupReservation' must not be null");
-		}
-
-		removeGroupReservation(groupReservation);
-		groupReservation.removeReport(this);
-	}
-
-	public void unassociateGroupReservations(final Set<GroupReservation> groupReservationSet) {
-		if (null == groupReservationSet) {
-			throw new IllegalArgumentException("'groupReservationSet' must not be null");
-		}
-
-		for (final GroupReservation groupReservation : groupReservationSet) {
-			unassociateGroupReservation(groupReservation);
 		}
 	}
 

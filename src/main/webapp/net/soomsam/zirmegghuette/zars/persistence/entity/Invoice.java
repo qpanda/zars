@@ -166,7 +166,7 @@ public class Invoice extends BaseEntity {
 		this.groupReservation = groupReservation;
 	}
 
-	public void associateGroupReservation(final GroupReservation groupReservation) {
+	protected void associateGroupReservation(final GroupReservation groupReservation) {
 		if (null == groupReservation) {
 			throw new IllegalArgumentException("'groupReservation' must not be null");
 		}

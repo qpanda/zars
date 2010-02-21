@@ -77,10 +77,10 @@ public class User extends BaseEntity {
 	private final Set<Role> roles = new HashSet<Role>(0);
 
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "beneficiary")
-	private Set<GroupReservation> beneficiaryGroupReservations = new HashSet<GroupReservation>(0);
+	private final Set<GroupReservation> beneficiaryGroupReservations = new HashSet<GroupReservation>(0);
 
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "accountant")
-	private Set<GroupReservation> accountantGroupReservations = new HashSet<GroupReservation>(0);
+	private final Set<GroupReservation> accountantGroupReservations = new HashSet<GroupReservation>(0);
 
 	protected User() {
 		super();
@@ -249,14 +249,6 @@ public class User extends BaseEntity {
 		return Collections.unmodifiableSet(beneficiaryGroupReservations);
 	}
 
-	void setBeneficiaryGroupReservations(final Set<GroupReservation> beneficiaryGroupReservations) {
-		if (null == beneficiaryGroupReservations) {
-			throw new IllegalArgumentException("'beneficiaryGroupReservations' must not be null");
-		}
-
-		this.beneficiaryGroupReservations = beneficiaryGroupReservations;
-	}
-
 	void addBeneficiaryGroupReservation(final GroupReservation beneficiaryGroupReservation) {
 		if (null == beneficiaryGroupReservation) {
 			throw new IllegalArgumentException("'beneficiaryGroupReservation' must not be null");
@@ -265,21 +257,16 @@ public class User extends BaseEntity {
 		this.beneficiaryGroupReservations.add(beneficiaryGroupReservation);
 	}
 
-	public void associateBeneficiaryGroupReservation(final GroupReservation beneficiaryGroupReservation) {
+	void removeBeneficiaryGroupReservation(final GroupReservation beneficiaryGroupReservation) {
 		if (null == beneficiaryGroupReservation) {
 			throw new IllegalArgumentException("'beneficiaryGroupReservation' must not be null");
 		}
 
-		addBeneficiaryGroupReservation(beneficiaryGroupReservation);
-		beneficiaryGroupReservation.setBeneficiary(this);
+		this.beneficiaryGroupReservations.remove(beneficiaryGroupReservation);
 	}
 
 	public Set<GroupReservation> getAccountantGroupReservations() {
 		return Collections.unmodifiableSet(accountantGroupReservations);
-	}
-
-	void setAccountantGroupReservations(final Set<GroupReservation> accountantGroupReservations) {
-		this.accountantGroupReservations = accountantGroupReservations;
 	}
 
 	void addAccountantGroupReservation(final GroupReservation accountantGroupReservation) {
@@ -290,13 +277,12 @@ public class User extends BaseEntity {
 		this.accountantGroupReservations.add(accountantGroupReservation);
 	}
 
-	public void associateAccountantGroupReservation(final GroupReservation accountantGroupReservation) {
+	void removeAccountantGroupReservation(final GroupReservation accountantGroupReservation) {
 		if (null == accountantGroupReservation) {
 			throw new IllegalArgumentException("'accountantGroupReservation' must not be null");
 		}
 
-		addAccountantGroupReservation(accountantGroupReservation);
-		accountantGroupReservation.setAccountant(this);
+		this.accountantGroupReservations.remove(accountantGroupReservation);
 	}
 
 	@Override

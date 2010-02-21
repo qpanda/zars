@@ -77,6 +77,16 @@ public class Reservation extends BaseEntity {
 		this.lastName = lastName;
 	}
 
+	public Reservation(final Date arrival, final Date departure, final String firstName, final String lastName, GroupReservation groupReservation) {
+		super();
+		this.arrival = arrival;
+		this.departure = departure;
+		this.firstName = firstName;
+		this.lastName = lastName;
+
+		associateGroupReservation(groupReservation);
+	}
+
 	public long getReservationId() {
 		return reservationId;
 	}
@@ -133,7 +143,7 @@ public class Reservation extends BaseEntity {
 		this.groupReservation = groupReservation;
 	}
 
-	public void associateGroupReservation(final GroupReservation groupReservation) {
+	protected void associateGroupReservation(final GroupReservation groupReservation) {
 		if (null == groupReservation) {
 			throw new IllegalArgumentException("'groupReservation' must not be null");
 		}

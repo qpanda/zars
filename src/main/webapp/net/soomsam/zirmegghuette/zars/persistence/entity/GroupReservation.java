@@ -194,9 +194,17 @@ public class GroupReservation extends BaseEntity {
 		this.beneficiary = beneficiary;
 	}
 
+	public boolean hasBeneficiary() {
+		return null != getBeneficiary();
+	}
+
 	public void associateBeneficiary(final User beneficiary) {
 		if (null == beneficiary) {
 			throw new IllegalArgumentException("'beneficiary' must not be null");
+		}
+
+		if (hasBeneficiary()) {
+			getBeneficiary().removeBeneficiaryGroupReservation(this);
 		}
 
 		setBeneficiary(beneficiary);
@@ -211,9 +219,17 @@ public class GroupReservation extends BaseEntity {
 		this.accountant = accountant;
 	}
 
+	public boolean hasAccountant() {
+		return null != getAccountant();
+	}
+
 	public void associateAccountant(final User accountant) {
 		if (null == accountant) {
 			throw new IllegalArgumentException("'accountant' must not be null");
+		}
+
+		if (hasAccountant()) {
+			getAccountant().removeAccountantGroupReservation(this);
 		}
 
 		setAccountant(accountant);
@@ -228,17 +244,12 @@ public class GroupReservation extends BaseEntity {
 		this.invoice = invoice;
 	}
 
-	public void associateInvoice(final Invoice invoice) {
-		if (null == invoice) {
-			throw new IllegalArgumentException("'invoice' must not be null");
-		}
-
-		setInvoice(invoice);
-		invoice.setGroupReservation(this);
-	}
-
 	public Set<Reservation> getReservations() {
 		return Collections.unmodifiableSet(reservations);
+	}
+
+	public boolean hasReservations() {
+		return !getReservations().isEmpty();
 	}
 
 	void addReservation(final Reservation reservation) {
@@ -293,10 +304,6 @@ public class GroupReservation extends BaseEntity {
 		for (final Reservation reservation : reservationSet) {
 			unassociateReservation(reservation);
 		}
-	}
-
-	public boolean hasReservations() {
-		return !getReservations().isEmpty();
 	}
 
 	public Set<Room> getRooms() {
@@ -375,25 +382,6 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		this.reports.remove(report);
-	}
-
-	public void associateReport(final Report report) {
-		if (null == report) {
-			throw new IllegalArgumentException("'report' must not be null");
-		}
-
-		addReport(report);
-		report.addGroupReservation(this);
-	}
-
-	public void associateReports(final Set<Report> reportSet) {
-		if (null == reportSet) {
-			throw new IllegalArgumentException("'reportSet' must not be null");
-		}
-
-		for (final Report report : reportSet) {
-			associateReport(report);
-		}
 	}
 
 	public void unassociateReport(final Report report) {
