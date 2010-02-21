@@ -123,8 +123,8 @@ public class PersistenceEntityTest {
 		final Set<Role> testUserRoles = new HashSet<Role>();
 		testUserRoles.add(userRole);
 		testUserRoles.add(adminRole);
-		final User testUser01 = new User("test01", String.valueOf(new Random().nextLong()), true, testUserRoles);
-		final User testUser02 = new User("test02", String.valueOf(new Random().nextLong()), true, testUserRoles);
+		final User testUser01 = new User("test01", String.valueOf(new Random().nextLong()), "test01@test.com", true, testUserRoles);
+		final User testUser02 = new User("test02", String.valueOf(new Random().nextLong()), "test02@test.com", true, testUserRoles);
 		userDao.persist(testUser01);
 		userDao.persist(testUser02);
 		persistenceContextManager.flush();
@@ -160,7 +160,7 @@ public class PersistenceEntityTest {
 	public void testCreateTestUser() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
-		final User testUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", "test@test.com", userRole, adminRole);
 		userDao.persist(testUser);
 		persistenceContextManager.flush();
 		logger.debug("persisted user 'test' as [" + testUser + "]");
@@ -176,28 +176,28 @@ public class PersistenceEntityTest {
 
 	@Test(expected = InvalidStateException.class)
 	public void testCreateUserWithoutNameAndPassword() {
-		final User userWithoutNameAndPassword = new User(null, null, true, createUserRole());
+		final User userWithoutNameAndPassword = new User(null, null, "test@test.com", true, createUserRole());
 		userDao.persist(userWithoutNameAndPassword);
 		persistenceContextManager.flush();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateUserWithoutRole() {
-		final User userWithoutRole = new User("test", "test", true, (Role) null);
+		final User userWithoutRole = new User("test", "test", "test@test.com", true, (Role) null);
 		userDao.persist(userWithoutRole);
 		persistenceContextManager.flush();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateUserWithNullRoles() {
-		final User userWithoutRoles = new User("test", "test", true, (Set<Role>) null);
+		final User userWithoutRoles = new User("test", "test", "test@test.com", true, (Set<Role>) null);
 		userDao.persist(userWithoutRoles);
 		persistenceContextManager.flush();
 	}
 
 	@Test(expected = InvalidStateException.class)
 	public void testCreateUserWithoutRoles() {
-		final User userWithoutRoles = new User("test", "test", true, new HashSet<Role>());
+		final User userWithoutRoles = new User("test", "test", "test@test.com", true, new HashSet<Role>());
 		userDao.persist(userWithoutRoles);
 		persistenceContextManager.flush();
 	}
@@ -205,7 +205,7 @@ public class PersistenceEntityTest {
 	@Test(expected = IllegalStateException.class)
 	public void testCreateUserWithTransientRole() {
 		final Role transientRole = new Role("transient");
-		final User userWithoutRoles = new User("test", "test", true, transientRole);
+		final User userWithoutRoles = new User("test", "test", "test@test.com", true, transientRole);
 		userDao.persist(userWithoutRoles);
 		persistenceContextManager.flush();
 	}
@@ -213,7 +213,7 @@ public class PersistenceEntityTest {
 	@Test
 	public void testCreateUserWithTransientGroupReservation() {
 		final Role userRole = createUserRole();
-		final User testUser = new User("test", "test", true, userRole);
+		final User testUser = new User("test", "test", "test@test.com", true, userRole);
 		final Room firstRoom = createFirstRoom();
 		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 1);
@@ -232,7 +232,7 @@ public class PersistenceEntityTest {
 	public void testDisableUser() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
-		final User testUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", "test@test.com", userRole, adminRole);
 		userDao.persist(testUser);
 		persistenceContextManager.flush();
 		logger.debug("persisted user 'test' as [" + testUser + "]");
@@ -252,7 +252,7 @@ public class PersistenceEntityTest {
 	public void testDeleteUser() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
-		final User testUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", "test@test.com", userRole, adminRole);
 		userDao.persist(testUser);
 		persistenceContextManager.flush();
 		logger.debug("persisted user 'test' as [" + testUser + "]");
@@ -355,8 +355,8 @@ public class PersistenceEntityTest {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
 		final Role accountantRole = createAccountantRole();
-		final User beneficiaryUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
-		final User accountantUser = PersistenceEntityGenerator.createUserTest("accountant", userRole, adminRole, accountantRole);
+		final User beneficiaryUser = PersistenceEntityGenerator.createUserTest("test", "test01@test.com", userRole, adminRole);
+		final User accountantUser = PersistenceEntityGenerator.createUserTest("accountant", "test02@test.com", userRole, adminRole, accountantRole);
 		userDao.persist(beneficiaryUser);
 		userDao.persist(accountantUser);
 
@@ -720,7 +720,7 @@ public class PersistenceEntityTest {
 	public void testDirectlyModifyAssociation() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
-		final User testUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", "test@test.com", userRole, adminRole);
 		userDao.persist(testUser);
 		persistenceContextManager.flush();
 		logger.debug("persisted user 'test' as [" + testUser + "]");
@@ -761,7 +761,7 @@ public class PersistenceEntityTest {
 	private User createTestUser() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
-		final User testUser = PersistenceEntityGenerator.createUserTest("test", userRole, adminRole);
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", "test@test.com", userRole, adminRole);
 		userDao.persist(testUser);
 		return testUser;
 	}
