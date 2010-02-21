@@ -55,7 +55,7 @@ public class GroupReservation extends BaseEntity {
 	@Column(name = GroupReservation.COLUMNNAME_GUESTS, nullable = false)
 	private long guests;
 
-	@Column(name = GroupReservation.COLUMNNAME_COMMENT, nullable = true, length = 256)
+	@Column(name = GroupReservation.COLUMNNAME_COMMENT, nullable = true, length = 1024)
 	private String comment;
 
 	@NotNull

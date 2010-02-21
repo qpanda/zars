@@ -54,7 +54,7 @@ public class Invoice extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Invoice.COLUMNNAME_CURRENCY, nullable = false)
+	@Column(name = Invoice.COLUMNNAME_CURRENCY, nullable = false, length = 3)
 	private String currency;
 
 	@Min(value = 0)
