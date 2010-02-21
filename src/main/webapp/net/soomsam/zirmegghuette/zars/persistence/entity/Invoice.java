@@ -186,6 +186,16 @@ public class Invoice extends BaseEntity {
 	}
 
 	@Override
+	public boolean sameVersion(final BaseEntity entity) {
+		if (!(entity instanceof Invoice)) {
+			return false;
+		}
+
+		final Invoice other = (Invoice) entity;
+		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getTimestamp(), other.getTimestamp()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;

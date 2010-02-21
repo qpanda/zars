@@ -296,6 +296,16 @@ public class User extends BaseEntity {
 	}
 
 	@Override
+	public boolean sameVersion(final BaseEntity entity) {
+		if (!(entity instanceof User)) {
+			return false;
+		}
+
+		final User other = (User) entity;
+		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getTimestamp(), other.getTimestamp()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;

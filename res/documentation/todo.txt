@@ -1,5 +1,4 @@
 * persistence entities
-	* add timestamp to same() check?
 	* add Setting entity
 	* add Guest entity or somehow reuse User
 * business logic

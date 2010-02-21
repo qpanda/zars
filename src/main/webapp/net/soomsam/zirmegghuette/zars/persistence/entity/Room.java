@@ -195,6 +195,16 @@ public class Room extends BaseEntity {
 	}
 
 	@Override
+	public boolean sameVersion(final BaseEntity entity) {
+		if (!(entity instanceof Room)) {
+			return false;
+		}
+
+		final Room other = (Room) entity;
+		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).append(getTimestamp(), other.getTimestamp()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;

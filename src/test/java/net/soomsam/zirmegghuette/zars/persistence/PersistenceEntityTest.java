@@ -495,6 +495,34 @@ public class PersistenceEntityTest {
 	}
 
 	@Test
+	public void testCreateReservationWithGroupReservation() {
+		final User testUser = createTestUser();
+		final Room firstRoom = createFirstRoom();
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 3);
+		testGroupReservation.associateRoom(firstRoom);
+		final Reservation testReservation01 = new Reservation(new Date(), new Date(), "a", "b", testGroupReservation);
+		final Reservation testReservation02 = new Reservation(new Date(), new Date(), "c", "d", testGroupReservation);
+		final Reservation testReservation03 = new Reservation(new Date(), new Date(), "e", "f", testGroupReservation);
+		groupReservationDao.persist(testGroupReservation);
+		persistenceContextManager.flush();
+		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
+
+		persistenceContextManager.clear();
+		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		Assert.assertNotNull(fetchedGroupReservation);
+		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
+		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
+		Assert.assertNotNull(fetchedGroupReservation.getRooms());
+		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
+		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));
+		Assert.assertNotNull(fetchedGroupReservation.getReservations());
+		Assert.assertEquals(3, fetchedGroupReservation.getReservations().size());
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation01));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation02));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation03));
+	}
+
+	@Test
 	public void testDeleteGroupReservationWithoutReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
