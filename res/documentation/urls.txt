@@ -4,3 +4,12 @@ http://today.java.net/pub/a/today/2007/03/01/building-web-applications-with-mave
 http://ramblingabout.wordpress.com/2007/01/12/jsf-on-jetty-and-maven/
 http://musingsofaprogrammingaddict.blogspot.com/2009/12/running-jsf-2-on-embedded-jetty.html
 http://olex.openlogic.com/wazi/2010/get-started-with-jee6/
+http://www.infoq.com/news/2010/01/jsf20
+http://www.coreservlets.com/JSF-Tutorial/jsf2/
+http://www.jsfcentral.com/
+
+JSF SCHEDULE
+http://www.primefaces.org:8080/prime-showcase/ui/schedule.jsf
+http://www.primefaces.org:8080/prime-showcase/ui/calendarMultiplePages.jsf
+http://www.irian.at/myfacesexamples/home.jsf#_idJsp0:_idJsp123
+http://myfaces.apache.org/tomahawk-project/tomahawk/tagdoc/t_schedule.html
