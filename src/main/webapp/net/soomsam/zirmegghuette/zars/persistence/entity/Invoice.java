@@ -34,6 +34,7 @@ public class Invoice extends BaseEntity {
 	public static final String COLUMNNAME_DATE = "date";
 	public static final String COLUMNNAME_CURRENCY = "currency";
 	public static final String COLUMNNAME_AMOUNT = "amount";
+	public static final String COLUMNNAME_STALE = "stale";
 	public static final String COLUMNNAME_PAYED = "payed";
 	public static final String COLUMNNAME_DOCUMENT = "document";
 
@@ -58,6 +59,10 @@ public class Invoice extends BaseEntity {
 	@Min(value = 0)
 	@Column(name = Invoice.COLUMNNAME_AMOUNT, nullable = false)
 	private double amount;
+
+	@NotNull
+	@Column(name = Invoice.COLUMNNAME_STALE, nullable = false)
+	private boolean stale;
 
 	@NotNull
 	@Column(name = Invoice.COLUMNNAME_PAYED, nullable = false)
@@ -136,6 +141,14 @@ public class Invoice extends BaseEntity {
 		this.payed = payed;
 	}
 
+	public boolean isStale() {
+		return stale;
+	}
+
+	public void setStale(boolean stale) {
+		this.stale = stale;
+	}
+
 	public byte[] getDocument() {
 		return document;
 	}
@@ -182,16 +195,16 @@ public class Invoice extends BaseEntity {
 		}
 
 		final Invoice other = (Invoice) obj;
-		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getTimestamp(), other.getTimestamp()).append(getDate(), other.getDate()).append(getCurrency(), other.getCurrency()).append(getAmount(), other.getAmount()).append(isPayed(), other.isPayed()).isEquals();
+		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getTimestamp(), other.getTimestamp()).append(getDate(), other.getDate()).append(getCurrency(), other.getCurrency()).append(getAmount(), other.getAmount()).append(isPayed(), other.isPayed()).append(isStale(), other.isStale()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getInvoiceId()).append(getTimestamp()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).toHashCode();
+		return new HashCodeBuilder().append(getInvoiceId()).append(getTimestamp()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).append(isStale()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getInvoiceId()).append(getTimestamp()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).toString();
+		return new ToStringBuilder(this).append(getInvoiceId()).append(getTimestamp()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).append(isStale()).toString();
 	}
 }

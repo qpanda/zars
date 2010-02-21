@@ -36,6 +36,7 @@ public class Report extends BaseEntity {
 	public static final String COLUMNNAME_REPORTID = "report_id";
 	public static final String COLUMNNAME_DATE = "date";
 	public static final String COLUMNNAME_DOCUMENT = "document";
+	public static final String COLUMNNAME_STALE = "stale";
 	public static final String JOINTABLENAME_REPORT_GROUPRESERVATION = "report_group_reservation";
 
 	@Id
@@ -57,6 +58,10 @@ public class Report extends BaseEntity {
 	private byte[] document;
 
 	@NotNull
+	@Column(name = Report.COLUMNNAME_STALE, nullable = false)
+	private boolean stale;
+
+	@NotNull
 	@Size(min = 1)
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY)
 	@JoinTable(name = Report.JOINTABLENAME_REPORT_GROUPRESERVATION, joinColumns = @JoinColumn(name = Report.COLUMNNAME_REPORTID), inverseJoinColumns = @JoinColumn(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONID))
@@ -64,10 +69,12 @@ public class Report extends BaseEntity {
 
 	protected Report() {
 		super();
+		this.stale = false;
 	}
 
 	public Report(final Date date, final byte[] document, final GroupReservation groupReservation) {
 		super();
+		this.stale = false;
 		this.date = date;
 		this.document = document;
 
@@ -76,6 +83,7 @@ public class Report extends BaseEntity {
 
 	public Report(final Date date, final byte[] document, final Set<GroupReservation> groupReservations) {
 		super();
+		this.stale = false;
 		this.date = date;
 		this.document = document;
 
@@ -112,6 +120,14 @@ public class Report extends BaseEntity {
 
 	public void setDocument(final byte[] document) {
 		this.document = document;
+	}
+
+	public boolean isStale() {
+		return stale;
+	}
+
+	public void setStale(boolean stale) {
+		this.stale = stale;
 	}
 
 	public Set<GroupReservation> getGroupReservations() {
@@ -193,16 +209,16 @@ public class Report extends BaseEntity {
 		}
 
 		final Report other = (Report) obj;
-		return new EqualsBuilder().append(getReportId(), other.getReportId()).append(getTimestamp(), other.getTimestamp()).append(getDate(), other.getDate()).isEquals();
+		return new EqualsBuilder().append(getReportId(), other.getReportId()).append(getTimestamp(), other.getTimestamp()).append(getDate(), other.getDate()).append(isStale(), other.isStale()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getReportId()).append(getTimestamp()).append(getDate()).toHashCode();
+		return new HashCodeBuilder().append(getReportId()).append(getTimestamp()).append(getDate()).append(isStale()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getReportId()).append(getTimestamp()).append(getDate()).toString();
+		return new ToStringBuilder(this).append(getReportId()).append(getTimestamp()).append(getDate()).append(isStale()).toString();
 	}
 }

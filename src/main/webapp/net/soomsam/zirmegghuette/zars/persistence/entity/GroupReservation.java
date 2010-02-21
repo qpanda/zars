@@ -148,9 +148,8 @@ public class GroupReservation extends BaseEntity {
 	}
 
 	@PrePersist
-	protected void autoAdjustGuests() {
-		// TODO should depend on state field
-		if (!getReservations().isEmpty()) {
+	protected void autoSetGuests() {
+		if (hasReservations()) {
 			this.guests = getReservations().size();
 		}
 	}
@@ -294,6 +293,10 @@ public class GroupReservation extends BaseEntity {
 		for (final Reservation reservation : reservationSet) {
 			unassociateReservation(reservation);
 		}
+	}
+
+	public boolean hasReservations() {
+		return !getReservations().isEmpty();
 	}
 
 	public Set<Room> getRooms() {

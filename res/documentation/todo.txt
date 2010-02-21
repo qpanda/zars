@@ -1,6 +1,4 @@
 * persistence entities
-	* GroupReservation without Reservation but with #person and status abrechnungsbereit
-	* status field for all entities?
 	* add timestamp to same() check?
 	* review associate/unassociate methods
 	* add Setting entity
