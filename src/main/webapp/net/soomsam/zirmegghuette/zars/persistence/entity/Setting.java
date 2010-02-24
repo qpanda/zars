@@ -52,7 +52,7 @@ public class Setting extends BaseEntity {
 		super();
 	}
 
-	protected Setting(String name, String value, String type) {
+	public Setting(final String name, final String value, final String type) {
 		super();
 		this.name = name;
 		this.value = value;
@@ -63,7 +63,7 @@ public class Setting extends BaseEntity {
 		return settingId;
 	}
 
-	public void setSettingId(long settingId) {
+	public void setSettingId(final long settingId) {
 		this.settingId = settingId;
 	}
 
@@ -71,7 +71,7 @@ public class Setting extends BaseEntity {
 		return timestamp;
 	}
 
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(final Date timestamp) {
 		this.timestamp = timestamp;
 	}
 
@@ -79,7 +79,7 @@ public class Setting extends BaseEntity {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -87,7 +87,7 @@ public class Setting extends BaseEntity {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(final String value) {
 		this.value = value;
 	}
 
@@ -95,12 +95,12 @@ public class Setting extends BaseEntity {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(final String type) {
 		this.type = type;
 	}
 
 	@Override
-	public boolean same(BaseEntity entity) {
+	public boolean same(final BaseEntity entity) {
 		if (!(entity instanceof Setting)) {
 			return false;
 		}
@@ -110,7 +110,7 @@ public class Setting extends BaseEntity {
 	}
 
 	@Override
-	public boolean sameVersion(BaseEntity entity) {
+	public boolean sameVersion(final BaseEntity entity) {
 		if (!(entity instanceof Setting)) {
 			return false;
 		}

@@ -19,6 +19,7 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.ReportDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.ReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
+import net.soomsam.zirmegghuette.zars.persistence.dao.SettingDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
@@ -27,6 +28,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.Report;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
+import net.soomsam.zirmegghuette.zars.persistence.entity.Setting;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 
 import org.apache.log4j.Logger;
@@ -77,6 +79,9 @@ public class PersistenceEntityTest {
 
 	@Autowired
 	private ReportDao reportDao;
+
+	@Autowired
+	private SettingDao settingDao;
 
 	@Test
 	public void testCreateUserRole() {
@@ -714,6 +719,33 @@ public class PersistenceEntityTest {
 		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
 		Assert.assertNotNull(fetchedGroupReservation);
 		Assert.assertTrue(fetchedGroupReservation.getReports().isEmpty());
+	}
+
+	@Test
+	public void testCreateSetting() {
+		final Setting testSetting = new Setting("test", "test", "java.lang.String");
+		settingDao.persist(testSetting);
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+		logger.debug("persisted setting as [" + testSetting + "]");
+
+		final Setting fetchedSetting = settingDao.findByPrimaryKey(testSetting.getSettingId());
+		Assert.assertNotNull(fetchedSetting);
+	}
+
+	@Test
+	public void testDeleteSetting() {
+		final Setting testSetting = new Setting("test", "test", "java.lang.String");
+		settingDao.persist(testSetting);
+		persistenceContextManager.flush();
+		logger.debug("persisted setting as [" + testSetting + "]");
+
+		settingDao.remove(testSetting);
+
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+		final Setting fetchedSetting = settingDao.findByPrimaryKey(testSetting.getSettingId());
+		Assert.assertNull(fetchedSetting);
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
