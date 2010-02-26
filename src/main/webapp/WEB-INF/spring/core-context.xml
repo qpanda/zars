@@ -15,6 +15,6 @@
 	<import resource="classpath:/WEB-INF/spring/security-context.xml" />
  	
 	<context:property-placeholder location="classpath:/WEB-INF/spring/context.properties" />
-	<context:component-scan base-package="net.soomsam.zirmegghuette" />	
+	<context:component-scan base-package="net.soomsam.zirmegghuette.zars" />	
 	<context:annotation-config />	
 </beans>
