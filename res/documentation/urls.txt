@@ -7,6 +7,7 @@ http://olex.openlogic.com/wazi/2010/get-started-with-jee6/
 http://www.infoq.com/news/2010/01/jsf20
 http://www.coreservlets.com/JSF-Tutorial/jsf2/
 http://www.jsfcentral.com/
+http://weblogs.java.net/blog/cayhorstmann/archive/2009/12/23/javaxfacesbeanmanagedbean-dead-arrival
 
 JSF SCHEDULE
 http://www.primefaces.org:8080/prime-showcase/ui/schedule.jsf
@@ -15,5 +16,7 @@ http://www.irian.at/myfacesexamples/home.jsf#_idJsp0:_idJsp123
 http://myfaces.apache.org/tomahawk-project/tomahawk/tagdoc/t_schedule.html
 http://www.coreservlets.com/JSF-Tutorial/jsf2/
 http://www.javaserverfaces.org/
+http://www.laliluna.de/articles/javaserver-faces-message-resource-bundle-tutorial.html
 
-TEST
+TODO
+http://www.techjava.de/topics/2010/02/jsf-2-reality-check/
