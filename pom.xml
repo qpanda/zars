@@ -151,6 +151,21 @@
 			<url>http://repository.prime.com.tr/</url>
 			<layout>default</layout>
 		</repository>
+		<repository>
+			<id>agimatec.oss.sonatype.org</id>
+			<name>Sonatype OSS Repository</name>
+			<url>http://oss.sonatype.org/content/repositories/agimatec</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>true</enabled>
+				<checksumPolicy>ignore</checksumPolicy>
+				<updatePolicy>daily</updatePolicy>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>fail</checksumPolicy>
+			</releases>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -227,6 +242,21 @@
 			<artifactId>weld-servlet</artifactId>
 			<version>1.0.0-CR1</version>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>com.springsource.javax.validation</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>com.agimatec</groupId>
+			<artifactId>agimatec-jsr303</artifactId>
+			<version>0.9.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.agimatec</groupId>
+			<artifactId>agimatec-validation</artifactId>
+			<version>0.9.6</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -11,8 +11,8 @@
 		<h:form>
 			<fieldset>
   				<legend>Health Insurance Plan Signup</legend>
-  				First name: <h:inputText/><br/>
-  				Last name: <h:inputText/><br/>
+  				First name: <h:inputText id="firstName" required="true"/><br/>
+  				Last name: <h:inputText id="lastName" value="#{testBean.lastName}"/><br/>
   				SSN: <h:inputText/><br/>
   				Complete medical history since the day you were born:<br/>
   				<h:inputTextarea/><br/>

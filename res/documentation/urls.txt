@@ -20,3 +20,4 @@ http://www.laliluna.de/articles/javaserver-faces-message-resource-bundle-tutoria
 
 TODO
 http://www.techjava.de/topics/2010/02/jsf-2-reality-check/
+http://blog.ralscha.ch/?p=652

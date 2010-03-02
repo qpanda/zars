@@ -6,3 +6,6 @@
 * gui
 	* start calendar week with MO
 	* add holidays
+* setup
+	* weld versus javax.inject
+	* hibernate validator setup
