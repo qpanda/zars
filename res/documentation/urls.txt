@@ -26,3 +26,4 @@ http://blog.ralscha.ch/?p=652
 GOOD
 http://www.ibm.com/developerworks/java/library/j-jsf2fu2/index.html
 http://relation.to/Bloggers/ItsTimeForFaceletsToStartUsingXSD
+http://ocpsoft.com/java/acegi-spring-security-jsf-login-page/
