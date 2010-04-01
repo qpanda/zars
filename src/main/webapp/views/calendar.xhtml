@@ -10,7 +10,12 @@
 			should include left menu 
 			<ui:include src="/sections/calendar/menuLeft.xhtml"/>
 			-->
-			<p>menu left</p>
+			<p:menu style="width:200px">
+				<p:submenu label="User Tasks">
+					<p:menuitem label="Test" url="#{request.contextPath}/touch"></p:menuitem>
+					<p:menuitem label="Testx" url="#{request.contextPath}/touch"></p:menuitem>
+				</p:submenu>
+			</p:menu>
 		</ui:define>
 		<ui:define name="content">
 			<!--
