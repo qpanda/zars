@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1">
+	<tlib-version>1.2</tlib-version>
+	<short-name>i</short-name>
+	<uri>http://primefaces.prime.com.tr/touch</uri>
+	<tag>
+		<name>application</name>
+		<tag-class>org.primefaces.touch.component.application.ApplicationTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<description><![CDATA[Id of the component]]></description>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>theme</name>
+			<required>false</required>
+			<description><![CDATA[Theme of the application, 'default' or 'dark'.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>icon</name>
+			<required>false</required>
+			<description><![CDATA[Icon for the application, this icon is used when the app is added to homescreen.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
+		<name>navBarControl</name>
+		<tag-class>org.primefaces.touch.component.navbarcontrol.NavBarControlTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<description><![CDATA[Id of the component]]></description>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>label</name>
+			<required>false</required>
+			<description><![CDATA[Label of the item.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>view</name>
+			<required>false</required>
+			<description><![CDATA[Id of the view to be displayed when this control is clicked.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>false</required>
+			<description><![CDATA[Display type of the control, 'button' or 'back'.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>effect</name>
+			<required>false</required>
+			<description><![CDATA[Effect of the animation that'll be used when displaying the new view.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
+		<name>rowGroup</name>
+		<tag-class>org.primefaces.touch.component.rowgroup.RowGroupTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<description><![CDATA[Id of the component]]></description>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<description><![CDATA[Optional title of the row group.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>display</name>
+			<required>false</required>
+			<description><![CDATA[Display type of the rowgroup.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
+		<name>rowItem</name>
+		<tag-class>org.primefaces.touch.component.rowitem.RowItemTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<description><![CDATA[Id of the component]]></description>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>false</required>
+			<description><![CDATA[Value of the component that can be either an EL expression or a
+		literal text]]></description>
+			<deferred-value>
+				<type>java.lang.Object</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>actionListener</name>
+			<required>false</required>
+			<deferred-method>
+				<method-signature>void actionListener(javax.faces.event.ActionEvent)</method-signature>
+			</deferred-method>
+		</attribute>
+		<attribute>
+			<name>action</name>
+			<required>false</required>
+			<deferred-method>
+				<method-signature>java.lang.Object action()</method-signature>
+			</deferred-method>
+		</attribute>
+		<attribute>
+			<name>immediate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>view</name>
+			<required>false</required>
+			<description><![CDATA[Id of the view to be displayed when this item is clicked.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>url</name>
+			<required>false</required>
+			<description><![CDATA[Optional URL of the item to be used for external navigation.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>update</name>
+			<required>false</required>
+			<description><![CDATA[Client side id of the component(s) to be updated after async partial submit request.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
+		<name>switch</name>
+		<tag-class>org.primefaces.touch.component.inputswitch.InputSwitchTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<description><![CDATA[Id of the component]]></description>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>false</required>
+			<description><![CDATA[Value of the component that can be either an EL expression or a
+		literal text]]></description>
+			<deferred-value>
+				<type>java.lang.Object</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>converter</name>
+			<required>false</required>
+			<description><![CDATA[An EL expression or a literal text that defines a converter for
+		the component. When it's an EL expression, it's resolved to a
+		converter instance. In case it's a static text, it must refer to
+		a converter id]]></description>
+			<deferred-value>
+				<type>java.faces.convert.Converter</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>immediate</name>
+			<required>false</required>
+			<description><![CDATA[Boolean value that specifies the lifecycle phase the
+		valueChangeEvents should be processed, when true the events will
+		be fired at "apply request values", if immediate is set to
+		false, valueChangeEvents are fired in "process validations"
+		phase. Default is false]]></description>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>required</name>
+			<required>false</required>
+			<description><![CDATA[Boolean value that makes the component required, default value
+		is false]]></description>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>validator</name>
+			<required>false</required>
+			<description><![CDATA[A method binding EL expression that refers to a method for
+		validating the input]]></description>
+			<deferred-value>
+				<type>javax.faces.validator.Validator</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>valueChangeListener</name>
+			<required>false</required>
+			<description><![CDATA[A method binding EL expression that refers to a method for
+		handling a value change event]]></description>
+			<deferred-method>
+				<method-signature>void valueChange(javax.faces.event.ValueChangeEvent)</method-signature>
+			</deferred-method>
+		</attribute>
+		<attribute>
+			<name>requiredMessage</name>
+			<required>false</required>
+			<description><![CDATA[Message to be displayed when required field validation fails]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>converterMessage</name>
+			<required>false</required>
+			<description><![CDATA[Message to be displayed when conversion fails]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>validatorMessage</name>
+			<required>false</required>
+			<description><![CDATA[Message to be displayed when validation fails]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
+		<name>tableView</name>
+		<tag-class>org.primefaces.touch.component.tableview.TableViewTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<description><![CDATA[Id of the component]]></description>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
+		<name>view</name>
+		<tag-class>org.primefaces.touch.component.view.ViewTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<description><![CDATA[Id of the component]]></description>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<description><![CDATA[Title of the screen.]]></description>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+</taglib>

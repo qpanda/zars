@@ -8,6 +8,7 @@ http://www.infoq.com/news/2010/01/jsf20
 http://www.coreservlets.com/JSF-Tutorial/jsf2/
 http://www.jsfcentral.com/
 http://weblogs.java.net/blog/cayhorstmann/archive/2009/12/23/javaxfacesbeanmanagedbean-dead-arrival
+http://relation.to/Bloggers/ItsTimeForFaceletsToStartUsingXSD
 
 JSF SCHEDULE
 http://www.primefaces.org:8080/prime-showcase/ui/schedule.jsf
