@@ -28,3 +28,4 @@ http://www.ibm.com/developerworks/java/library/j-jsf2fu2/index.html
 http://relation.to/Bloggers/ItsTimeForFaceletsToStartUsingXSD
 http://ocpsoft.com/java/acegi-spring-security-jsf-login-page/
 http://java.sun.com/javaee/javaserverfaces/2.0/docs/pdldocs/facelets/index.html
+http://wiki.apache.org/myfaces/Displaying_Errors/Infos/Warnings_in_JSF_Pages

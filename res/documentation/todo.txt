@@ -1,7 +1,9 @@
 * add start/end date to GroupReservation (double check if it can be persisted without Reservatiosn)
 * finally start implementing the first calendar page!
 * look into jetty with @ManagedBean (this would provide @ViewScoped)
-
+* language selector:
+http://docs.jboss.org/seam/1.1.5.GA/reference/en/html/i18n.html
+<f:view locale="#{sessionVariable}">
 public void chooseLocaleFromLink(ActionEvent event) {
 String current = event.getComponent().getId();
 FacesContext context = FacesContext.getCurrentInstance();
