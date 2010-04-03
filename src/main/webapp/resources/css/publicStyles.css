@@ -1,0 +1,157 @@
+body {
+	font-size: 10pt;
+	font-family: Helvetica, Arial, Verdana, Sans-Serif;
+	background-color: #fff;
+	color: #333;
+	text-align: left;
+	margin: 0;
+	padding: 0; 
+	}
+
+table {
+	font-size: 10pt;
+	border:1px solid #ccc;
+	border-top:0px;
+	border-spacing:0px;
+	width:100%;
+	padding:0px;
+	border-collapse:collapse;
+	text-align: left;
+	}
+		
+table th {
+	background:#efefef;
+	}
+
+table td, table th {
+	border-top:#ccc solid 1px;
+	padding-left:4px;
+	padding-right:4px;
+	padding-top:2px;
+	vertical-align:top;
+	}
+
+h1, h2, h3, h4 {
+	font-family: Helvetica, Arial, Verdana, Sans-Serif;
+	font-weight: bold;
+	}
+
+h1 {
+	font-size: 15pt;
+	padding-top:15px;
+	}
+
+h2 {
+	font-size: 10pt;
+	padding-top:15px;
+	}
+
+textarea:focus, input:focus {
+	background-color: #ffffcc;
+}
+
+.header {
+	padding: 0px;
+	margin: 0px;
+	width: 100%;
+	background-color: #fff;
+	position: relative;
+}
+
+.headerImage {
+	padding: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	border: 0px;
+	display: block;
+	background-color: #2b79ad;
+}
+
+.headerSection {
+	padding: 2px;
+	margin-left: 0px;
+	margin-right: 0px;
+	border-bottom: 3px solid #3C78B5;
+	background-color: #114070;
+}
+
+.headerTitle {
+	margin-left: 10px;
+	font-weight: bold;
+	font-size: 12pt;
+	text-align: left;
+	letter-spacing: 1px;
+	color: #FFFFFF;
+}
+
+.content {
+	margin: 15px;
+}
+
+.loginDialog {
+	margin: 0 auto;
+	margin-top: 150px;
+	align:center;
+	width:375px;
+}
+
+.loginForm {
+	padding: 10px;
+	border:3px solid #3C78B5;
+	background:#efefef;
+}
+
+.loginFormTitle {
+	font-size: 14pt;
+	font-weight: bold;
+	color: #114070;
+	margin: 0px;
+	padding: 0px;
+	text-align: right;
+}
+
+.loginFormSubtitle {
+	font-size: 7pt;
+	color: #114070;
+	margin: 0px;
+	padding: 0px;
+	text-align: right;
+}
+
+.loginFormItem {
+	margin: 15px;
+	text-align: left;
+}
+
+.loginFormLabel {
+	margin: 2px;
+	color: #114070;
+	text-align: left;
+}
+
+.loginFormInput {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #114070;
+	width: 95%;
+}
+
+.loginFormButton {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #114070;
+}
+
+.loginFormHelp {
+	font-size: 8pt;
+	margin: 0px;
+	padding: 0px;
+	text-align: right;
+	color: #114070;
+}
+
+.loginFormMessage {
+	margin: 15px 15px 15px 15px;
+	text-align: left;
+	color: red;
+}

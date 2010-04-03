@@ -2,6 +2,13 @@
 * finally start implementing the first calendar page!
 * look into jetty with @ManagedBean (this would provide @ViewScoped)
 
+public void chooseLocaleFromLink(ActionEvent event) {
+String current = event.getComponent().getId();
+FacesContext context = FacesContext.getCurrentInstance();
+context.getViewRoot().setLocale((Locale)
+locales.get(current));
+}
+
 * persistence entities
 	* add tests and conversion for Setting entity
 * business logic
