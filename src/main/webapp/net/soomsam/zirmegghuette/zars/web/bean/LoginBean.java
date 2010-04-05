@@ -10,11 +10,11 @@ import javax.validation.constraints.Size;
 @Named
 @SessionScoped
 public class LoginBean implements Serializable {
-	@NotNull
+	@NotNull(message = "{sectionsWelcomeLoginUsernameError}")
 	@Size(min = 2, message = "{sectionsWelcomeLoginUsernameError}")
 	private String username;
 
-	@NotNull
+	@NotNull(message = "{sectionsWelcomeLoginPasswordError}")
 	@Size(min = 2, message = "{sectionsWelcomeLoginPasswordError}")
 	private String password;
 
