@@ -4,28 +4,26 @@
 						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf-core-2.0.2.xsd
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.0.xsd">
-	<div class="content">		
-   		<div class="loginDialog">
-   			<h:form id="loginForm" prependId="false" styleClass="loginForm">
-				<div class="loginFormTitle">ZARS Login</div>
-				<div class="loginFormSubtitle">v0.0.1</div>
-				<div class="loginFormItem">
-					<h:outputLabel for="j_username" styleClass="loginFormLabel" value="#{displayMessages.sectionsWelcomeLoginUsernameLabel}" /><br />
-					<h:inputText id="j_username" styleClass="loginFormInput" value="#{loginBean.username}" />
-				</div>
-				<div class="loginFormItem">
-					<h:outputLabel for="j_password" styleClass="loginFormLabel" value="#{displayMessages.sectionsWelcomeLoginPasswordLabel}" /><br />
-					<h:inputSecret id="j_password" styleClass="loginFormInput" value="#{loginBean.password}" />
-				</div>
-				<div class="loginFormItem">
-					<h:commandButton id="login" type="submit" action="#{loginBean.login}" styleClass="loginFormButton" value="#{displayMessages.sectionsWelcomeLoginLoginButton}" />
-				</div>
-				<div class="loginFormHelp"><h:outputLink value="/views/help.jsf">#{displayMessages.sectionsWelcomeLoginHelp}</h:outputLink> - <h:outputLink value="/views/terms.jsf">#{displayMessages.sectionsWelcomeLoginTerms}</h:outputLink></div>
-			</h:form>
-			<div class="loginFormMessage">
-				<h:outputText rendered="#{loginBean.loginFailed}" value="#{loginBean.loginFailedMessage}" />
-				<h:messages />
+	<div class="loginDialog">
+		<h:form id="loginForm" prependId="false" styleClass="loginForm">
+			<div class="loginFormTitle">ZARS Login</div>
+			<div class="loginFormSubtitle">v0.0.1</div>
+			<div class="loginFormItem">
+				<h:outputLabel for="j_username" styleClass="loginFormLabel" value="#{displayMessages.sectionsWelcomeLoginUsernameLabel}" /><br />
+				<h:inputText id="j_username" styleClass="loginFormInput" value="#{loginBean.username}" />
 			</div>
+			<div class="loginFormItem">
+				<h:outputLabel for="j_password" styleClass="loginFormLabel" value="#{displayMessages.sectionsWelcomeLoginPasswordLabel}" /><br />
+				<h:inputSecret id="j_password" styleClass="loginFormInput" value="#{loginBean.password}" />
+			</div>
+			<div class="loginFormItem">
+				<h:commandButton id="login" type="submit" action="#{loginBean.login}" styleClass="loginFormButton" value="#{displayMessages.sectionsWelcomeLoginLoginButton}" />
+			</div>
+			<div class="loginFormHelp"><h:outputLink value="/views/help.jsf">#{displayMessages.sectionsWelcomeLoginHelp}</h:outputLink> - <h:outputLink value="/views/terms.jsf">#{displayMessages.sectionsWelcomeLoginTerms}</h:outputLink></div>
+		</h:form>
+		<div class="loginFormMessage">
+			<p:messages />
+			<h:outputText rendered="#{loginBean.loginFailed}" value="#{loginBean.loginFailedMessage}" />				
 		</div>
 	</div>
 </ui:composition>
