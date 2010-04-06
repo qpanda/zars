@@ -79,7 +79,7 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	public Entity retrieveByPrimaryKey(final Serializable primaryKey) throws EntityNotFoundException {
 		final Entity entity = entityManager.find(determineEntityClass(), primaryKey);
 		if (entity == null) {
-			throw new EntityNotFoundException("entity of type [" + determineEntityClass().getSimpleName() + " with primary key [" + primaryKey + "] not found");
+			throw new EntityNotFoundException("entity of type [" + determineEntityClass().getSimpleName() + "] with primary key [" + primaryKey + "] not found");
 		}
 
 		return entity;
