@@ -2,19 +2,16 @@ package net.soomsam.zirmegghuette.zars.web.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
-import net.soomsam.zirmegghuette.zars.web.utils.JsfContextUtils;
+import net.soomsam.zirmegghuette.zars.web.utils.LocaleUtils;
+import net.soomsam.zirmegghuette.zars.web.utils.SessionUtils;
 
 import org.apache.log4j.Logger;
 
@@ -25,21 +22,8 @@ public class LocaleBean implements Serializable {
 
 	private String selectedLocale = null;
 
-	private Map<String, Locale> supportedLocaleMap = null;
-
 	public LocaleBean() {
 		super();
-	}
-
-	protected synchronized void determineSupportedLocales() {
-		if (null == supportedLocaleMap) {
-			supportedLocaleMap = new HashMap<String, Locale>();
-			Iterator<Locale> supportedLocaleIterator = FacesContext.getCurrentInstance().getApplication().getSupportedLocales();
-			while (supportedLocaleIterator.hasNext()) {
-				Locale supportedLocale = supportedLocaleIterator.next();
-				supportedLocaleMap.put(supportedLocale.getDisplayLanguage(), supportedLocale);
-			}
-		}
 	}
 
 	public String getSelectedLocale() {
@@ -51,28 +35,32 @@ public class LocaleBean implements Serializable {
 	}
 
 	public List<SelectItem> getSelectLocales() {
-		determineSupportedLocales();
-
+		Locale activeLocale = getActiveLocale();
+		List<Locale> supportedLocaleList = LocaleUtils.determineSupportedLocaleList();
 		List<SelectItem> selectLocaleItemList = new ArrayList<SelectItem>();
-		Set<String> supportedLocaleDisplayLanguageSet = supportedLocaleMap.keySet();
-		for (String supportedLocaleDisplayLanguage : supportedLocaleDisplayLanguageSet) {
-			selectLocaleItemList.add(new SelectItem(supportedLocaleDisplayLanguage));
+		for (Locale supportedLocale : supportedLocaleList) {
+			selectLocaleItemList.add(new SelectItem(supportedLocale.getDisplayLanguage(), supportedLocale.getDisplayLanguage(activeLocale)));
 		}
 		return selectLocaleItemList;
 	}
 
 	public Locale getActiveLocale() {
-		if ((null == selectedLocale) || (null == supportedLocaleMap)) {
-			return FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+		if (null == selectedLocale) {
+			return LocaleUtils.determineCurrentLocale();
 		}
 
-		return supportedLocaleMap.get(selectedLocale);
+		Map<String, Locale> supportedLocaleDisplayLanguageMap = LocaleUtils.determineSupportedLocaleDisplayLanguageMap();
+		if (supportedLocaleDisplayLanguageMap.containsKey(selectedLocale)) {
+			return supportedLocaleDisplayLanguageMap.get(selectedLocale);
+		}
+
+		return LocaleUtils.determineCurrentLocale();
 	}
 
-	public String select() {
+	public String changeLocale() {
 		Locale activeLocale = getActiveLocale();
-		logger.debug("changing locale to [" + activeLocale + "] for session [" + JsfContextUtils.determineSessionId() + "]");
-		FacesContext.getCurrentInstance().getViewRoot().setLocale(activeLocale);
+		LocaleUtils.changeLocale(activeLocale);
+		logger.debug("changed locale to [" + activeLocale + "] for session [" + SessionUtils.determineSessionId() + "]");
 		return "tterms";
 	}
 }

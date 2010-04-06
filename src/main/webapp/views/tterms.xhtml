@@ -15,7 +15,7 @@
 			<h:selectOneMenu  value="#{localeBean.selectedLocale}">
 				<f:selectItems value="#{localeBean.selectLocales}"/>
 			</h:selectOneMenu>
-			<h:commandButton action="#{localeBean.select}" value="change"/>
+			<h:commandButton action="#{localeBean.changeLocale}" value="change"/>
 		</h:form>
 	</ui:define>
 </ui:composition>
