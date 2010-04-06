@@ -5,11 +5,17 @@
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.0.xsd"
 	template="/templates/welcomeLayout.xhtml">
-	<ui:define name="windowTitle">#{displayMessages.viewsHelpWindowTitle}</ui:define>
+	<ui:define name="windowTitle">#{displayMessages.viewsTermsWindowTitle}</ui:define>
 	<ui:define name="header">
 		<ui:include src="/sections/welcome/header.xhtml"/>
 	</ui:define>
 	<ui:define name="content">
-		<ui:include src="/sections/welcome/help.xhtml"/>
+		<p>#{displayMessages.viewsTermsWindowTitle}</p>
+		<h:form>
+			<h:selectOneMenu  value="#{localeBean.selectedLocale}">
+				<f:selectItems value="#{localeBean.selectLocales}"/>
+			</h:selectOneMenu>
+			<h:commandButton action="#{localeBean.select}" value="change"/>
+		</h:form>
 	</ui:define>
 </ui:composition>

@@ -1,4 +1,3 @@
-* consider using <p:messages /> instaed of <h:messages />, eventually format it a bit better
 * add start/end date to GroupReservation (double check if it can be persisted without Reservatiosn)
 * finally start implementing the first calendar page!
 * look into jetty with @ManagedBean (this would provide @ViewScoped)

@@ -6,6 +6,20 @@ HEADING FOR INVALID INPUT
 SELECTION OF LOCALE
 <f:view locale="#{facesContext.externalContext.request.locale}">
 #{settings.selectedLocale}
+Iterator<Locale> localeIterator = FacesContext.getCurrentInstance().getApplication().getSupportedLocales();
+SelectItem
+languages.clear();
+FacesContext facesContext = FacesContext.getCurrentInstance();
+Application application = facesContext.getApplication();
+Iterator supportedLocales = application.getSupportedLocales();
+while (supportedLocales.hasNext()) {
+Locale locale = (Locale) supportedLocales.next();
+SelectItem item = new SelectItem(locale, locale.getDisplayName(language));
+languages.add(item);
+}
+Collections.sort(languages, new SelectItemComparator());
+
+FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(localeString));
 FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
 
 http://docs.jboss.org/seam/1.1.5.GA/reference/en/html/i18n.html
