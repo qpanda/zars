@@ -8,8 +8,6 @@
 		<composite:attribute name="type" required="true" />
 	</composite:interface>
 	<composite:implementation>
-		<h:outputText value='&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 #{
-        fn:toUpperCase(fn:substring(compositeComponent.attrs.type, 0, 1))}#{fn:substring(compositeComponent.attrs.type, 1, -1)
-        }//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-#{cc.attrs.type}.dtd"&gt;' escape="false" />
+		<h:outputText value='&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 #{fn:toUpperCase(fn:substring(compositeComponent.attrs.type, 0, 1))}#{fn:substring(compositeComponent.attrs.type, 1, -1)}//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-#{cc.attrs.type}.dtd"&gt;' escape="false" />
 	</composite:implementation>
 </f:view>
