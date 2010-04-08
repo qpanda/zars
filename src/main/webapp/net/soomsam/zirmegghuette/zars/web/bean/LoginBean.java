@@ -4,18 +4,16 @@ import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import com.agimatec.validation.constraints.NotEmpty;
 
 @Named
 @SessionScoped
 public class LoginBean implements Serializable {
-	@NotNull(message = "{sectionsWelcomeLoginUsernameError}")
-	@Size(min = 2, message = "{sectionsWelcomeLoginUsernameError}")
+	@NotEmpty(message = "{sectionsWelcomeLoginUsernameError}")
 	private String username;
 
-	@NotNull(message = "{sectionsWelcomeLoginPasswordError}")
-	@Size(min = 2, message = "{sectionsWelcomeLoginPasswordError}")
+	@NotEmpty(message = "{sectionsWelcomeLoginPasswordError}")
 	private String password;
 
 	private boolean loginFailed;
@@ -26,7 +24,7 @@ public class LoginBean implements Serializable {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 
@@ -34,7 +32,7 @@ public class LoginBean implements Serializable {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(final String password) {
 		this.password = password;
 	}
 
@@ -42,7 +40,7 @@ public class LoginBean implements Serializable {
 		return loginFailed;
 	}
 
-	public void setLoginFailed(boolean loginFailed) {
+	public void setLoginFailed(final boolean loginFailed) {
 		this.loginFailed = loginFailed;
 	}
 
@@ -50,7 +48,7 @@ public class LoginBean implements Serializable {
 		return loginFailedMessage;
 	}
 
-	public void setLoginFailedMessage(String loginFailedMessage) {
+	public void setLoginFailedMessage(final String loginFailedMessage) {
 		this.loginFailedMessage = loginFailedMessage;
 	}
 
