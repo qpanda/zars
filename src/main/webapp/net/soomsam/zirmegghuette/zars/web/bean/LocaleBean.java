@@ -78,14 +78,6 @@ public class LocaleBean implements Serializable {
 		final Locale activeLocale = getActiveLocale();
 		LocaleUtils.changeLocale(activeLocale);
 		logger.debug("changed locale to [" + activeLocale + "] for session [" + SessionUtils.determineSessionId() + "]");
-		return "tterms";
-	}
-
-	public String changeLocaleTo(final String x) {
-		System.out.println(x);
-		final Locale activeLocale = getActiveLocale();
-		LocaleUtils.changeLocale(activeLocale);
-		logger.debug("changed locale to [" + activeLocale + "] for session [" + SessionUtils.determineSessionId() + "]");
-		return "tterms";
+		return SessionUtils.determineRequestServletPath();
 	}
 }
