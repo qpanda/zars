@@ -22,10 +22,16 @@ import org.primefaces.component.commandlink.CommandLink;
 public class LocaleBean implements Serializable {
 	private final static Logger logger = Logger.getLogger(LocaleBean.class);
 
+	private final String commandLinkSelectLocaleAttributeName = "selectLocale";
+
 	private String selectedLocale = null;
 
 	public LocaleBean() {
 		super();
+	}
+
+	public String getCommandLinkSelectLocaleAttributeName() {
+		return commandLinkSelectLocaleAttributeName;
 	}
 
 	public String getSelectedLocale() {
@@ -34,12 +40,13 @@ public class LocaleBean implements Serializable {
 
 	public void setSelectedLocale(final String selectedLocale) {
 		this.selectedLocale = selectedLocale;
+		logger.debug("set locale to [" + selectedLocale + "] for session [" + SessionUtils.determineSessionId() + "]");
 	}
 
 	public void setSelectedLocale(final ActionEvent commandLinkActionEvent) {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
 			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
-			final String commandLinkParameterValue = (String) commandLink.getValue();
+			final String commandLinkParameterValue = (String) commandLink.getAttributes().get(commandLinkSelectLocaleAttributeName);
 			setSelectedLocale(commandLinkParameterValue);
 		}
 	}
@@ -68,6 +75,14 @@ public class LocaleBean implements Serializable {
 	}
 
 	public String changeLocale() {
+		final Locale activeLocale = getActiveLocale();
+		LocaleUtils.changeLocale(activeLocale);
+		logger.debug("changed locale to [" + activeLocale + "] for session [" + SessionUtils.determineSessionId() + "]");
+		return "tterms";
+	}
+
+	public String changeLocaleTo(final String x) {
+		System.out.println(x);
 		final Locale activeLocale = getActiveLocale();
 		LocaleUtils.changeLocale(activeLocale);
 		logger.debug("changed locale to [" + activeLocale + "] for session [" + SessionUtils.determineSessionId() + "]");

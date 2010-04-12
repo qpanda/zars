@@ -18,7 +18,7 @@
 					<c:forEach var="selectLocale" items="#{localeBean.selectLocales}">
 						<p:menuitem>
 							<p:commandLink actionListener="#{localeBean.setSelectedLocale}" action="#{localeBean.changeLocale}" value="#{selectLocale.label}" ajax="false">
-								<f:attribute name="selectLocale" value="#{selectLocale.value}" />
+								<f:attribute name="#{localeBean.commandLinkSelectLocaleAttributeName}" value="#{selectLocale.value}" />
 							</p:commandLink>						
 						</p:menuitem>
 					</c:forEach>
