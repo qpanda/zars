@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
@@ -14,6 +15,7 @@ import net.soomsam.zirmegghuette.zars.web.utils.LocaleUtils;
 import net.soomsam.zirmegghuette.zars.web.utils.SessionUtils;
 
 import org.apache.log4j.Logger;
+import org.primefaces.component.commandlink.CommandLink;
 
 @Named
 @SessionScoped
@@ -30,15 +32,23 @@ public class LocaleBean implements Serializable {
 		return selectedLocale;
 	}
 
-	public void setSelectedLocale(String selectedLocale) {
+	public void setSelectedLocale(final String selectedLocale) {
 		this.selectedLocale = selectedLocale;
 	}
 
+	public void setSelectedLocale(final ActionEvent commandLinkActionEvent) {
+		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
+			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
+			final String commandLinkParameterValue = (String) commandLink.getValue();
+			setSelectedLocale(commandLinkParameterValue);
+		}
+	}
+
 	public List<SelectItem> getSelectLocales() {
-		Locale activeLocale = getActiveLocale();
-		List<Locale> supportedLocaleList = LocaleUtils.determineSupportedLocaleList();
-		List<SelectItem> selectLocaleItemList = new ArrayList<SelectItem>();
-		for (Locale supportedLocale : supportedLocaleList) {
+		final Locale activeLocale = getActiveLocale();
+		final List<Locale> supportedLocaleList = LocaleUtils.determineSupportedLocaleList();
+		final List<SelectItem> selectLocaleItemList = new ArrayList<SelectItem>();
+		for (final Locale supportedLocale : supportedLocaleList) {
 			selectLocaleItemList.add(new SelectItem(supportedLocale.getDisplayLanguage(), supportedLocale.getDisplayLanguage(activeLocale)));
 		}
 		return selectLocaleItemList;
@@ -49,7 +59,7 @@ public class LocaleBean implements Serializable {
 			return LocaleUtils.determineCurrentLocale();
 		}
 
-		Map<String, Locale> supportedLocaleDisplayLanguageMap = LocaleUtils.determineSupportedLocaleDisplayLanguageMap();
+		final Map<String, Locale> supportedLocaleDisplayLanguageMap = LocaleUtils.determineSupportedLocaleDisplayLanguageMap();
 		if (supportedLocaleDisplayLanguageMap.containsKey(selectedLocale)) {
 			return supportedLocaleDisplayLanguageMap.get(selectedLocale);
 		}
@@ -58,7 +68,7 @@ public class LocaleBean implements Serializable {
 	}
 
 	public String changeLocale() {
-		Locale activeLocale = getActiveLocale();
+		final Locale activeLocale = getActiveLocale();
 		LocaleUtils.changeLocale(activeLocale);
 		logger.debug("changed locale to [" + activeLocale + "] for session [" + SessionUtils.determineSessionId() + "]");
 		return "tterms";
