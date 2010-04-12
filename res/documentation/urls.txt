@@ -31,3 +31,5 @@ http://java.sun.com/javaee/javaserverfaces/2.0/docs/pdldocs/facelets/index.html
 http://wiki.apache.org/myfaces/Displaying_Errors/Infos/Warnings_in_JSF_Pages
 http://www.objectsource.com/j2eechapters/Ch19-I18N_and_L10N.htm
 http://www.guruja.co.cc/index.php/JSF_Problems_And_Solutions
+http://wiki.apache.org/myfaces/Displaying_Errors/Infos/Warnings_in_JSF_Pages
+http://www.ilikespam.com/blog/c:foreach-vs-ui:repeat-in-facelets
