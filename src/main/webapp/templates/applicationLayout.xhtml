@@ -2,33 +2,35 @@
 	xsi:schemaLocation="http://java.sun.com/jsf/html		../WEB-INF/schema/html-basic-2.0.2.xsd
 						http://java.sun.com/jsf/core		../WEB-INF/schema/jsf-core-2.0.2.xsd
 						http://java.sun.com/jsf/facelets	../WEB-INF/schema/facelets-ui-2.0.xsd
-						http://primefaces.prime.com.tr/ui	../WEB-INF/schema/primefaces-p-2.0.0.xsd">
+						http://primefaces.prime.com.tr/ui	../WEB-INF/schema/primefaces-p-2.0.0.xsd"
+	locale="#{localeBean.activeLocale}">
 	<util:doctype type="transitional" />
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 		<f:loadBundle var="displayMessages" basename="DisplayMessages" />
 		<h:head>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-			<meta http-equiv="Cache-Control" content="no-cache" />
-			<meta http-equiv="Pragma" content="no-cache" />
-			<h:outputScript library="javascript" name="util.js" target="head"/>
-			<h:outputStylesheet library="css" name="styles.css" target="body"/>
+			<meta http-equiv="Pragma" content="no-cache"/>			
+			<meta http-equiv="Expires" content="-1"/>
+			<meta http-equiv="cache-control" content="no-cache"/>
 			<title>
 				<ui:insert name="windowTitle">#{displayMessages.defaultWindowTitle}</ui:insert>
 			</title>
 		</h:head>
-		<h:body>						
-			<div class="pageHeading">
-				<ui:insert name="heading">#{displayMessages.defaultViewHeading}</ui:insert>
+		<h:body>
+			<div class="header">
+				<ui:insert name="header"/>
+        	</div>
+        	<div class="menu">
+        		<ui:insert name="menu"/>
+        	</div>			
+			<div class="content">
+				<ui:insert name="content" />
 			</div>
-			
-			<div class="menuAndContent">
-				<div class="menuLeft">
-					<ui:insert name="menuLeft" />
-				</div>
-				<div class="content" style="display: #{places.showContent}">
-					<ui:insert name="content" />
-				</div>
+			<div class="footer">
+				<ui:insert name="footer" />
 			</div>
 		</h:body>
+		<h:outputScript library="javascript" name="util.js" target="head"/>
+		<h:outputStylesheet library="css" name="styles.css" target="body"/>
 	</html>
 </f:view>
