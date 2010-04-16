@@ -8,29 +8,6 @@ body {
 	padding: 0; 
 }
 
-table {
-	font-size: 10pt;
-	border:1px solid #ccc;
-	border-top:0px;
-	border-spacing:0px;
-	width:100%;
-	padding:0px;
-	border-collapse:collapse;
-	text-align: left;
-}
-		
-table th {
-	background:#efefef;
-}
-
-table td, table th {
-	border-top:#ccc solid 1px;
-	padding-left:4px;
-	padding-right:4px;
-	padding-top:2px;
-	vertical-align:top;
-}
-
 h1, h2, h3, h4 {
 	font-family: Helvetica, Arial, Verdana, Sans-Serif;
 	font-weight: bold;
@@ -90,7 +67,7 @@ textarea:focus, input:focus {
 }
 
 .applicationMenu {
-	padding: 20px 0 0px 8px;
+	padding: 8px 0 0px 8px;
 	float: left;
 	width: 190px;
 	background: #eee;

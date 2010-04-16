@@ -4,5 +4,22 @@
 						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf-core-2.0.2.xsd
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.0.xsd">
-	menu
+		<h:form>
+			<p:menu effect="NONE" effectDuration="0">
+				<p:submenu title="Mail" label="Mail">
+					<p:menuitem label="Gmail" url="http://www.google.com" />
+					<p:menuitem label="Hotmail" url="http://www.hotmail.com" />
+					<p:menuitem label="Yahoo Mail" url="http://mail.yahoo.com" />
+				</p:submenu>
+				<p:submenu title="Videos" label="Videos">
+					<p:menuitem label="Youtube" url="http://www.youtube.com" />
+					<p:menuitem label="Break" url="http://www.break.com" />
+					<p:menuitem label="Metacafe" url="http://www.metacafe.com" />
+				</p:submenu>
+				<p:submenu title="Social Networks" label="Social Networks">
+					<p:menuitem label="Facebook" url="http://www.facebook.com" />
+					<p:menuitem label="MySpace" url="http://www.myspace.com" />
+				</p:submenu>
+			</p:menu>
+		</h:form>	
 </ui:composition>
