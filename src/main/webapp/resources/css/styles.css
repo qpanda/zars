@@ -1,129 +1,197 @@
-.pageHeading {
-  padding: 20px;
-  margin-bottom: 10px;
-  background: #dddddd;
-  border: 1px solid #cccccc;
-  font-size: 1.4em;
-  font-style: italic;
-  font-family: Palatino;
-  right: 20px;
-  text-align: center;
+body {
+	font-size: 10pt;
+	font-family: Helvetica, Arial, Verdana, Sans-Serif;
+	background-color: #fff;
+	color: #333;
+	text-align: left;
+	margin: 0;
+	padding: 0; 
 }
 
-div.planetImage {
-  margin-top: 10px;
-  text-align: center;
-} 
-
-.promptTop {
-  font-size: 1.15em;
-  margin-left: 5px;
-  margin-bottom: 20px;
-  font-family: Palatino;
-  font-style: italic;
-} 
-
-.explanation {
-  padding: 20px;
-  font-family: Palatino;
-  font-style: italic;
-  color: blue;
+table {
+	font-size: 10pt;
+	border:1px solid #ccc;
+	border-top:0px;
+	border-spacing:0px;
+	width:100%;
+	padding:0px;
+	border-collapse:collapse;
+	text-align: left;
+}
+		
+table th {
+	background:#efefef;
 }
 
-.prompt {
-  font-size: 1.15em; 
-  margin-left: 5px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-family: Palatino;
+table td, table th {
+	border-top:#ccc solid 1px;
+	padding-left:4px;
+	padding-right:4px;
+	padding-top:2px;
+	vertical-align:top;
 }
 
-.welcomeGreeting {
-  font-size: 1.2em;
-  font-style: italic;
+h1, h2, h3, h4 {
+	font-family: Helvetica, Arial, Verdana, Sans-Serif;
+	font-weight: bold;
 }
 
-.welcomeImage {
-  margin-top: 10px;
-  text-align: center; 
+h1 {
+	font-size: 15pt;
+	padding-top:15px;
 }
 
-.menuLeft {
-  border: thin solid lightGray;
-  position: absolute;
-  left: 10px;
-  height: 86%;
-  width: 200px;
-  background: #eeeeee;
-}
- 
-.menuLeftText {
-  margin-top: 10px;
-  font-style: italic; 
-  font-family: Palatino; 
-  text-align: center; 
-  width: 100%;
+h2 {
+	font-size: 10pt;
+	padding-top:15px;
 }
 
-.menuRight {
-  border: thin solid lightGray;
-  background: #efefef;
-  position:absolute;
-  top: 85px;
-  right: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+textarea:focus, input:focus {
+	background-color: #ffffcc;
+}
+
+.header {
+	padding: 0px;
+	margin: 0px;
+	width: 100%;
+	background-color: #fff;
+	position: relative;
+}
+
+.headerSection {
+	padding: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	background-color: #114070;
+}
+
+.headerTitle {
+	padding: 2px;
+	margin-left: 10px;
+	font-weight: bold;
+	font-size: 18pt;
+	text-align: left;
+	letter-spacing: 1px;
+	color: #FFFFFF;
+}
+
+.headerMenu {
+	font-weight: normal;
+	font-size: 8pt;
+	background-color: #3C78B5;
+	overflow: hidden;
+	width: 100%
 }
 
 .content {
-  margin-top: 10px;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 20px;
-  border: thin solid lightGray;
-  background: #fefeef;	
-  position:absolute;
-  left: 225px; 
-  right: 65px;
-  top: 70px;
+	margin: 15px;
 }
 
-.menuAndContent {
-  width: 100%;
-  height: 100%;
+.loginDialog {
+	margin: 0 auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 150px;
+	align:center;
+	width:375px;
 }
 
-.placesSearchForm {
-  font-style: italic; 
-  font-family: Palatino; 
-  margin-bottom: 15px;
-  margin-left: 5%;
+.loginForm {
+	padding: 10px;
+	border:3px solid #3C78B5;
+	background:#efefef;
 }
 
-.placesSearchFormHeading {
-  text-align: center; 
-  width: 100%;
-  margin-bottom: 12px;
-  margin-top: 12px;
-  font-size:1.15em;
-} 
-
-.error {
-  color: red;
+.loginFormTitle {
+	font-size: 14pt;
+	font-weight: bold;
+	color: #114070;
+	margin: 0px;
+	padding: 0px;
+	text-align: right;
 }
 
-.icon {
-  margin: 10px;
-  border: none;
+.loginFormSubtitle {
+	font-size: 7pt;
+	color: #114070;
+	margin: 0px;
+	padding: 0px;
+	text-align: right;
 }
 
-.placeHeading {
-	margin-top: 10px;margin-right:10px; padding: 10px; float: left;border:thin solid lightGray;
+.loginFormItem {
+	margin: 15px;
+	text-align: left;
 }
 
-.weather {
-    border:thin solid lightGray;margin: 5px;padding: 5px;
-}   
-.map {
-	border:thin solid lightGray;margin: 5px;padding: 5px;
-}	
+.loginFormLabel {
+	margin: 2px;
+	color: #114070;
+	text-align: left;
+}
+
+.loginFormInput {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #114070;
+	width: 95%;
+}
+
+.loginFormButton {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #114070;
+}
+
+.loginFormHelp {
+	font-size: 8pt;
+	margin: 0px;
+	padding: 0px;
+	text-align: right;
+	color: #114070;
+}
+
+.loginFormMessage {
+	margin: 15px 15px 15px 15px;
+	text-align: left;
+	color: red;
+}
+
+.yuimenubar {
+	float:right;
+	margin-top:2px;
+	margin-right:4px;
+}
+
+.yui-skin-sam .yuimenubar {
+	font-size:93%;
+	background:transparent;
+	border:none;
+}
+
+.yui-skin-sam .yuimenubaritem-selected {
+	background:transparent;
+	text-decoration: underline;
+	color:#FFFFFF; 
+}
+
+.yui-skin-sam .yuimenubaritemlabel {
+	color:#FFFFFF;
+	border:none;
+	cursor:pointer;
+	cursor:hand;
+}
+
+.yui-skin-sam .yuimenuitemlabel {
+	cursor:pointer;
+	cursor:hand;
+}
+
+.yui-skin-sam .yuimenubaritemlabel-disabled,.yui-skin-sam .yuimenubaritemlabel-disabled:visited {
+	cursor:pointer;
+	cursor:hand;
+}
+
+.yui-menu-shadow-visible {
+	visibility:hidden;
+}
