@@ -33,6 +33,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 
 import org.apache.log4j.Logger;
 import org.hibernate.validator.InvalidStateException;
+import org.joda.time.DateMidnight;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -220,8 +221,8 @@ public class PersistenceEntityTest {
 		final Role userRole = createUserRole();
 		final User testUser = new User("test", "test", "test@test.com", true, userRole);
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 1);
+		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 1);
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.associateRoom(firstRoom);
 		userDao.persist(testUser);
@@ -334,8 +335,8 @@ public class PersistenceEntityTest {
 	public void testCreateGroupReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 1);
+		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 1);
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
@@ -366,8 +367,8 @@ public class PersistenceEntityTest {
 		userDao.persist(accountantUser);
 
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
-		final GroupReservation testGroupReservation = new GroupReservation(beneficiaryUser, accountantUser, 1);
+		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(beneficiaryUser, accountantUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 1);
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
@@ -393,10 +394,10 @@ public class PersistenceEntityTest {
 	public void testCreateGroupReservationWithReservations() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation01 = new Reservation(new Date(), new Date(), "a", "b");
-		final Reservation testReservation02 = new Reservation(new Date(), new Date(), "c", "d");
-		final Reservation testReservation03 = new Reservation(new Date(), new Date(), "e", "f");
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 3);
+		final Reservation testReservation01 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final Reservation testReservation02 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "c", "d");
+		final Reservation testReservation03 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "e", "f");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 3);
 		testGroupReservation.associateReservation(testReservation01);
 		testGroupReservation.associateReservation(testReservation02);
 		testGroupReservation.associateReservation(testReservation03);
@@ -424,10 +425,10 @@ public class PersistenceEntityTest {
 	public void testCreateGroupReservationWithAutoGuests() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation01 = new Reservation(new Date(), new Date(), "a", "b");
-		final Reservation testReservation02 = new Reservation(new Date(), new Date(), "c", "d");
-		final Reservation testReservation03 = new Reservation(new Date(), new Date(), "e", "f");
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 2);
+		final Reservation testReservation01 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final Reservation testReservation02 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "c", "d");
+		final Reservation testReservation03 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "e", "f");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 2);
 		testGroupReservation.associateReservation(testReservation01);
 		testGroupReservation.associateReservation(testReservation02);
 		testGroupReservation.associateReservation(testReservation03);
@@ -452,11 +453,45 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation03));
 	}
 
+	@Test
+	public void testCreateGroupReservationWithAutoArrivalDeparture() {
+		final User testUser = createTestUser();
+		final Room firstRoom = createFirstRoom();
+		final Reservation testReservation01 = new Reservation(new DateMidnight().minusDays(1).toDate(), new DateMidnight().toDate(), "a", "b");
+		final Reservation testReservation02 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "c", "d");
+		final Reservation testReservation03 = new Reservation(new DateMidnight().plusDays(1).toDate(), new DateMidnight().plusDays(2).toDate(), "e", "f");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 2);
+		testGroupReservation.associateReservation(testReservation01);
+		testGroupReservation.associateReservation(testReservation02);
+		testGroupReservation.associateReservation(testReservation03);
+		testGroupReservation.associateRoom(firstRoom);
+		groupReservationDao.persist(testGroupReservation);
+		persistenceContextManager.flush();
+		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
+
+		persistenceContextManager.clear();
+		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		Assert.assertNotNull(fetchedGroupReservation);
+		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
+		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
+		Assert.assertNotNull(fetchedGroupReservation.getRooms());
+		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
+		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));
+		Assert.assertNotNull(fetchedGroupReservation.getReservations());
+		Assert.assertEquals(new DateMidnight().minusDays(1), fetchedGroupReservation.getArrivalDateTime());
+		Assert.assertEquals(new DateMidnight().plusDays(2), fetchedGroupReservation.getDepartureDateTime());
+		Assert.assertEquals(testReservation01, fetchedGroupReservation.getEarliestArrivalReservation());
+		Assert.assertEquals(testReservation03, fetchedGroupReservation.getLatestDepartureReservation());
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation01));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation02));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation03));
+	}
+
 	@Test(expected = InvalidStateException.class)
 	public void testCreateGroupReservationWithoutRoom() {
 		final User testUser = createTestUser();
-		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 1);
+		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 1);
 		testGroupReservation.associateReservation(testReservation);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
@@ -465,8 +500,8 @@ public class PersistenceEntityTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateGroupReservationWithoutUser() {
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
-		final GroupReservation testGroupReservation = new GroupReservation(null, null, 1);
+		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(null, null, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 1);
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
@@ -476,7 +511,7 @@ public class PersistenceEntityTest {
 	public void testCreateGroupReservationWithoutReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 1);
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 1);
 		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
@@ -494,7 +529,7 @@ public class PersistenceEntityTest {
 
 	@Test(expected = PersistenceException.class)
 	public void testCreateReservation() {
-		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
+		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
 		reservationDao.persist(testReservation);
 		persistenceContextManager.flush();
 	}
@@ -503,11 +538,11 @@ public class PersistenceEntityTest {
 	public void testCreateReservationWithGroupReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 3);
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 3);
 		testGroupReservation.associateRoom(firstRoom);
-		final Reservation testReservation01 = new Reservation(new Date(), new Date(), "a", "b", testGroupReservation);
-		final Reservation testReservation02 = new Reservation(new Date(), new Date(), "c", "d", testGroupReservation);
-		final Reservation testReservation03 = new Reservation(new Date(), new Date(), "e", "f", testGroupReservation);
+		final Reservation testReservation01 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b", testGroupReservation);
+		final Reservation testReservation02 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "c", "d", testGroupReservation);
+		final Reservation testReservation03 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "e", "f", testGroupReservation);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
 		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
@@ -531,7 +566,7 @@ public class PersistenceEntityTest {
 	public void testDeleteGroupReservationWithoutReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 1);
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 1);
 		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
 		persistenceContextManager.flush();
@@ -549,8 +584,8 @@ public class PersistenceEntityTest {
 	public void testDeleteGroupReservationWithReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 1);
+		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 1);
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
@@ -570,10 +605,10 @@ public class PersistenceEntityTest {
 	public void testDeleteGroupReservationWithReservations() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation01 = new Reservation(new Date(), new Date(), "a", "b");
-		final Reservation testReservation02 = new Reservation(new Date(), new Date(), "a", "b");
-		final Reservation testReservation03 = new Reservation(new Date(), new Date(), "a", "b");
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 3);
+		final Reservation testReservation01 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final Reservation testReservation02 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final Reservation testReservation03 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 3);
 		testGroupReservation.associateReservation(testReservation01);
 		testGroupReservation.associateReservation(testReservation02);
 		testGroupReservation.associateReservation(testReservation03);
@@ -597,7 +632,7 @@ public class PersistenceEntityTest {
 	public void testDeleteOnlyReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
+		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, testReservation);
 		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);
@@ -624,9 +659,9 @@ public class PersistenceEntityTest {
 	public void testDeleteOneReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation01 = new Reservation(new Date(), new Date(), "a", "b");
-		final Reservation testReservation02 = new Reservation(new Date(), new Date(), "c", "d");
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 2);
+		final Reservation testReservation01 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final Reservation testReservation02 = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "c", "d");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 2);
 		testGroupReservation.associateReservation(testReservation01);
 		testGroupReservation.associateReservation(testReservation02);
 		testGroupReservation.associateRoom(firstRoom);
@@ -689,7 +724,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.flush();
 		final byte[] testReportDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
 
-		final Report testReport = new Report(new Date(), new Date(), new Date(), testReportDocument, testGroupReservation);
+		final Report testReport = new Report(new Date(), new DateMidnight().plusDays(1).toDate(), new DateMidnight().toDate(), testReportDocument, testGroupReservation);
 		reportDao.persist(testReport);
 		persistenceContextManager.flush();
 		persistenceContextManager.clear();
@@ -707,7 +742,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.flush();
 		final byte[] testReportDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
 
-		final Report testReport = new Report(new Date(), new Date(), new Date(), testReportDocument, testGroupReservation);
+		final Report testReport = new Report(new Date(), new DateMidnight().plusDays(1).toDate(), new DateMidnight().toDate(), testReportDocument, testGroupReservation);
 		reportDao.persist(testReport);
 		persistenceContextManager.flush();
 		logger.debug("persisted report as [" + testReport + "]");
@@ -801,8 +836,8 @@ public class PersistenceEntityTest {
 	private GroupReservation createTestGroupReservation() {
 		final User testUser = createTestUser();
 		final Room firstRoom = createFirstRoom();
-		final Reservation testReservation = new Reservation(new Date(), new Date(), "a", "b");
-		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, 1);
+		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), 1);
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.associateRoom(firstRoom);
 		groupReservationDao.persist(testGroupReservation);

@@ -3,6 +3,7 @@ package net.soomsam.zirmegghuette.zars.persistence.entity;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -30,6 +31,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Size;
 import org.hibernate.validator.event.JPAValidateListener;
+import org.joda.time.DateTime;
 
 @Entity
 @Table(name = GroupReservation.TABLENAME_GROUPRESERVATION)
@@ -37,6 +39,8 @@ import org.hibernate.validator.event.JPAValidateListener;
 public class GroupReservation extends BaseEntity {
 	public static final String TABLENAME_GROUPRESERVATION = "group_reservation";
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
+	public static final String COLUMNNAME_ARRIVAL = "arrival";
+	public static final String COLUMNNAME_DEPARTURE = "departure";
 	public static final String COLUMNNAME_COMMENT = "comment";
 	public static final String COLUMNNAME_GUESTS = "guests";
 	public static final String COLUMNNAME_BENEFICIARY_USERID = "beneficiary_user_id";
@@ -51,6 +55,14 @@ public class GroupReservation extends BaseEntity {
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = GroupReservation.COLUMNNAME_ARRIVAL, nullable = false)
+	private Date arrival;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = GroupReservation.COLUMNNAME_DEPARTURE, nullable = false)
+	private Date departure;
 
 	@Column(name = GroupReservation.COLUMNNAME_GUESTS, nullable = false)
 	private long guests;
@@ -87,16 +99,20 @@ public class GroupReservation extends BaseEntity {
 		super();
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final long guests) {
+	public GroupReservation(final User beneficiary, final User accountant, final Date arrival, final Date departure, final long guests) {
 		super();
+		this.arrival = arrival;
+		this.departure = departure;
 		this.guests = guests;
 
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final long guests, final String comment) {
+	public GroupReservation(final User beneficiary, final User accountant, final Date arrival, final Date departure, final long guests, final String comment) {
 		super();
+		this.arrival = arrival;
+		this.departure = departure;
 		this.guests = guests;
 		this.comment = comment;
 
@@ -148,9 +164,21 @@ public class GroupReservation extends BaseEntity {
 	}
 
 	@PrePersist
+	protected void prePersist() {
+		autoSetGuests();
+		autoSetArrivalDeparture();
+	}
+
 	protected void autoSetGuests() {
 		if (hasReservations()) {
 			this.guests = getReservations().size();
+		}
+	}
+
+	protected void autoSetArrivalDeparture() {
+		if (hasReservations()) {
+			this.arrival = getEarliestArrivalReservation().getArrival();
+			this.departure = getLatestDepartureReservation().getDeparture();
 		}
 	}
 
@@ -168,6 +196,30 @@ public class GroupReservation extends BaseEntity {
 
 	void setTimestamp(final Date timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public Date getArrival() {
+		return arrival;
+	}
+
+	public DateTime getArrivalDateTime() {
+		return new DateTime(getArrival());
+	}
+
+	public void setArrival(Date arrival) {
+		this.arrival = arrival;
+	}
+
+	public Date getDeparture() {
+		return departure;
+	}
+
+	public DateTime getDepartureDateTime() {
+		return new DateTime(getDeparture());
+	}
+
+	public void setDeparture(Date departure) {
+		this.departure = departure;
 	}
 
 	public long getGuests() {
@@ -306,6 +358,38 @@ public class GroupReservation extends BaseEntity {
 		}
 	}
 
+	public Reservation getEarliestArrivalReservation() {
+		if (!hasReservations()) {
+			return null;
+		}
+
+		Iterator<Reservation> reservationIterator = getReservations().iterator();
+		Reservation firstArrivalReservation = reservationIterator.next();
+		while (reservationIterator.hasNext()) {
+			Reservation currentReservation = reservationIterator.next();
+			if (currentReservation.getArrivalDateTime().isBefore(firstArrivalReservation.getArrivalDateTime())) {
+				firstArrivalReservation = currentReservation;
+			}
+		}
+		return firstArrivalReservation;
+	}
+
+	public Reservation getLatestDepartureReservation() {
+		if (!hasReservations()) {
+			return null;
+		}
+
+		Iterator<Reservation> reservationIterator = getReservations().iterator();
+		Reservation latestDepartureReservation = reservationIterator.next();
+		while (reservationIterator.hasNext()) {
+			Reservation currentReservation = reservationIterator.next();
+			if (currentReservation.getDepartureDateTime().isAfter(latestDepartureReservation.getDepartureDateTime())) {
+				latestDepartureReservation = currentReservation;
+			}
+		}
+		return latestDepartureReservation;
+	}
+
 	public Set<Room> getRooms() {
 		return Collections.unmodifiableSet(rooms);
 	}
@@ -434,16 +518,16 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		final GroupReservation other = (GroupReservation) obj;
-		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getTimestamp(), other.getTimestamp()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
+		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getTimestamp(), other.getTimestamp()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getGroupReservationId()).append(getTimestamp()).append(getGuests()).append(getComment()).toHashCode();
+		return new HashCodeBuilder().append(getGroupReservationId()).append(getTimestamp()).append(getArrival()).append(getDeparture()).append(getGuests()).append(getComment()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getGroupReservationId()).append(getTimestamp()).append(getGuests()).append(getComment()).toString();
+		return new ToStringBuilder(this).append(getGroupReservationId()).append(getTimestamp()).append(getArrival()).append(getDeparture()).append(getGuests()).append(getComment()).toString();
 	}
 }

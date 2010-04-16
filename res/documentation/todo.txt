@@ -1,10 +1,6 @@
 * EL expression in f:view should also default to request context if localeBean.activeLocale is null
-* review LocaleBean impl
-* integrate LocaleBean into header as menu
-
 * add start/end date to GroupReservation (double check if it can be persisted without Reservatiosn)
-* finally start implementing the first calendar page!
-* look into jetty with @ManagedBean (this would provide @ViewScoped)
+* verify that arrival is before departure for Reservation and GroupReservation
 
 * persistence entities
 	* add tests and conversion for Setting entity

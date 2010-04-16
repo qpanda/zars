@@ -20,6 +20,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.joda.time.DateTime;
 
 @Entity
 @Table(name = Reservation.TABLENAME_RESERVATION)
@@ -107,12 +108,20 @@ public class Reservation extends BaseEntity {
 		return arrival;
 	}
 
+	public DateTime getArrivalDateTime() {
+		return new DateTime(getArrival());
+	}
+
 	public void setArrival(final Date arrival) {
 		this.arrival = arrival;
 	}
 
 	public Date getDeparture() {
 		return departure;
+	}
+
+	public DateTime getDepartureDateTime() {
+		return new DateTime(getDeparture());
 	}
 
 	public void setDeparture(final Date departure) {
