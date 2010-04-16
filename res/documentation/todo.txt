@@ -1,6 +1,5 @@
+* verify that arrival is before departure for Reservation and GroupReservation and introduce null check (@NotNull does not work for GroupReservation because of @PrePersist)
 * EL expression in f:view should also default to request context if localeBean.activeLocale is null
-* add start/end date to GroupReservation (double check if it can be persisted without Reservatiosn)
-* verify that arrival is before departure for Reservation and GroupReservation
 
 * persistence entities
 	* add tests and conversion for Setting entity
