@@ -83,6 +83,28 @@ textarea:focus, input:focus {
 	width: 100%
 }
 
+.applicationPage {
+	background: #eee;
+	margin: 0;
+	padding: 0;
+}
+
+.applicationMenu {
+	padding: 20px 0 0px 8px;
+	float: left;
+	width: 190px;
+	background: #eee;
+}
+
+.applicationSection {
+	margin: 0 0 0 200px;
+    padding: 25px;
+	font-size: 10pt;
+	min-height: 650px;
+	height:auto !important; height: 650px;
+	background: white;
+}
+
 .content {
 	margin: 15px;
 }
@@ -155,6 +177,25 @@ textarea:focus, input:focus {
 	margin: 15px 15px 15px 15px;
 	text-align: left;
 	color: red;
+}
+
+.footer {
+	background-color: #114070;
+	padding: 0px;
+	margin: 0;
+	width: 100%;
+	clear: both;
+	font-size:9pt;
+	padding-top:3px;
+	padding-bottom:3px;
+}
+
+.footerText {
+	margin: 0;
+	padding: 0;
+	padding-right: 12px;
+	text-align: right;
+	color:#fff;
 }
 
 .yuimenubar {
