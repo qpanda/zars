@@ -355,6 +355,18 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation));
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateGroupReservationWithoutArrivalDeparture() {
+		final User testUser = createTestUser();
+		new GroupReservation(testUser, testUser, null, null, 1);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateGroupReservationWithInvalidArrivalDeparture() {
+		final User testUser = createTestUser();
+		new GroupReservation(testUser, testUser, new DateMidnight().plusDays(1).toDate(), new DateMidnight().toDate(), 1);
+	}
+
 	@Test
 	public void testCreateGroupReservationWithDifferentAccountant() {
 		final Role userRole = createUserRole();
@@ -532,6 +544,16 @@ public class PersistenceEntityTest {
 		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
 		reservationDao.persist(testReservation);
 		persistenceContextManager.flush();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateReservationWithoutArrivalDeparture() {
+		new Reservation(null, null, "a", "b");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateReservationWithInvalidArrivalDeparture() {
+		new Reservation(new DateMidnight().plusDays(1).toDate(), new DateMidnight().toDate(), "a", "b");
 	}
 
 	@Test

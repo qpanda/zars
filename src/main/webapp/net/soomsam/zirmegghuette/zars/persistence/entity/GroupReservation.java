@@ -100,6 +100,15 @@ public class GroupReservation extends BaseEntity {
 
 	public GroupReservation(final User beneficiary, final User accountant, final Date arrival, final Date departure, final long guests) {
 		super();
+
+		if ((null == arrival) || (null == departure)) {
+			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
+		}
+
+		if (new DateTime(arrival).isAfter(new DateTime(departure))) {
+			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
+		}
+
 		this.arrival = arrival;
 		this.departure = departure;
 		this.guests = guests;
@@ -110,6 +119,15 @@ public class GroupReservation extends BaseEntity {
 
 	public GroupReservation(final User beneficiary, final User accountant, final Date arrival, final Date departure, final long guests, final String comment) {
 		super();
+
+		if ((null == arrival) || (null == departure)) {
+			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
+		}
+
+		if (new DateTime(arrival).isAfter(new DateTime(departure))) {
+			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
+		}
+
 		this.arrival = arrival;
 		this.departure = departure;
 		this.guests = guests;

@@ -72,6 +72,15 @@ public class Reservation extends BaseEntity {
 
 	public Reservation(final Date arrival, final Date departure, final String firstName, final String lastName) {
 		super();
+
+		if ((null == arrival) || (null == departure)) {
+			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
+		}
+
+		if (new DateTime(arrival).isAfter(new DateTime(departure))) {
+			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
+		}
+
 		this.arrival = arrival;
 		this.departure = departure;
 		this.firstName = firstName;
@@ -80,6 +89,15 @@ public class Reservation extends BaseEntity {
 
 	public Reservation(final Date arrival, final Date departure, final String firstName, final String lastName, GroupReservation groupReservation) {
 		super();
+
+		if ((null == arrival) || (null == departure)) {
+			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
+		}
+
+		if (new DateTime(arrival).isAfter(new DateTime(departure))) {
+			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
+		}
+
 		this.arrival = arrival;
 		this.departure = departure;
 		this.firstName = firstName;
