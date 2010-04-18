@@ -41,14 +41,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * @author 1319361
- * 
- */
-/**
- * @author 1319361
- * 
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/WEB-INF/spring/core-context.xml" })
 @Transactional

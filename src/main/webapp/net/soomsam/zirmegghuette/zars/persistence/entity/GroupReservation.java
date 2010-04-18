@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -33,6 +35,7 @@ import org.joda.time.DateTime;
 
 @Entity
 @Table(name = GroupReservation.TABLENAME_GROUPRESERVATION)
+@NamedQueries( { @NamedQuery(name = GroupReservation.FINDGROUPRESERVATION_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATION_QUERYSTRING) })
 public class GroupReservation extends BaseEntity {
 	public static final String TABLENAME_GROUPRESERVATION = "group_reservation";
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
@@ -43,6 +46,9 @@ public class GroupReservation extends BaseEntity {
 	public static final String COLUMNNAME_BENEFICIARY_USERID = "beneficiary_user_id";
 	public static final String COLUMNNAME_ACCOUNTANT_USERID = "accountant_user_id";
 	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "group_reservation_room";
+
+	public static final String FINDGROUPRESERVATION_QUERYNAME = "GroupReservation.findGroupReservation";
+	public static final String FINDGROUPRESERVATION_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival <= :endDate) or (:startDate <= departure and departure <= :endDate) or (arrival <= :startDate and :endDate <= departure)";
 
 	@Id
 	@GeneratedValue

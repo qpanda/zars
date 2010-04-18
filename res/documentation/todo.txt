@@ -1,9 +1,6 @@
-* move away from spring repository lagging behind too much
-* upgrade to hibernate 3.5.x
-
-* verify that arrival is before departure for Reservation and GroupReservation and introduce null check (@NotNull does not work for GroupReservation because of @PrePersist)
 * maybe float multiple http://css.maxdesign.com.au/floatutorial/introduction10.htm allows me to display user in front of menu? otherwise deactivated menu item?
 * EL expression in f:view should also default to request context if localeBean.activeLocale is null
+* obtain version on login screen from application info bean (which loads it from properties file)
 
 * persistence entities
 	* add tests and conversion for Setting entity
@@ -13,6 +10,3 @@
 * gui
 	* start calendar week with MO
 	* add holidays
-* setup
-	* weld versus javax.inject
-	* hibernate validator setup

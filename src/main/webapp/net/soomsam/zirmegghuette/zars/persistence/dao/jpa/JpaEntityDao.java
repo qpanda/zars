@@ -16,6 +16,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityDao<Entity> {
 	/**
+	 * the maximum result set size retrieved from the database to protect the application from running out of memory
+	 */
+	public static int QUERY_MAXRESULTS = 10000;
+
+	/**
 	 * the persistence context used for all JPA based database access
 	 */
 	@PersistenceContext
@@ -24,7 +29,7 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	/**
 	 * the JDBC template used for all JDBC based database access
 	 */
-	// @Autowired
+	// TODO @Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	/**
@@ -97,7 +102,9 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 			throw new IllegalArgumentException("[queryName] must not be null");
 		}
 
-		return entityManager.createNamedQuery(queryName);
+		Query namedQuery = entityManager.createNamedQuery(queryName);
+		namedQuery.setMaxResults(QUERY_MAXRESULTS);
+		return namedQuery;
 	}
 
 	/**
@@ -112,6 +119,8 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 			throw new IllegalArgumentException("[jpQueryString] must not be null");
 		}
 
-		return entityManager.createQuery(jpQueryString);
+		Query query = entityManager.createQuery(jpQueryString);
+		query.setMaxResults(QUERY_MAXRESULTS);
+		return query;
 	}
 }
