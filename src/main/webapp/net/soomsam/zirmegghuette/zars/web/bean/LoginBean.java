@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import com.agimatec.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Named
 @SessionScoped

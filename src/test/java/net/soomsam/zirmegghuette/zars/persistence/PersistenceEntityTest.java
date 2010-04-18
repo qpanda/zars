@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
@@ -32,7 +32,6 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.Setting;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 
 import org.apache.log4j.Logger;
-import org.hibernate.validator.InvalidStateException;
 import org.joda.time.DateMidnight;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -102,7 +101,7 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(roleDao.findByPrimaryKey(adminRole.getRoleId()));
 	}
 
-	@Test(expected = InvalidStateException.class)
+	@Test(expected = ConstraintViolationException.class)
 	public void testCreateRoleWithoutName() {
 		final Role roleWithoutName = new Role(null);
 		roleDao.persist(roleWithoutName);
@@ -180,7 +179,7 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(fetchedTestUser.getRoles().contains(adminRole));
 	}
 
-	@Test(expected = InvalidStateException.class)
+	@Test(expected = ConstraintViolationException.class)
 	public void testCreateUserWithoutNameAndPassword() {
 		final User userWithoutNameAndPassword = new User(null, null, "test@test.com", true, createUserRole());
 		userDao.persist(userWithoutNameAndPassword);
@@ -201,7 +200,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.flush();
 	}
 
-	@Test(expected = InvalidStateException.class)
+	@Test(expected = ConstraintViolationException.class)
 	public void testCreateUserWithoutRoles() {
 		final User userWithoutRoles = new User("test", "test", "test@test.com", true, new HashSet<Role>());
 		userDao.persist(userWithoutRoles);
@@ -284,21 +283,21 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(roomDao.findByPrimaryKey(secondRoom.getRoomId()));
 	}
 
-	@Test(expected = InvalidStateException.class)
+	@Test(expected = ConstraintViolationException.class)
 	public void testCreateRoomWithoutName() {
 		final Room roomWithoutName = new Room(null, 1, 1, true);
 		roomDao.persist(roomWithoutName);
 		persistenceContextManager.flush();
 	}
 
-	@Test(expected = InvalidStateException.class)
+	@Test(expected = ConstraintViolationException.class)
 	public void testCreateRoomWithInvalidCapacity() {
 		final Room roomWithInvalidCapacity = new Room("invalid", -5, 1, true);
 		roomDao.persist(roomWithInvalidCapacity);
 		persistenceContextManager.flush();
 	}
 
-	@Test(expected = InvalidStateException.class)
+	@Test(expected = ConstraintViolationException.class)
 	public void testCreateRoomWithInvalidPrecedence() {
 		final Room roomWithInvalidPrecedence = new Room("invalid", 1, 0, true);
 		roomDao.persist(roomWithInvalidPrecedence);
@@ -487,7 +486,7 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation03));
 	}
 
-	@Test(expected = InvalidStateException.class)
+	@Test(expected = ConstraintViolationException.class)
 	public void testCreateGroupReservationWithoutRoom() {
 		final User testUser = createTestUser();
 		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
@@ -528,7 +527,7 @@ public class PersistenceEntityTest {
 		Assert.assertFalse(fetchedGroupReservation.hasReservations());
 	}
 
-	@Test(expected = PersistenceException.class)
+	@Test(expected = ConstraintViolationException.class)
 	public void testCreateReservation() {
 		final Reservation testReservation = new Reservation(new DateMidnight().toDate(), new DateMidnight().plusDays(1).toDate(), "a", "b");
 		reservationDao.persist(testReservation);

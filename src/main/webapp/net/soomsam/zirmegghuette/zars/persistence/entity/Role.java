@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,17 +16,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.hibernate.validator.NotEmpty;
-import org.hibernate.validator.NotNull;
-import org.hibernate.validator.event.JPAValidateListener;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = Role.TABLENAME_ROLE)
-@EntityListeners(value = { JPAValidateListener.class })
 public class Role extends BaseEntity {
 	public static final String TABLENAME_ROLE = "role";
 	public static final String COLUMNNAME_ROLEID = "role_id";

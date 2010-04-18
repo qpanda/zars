@@ -9,7 +9,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,18 +23,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.hibernate.validator.NotNull;
-import org.hibernate.validator.Size;
-import org.hibernate.validator.event.JPAValidateListener;
 import org.joda.time.DateTime;
 
 @Entity
 @Table(name = GroupReservation.TABLENAME_GROUPRESERVATION)
-@EntityListeners(value = { JPAValidateListener.class })
 public class GroupReservation extends BaseEntity {
 	public static final String TABLENAME_GROUPRESERVATION = "group_reservation";
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
@@ -56,10 +53,12 @@ public class GroupReservation extends BaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
 
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(name = GroupReservation.COLUMNNAME_ARRIVAL, nullable = false)
 	private Date arrival;
 
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(name = GroupReservation.COLUMNNAME_DEPARTURE, nullable = false)
 	private Date departure;
