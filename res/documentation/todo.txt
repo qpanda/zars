@@ -1,3 +1,5 @@
+* instead of using TemporalType revert to java.sql.* types! this should avoid problems in unit tests with/without clearing persistence context
+
 * maybe float multiple http://css.maxdesign.com.au/floatutorial/introduction10.htm allows me to display user in front of menu? otherwise deactivated menu item?
 * EL expression in f:view should also default to request context if localeBean.activeLocale is null
 * obtain version on login screen from application info bean (which loads it from properties file)
