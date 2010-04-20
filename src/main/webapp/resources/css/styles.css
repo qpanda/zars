@@ -57,7 +57,7 @@ textarea:focus, input:focus {
 	font-size: 8pt;
 	background-color: #3C78B5;
 	overflow: hidden;
-	width: 100%
+	width: 100%;
 }
 
 .applicationPage {
@@ -212,4 +212,8 @@ textarea:focus, input:focus {
 
 .yui-menu-shadow-visible {
 	visibility:hidden;
+}
+
+.yuimenubar ul {
+	*zoom:normal;
 }
