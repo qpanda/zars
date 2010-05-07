@@ -28,9 +28,12 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import net.soomsam.zirmegghuette.zars.persistence.utils.DateUtils;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 
 @Entity
@@ -104,7 +107,7 @@ public class GroupReservation extends BaseEntity {
 		super();
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final Date arrival, final Date departure, final long guests) {
+	public GroupReservation(final User beneficiary, final User accountant, final DateMidnight arrival, final DateMidnight departure, final long guests) {
 		super();
 
 		if ((null == arrival) || (null == departure)) {
@@ -115,15 +118,15 @@ public class GroupReservation extends BaseEntity {
 			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
 		}
 
-		this.arrival = arrival;
-		this.departure = departure;
+		this.arrival = DateUtils.convertDateMidnight(arrival);
+		this.departure = DateUtils.convertDateMidnight(departure);
 		this.guests = guests;
 
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final Date arrival, final Date departure, final long guests, final String comment) {
+	public GroupReservation(final User beneficiary, final User accountant, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) {
 		super();
 
 		if ((null == arrival) || (null == departure)) {
@@ -134,8 +137,8 @@ public class GroupReservation extends BaseEntity {
 			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
 		}
 
-		this.arrival = arrival;
-		this.departure = departure;
+		this.arrival = DateUtils.convertDateMidnight(arrival);
+		this.departure = DateUtils.convertDateMidnight(departure);
 		this.guests = guests;
 		this.comment = comment;
 
@@ -200,8 +203,8 @@ public class GroupReservation extends BaseEntity {
 
 	protected void autoSetArrivalDeparture() {
 		if (hasReservations()) {
-			this.arrival = getEarliestArrivalReservation().getArrival();
-			this.departure = getLatestDepartureReservation().getDeparture();
+			setArrival(getEarliestArrivalReservation().getArrival());
+			setDeparture(getLatestDepartureReservation().getDeparture());
 		}
 	}
 
@@ -221,35 +224,27 @@ public class GroupReservation extends BaseEntity {
 		this.timestamp = timestamp;
 	}
 
-	public Date getArrival() {
-		return arrival;
+	public DateMidnight getArrival() {
+		return DateUtils.convertDate(arrival);
 	}
 
-	public DateTime getArrivalDateTime() {
-		return new DateTime(getArrival());
+	public void setArrival(final DateMidnight arrival) {
+		this.arrival = DateUtils.convertDateMidnight(arrival);
 	}
 
-	public void setArrival(Date arrival) {
-		this.arrival = arrival;
+	public DateMidnight getDeparture() {
+		return DateUtils.convertDate(departure);
 	}
 
-	public Date getDeparture() {
-		return departure;
-	}
-
-	public DateTime getDepartureDateTime() {
-		return new DateTime(getDeparture());
-	}
-
-	public void setDeparture(Date departure) {
-		this.departure = departure;
+	public void setDeparture(final DateMidnight departure) {
+		this.departure = DateUtils.convertDateMidnight(departure);
 	}
 
 	public long getGuests() {
 		return guests;
 	}
 
-	public void setGuests(long guests) {
+	public void setGuests(final long guests) {
 		this.guests = guests;
 	}
 
@@ -386,11 +381,11 @@ public class GroupReservation extends BaseEntity {
 			return null;
 		}
 
-		Iterator<Reservation> reservationIterator = getReservations().iterator();
+		final Iterator<Reservation> reservationIterator = getReservations().iterator();
 		Reservation firstArrivalReservation = reservationIterator.next();
 		while (reservationIterator.hasNext()) {
-			Reservation currentReservation = reservationIterator.next();
-			if (currentReservation.getArrivalDateTime().isBefore(firstArrivalReservation.getArrivalDateTime())) {
+			final Reservation currentReservation = reservationIterator.next();
+			if (currentReservation.getArrival().isBefore(firstArrivalReservation.getArrival())) {
 				firstArrivalReservation = currentReservation;
 			}
 		}
@@ -402,11 +397,11 @@ public class GroupReservation extends BaseEntity {
 			return null;
 		}
 
-		Iterator<Reservation> reservationIterator = getReservations().iterator();
+		final Iterator<Reservation> reservationIterator = getReservations().iterator();
 		Reservation latestDepartureReservation = reservationIterator.next();
 		while (reservationIterator.hasNext()) {
-			Reservation currentReservation = reservationIterator.next();
-			if (currentReservation.getDepartureDateTime().isAfter(latestDepartureReservation.getDepartureDateTime())) {
+			final Reservation currentReservation = reservationIterator.next();
+			if (currentReservation.getDeparture().isAfter(latestDepartureReservation.getDeparture())) {
 				latestDepartureReservation = currentReservation;
 			}
 		}
@@ -521,7 +516,7 @@ public class GroupReservation extends BaseEntity {
 	}
 
 	@Override
-	public boolean sameVersion(BaseEntity entity) {
+	public boolean sameVersion(final BaseEntity entity) {
 		if (!(entity instanceof GroupReservation)) {
 			return false;
 		}

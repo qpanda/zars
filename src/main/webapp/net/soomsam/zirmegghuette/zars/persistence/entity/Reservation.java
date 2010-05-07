@@ -16,10 +16,13 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
+import net.soomsam.zirmegghuette.zars.persistence.utils.DateUtils;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 
 @Entity
@@ -70,7 +73,7 @@ public class Reservation extends BaseEntity {
 		super();
 	}
 
-	public Reservation(final Date arrival, final Date departure, final String firstName, final String lastName) {
+	public Reservation(final DateMidnight arrival, final DateMidnight departure, final String firstName, final String lastName) {
 		super();
 
 		if ((null == arrival) || (null == departure)) {
@@ -81,13 +84,13 @@ public class Reservation extends BaseEntity {
 			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
 		}
 
-		this.arrival = arrival;
-		this.departure = departure;
+		this.arrival = DateUtils.convertDateMidnight(arrival);
+		this.departure = DateUtils.convertDateMidnight(departure);
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
 
-	public Reservation(final Date arrival, final Date departure, final String firstName, final String lastName, GroupReservation groupReservation) {
+	public Reservation(final DateMidnight arrival, final DateMidnight departure, final String firstName, final String lastName, final GroupReservation groupReservation) {
 		super();
 
 		if ((null == arrival) || (null == departure)) {
@@ -98,8 +101,8 @@ public class Reservation extends BaseEntity {
 			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
 		}
 
-		this.arrival = arrival;
-		this.departure = departure;
+		this.arrival = DateUtils.convertDateMidnight(arrival);
+		this.departure = DateUtils.convertDateMidnight(departure);
 		this.firstName = firstName;
 		this.lastName = lastName;
 
@@ -122,28 +125,20 @@ public class Reservation extends BaseEntity {
 		this.timestamp = timestamp;
 	}
 
-	public Date getArrival() {
-		return arrival;
+	public DateMidnight getArrival() {
+		return DateUtils.convertDate(arrival);
 	}
 
-	public DateTime getArrivalDateTime() {
-		return new DateTime(getArrival());
+	public void setArrival(final DateMidnight arrival) {
+		this.arrival = DateUtils.convertDateMidnight(arrival);
 	}
 
-	public void setArrival(final Date arrival) {
-		this.arrival = arrival;
+	public DateMidnight getDeparture() {
+		return DateUtils.convertDate(departure);
 	}
 
-	public Date getDeparture() {
-		return departure;
-	}
-
-	public DateTime getDepartureDateTime() {
-		return new DateTime(getDeparture());
-	}
-
-	public void setDeparture(final Date departure) {
-		this.departure = departure;
+	public void setDeparture(final DateMidnight departure) {
+		this.departure = DateUtils.convertDateMidnight(departure);
 	}
 
 	public String getFirstName() {

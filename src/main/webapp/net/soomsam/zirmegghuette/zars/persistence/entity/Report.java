@@ -22,9 +22,12 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import net.soomsam.zirmegghuette.zars.persistence.utils.DateUtils;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.joda.time.DateMidnight;
 
 @Entity
 @Table(name = Report.TABLENAME_REPORT)
@@ -82,23 +85,23 @@ public class Report extends BaseEntity {
 		this.stale = false;
 	}
 
-	public Report(final Date date, final Date periodStart, final Date periodEnd, final byte[] document, final GroupReservation groupReservation) {
+	public Report(final Date date, final DateMidnight periodStart, final DateMidnight periodEnd, final byte[] document, final GroupReservation groupReservation) {
 		super();
 		this.stale = false;
 		this.date = date;
-		this.periodStart = periodStart;
-		this.periodEnd = periodEnd;
+		this.periodStart = DateUtils.convertDateMidnight(periodStart);
+		this.periodEnd = DateUtils.convertDateMidnight(periodEnd);
 		this.document = document;
 
 		associateGroupReservation(groupReservation);
 	}
 
-	public Report(final Date date, final Date periodStart, final Date periodEnd, final byte[] document, final Set<GroupReservation> groupReservations) {
+	public Report(final Date date, final DateMidnight periodStart, final DateMidnight periodEnd, final byte[] document, final Set<GroupReservation> groupReservations) {
 		super();
 		this.stale = false;
 		this.date = date;
-		this.periodStart = periodStart;
-		this.periodEnd = periodEnd;
+		this.periodStart = DateUtils.convertDateMidnight(periodStart);
+		this.periodEnd = DateUtils.convertDateMidnight(periodEnd);
 		this.document = document;
 
 		associateGroupReservations(groupReservations);
@@ -128,20 +131,20 @@ public class Report extends BaseEntity {
 		this.date = date;
 	}
 
-	public Date getPeriodStart() {
-		return periodStart;
+	public DateMidnight getPeriodStart() {
+		return DateUtils.convertDate(periodStart);
 	}
 
-	public void setPeriodStart(Date periodStart) {
-		this.periodStart = periodStart;
+	public void setPeriodStart(final DateMidnight periodStart) {
+		this.periodStart = DateUtils.convertDateMidnight(periodStart);
 	}
 
-	public Date getPeriodEnd() {
-		return periodEnd;
+	public DateMidnight getPeriodEnd() {
+		return DateUtils.convertDate(periodEnd);
 	}
 
-	public void setPeriodEnd(Date periodEnd) {
-		this.periodEnd = periodEnd;
+	public void setPeriodEnd(final DateMidnight periodEnd) {
+		this.periodEnd = DateUtils.convertDateMidnight(periodEnd);
 	}
 
 	public byte[] getDocument() {
@@ -156,7 +159,7 @@ public class Report extends BaseEntity {
 		return stale;
 	}
 
-	public void setStale(boolean stale) {
+	public void setStale(final boolean stale) {
 		this.stale = stale;
 	}
 
