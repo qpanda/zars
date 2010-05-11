@@ -19,6 +19,7 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<GroupReservation> findGroupReservation(final Interval dateInterval) {
 		if (null == dateInterval) {
 			throw new IllegalArgumentException("'dateInterval' must not be null");
