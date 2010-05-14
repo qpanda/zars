@@ -14,7 +14,13 @@
 	<import resource="classpath:/WEB-INF/spring/persistence-context.xml" />
 	<import resource="classpath:/WEB-INF/spring/security-context.xml" />
  	
+ 	<context:annotation-config />
+ 	<context:component-scan base-package="net.soomsam.zirmegghuette.zars" />
 	<context:property-placeholder location="classpath:/WEB-INF/spring/context.properties" />
-	<context:component-scan base-package="net.soomsam.zirmegghuette.zars" />	
-	<context:annotation-config />	
+	
+	<bean id="applicationInfoHolder" class="net.soomsam.zirmegghuette.zars.service.bean.ApplicationInfoHolder">
+		<property name="applicationInfoProperties">
+			<util:properties location="classpath:/WEB-INF/spring/zars.properties"/>
+		</property>
+	</bean>
 </beans>
