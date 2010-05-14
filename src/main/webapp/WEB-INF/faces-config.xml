@@ -9,6 +9,7 @@
 			<supported-locale>en</supported-locale>
 			<supported-locale>de</supported-locale>
 		</locale-config>
-		<message-bundle>DisplayMessages</message-bundle>
+		<message-bundle>DisplayMessages</message-bundle>		
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
 </faces-config>
