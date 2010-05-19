@@ -1145,22 +1145,6 @@
 		in a backing bean]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="id">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Id of the component]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="rendered">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Boolean value to specify the visibility of the component]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="binding">
-            <xs:annotation>
-               <xs:documentation><![CDATA[An EL expression that maps to a server-side component instance
-		in a backing bean]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="value">
             <xs:annotation>
                <xs:documentation><![CDATA[Value of the component that can be either an EL expression or a
