@@ -83,6 +83,15 @@ textarea:focus, input:focus {
 	background: white;
 }
 
+/* Hide from IE5-mac. Only IE-win sees this. \*/
+* html .applicationMenu {
+	margin-right: -3px;
+}
+* html .applicationSection {
+	margin-left: 0;
+}
+/* End hide from IE5/mac */
+
 .content {
 	margin: 15px;
 }
