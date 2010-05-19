@@ -194,7 +194,7 @@ textarea:focus, input:focus {
 	color:#FFFFFF; 
 }
 
-.yui-skin-sam .yuimenubaritemlabel {
+.yui-skin-sam .yuimenubaritemlabel,.yui-skin-sam .yuimenubaritemlabel:visited {
 	color:#FFFFFF;
 	border:none;
 	cursor:pointer;
@@ -221,7 +221,7 @@ textarea:focus, input:focus {
 
 .yui-skin-sam .yuimenu .bd {
 	border:none;
-	background-color:inherit;
+	background-color:#f0f0f0;
 	padding:0;	
 }
 
@@ -236,4 +236,16 @@ textarea:focus, input:focus {
 .yui-skin-sam .yuimenu h6.first-of-type {
 	border-width:0;
 	border-bottom:solid 1px #3c78b5;
+}
+
+.yui-skin-sam .yuimenuitem-selected {
+	background-color:#ffffcc;
+}
+
+.yui-skin-sam .yuimenuitemlabel, .yui-skin-sam .yuimenuitemlabel:visited {
+	color:#000;
+}
+
+.yui-skin-sam .yuimenuitem {
+	border-width:0;
 }
