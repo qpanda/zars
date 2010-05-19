@@ -61,16 +61,17 @@ textarea:focus, input:focus {
 }
 
 .applicationPage {
-	background: #eee;
+	background: #f0f0f0;
 	margin: 0;
 	padding: 0;
 }
 
 .applicationMenu {
-	padding: 8px 0 0px 8px;
+	margin: 0;
+	padding: 0;
 	float: left;
 	width: 190px;
-	background: #eee;
+	background: #f0f0f0;
 }
 
 .applicationSection {
@@ -216,4 +217,23 @@ textarea:focus, input:focus {
 
 .yuimenubar ul {
 	*zoom:normal;
+}
+
+.yui-skin-sam .yuimenu .bd {
+	border:none;
+	background-color:inherit;
+	padding:0;	
+}
+
+.yui-skin-sam .yuimenu h6 {
+	color:black;
+	font-size: 12px;
+	background-color:#dddddd;
+	border-width:0;
+	border-bottom:solid 1px #3c78b5;
+}
+
+.yui-skin-sam .yuimenu h6.first-of-type {
+	border-width:0;
+	border-bottom:solid 1px #3c78b5;
 }
