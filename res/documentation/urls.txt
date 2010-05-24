@@ -34,3 +34,4 @@ http://www.guruja.co.cc/index.php/JSF_Problems_And_Solutions
 http://wiki.apache.org/myfaces/Displaying_Errors/Infos/Warnings_in_JSF_Pages
 http://www.ilikespam.com/blog/c:foreach-vs-ui:repeat-in-facelets
 http://www.quirksmode.org/
+http://spring-java-ee.blogspot.com/2010/02/solving-tomcat-jsf-20-error.html
