@@ -6,8 +6,10 @@
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd">
 		<h:form>
 			<p:menu effect="NONE" effectDuration="0">
-				<p:submenu title="Mail" label="Mail">
-					<p:menuitem label="Gmail" url="http://www.google.com" />
+				<p:submenu title="Administration" label="Administration">
+					<p:menuitem label="Users">
+						<h:outputLink value="/views/addUser.jsf">#{displayMessages.sectionsApplicationAddUserMenuLabel}</h:outputLink>
+					</p:menuitem>
 					<p:menuitem label="Hotmail" url="http://www.hotmail.com" />
 					<p:menuitem label="Yahoo Mail" url="http://mail.yahoo.com" />
 				</p:submenu>
