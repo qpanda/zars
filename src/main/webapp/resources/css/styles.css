@@ -137,6 +137,7 @@ textarea:focus, input:focus {
 	margin: 2px;
 	color: #114070;
 	text-align: left;
+	font-weight: bold;
 }
 
 .loginFormInput {
@@ -164,6 +165,57 @@ textarea:focus, input:focus {
 	margin: 15px 15px 15px 15px;
 	text-align: left;
 	color: red;
+}
+
+.applicationDialog {
+	margin-left: 0px;
+	margin-right: 50px;
+	width:100%;
+}
+
+.applicationForm {
+	padding: 0px;
+	border:3px solid #3C78B5;
+	background:#efefef;
+}
+
+.applicationFormTitle {
+	font-size: 12pt;
+	font-weight: bold;
+	color: #fff;
+	background: #3C78B5;
+	margin: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.applicationFormItem {
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	text-align: left;
+}
+
+.applicationFormLabel {
+	margin: 2px;
+	color: #114070;
+	text-align: left;
+	font-weight: bold;
+}
+
+.applicationFormInput {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #114070;
+}
+
+.applicationFormButton {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #114070;
 }
 
 .footer {
