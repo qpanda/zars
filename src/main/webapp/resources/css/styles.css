@@ -202,7 +202,7 @@ textarea:focus, input:focus {
 
 .applicationFormLabel {
 	margin: 2px;
-	color: #114070;
+	color: #000000;
 	text-align: left;
 	font-weight: bold;
 }
@@ -210,13 +210,13 @@ textarea:focus, input:focus {
 .applicationFormInput {
 	margin: 2px;
 	padding: 2px;
-	border: 1px solid #114070;
+	border: 1px solid #000000;
 }
 
 .applicationFormButton {
 	margin: 2px;
 	padding: 2px;
-	border: 1px solid #114070;
+	border: 1px solid #000000;
 }
 
 .footer {
