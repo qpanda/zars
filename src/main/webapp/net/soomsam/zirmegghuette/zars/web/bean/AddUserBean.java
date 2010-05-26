@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Named
@@ -18,6 +19,8 @@ public class AddUserBean implements Serializable {
 	@NotEmpty(message = "{sectionsApplicationAddUserPasswordError}")
 	private String password;
 
+	@NotEmpty(message = "{sectionsApplicationAddUserEmailAddressError}")
+	@Email(message = "{sectionsApplicationAddUserEmailAddressError}")
 	private String emailAddress;
 
 	private String firstName;
