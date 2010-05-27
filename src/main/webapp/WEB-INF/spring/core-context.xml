@@ -23,4 +23,6 @@
 			<util:properties location="classpath:/WEB-INF/spring/zars.properties"/>
 		</property>
 	</bean>
+	
+	<bean id="dozerBeanMapper" class="org.dozer.spring.DozerBeanMapperFactoryBean"/>
 </beans>
