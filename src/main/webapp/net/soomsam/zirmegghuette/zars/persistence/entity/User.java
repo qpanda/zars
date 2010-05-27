@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class User extends BaseEntity {
 	public static final String TABLENAME_USER = "user";
 	public static final String COLUMNNAME_USERID = "user_id";
-	public static final String COLUMNNAME_USERNAME = "user_name";
+	public static final String COLUMNNAME_USERNAME = "username";
 	public static final String COLUMNNAME_EMAILADDRESS = "email_address";
 	public static final String COLUMNNAME_FIRSTNAME = "first_name";
 	public static final String COLUMNNAME_LASTNAME = "last_name";
@@ -53,7 +53,7 @@ public class User extends BaseEntity {
 	@NotNull
 	@NotEmpty
 	@Column(name = User.COLUMNNAME_USERNAME, unique = true, nullable = false, length = 256)
-	private String userName;
+	private String username;
 
 	@NotNull
 	@NotEmpty
@@ -91,14 +91,14 @@ public class User extends BaseEntity {
 		super();
 	}
 
-	public User(final String userName, final String password, final String emailAddress, final boolean enabled, final Role role) {
+	public User(final String username, final String password, final String emailAddress, final boolean enabled, final Role role) {
 		super();
 
 		if (null == role) {
 			throw new IllegalArgumentException("'role' must not be null");
 		}
 
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.emailAddress = emailAddress;
 		this.enabled = enabled;
@@ -106,9 +106,9 @@ public class User extends BaseEntity {
 		associateRole(role);
 	}
 
-	public User(final String userName, final String password, final String emailAddress, final boolean enabled, final Set<Role> roles) {
+	public User(final String username, final String password, final String emailAddress, final boolean enabled, final Set<Role> roles) {
 		super();
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.emailAddress = emailAddress;
 		this.enabled = enabled;
@@ -116,9 +116,9 @@ public class User extends BaseEntity {
 		associateRoles(roles);
 	}
 
-	public User(final String userName, final String password, final String emailAddress, final String firstName, final String lastName, final boolean enabled, final Set<Role> roles) {
+	public User(final String username, final String password, final String emailAddress, final String firstName, final String lastName, final boolean enabled, final Set<Role> roles) {
 		super();
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.emailAddress = emailAddress;
 		this.firstName = firstName;
@@ -128,9 +128,9 @@ public class User extends BaseEntity {
 		associateRoles(roles);
 	}
 
-	public User(final String userName, final String password, final String emailAddress, final String firstName, final String lastName, final boolean enabled, final Role role) {
+	public User(final String username, final String password, final String emailAddress, final String firstName, final String lastName, final boolean enabled, final Role role) {
 		super();
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.emailAddress = emailAddress;
 		this.firstName = firstName;
@@ -156,12 +156,12 @@ public class User extends BaseEntity {
 		this.timestamp = timestamp;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(final String userName) {
-		this.userName = userName;
+	public void setUsername(final String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -176,7 +176,7 @@ public class User extends BaseEntity {
 		return emailAddress;
 	}
 
-	public void setEmailAddress(String emailAddress) {
+	public void setEmailAddress(final String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
 
@@ -333,16 +333,16 @@ public class User extends BaseEntity {
 		}
 
 		final User other = (User) obj;
-		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getTimestamp(), other.getTimestamp()).append(getUserName(), other.getUserName()).append(getPassword(), other.getPassword()).append(getEmailAddress(), other.getEmailAddress()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).append(isEnabled(), other.isEnabled()).isEquals();
+		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getTimestamp(), other.getTimestamp()).append(getUsername(), other.getUsername()).append(getPassword(), other.getPassword()).append(getEmailAddress(), other.getEmailAddress()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).append(isEnabled(), other.isEnabled()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getUserId()).append(getTimestamp()).append(getUserName()).append(getPassword()).append(getEmailAddress()).append(getFirstName()).append(getLastName()).append(isEnabled()).toHashCode();
+		return new HashCodeBuilder().append(getUserId()).append(getTimestamp()).append(getUsername()).append(getPassword()).append(getEmailAddress()).append(getFirstName()).append(getLastName()).append(isEnabled()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getUserId()).append(getTimestamp()).append(getUserName()).append(getPassword()).append(getEmailAddress()).append(getFirstName()).append(getLastName()).append(isEnabled()).toString();
+		return new ToStringBuilder(this).append(getUserId()).append(getTimestamp()).append(getUsername()).append(getPassword()).append(getEmailAddress()).append(getFirstName()).append(getLastName()).append(isEnabled()).toString();
 	}
 }
