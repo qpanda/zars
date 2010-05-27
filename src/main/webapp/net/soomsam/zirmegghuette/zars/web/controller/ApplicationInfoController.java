@@ -1,4 +1,4 @@
-package net.soomsam.zirmegghuette.zars.web.bean;
+package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
 import java.util.Properties;
