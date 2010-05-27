@@ -1,5 +1,5 @@
 * maybe float multiple http://css.maxdesign.com.au/floatutorial/introduction10.htm allows me to display user in front of menu? otherwise deactivated menu item?
-* EL expression in f:view should also default to request context if localeBean.activeLocale is null
+* EL expression in f:view should also default to request context if localeController.activeLocale is null
 
 * persistence entities
 	* add tests and conversion for Setting entity

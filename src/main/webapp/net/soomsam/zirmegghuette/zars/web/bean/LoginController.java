@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Named
 @SessionScoped
-public class LoginBean implements Serializable {
+public class LoginController implements Serializable {
 	@NotEmpty(message = "{sectionsWelcomeLoginUsernameError}")
 	private String username;
 

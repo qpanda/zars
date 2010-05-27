@@ -7,23 +7,23 @@
 	<div class="loginDialog">
 		<h:form id="loginForm" prependId="false" styleClass="loginForm">
 			<div class="loginFormTitle">#{displayMessages.sectionsWelcomeLoginDialogLabel}</div>
-			<div class="loginFormSubtitle">v#{applicationInfoBean.applicationInfo['zars.version']}</div>
+			<div class="loginFormSubtitle">v#{applicationInfoController.applicationInfo['zars.version']}</div>
 			<div class="loginFormItem">
 				<h:outputLabel for="j_username" styleClass="loginFormLabel" value="#{displayMessages.sectionsWelcomeLoginUsernameLabel}" /><br />
-				<h:inputText id="j_username" styleClass="loginFormInput" value="#{loginBean.username}" />
+				<h:inputText id="j_username" styleClass="loginFormInput" value="#{loginController.username}" />
 			</div>
 			<div class="loginFormItem">
 				<h:outputLabel for="j_password" styleClass="loginFormLabel" value="#{displayMessages.sectionsWelcomeLoginPasswordLabel}" /><br />
-				<h:inputSecret id="j_password" styleClass="loginFormInput" value="#{loginBean.password}" />
+				<h:inputSecret id="j_password" styleClass="loginFormInput" value="#{loginController.password}" />
 			</div>
 			<div class="loginFormItem">
-				<h:commandButton id="login" type="submit" action="#{loginBean.login}" styleClass="loginFormButton" value="#{displayMessages.sectionsWelcomeLoginLoginButton}" />
+				<h:commandButton id="login" type="submit" action="#{loginController.login}" styleClass="loginFormButton" value="#{displayMessages.sectionsWelcomeLoginLoginButton}" />
 			</div>
 			<div class="loginFormHelp"><h:outputLink value="/views/help.jsf">#{displayMessages.sectionsWelcomeLoginHelp}</h:outputLink> - <h:outputLink value="/views/terms.jsf">#{displayMessages.sectionsWelcomeLoginTerms}</h:outputLink></div>
 		</h:form>
 		<div class="loginFormMessage">
 			<p:messages />
-			<h:outputText rendered="#{loginBean.loginFailed}" value="#{loginBean.loginFailedMessage}" />				
+			<h:outputText rendered="#{loginController.loginFailed}" value="#{loginController.loginFailedMessage}" />				
 		</div>
 	</div>
 </ui:composition>

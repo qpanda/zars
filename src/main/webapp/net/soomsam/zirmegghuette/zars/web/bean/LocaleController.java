@@ -19,14 +19,14 @@ import org.primefaces.component.commandlink.CommandLink;
 
 @Named
 @SessionScoped
-public class LocaleBean implements Serializable {
-	private final static Logger logger = Logger.getLogger(LocaleBean.class);
+public class LocaleController implements Serializable {
+	private final static Logger logger = Logger.getLogger(LocaleController.class);
 
 	private final String commandLinkSelectLocaleAttributeName = "selectLocale";
 
 	private String selectedLocale = null;
 
-	public LocaleBean() {
+	public LocaleController() {
 		super();
 	}
 

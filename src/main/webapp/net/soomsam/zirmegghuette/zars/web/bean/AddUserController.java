@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Named
 @SessionScoped
-public class AddUserBean implements Serializable {
+public class AddUserController implements Serializable {
 	@NotEmpty(message = "{sectionsApplicationAddUserUserNameError}")
 	private String userName;
 

@@ -12,10 +12,10 @@ import org.primefaces.model.ScheduleModel;
 
 @Named
 @RequestScoped
-public class GroupReservationScheduleBean implements Serializable {
+public class GroupReservationController implements Serializable {
 	private final ScheduleModel schedule;
 
-	public GroupReservationScheduleBean() {
+	public GroupReservationController() {
 		super();
 		this.schedule = new DefaultScheduleModel();
 		this.schedule.addEvent(new ScheduleEventImpl("test", new Date(), new Date()));

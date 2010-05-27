@@ -11,10 +11,10 @@
 			<h:form>
 				<p:menubar effect="NONE" effectDuration="0">
 					<p:submenu label="#{displayMessages.sectionsWelcomeHeaderLanguageMenuLabel}">
-						<c:forEach var="selectLocale" items="#{localeBean.selectLocales}">
+						<c:forEach var="selectLocale" items="#{localeController.selectLocales}">
 							<p:menuitem>
-								<p:commandLink actionListener="#{localeBean.setSelectedLocale}" action="#{localeBean.changeLocale}" value="#{selectLocale.label}" ajax="false">
-									<f:attribute name="#{localeBean.commandLinkSelectLocaleAttributeName}" value="#{selectLocale.value}" />
+								<p:commandLink actionListener="#{localeController.setSelectedLocale}" action="#{localeController.changeLocale}" value="#{selectLocale.label}" ajax="false">
+									<f:attribute name="#{localeController.commandLinkSelectLocaleAttributeName}" value="#{selectLocale.value}" />
 								</p:commandLink>						
 							</p:menuitem>
 						</c:forEach>
