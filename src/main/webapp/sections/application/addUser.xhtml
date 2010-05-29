@@ -9,28 +9,34 @@
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAddUserDialogLabel}</div>
 			<div class="applicationFormItem">		
 				<h:outputLabel for="username" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAddUserUserNameLabel}" /><br />
-				<h:inputText id="username" styleClass="applicationFormInput" value="#{addUserController.username}" />
+				<h:inputText id="username" styleClass="applicationFormInput" value="#{addUserController.username}" size="25" />
 				<p:message for="username" />
 			</div>
 			<div class="applicationFormItem">		
 				<h:outputLabel for="password" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAddUserPasswordLabel}" /><br />
-				<h:inputText id="password" styleClass="applicationFormInput" value="#{addUserController.password}" />
+				<h:inputText id="password" styleClass="applicationFormInput" value="#{addUserController.password}" size="25" />
 				<p:message for="password"/>
 			</div>
 			<div class="applicationFormItem">		
 				<h:outputLabel for="firstName" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAddUserFirstNameLabel}" /><br />
-				<h:inputText id="firstName" styleClass="applicationFormInput" value="#{addUserController.firstName}" />
+				<h:inputText id="firstName" styleClass="applicationFormInput" value="#{addUserController.firstName}" size="35" />
 				<p:message for="firstName"/>
 			</div>
 			<div class="applicationFormItem">		
 				<h:outputLabel for="lastName" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAddUserLastNameLabel}" /><br />
-				<h:inputText id="lastName" styleClass="applicationFormInput" value="#{addUserController.lastName}" />
+				<h:inputText id="lastName" styleClass="applicationFormInput" value="#{addUserController.lastName}" size="35"/>
 				<p:message for="lastName"/>
 			</div>
 			<div class="applicationFormItem">		
 				<h:outputLabel for="emailAddress" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAddUserEmailAddressLabel}" /><br />
-				<h:inputText id="emailAddress" styleClass="applicationFormInput" value="#{addUserController.emailAddress}" />
+				<h:inputText id="emailAddress" styleClass="applicationFormInput" value="#{addUserController.emailAddress}" size="35" />
 				<p:message for="emailAddress"/>
+			</div>
+			<div class="applicationFormSeparator"/>
+			<div class="applicationFormItem">		
+				<h:outputLabel for="roles" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAddUserRolesLabel}" /><br />
+				<p:pickList id="roles" value="#{addUserController.roleDualListModel}" var="role" itemLabel="#{role.name}" itemValue="#{role.roleId}" converter="roleBeanConverter"/>
+				<p:message for="roles"/>
 			</div>
 			<div class="applicationFormItem">
 				<h:commandButton id="addUser" type="submit" action="#{addUserController.create}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAddUserCreateButton}" />

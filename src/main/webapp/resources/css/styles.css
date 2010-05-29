@@ -219,6 +219,14 @@ textarea:focus, input:focus {
 	border: 1px solid #000000;
 }
 
+.applicationFormSeparator {
+	margin-left: 15px;
+	margin-right: 15px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	border-bottom:1px solid #3C78B5;
+}
+
 .footer {
 	background-color: #114070;
 	padding: 0px;
@@ -310,4 +318,8 @@ textarea:focus, input:focus {
 
 .yui-skin-sam .yuimenuitem {
 	border-width:0;
+}
+
+.pf-picklist-source,.pf-picklist-target {
+	min-height: 100px;
 }

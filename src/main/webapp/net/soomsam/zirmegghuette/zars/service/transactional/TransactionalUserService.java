@@ -3,7 +3,6 @@ package net.soomsam.zirmegghuette.zars.service.transactional;
 import java.util.List;
 
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
-import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.utils.ServiceBeanMapper;
@@ -24,7 +23,6 @@ public class TransactionalUserService implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<RoleBean> findAllRoles() {
-		final List<Role> roleList = roleDao.findAll();
-		return serviceBeanMapper.map(RoleBean.class, roleList);
+		return serviceBeanMapper.map(RoleBean.class, roleDao.findAll());
 	}
 }

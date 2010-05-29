@@ -14,7 +14,6 @@ public class ServiceBeanMapper {
 	@Autowired
 	private Mapper dozerBeanMapper;
 
-	@SuppressWarnings("unchecked")
 	public <T extends Object> T map(final Class<T> destinationType, final Object sourceObject) {
 		if (null == destinationType) {
 			throw new IllegalArgumentException("'destinationType' must not be null");
