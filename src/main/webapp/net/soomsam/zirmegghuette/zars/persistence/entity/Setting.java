@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,12 +21,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = Setting.TABLENAME_SETTING)
+@NamedQueries( { @NamedQuery(name = Setting.FINDSETTING_QUERYNAME, query = Setting.FINDSETTING_QUERYSTRING) })
 public class Setting extends BaseEntity {
 	public static final String TABLENAME_SETTING = "setting";
 	public static final String COLUMNNAME_SETTINGID = "setting_id";
 	public static final String COLUMNNAME_NAME = "name";
 	public static final String COLUMNNAME_VALUE = "value";
 	public static final String COLUMNNAME_TYPE = "type";
+
+	public static final String FINDSETTING_QUERYNAME = "Setting.findSetting";
+	public static final String FINDSETTING_QUERYSTRING = "from Setting where name = :name";
 
 	@Id
 	@GeneratedValue
@@ -50,6 +56,13 @@ public class Setting extends BaseEntity {
 
 	protected Setting() {
 		super();
+	}
+
+	public Setting(final String name, final String type) {
+		super();
+		this.name = name;
+		this.value = null;
+		this.type = type;
 	}
 
 	public Setting(final String name, final String value, final String type) {
@@ -89,6 +102,10 @@ public class Setting extends BaseEntity {
 
 	public void setValue(final String value) {
 		this.value = value;
+	}
+
+	public boolean hasValue() {
+		return null != value;
 	}
 
 	public String getType() {

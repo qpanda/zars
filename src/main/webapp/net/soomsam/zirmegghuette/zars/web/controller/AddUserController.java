@@ -3,9 +3,7 @@ package net.soomsam.zirmegghuette.zars.web.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -37,8 +35,6 @@ public class AddUserController implements Serializable {
 	private String firstName;
 
 	private String lastName;
-
-	private Set<Long> roleIdSet = new HashSet<Long>();
 
 	private DualListModel<RoleBean> roleDualListModel;
 
@@ -80,14 +76,6 @@ public class AddUserController implements Serializable {
 
 	public void setLastName(final String lastName) {
 		this.lastName = lastName;
-	}
-
-	public Set<Long> getRoleIdSet() {
-		return roleIdSet;
-	}
-
-	public void setRoleIdSet(final Set<Long> roleIdSet) {
-		this.roleIdSet = roleIdSet;
 	}
 
 	public DualListModel<RoleBean> getRoleDualListModel() {
