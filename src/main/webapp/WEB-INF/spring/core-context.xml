@@ -25,4 +25,6 @@
 	</bean>
 	
 	<bean id="dozerBeanMapper" class="org.dozer.spring.DozerBeanMapperFactoryBean"/>
+	
+	<bean id="databaseService" class="net.soomsam.zirmegghuette.zars.service.stateless.StatelessDatabaseService" init-method="createInitialDataSet"/>
 </beans>

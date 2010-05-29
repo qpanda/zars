@@ -7,13 +7,17 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class RoleBean extends BaseBean {
-	private final long roleId;
+	private long roleId;
 
-	private final Date timestamp;
+	private Date timestamp;
 
-	private final String name;
+	private String name;
 
-	public RoleBean(final long roleId, final Date timestamp, final String name) {
+	public RoleBean() {
+		super();
+	}
+
+	public RoleBean(long roleId, Date timestamp, String name) {
 		super();
 		this.roleId = roleId;
 		this.timestamp = timestamp;
@@ -24,12 +28,24 @@ public class RoleBean extends BaseBean {
 		return roleId;
 	}
 
+	public void setRoleId(long roleId) {
+		this.roleId = roleId;
+	}
+
 	public Date getTimestamp() {
 		return timestamp;
 	}
 
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

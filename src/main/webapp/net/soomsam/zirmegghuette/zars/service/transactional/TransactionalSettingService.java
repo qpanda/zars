@@ -6,6 +6,7 @@ import net.soomsam.zirmegghuette.zars.service.ServiceException;
 import net.soomsam.zirmegghuette.zars.service.SettingService;
 import net.soomsam.zirmegghuette.zars.service.bean.SettingBean;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("settingService")
 @Transactional(timeout = 1000)
 public class TransactionalSettingService implements SettingService {
+	private final static Logger logger = Logger.getLogger(TransactionalSettingService.class);
+
 	@Autowired
 	private SettingDao settingDao;
 
@@ -36,6 +39,7 @@ public class TransactionalSettingService implements SettingService {
 		}
 
 		settingDao.persist(setting);
+		logger.debug("persisting setting [" + setting + "]");
 	}
 
 	@Override
@@ -47,9 +51,11 @@ public class TransactionalSettingService implements SettingService {
 
 		Setting setting = settingDao.findSetting(name);
 		if (null == setting) {
+			logger.debug("setting with name [" + name + "] does not exist");
 			return null;
 		}
 
+		logger.debug("retrieved setting [" + setting + "]");
 		if (!setting.hasValue()) {
 			return new SettingBean(setting.getSettingId(), setting.getTimestamp(), name, Object.class);
 		}
@@ -83,5 +89,7 @@ public class TransactionalSettingService implements SettingService {
 			setting.setValue(settingValue);
 			setting.setType(settingType);
 		}
+
+		logger.debug("updateding setting [" + setting + "]");
 	}
 }

@@ -2,7 +2,6 @@ package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -81,9 +80,6 @@ public class AddUserController implements Serializable {
 	public DualListModel<RoleBean> getRoleDualListModel() {
 		if (null == roleDualListModel) {
 			List<RoleBean> availableRoles = userService.findAllRoles();
-			// TODO
-			availableRoles.add(new RoleBean(1, new Date(), "ADMIN"));
-			availableRoles.add(new RoleBean(2, new Date(), "USER"));
 			List<RoleBean> assignedRoles = new ArrayList<RoleBean>();
 			roleDualListModel = new DualListModel<RoleBean>(availableRoles, assignedRoles);
 		}
@@ -96,6 +92,7 @@ public class AddUserController implements Serializable {
 	}
 
 	public String create() {
+		System.out.println(roleDualListModel.getSource());
 		System.out.println(roleDualListModel.getTarget());
 		return null;
 	}
