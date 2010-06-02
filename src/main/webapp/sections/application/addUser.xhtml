@@ -35,7 +35,7 @@
 			<div class="applicationFormSeparator"/>
 			<div class="applicationFormItem">		
 				<h:outputLabel for="roles" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAddUserRolesLabel}" /><br />
-				<p:pickList id="roles" value="#{addUserController.roleDualListModel}" var="role" itemLabel="#{role.name}" itemValue="#{role.roleId}" converter="roleBeanConverter"/>
+				<p:pickList id="roles" value="#{addUserController.roleDualListModel}" var="role" itemLabel="#{enumMessages[role.name]}" itemValue="#{role.roleId}" converter="roleBeanConverter"/>
 				<p:message for="roles"/>
 			</div>
 			<div class="applicationFormItem">

@@ -321,5 +321,6 @@ textarea:focus, input:focus {
 }
 
 .pf-picklist-source,.pf-picklist-target {
+	width:175px;
 	min-height: 100px;
 }
