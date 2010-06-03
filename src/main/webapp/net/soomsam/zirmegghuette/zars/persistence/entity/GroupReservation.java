@@ -38,7 +38,7 @@ import org.joda.time.DateTime;
 
 @Entity
 @Table(name = GroupReservation.TABLENAME_GROUPRESERVATION)
-@NamedQueries( { @NamedQuery(name = GroupReservation.FINDGROUPRESERVATION_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATION_QUERYSTRING) })
+@NamedQueries( { @NamedQuery(name = GroupReservation.FINDGROUPRESERVATION_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATION_STARTDATE_ENDDATE_QUERYSTRING) })
 public class GroupReservation extends BaseEntity {
 	public static final String TABLENAME_GROUPRESERVATION = "group_reservation";
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
@@ -50,8 +50,8 @@ public class GroupReservation extends BaseEntity {
 	public static final String COLUMNNAME_ACCOUNTANT_USERID = "accountant_user_id";
 	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "group_reservation_room";
 
-	public static final String FINDGROUPRESERVATION_QUERYNAME = "GroupReservation.findGroupReservation";
-	public static final String FINDGROUPRESERVATION_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival <= :endDate) or (:startDate <= departure and departure <= :endDate) or (arrival <= :startDate and :endDate <= departure)";
+	public static final String FINDGROUPRESERVATION_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationByStartDateEndDateQuery";
+	public static final String FINDGROUPRESERVATION_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival <= :endDate) or (:startDate <= departure and departure <= :endDate) or (arrival <= :startDate and :endDate <= departure)";
 
 	@Id
 	@GeneratedValue

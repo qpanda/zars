@@ -25,9 +25,9 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 			throw new IllegalArgumentException("'dateInterval' must not be null");
 		}
 
-		final Query findGroupReservationQuery = createNamedQuery(GroupReservation.FINDGROUPRESERVATION_QUERYNAME);
-		findGroupReservationQuery.setParameter("startDate", dateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
-		findGroupReservationQuery.setParameter("endDate", dateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
-		return findGroupReservationQuery.getResultList();
+		final Query findGroupReservationByStartDateEndDateQuery = createNamedQuery(GroupReservation.FINDGROUPRESERVATION_STARTDATE_ENDDATE_QUERYNAME);
+		findGroupReservationByStartDateEndDateQuery.setParameter("startDate", dateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
+		findGroupReservationByStartDateEndDateQuery.setParameter("endDate", dateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
+		return findGroupReservationByStartDateEndDateQuery.getResultList();
 	}
 }

@@ -1,9 +1,14 @@
 package net.soomsam.zirmegghuette.zars.service.transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import net.soomsam.zirmegghuette.zars.enums.RoleEnum;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
+import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
+import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.utils.ServiceBeanMapper;
@@ -21,6 +26,9 @@ public class TransactionalUserService implements UserService {
 	@Autowired
 	private RoleDao roleDao;
 
+	@Autowired
+	private UserDao userDao;
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<RoleBean> findAllRoles() {
@@ -29,11 +37,17 @@ public class TransactionalUserService implements UserService {
 
 	@Override
 	public void createAllRoles() {
-		Role userRole = new Role(ROLE_USER);
-		Role adminRole = new Role(ROLE_ADMIN);
-		Role accountantRole = new Role(ROLE_ACCOUNTANT);
-		roleDao.persist(userRole);
-		roleDao.persist(adminRole);
-		roleDao.persist(accountantRole);
+		for (final RoleEnum roleEnum : RoleEnum.values()) {
+			final Role role = new Role(roleEnum.getRoleName());
+			roleDao.persist(role);
+		}
+	}
+
+	@Override
+	public long createUser(final String username, final String password, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) {
+		final List<Role> roleList = roleDao.findByPrimaryKeys(roleIdSet);
+		final User user = new User(username, password, emailAddress, true, new HashSet<Role>(roleList));
+		userDao.persist(user);
+		return user.getUserId();
 	}
 }

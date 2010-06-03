@@ -2,7 +2,9 @@ package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -79,21 +81,25 @@ public class AddUserController implements Serializable {
 
 	public DualListModel<RoleBean> getRoleDualListModel() {
 		if (null == roleDualListModel) {
-			List<RoleBean> availableRoles = userService.findAllRoles();
-			List<RoleBean> assignedRoles = new ArrayList<RoleBean>();
+			final List<RoleBean> availableRoles = userService.findAllRoles();
+			final List<RoleBean> assignedRoles = new ArrayList<RoleBean>();
 			roleDualListModel = new DualListModel<RoleBean>(availableRoles, assignedRoles);
 		}
 
 		return roleDualListModel;
 	}
 
-	public void setRoleDualListModel(DualListModel<RoleBean> roleDualListModel) {
+	public void setRoleDualListModel(final DualListModel<RoleBean> roleDualListModel) {
 		this.roleDualListModel = roleDualListModel;
 	}
 
 	public String create() {
-		System.out.println(roleDualListModel.getSource());
-		System.out.println(roleDualListModel.getTarget());
-		return null;
+		final Set<Long> roleIdSet = new HashSet<Long>();
+		for (final RoleBean roleBean : roleDualListModel.getTarget()) {
+			roleIdSet.add(roleBean.getRoleId());
+		}
+
+		final long userId = userService.createUser(username, password, emailAddress, firstName, lastName, roleIdSet);
+		return "groupReservation";
 	}
 }

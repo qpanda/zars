@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,10 +27,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = Role.TABLENAME_ROLE)
+@NamedQueries( { @NamedQuery(name = Role.FINDROLE_ID_QUERYNAME, query = Role.FINDROLE_ID_QUERYSTRING) })
 public class Role extends BaseEntity {
 	public static final String TABLENAME_ROLE = "role";
 	public static final String COLUMNNAME_ROLEID = "role_id";
 	public static final String COLUMNNAME_NAME = "name";
+
+	public static final String FINDROLE_ID_QUERYNAME = "Role.findRoleById";
+	public static final String FINDROLE_ID_QUERYSTRING = "from Role where roleId in (:roleIdSet)";
 
 	@Id
 	@GeneratedValue
