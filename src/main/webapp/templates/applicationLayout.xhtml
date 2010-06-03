@@ -19,19 +19,21 @@
 			</title>
 		</h:head>
 		<h:body>
-			<div class="header">
-				<ui:insert name="header"/>
-        	</div>
-        	<div class="applicationPage">
-        		<div class="applicationMenu">
-        			<ui:insert name="applicationMenu"/>
-        		</div>			
-				<div class="applicationSection">
-					<ui:insert name="applicationSection" />
+			<div class="view">
+				<div class="header">
+					<ui:insert name="header"/>
+        		</div>
+        		<div class="applicationPage">
+        			<div class="applicationMenu">
+	        			<ui:insert name="applicationMenu"/>
+    	    		</div>			
+					<div class="applicationSection">
+						<ui:insert name="applicationSection" />
+					</div>
 				</div>
-			</div>
-			<div class="footer">
-				<ui:insert name="footer" />
+				<div class="footer">
+					<ui:insert name="footer" />
+				</div>
 			</div>
 		</h:body>
 		<h:outputScript library="javascript" name="util.js" target="head"/>
