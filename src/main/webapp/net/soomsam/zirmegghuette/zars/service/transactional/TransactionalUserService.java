@@ -11,6 +11,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
+import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.service.utils.ServiceBeanMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +45,10 @@ public class TransactionalUserService implements UserService {
 	}
 
 	@Override
-	public long createUser(final String username, final String password, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) {
+	public UserBean createUser(final String username, final String password, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) {
 		final List<Role> roleList = roleDao.findByPrimaryKeys(roleIdSet);
 		final User user = new User(username, password, emailAddress, true, new HashSet<Role>(roleList));
 		userDao.persist(user);
-		return user.getUserId();
+		return serviceBeanMapper.map(UserBean.class, user);
 	}
 }

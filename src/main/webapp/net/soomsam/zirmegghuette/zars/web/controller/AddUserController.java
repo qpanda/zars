@@ -6,19 +6,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
+import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.primefaces.model.DualListModel;
 
 @Named
-@SessionScoped
+@RequestScoped
 public class AddUserController implements Serializable {
 	@Inject
 	private transient UserService userService;
@@ -99,7 +100,7 @@ public class AddUserController implements Serializable {
 			roleIdSet.add(roleBean.getRoleId());
 		}
 
-		final long userId = userService.createUser(username, password, emailAddress, firstName, lastName, roleIdSet);
+		final UserBean userBean = userService.createUser(username, password, emailAddress, firstName, lastName, roleIdSet);
 		return "groupReservation";
 	}
 }
