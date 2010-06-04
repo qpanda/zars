@@ -27,18 +27,21 @@
 				<h:inputText id="lastName" styleClass="applicationFormInput" value="#{addUserController.lastName}" size="35"/>
 				<p:message for="lastName"/>
 			</div>
-			<div class="applicationFormItem">		
+			<div class="applicationFormItem">
 				<h:outputLabel for="emailAddress" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAddUserEmailAddressLabel}" /><br />
 				<h:inputText id="emailAddress" styleClass="applicationFormInput" value="#{addUserController.emailAddress}" size="35" />
 				<p:message for="emailAddress"/>
 			</div>
 			<div class="applicationFormSeparator"/>
-			<div class="applicationFormItem">		
+			<div class="applicationFormItem">
 				<h:outputLabel for="roles" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAddUserRolesLabel}" />
 				<p:message for="roles"/>
 				<br />
-				<p:pickList id="roles" value="#{addUserController.roleDualListModel}" var="role" itemLabel="#{enumMessages[role.name]}" itemValue="#{role.roleId}" converter="roleBeanConverter" required="true" requiredMessage="#{validationMessages.sectionsApplicationAddUserRolesError}"/>				
+				<h:selectManyListbox id="roles" styleClass="applicationFormInput" value="#{addUserController.selectedRoleIds}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationAddUserRolesError}">
+					<f:selectItems value="#{addUserController.availableRoles}" var="role" itemLabel="#{enumMessages[role.name]}" itemValue="#{role.roleId}"/>
+				</h:selectManyListbox>			
 			</div>
+			<div class="applicationFormSeparator"/>
 			<div class="applicationFormItem">
 				<h:commandButton id="addUser" type="submit" action="#{addUserController.create}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAddUserCreateButton}"/>
 			</div>

@@ -1,8 +1,6 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +14,6 @@ import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.primefaces.model.DualListModel;
 
 @Named
 @RequestScoped
@@ -38,7 +35,9 @@ public class AddUserController implements Serializable {
 
 	private String lastName;
 
-	private DualListModel<RoleBean> roleDualListModel;
+	private List<RoleBean> availableRoles;
+
+	private Set<Long> selectedRoleIds;
 
 	public String getUsername() {
 		return username;
@@ -80,27 +79,24 @@ public class AddUserController implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public DualListModel<RoleBean> getRoleDualListModel() {
-		if (null == roleDualListModel) {
-			final List<RoleBean> availableRoles = userService.findAllRoles();
-			final List<RoleBean> assignedRoles = new ArrayList<RoleBean>();
-			roleDualListModel = new DualListModel<RoleBean>(availableRoles, assignedRoles);
+	public List<RoleBean> getAvailableRoles() {
+		if (null == availableRoles) {
+			availableRoles = userService.findAllRoles();
 		}
 
-		return roleDualListModel;
+		return availableRoles;
 	}
 
-	public void setRoleDualListModel(final DualListModel<RoleBean> roleDualListModel) {
-		this.roleDualListModel = roleDualListModel;
+	public Set<Long> getSelectedRoleIds() {
+		return selectedRoleIds;
+	}
+
+	public void setSelectedRoleIds(final Set<Long> selectedRoleIds) {
+		this.selectedRoleIds = selectedRoleIds;
 	}
 
 	public String create() {
-		final Set<Long> roleIdSet = new HashSet<Long>();
-		for (final RoleBean roleBean : roleDualListModel.getTarget()) {
-			roleIdSet.add(roleBean.getRoleId());
-		}
-
-		final UserBean userBean = userService.createUser(username, password, emailAddress, firstName, lastName, roleIdSet);
+		final UserBean userBean = userService.createUser(username, password, emailAddress, firstName, lastName, selectedRoleIds);
 		return "groupReservation";
 	}
 }

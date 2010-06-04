@@ -14,8 +14,4 @@
 		<message-bundle>ValidationMessages</message-bundle>		
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
-	<converter>
-		<converter-id>roleBeanConverter</converter-id>
-		<converter-class>net.soomsam.zirmegghuette.zars.web.converter.RoleBeanConverter</converter-class>
-	</converter>
 </faces-config>
