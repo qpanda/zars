@@ -1,6 +1,7 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -12,12 +13,15 @@ import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
+import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Named
 @RequestScoped
 public class AddUserController implements Serializable {
+	private final static Logger logger = Logger.getLogger(AddUserController.class);
+
 	@Inject
 	private transient UserService userService;
 
@@ -37,7 +41,7 @@ public class AddUserController implements Serializable {
 
 	private List<RoleBean> availableRoles;
 
-	private Set<Long> selectedRoleIds;
+	private List<Long> selectedRoleIds;
 
 	public String getUsername() {
 		return username;
@@ -87,16 +91,21 @@ public class AddUserController implements Serializable {
 		return availableRoles;
 	}
 
-	public Set<Long> getSelectedRoleIds() {
+	public List<Long> getSelectedRoleIds() {
 		return selectedRoleIds;
 	}
 
-	public void setSelectedRoleIds(final Set<Long> selectedRoleIds) {
+	public void setSelectedRoleIds(final List<Long> selectedRoleIds) {
 		this.selectedRoleIds = selectedRoleIds;
 	}
 
+	public Set<Long> determineSelectedRoleIds() {
+		return new HashSet<Long>(selectedRoleIds);
+	}
+
 	public String create() {
-		final UserBean userBean = userService.createUser(username, password, emailAddress, firstName, lastName, selectedRoleIds);
+		logger.debug("creating user with username [" + username + "] and roles [" + determineSelectedRoleIds() + "]");
+		final UserBean userBean = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
 		return "groupReservation";
 	}
 }
