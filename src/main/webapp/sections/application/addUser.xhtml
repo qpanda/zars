@@ -41,7 +41,6 @@
 					<f:selectItems value="#{addUserController.availableRoles}" var="role" itemLabel="#{enumMessages[role.name]}" itemValue="#{role.roleId}"/>
 				</h:selectManyCheckbox>			
 			</div>
-			<div class="applicationFormSeparator"/>
 			<div class="applicationFormItem">
 				<h:commandButton id="addUser" type="submit" action="#{addUserController.create}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAddUserCreateButton}"/>
 			</div>
