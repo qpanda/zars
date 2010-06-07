@@ -222,6 +222,11 @@ textarea:focus, input:focus {
 	border: 1px solid #000000;
 }
 
+.applicationFormSelection {
+	margin: 2px;
+	padding: 2px;
+}
+
 .applicationFormButton {
 	margin: 2px;
 	padding: 2px;

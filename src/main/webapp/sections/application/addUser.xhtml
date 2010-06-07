@@ -37,9 +37,9 @@
 				<h:outputLabel for="roles" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAddUserRolesLabel}" />
 				<p:message for="roles"/>
 				<br />
-				<h:selectManyListbox id="roles" styleClass="applicationFormInput" value="#{addUserController.selectedRoleIds}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationAddUserRolesError}">
+				<h:selectManyCheckbox id="roles" styleClass="applicationFormSelection" value="#{addUserController.selectedRoleIds}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationAddUserRolesError}">
 					<f:selectItems value="#{addUserController.availableRoles}" var="role" itemLabel="#{enumMessages[role.name]}" itemValue="#{role.roleId}"/>
-				</h:selectManyListbox>			
+				</h:selectManyCheckbox>			
 			</div>
 			<div class="applicationFormSeparator"/>
 			<div class="applicationFormItem">
