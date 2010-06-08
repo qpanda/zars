@@ -2,13 +2,13 @@ package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.context.annotation.Scope;
 
 @Named
-@SessionScoped
+@Scope("request")
 public class LoginController implements Serializable {
 	@NotEmpty(message = "{sectionsWelcomeLoginUsernameError}")
 	private String username;

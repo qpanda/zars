@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
@@ -16,9 +15,10 @@ import net.soomsam.zirmegghuette.zars.web.utils.SessionUtils;
 
 import org.apache.log4j.Logger;
 import org.primefaces.component.commandlink.CommandLink;
+import org.springframework.context.annotation.Scope;
 
 @Named
-@SessionScoped
+@Scope("session")
 public class LocaleController implements Serializable {
 	private final static Logger logger = Logger.getLogger(LocaleController.class);
 

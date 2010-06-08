@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -16,9 +15,10 @@ import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.context.annotation.Scope;
 
 @Named
-@RequestScoped
+@Scope("request")
 public class AddUserController implements Serializable {
 	private final static Logger logger = Logger.getLogger(AddUserController.class);
 
