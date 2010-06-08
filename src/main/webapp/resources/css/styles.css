@@ -267,6 +267,14 @@ textarea:focus, input:focus {
 	text-align: left;
 }
 
+.applicationLink:link {
+	color: #3C78B5;
+}
+
+.applicationLink:visited {
+	color: #3C78B5;
+}
+
 .footer {
 	background-color: #114070;
 	padding: 0px;
