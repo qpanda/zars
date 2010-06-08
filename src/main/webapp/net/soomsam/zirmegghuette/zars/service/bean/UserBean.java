@@ -1,8 +1,8 @@
 package net.soomsam.zirmegghuette.zars.service.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -25,7 +25,7 @@ public class UserBean extends BaseBean {
 
 	private boolean enabled;
 
-	private Set<RoleBean> roleBeans = new HashSet<RoleBean>(0);
+	private List<RoleBean> roles = new ArrayList<RoleBean>(0);
 
 	private UserBean() {
 		super();
@@ -107,12 +107,12 @@ public class UserBean extends BaseBean {
 		this.enabled = enabled;
 	}
 
-	public Set<RoleBean> getRoleBeans() {
-		return roleBeans;
+	public List<RoleBean> getRoles() {
+		return roles;
 	}
 
-	public void setRoleBeans(final Set<RoleBean> roleBeans) {
-		this.roleBeans = roleBeans;
+	public void setRoles(List<RoleBean> roles) {
+		this.roles = roles;
 	}
 
 	@Override

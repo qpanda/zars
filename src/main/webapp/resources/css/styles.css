@@ -209,11 +209,22 @@ textarea:focus, input:focus {
 	text-align: left;
 }
 
+.applicationFormMessage {
+	font-weight: bold;
+	color: #86C533;
+}
+
 .applicationFormLabel {
 	margin: 2px;
 	color: #000000;
 	text-align: left;
 	font-weight: bold;
+}
+
+.applicationFormLabelOptional {
+	margin: 2px;
+	color: #000000;
+	text-align: left;
 }
 
 .applicationFormInput {
@@ -239,6 +250,21 @@ textarea:focus, input:focus {
 	margin-top: 4px;
 	margin-bottom: 4px;
 	border-bottom:1px solid #3C78B5;
+}
+
+.applicationFormTable {
+}
+
+.applicationFormTableRow {
+}
+
+.applicationFormTableHeader {
+	text-align: right;
+	white-space: nowrap;
+}
+
+.applicationFormTableData {
+	text-align: left;
 }
 
 .footer {

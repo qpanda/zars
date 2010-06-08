@@ -43,6 +43,8 @@ public class AddUserController implements Serializable {
 
 	private List<Long> selectedRoleIds;
 
+	private UserBean createdUser;
+
 	public String getUsername() {
 		return username;
 	}
@@ -103,9 +105,13 @@ public class AddUserController implements Serializable {
 		return new HashSet<Long>(selectedRoleIds);
 	}
 
+	public UserBean getCreatedUser() {
+		return createdUser;
+	}
+
 	public String create() {
 		logger.debug("creating user with username [" + username + "] and roles [" + determineSelectedRoleIds() + "]");
-		final UserBean userBean = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
-		return "groupReservation";
+		createdUser = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
+		return "showUser";
 	}
 }

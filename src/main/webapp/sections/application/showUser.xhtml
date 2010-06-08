@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html-basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf-core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd">
+	<div class="applicationDialog">
+		<div id="showUser" class="applicationForm">
+			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationShowUserDialogLabel}</div>
+			<div class="applicationFormItem">
+				<div class="applicationFormMessage">#{displayMessages.sectionsApplicationShowUserMessage}</div>
+			</div>
+			<div class="applicationFormItem">
+				<table class="applicationFormTable">
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserIdLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.createdUser.userId}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserUserNameLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.createdUser.username}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserEmailAddressLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.createdUser.emailAddress}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserFirstNameLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.createdUser.firstName}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserLastNameLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.createdUser.lastName}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserRolesLabel}</th>
+						<td class="applicationFormTableData">
+							<ui:repeat var="role" varStatus="roleIterator" value="#{addUserController.createdUser.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="applicationFormItem">
+				<h:outputLink value="/views/addUser.jsf">#{displayMessages.sectionsApplicationAddAnotherUserLink}</h:outputLink>
+			</div>
+		</div>
+	</div>
+</ui:composition>
