@@ -12,4 +12,6 @@ public interface UserService {
 	public List<RoleBean> findAllRoles();
 
 	public UserBean createUser(String username, String password, String emailAddress, String firstName, String lastName, Set<Long> roleIdSet);
+
+	public List<UserBean> finaAllUsers();
 }

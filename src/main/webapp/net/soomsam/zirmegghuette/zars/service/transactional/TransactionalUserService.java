@@ -51,4 +51,9 @@ public class TransactionalUserService implements UserService {
 		userDao.persist(user);
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
+
+	@Override
+	public List<UserBean> finaAllUsers() {
+		return serviceBeanMapper.map(UserBean.class, userDao.findAll());
+	}
 }

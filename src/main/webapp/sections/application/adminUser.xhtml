@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html-basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf-core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd">
+	
+	<p:dataTable var="user" value="#{adminUserController.allUsers}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;">  
+		<p:column sortBy="#{user.userId}">
+			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserIdLabel}" /></f:facet>
+			<h:outputText value="#{user.userId}" />
+		</p:column>
+		<p:column sortBy="#{user.username}">
+			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserUserNameLabel}" /></f:facet>
+			<h:outputText value="#{user.username}" />
+		</p:column>
+		<p:column sortBy="#{user.emailAddress}">
+			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserEmailAddressLabel}" /></f:facet>
+			<h:outputText value="#{user.emailAddress}" />
+		</p:column>
+		<p:column sortBy="#{user.firstName}">
+			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserFirstNameLabel}" /></f:facet>
+			<h:outputText value="#{user.firstName}" />
+		</p:column>
+		<p:column sortBy="#{user.lastName}">
+			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserLastNameLabel}" /></f:facet>
+			<h:outputText value="#{user.lastName}" />
+		</p:column>
+		<p:column>
+			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserRolesLabel}" /></f:facet>
+			<ui:repeat var="role" varStatus="roleIterator" value="#{user.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
+		</p:column>		
+	</p:dataTable>  
+</ui:composition>

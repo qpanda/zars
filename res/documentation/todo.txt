@@ -1,11 +1,7 @@
 * maybe float multiple http://css.maxdesign.com.au/floatutorial/introduction10.htm allows me to display user in front of menu? otherwise deactivated menu item?
 * EL expression in f:view should also default to request context if localeController.activeLocale is null
-
-* persistence entities
-	* add tests and conversion for Setting entity
 * business logic
 	* check that user assigned to GroupReservation has role accountant
 	* mark Invoice and Report invalid if associated GroupReservation is changed
-* gui
-	* start calendar week with MO
-	* add holidays
+* error handling
+	* duplicated user/email not handled yet in AddUserController.create() and UserService.createUser()
