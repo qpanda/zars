@@ -24,4 +24,6 @@ public class AdminUserController implements Serializable {
 		return userService.finaAllUsers();
 	}
 
+	public void doStuff() {
+	}
 }

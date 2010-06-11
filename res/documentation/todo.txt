@@ -5,3 +5,6 @@
 	* mark Invoice and Report invalid if associated GroupReservation is changed
 * error handling
 	* duplicated user/email not handled yet in AddUserController.create() and UserService.createUser()
+* features
+	* http://www.primefaces.org:8080/prime-showcase/ui/exporter.jsf
+	* add link to user administration to menu on the left

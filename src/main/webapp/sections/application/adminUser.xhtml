@@ -4,31 +4,54 @@
 						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf-core-2.0.2.xsd
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd">
-	
-	<p:dataTable var="user" value="#{adminUserController.allUsers}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;">  
-		<p:column sortBy="#{user.userId}">
-			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserIdLabel}" /></f:facet>
-			<h:outputText value="#{user.userId}" />
-		</p:column>
-		<p:column sortBy="#{user.username}">
-			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserUserNameLabel}" /></f:facet>
-			<h:outputText value="#{user.username}" />
-		</p:column>
-		<p:column sortBy="#{user.emailAddress}">
-			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserEmailAddressLabel}" /></f:facet>
-			<h:outputText value="#{user.emailAddress}" />
-		</p:column>
-		<p:column sortBy="#{user.firstName}">
-			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserFirstNameLabel}" /></f:facet>
-			<h:outputText value="#{user.firstName}" />
-		</p:column>
-		<p:column sortBy="#{user.lastName}">
-			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserLastNameLabel}" /></f:facet>
-			<h:outputText value="#{user.lastName}" />
-		</p:column>
-		<p:column>
-			<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserRolesLabel}" /></f:facet>
-			<ui:repeat var="role" varStatus="roleIterator" value="#{user.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
-		</p:column>		
-	</p:dataTable>  
+	<div class="applicationDialog">
+		<h:form id="adminUser" styleClass="applicationForm">
+			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAdminUserDialogLabel}</div>
+			<div class="applicationFormItem">
+				<p:dataTable id="userTable" var="user" value="#{adminUserController.allUsers}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;">  
+					<p:column sortBy="#{user.userId}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserIdLabel}" /></f:facet>
+						<h:outputText value="#{user.userId}" />
+					</p:column>
+					<p:column sortBy="#{user.username}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserUserNameLabel}" /></f:facet>
+						<h:outputText value="#{user.username}" />
+					</p:column>
+					<p:column sortBy="#{user.emailAddress}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserEmailAddressLabel}" /></f:facet>
+						<h:outputText value="#{user.emailAddress}" />
+					</p:column>
+					<p:column sortBy="#{user.firstName}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserFirstNameLabel}" /></f:facet>
+						<h:outputText value="#{user.firstName}" />
+					</p:column>
+					<p:column sortBy="#{user.lastName}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserLastNameLabel}" /></f:facet>
+						<h:outputText value="#{user.lastName}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserRolesLabel}" /></f:facet>
+						<ui:repeat var="role" varStatus="roleIterator" value="#{user.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
+					</p:column>
+					<p:column>
+						<!--  TODO actual action method, use displayMessages for value, depending on user.enabled show enable or disable link -->
+						<f:facet name="header"><h:outputText value="Action" /></f:facet>
+						<p:commandLink action="#{adminUserController.doStuff}" value="test" styleClass="applicationLink"/>
+						<h:outputText value="&#160;&#160;&#160;" />
+						<p:commandLink action="#{adminUserController.doStuff}" value="sss" styleClass="applicationLink"/>			
+					</p:column>				
+				</p:dataTable>
+			</div>
+			<!--  TODO add POI jar (see user guide) -->
+			<div class="applicationFormItem">
+				<p:commandLink value="export current page" styleClass="applicationLink">
+					<p:dataExporter type="xls" target="userTable" fileName="users" pageOnly="true"/>
+				</p:commandLink>
+				<h:outputText value="&#160;&#160;&#160;" />
+				<p:commandLink value="export all" styleClass="applicationLink">
+					<p:dataExporter type="xls" target="userTable" fileName="users"/>
+				</p:commandLink>
+			</div>
+		</h:form>
+	</div>  
 </ui:composition>

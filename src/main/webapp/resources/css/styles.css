@@ -368,6 +368,10 @@ textarea:focus, input:focus {
 	border-width:0;
 }
 
+.yui-skin-sam tr.yui-dt-odd {  
+	background: #F2F2F2;  
+}
+
 .pf-picklist-source,.pf-picklist-target {
 	width:175px;
 	min-height: 100px;
