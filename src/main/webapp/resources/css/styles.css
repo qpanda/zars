@@ -120,7 +120,7 @@ textarea:focus, input:focus {
 .loginForm {
 	padding: 10px;
 	border:3px solid #3C78B5;
-	background:#efefef;
+	background:#FAFAFA;
 }
 
 .loginFormTitle {
@@ -186,7 +186,7 @@ textarea:focus, input:focus {
 .applicationForm {
 	padding: 0px;
 	border:3px solid #3C78B5;
-	background:#efefef;
+	background:#FAFAFA;
 }
 
 .applicationFormTitle {
@@ -369,7 +369,7 @@ textarea:focus, input:focus {
 }
 
 .yui-skin-sam tr.yui-dt-odd {  
-	background: #F2F2F2;  
+	background: #ffffcc;  
 }
 
 .pf-picklist-source,.pf-picklist-target {
