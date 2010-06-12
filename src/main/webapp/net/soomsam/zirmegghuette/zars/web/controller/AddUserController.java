@@ -5,9 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
@@ -16,6 +19,8 @@ import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
+
+import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -111,7 +116,15 @@ public class AddUserController implements Serializable {
 
 	public String create() {
 		logger.debug("creating user with username [" + username + "] and roles [" + determineSelectedRoleIds() + "]");
-		createdUser = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
-		return "showUser";
+		try {
+			createdUser = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
+			return "showUser";
+		} catch (UniqueConstraintException uniqueConstraintException) {
+			String uniqueConstraintMessageId = "sectionsApplicationAddUserUnique" + uniqueConstraintException.getUniqueConstraintName().toUpperCase() + "Error";
+			FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, null);
+			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
+		}
+
+		return null;
 	}
 }

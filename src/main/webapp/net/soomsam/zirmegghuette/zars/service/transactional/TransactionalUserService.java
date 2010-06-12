@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.soomsam.zirmegghuette.zars.enums.RoleEnum;
+import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
@@ -45,10 +46,11 @@ public class TransactionalUserService implements UserService {
 	}
 
 	@Override
-	public UserBean createUser(final String username, final String password, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) {
+	@Transactional(rollbackFor = UniqueConstraintException.class)
+	public UserBean createUser(final String username, final String password, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) throws UniqueConstraintException {
 		final List<Role> roleList = roleDao.findByPrimaryKeys(roleIdSet);
 		final User user = new User(username, password, emailAddress, true, new HashSet<Role>(roleList));
-		userDao.persist(user);
+		userDao.createUser(user);
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
 

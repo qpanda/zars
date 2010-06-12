@@ -13,3 +13,5 @@
 	EFEFEF
 	F8F8F8
 	EEEEEE
+* generic exception page
+	* http://santhoshjohn78.blogspot.com/2009/02/catch-all-exception-page-for-jsf-web.html
