@@ -8,3 +8,8 @@
 * features
 	* http://www.primefaces.org:8080/prime-showcase/ui/exporter.jsf
 	* add link to user administration to menu on the left
+* colors
+	FAFAFA
+	EFEFEF
+	F8F8F8
+	EEEEEE
