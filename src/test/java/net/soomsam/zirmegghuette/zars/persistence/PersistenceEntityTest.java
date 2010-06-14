@@ -32,6 +32,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Setting;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
 import org.junit.Test;
@@ -146,11 +147,11 @@ public class PersistenceEntityTest {
 		persistenceContextManager.clear();
 		Assert.assertNotNull(userDao.findByPrimaryKey(testUser01.getUserId()));
 		Assert.assertEquals(1, userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().size());
-		Assert.assertTrue(userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().contains(adminRole));
+		Assert.assertTrue(containsEntity(userDao.findByPrimaryKey(testUser01.getUserId()).getRoles(), adminRole));
 		Assert.assertFalse(userDao.findByPrimaryKey(testUser01.getUserId()).getRoles().contains(userRole));
 		Assert.assertNotNull(userDao.findByPrimaryKey(testUser02.getUserId()));
 		Assert.assertEquals(1, userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().size());
-		Assert.assertTrue(userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().contains(adminRole));
+		Assert.assertTrue(containsEntity(userDao.findByPrimaryKey(testUser02.getUserId()).getRoles(), adminRole));
 		Assert.assertFalse(userDao.findByPrimaryKey(testUser02.getUserId()).getRoles().contains(userRole));
 	}
 
@@ -168,8 +169,8 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(fetchedTestUser);
 		Assert.assertNotNull(fetchedTestUser.getRoles());
 		Assert.assertEquals(2, fetchedTestUser.getRoles().size());
-		Assert.assertTrue(fetchedTestUser.getRoles().contains(userRole));
-		Assert.assertTrue(fetchedTestUser.getRoles().contains(adminRole));
+		Assert.assertTrue(containsEntity(fetchedTestUser.getRoles(), userRole));
+		Assert.assertTrue(containsEntity(fetchedTestUser.getRoles(), adminRole));
 	}
 
 	@Test(expected = ConstraintViolationException.class)
@@ -230,20 +231,20 @@ public class PersistenceEntityTest {
 	public void testCreateUsersWithNonUniqueNames() {
 		final Role userRole = createUserRole();
 		final Role adminRole = createAdminRole();
-		final User testUser01 = PersistenceEntityGenerator.createUserTest("test", "test@test.com", userRole, adminRole);
+		final User testUser01 = PersistenceEntityGenerator.createUserTest("test", "test01@test.com", userRole, adminRole);
 		userDao.persist(testUser01);
 		persistenceContextManager.flush();
 		logger.debug("persisted user 'test' as [" + testUser01 + "]");
 
-		final User testUser02 = PersistenceEntityGenerator.createUserTest("test", "test@test.com", userRole, adminRole);
+		final User testUser02 = PersistenceEntityGenerator.createUserTest("test", "test02@test.com", userRole, adminRole);
 		try {
 			userDao.persist(testUser02);
 			persistenceContextManager.flush();
-		} catch (PersistenceException persistenceException) {
-			Throwable persistenceExceptionCause = persistenceException.getCause();
+		} catch (final PersistenceException persistenceException) {
+			final Throwable persistenceExceptionCause = persistenceException.getCause();
 			Assert.assertTrue(persistenceExceptionCause instanceof org.hibernate.exception.ConstraintViolationException);
-			org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
-			Assert.assertEquals(User.COLUMNNAME_USERNAME.toUpperCase(), constraintViolationException.getConstraintName().toUpperCase());
+			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
+			Assert.assertTrue(StringUtils.equalsIgnoreCase(User.COLUMNNAME_USERNAME, constraintViolationException.getConstraintName()));
 			throw constraintViolationException;
 		}
 	}
@@ -261,11 +262,11 @@ public class PersistenceEntityTest {
 		try {
 			userDao.persist(testUser02);
 			persistenceContextManager.flush();
-		} catch (PersistenceException persistenceException) {
-			Throwable persistenceExceptionCause = persistenceException.getCause();
+		} catch (final PersistenceException persistenceException) {
+			final Throwable persistenceExceptionCause = persistenceException.getCause();
 			Assert.assertTrue(persistenceExceptionCause instanceof org.hibernate.exception.ConstraintViolationException);
-			org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
-			Assert.assertEquals(User.COLUMNNAME_EMAILADDRESS.toUpperCase(), constraintViolationException.getConstraintName().toUpperCase());
+			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
+			Assert.assertTrue(StringUtils.equalsIgnoreCase(User.COLUMNNAME_EMAILADDRESS, constraintViolationException.getConstraintName()));
 			throw constraintViolationException;
 		}
 	}
@@ -386,7 +387,7 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
 		Assert.assertNotNull(fetchedGroupReservation.getRooms());
 		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
-		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getRooms(), firstRoom));
 		Assert.assertTrue(fetchedGroupReservation.hasReservations());
 		Assert.assertEquals(1, fetchedGroupReservation.getReservations().size());
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation));
@@ -428,8 +429,8 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(fetchedGroupReservation);
 		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
 		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
-		Assert.assertEquals(beneficiaryUser, fetchedGroupReservation.getBeneficiary());
-		Assert.assertEquals(accountantUser, fetchedGroupReservation.getAccountant());
+		Assert.assertTrue(beneficiaryUser.same(fetchedGroupReservation.getBeneficiary()));
+		Assert.assertTrue(accountantUser.same(fetchedGroupReservation.getAccountant()));
 
 		Assert.assertTrue(beneficiaryUser.getAccountantGroupReservations().isEmpty());
 		Assert.assertFalse(beneficiaryUser.getBeneficiaryGroupReservations().isEmpty());
@@ -461,7 +462,7 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
 		Assert.assertNotNull(fetchedGroupReservation.getRooms());
 		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
-		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getRooms(), firstRoom));
 		Assert.assertTrue(fetchedGroupReservation.hasReservations());
 		Assert.assertEquals(3, fetchedGroupReservation.getReservations().size());
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation01));
@@ -492,7 +493,7 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
 		Assert.assertNotNull(fetchedGroupReservation.getRooms());
 		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
-		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getRooms(), firstRoom));
 		Assert.assertTrue(fetchedGroupReservation.hasReservations());
 		Assert.assertEquals(3, fetchedGroupReservation.getReservations().size());
 		Assert.assertEquals(3, fetchedGroupReservation.getGuests());
@@ -524,12 +525,12 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
 		Assert.assertNotNull(fetchedGroupReservation.getRooms());
 		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
-		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getRooms(), firstRoom));
 		Assert.assertTrue(fetchedGroupReservation.hasReservations());
 		Assert.assertEquals(new DateMidnight().minusDays(1), fetchedGroupReservation.getArrival());
 		Assert.assertEquals(new DateMidnight().plusDays(2), fetchedGroupReservation.getDeparture());
-		Assert.assertEquals(testReservation01, fetchedGroupReservation.getEarliestArrivalReservation());
-		Assert.assertEquals(testReservation03, fetchedGroupReservation.getLatestDepartureReservation());
+		Assert.assertTrue(testReservation01.same(fetchedGroupReservation.getEarliestArrivalReservation()));
+		Assert.assertTrue(testReservation03.same(fetchedGroupReservation.getLatestDepartureReservation()));
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation01));
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation02));
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation03));
@@ -613,7 +614,7 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
 		Assert.assertNotNull(fetchedGroupReservation.getRooms());
 		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
-		Assert.assertTrue(fetchedGroupReservation.getRooms().contains(firstRoom));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getRooms(), firstRoom));
 		Assert.assertTrue(fetchedGroupReservation.hasReservations());
 		Assert.assertEquals(3, fetchedGroupReservation.getReservations().size());
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation01));
@@ -761,7 +762,7 @@ public class PersistenceEntityTest {
 		final Invoice fetchedInvoice = invoiceDao.findByPrimaryKey(testInvoice.getInvoiceId());
 		Assert.assertNotNull(fetchedInvoice);
 		Assert.assertTrue(Arrays.equals(testInvoiceDocument, fetchedInvoice.getDocument()));
-		Assert.assertTrue(fetchedInvoice.getGroupReservation().equals(testGroupReservation));
+		Assert.assertTrue(fetchedInvoice.getGroupReservation().same(testGroupReservation));
 	}
 
 	@Test(expected = OperationNotSupportedException.class)
@@ -793,7 +794,7 @@ public class PersistenceEntityTest {
 		final Report fetchedReport = reportDao.findByPrimaryKey(testReport.getReportId());
 		Assert.assertNotNull(fetchedReport);
 		Assert.assertTrue(Arrays.equals(testReportDocument, fetchedReport.getDocument()));
-		Assert.assertTrue(fetchedReport.getGroupReservations().contains(testGroupReservation));
+		Assert.assertTrue(containsEntity(fetchedReport.getGroupReservations(), testGroupReservation));
 	}
 
 	@Test
