@@ -99,7 +99,7 @@
 							<autocommit>true</autocommit>
 							<sqlCommand>DROP SCHEMA public CASCADE</sqlCommand>
 							<srcFiles>
-								<srcFile>target/generated-sources/schema/schema.ddl</srcFile>
+								<srcFile>target/generated-sources/schema/schema-hsqldb.ddl</srcFile>
 							</srcFiles>
 						</configuration>
 					</execution>
@@ -329,6 +329,11 @@
 			<groupId>net.sf.dozer</groupId>
 			<artifactId>dozer</artifactId>
 			<version>5.2.1</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.12</version>
+		</dependency>
 	</dependencies>
 </project>
