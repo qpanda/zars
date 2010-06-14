@@ -197,6 +197,16 @@ public class Reservation extends BaseEntity {
 	}
 
 	@Override
+	public boolean sameValues(final BaseEntity entity) {
+		if (!(entity instanceof Reservation)) {
+			return false;
+		}
+
+		final Reservation other = (Reservation) entity;
+		return new EqualsBuilder().append(getReservationId(), other.getReservationId()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;

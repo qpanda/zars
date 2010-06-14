@@ -225,6 +225,16 @@ public class Report extends BaseEntity {
 	}
 
 	@Override
+	public boolean sameValues(final BaseEntity entity) {
+		if (!(entity instanceof Report)) {
+			return false;
+		}
+
+		final Report other = (Report) entity;
+		return new EqualsBuilder().append(getReportId(), other.getReportId()).append(getDate(), other.getDate()).append(getPeriodStart(), other.getPeriodStart()).append(getPeriodEnd(), other.getPeriodEnd()).append(isStale(), other.isStale()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;

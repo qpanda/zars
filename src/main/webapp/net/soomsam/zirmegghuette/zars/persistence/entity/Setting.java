@@ -139,6 +139,16 @@ public class Setting extends BaseEntity {
 	}
 
 	@Override
+	public boolean sameValues(final BaseEntity entity) {
+		if (!(entity instanceof Setting)) {
+			return false;
+		}
+
+		final Setting other = (Setting) entity;
+		return new EqualsBuilder().append(getSettingId(), other.getSettingId()).append(getName(), other.getName()).append(getValue(), other.getValue()).append(getType(), other.getType()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;

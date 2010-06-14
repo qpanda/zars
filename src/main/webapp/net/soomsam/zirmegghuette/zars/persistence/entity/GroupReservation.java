@@ -528,6 +528,16 @@ public class GroupReservation extends BaseEntity {
 	}
 
 	@Override
+	public boolean sameValues(final BaseEntity entity) {
+		if (!(entity instanceof GroupReservation)) {
+			return false;
+		}
+
+		final GroupReservation other = (GroupReservation) entity;
+		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
+	}
+
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;

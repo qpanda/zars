@@ -429,8 +429,8 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(fetchedGroupReservation);
 		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
 		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
-		Assert.assertTrue(beneficiaryUser.same(fetchedGroupReservation.getBeneficiary()));
-		Assert.assertTrue(accountantUser.same(fetchedGroupReservation.getAccountant()));
+		Assert.assertTrue(beneficiaryUser.sameValues(fetchedGroupReservation.getBeneficiary()));
+		Assert.assertTrue(accountantUser.sameValues(fetchedGroupReservation.getAccountant()));
 
 		Assert.assertTrue(beneficiaryUser.getAccountantGroupReservations().isEmpty());
 		Assert.assertFalse(beneficiaryUser.getBeneficiaryGroupReservations().isEmpty());
@@ -529,8 +529,8 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(fetchedGroupReservation.hasReservations());
 		Assert.assertEquals(new DateMidnight().minusDays(1), fetchedGroupReservation.getArrival());
 		Assert.assertEquals(new DateMidnight().plusDays(2), fetchedGroupReservation.getDeparture());
-		Assert.assertTrue(testReservation01.same(fetchedGroupReservation.getEarliestArrivalReservation()));
-		Assert.assertTrue(testReservation03.same(fetchedGroupReservation.getLatestDepartureReservation()));
+		Assert.assertTrue(testReservation01.sameValues(fetchedGroupReservation.getEarliestArrivalReservation()));
+		Assert.assertTrue(testReservation03.sameValues(fetchedGroupReservation.getLatestDepartureReservation()));
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation01));
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation02));
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation03));
@@ -762,7 +762,7 @@ public class PersistenceEntityTest {
 		final Invoice fetchedInvoice = invoiceDao.findByPrimaryKey(testInvoice.getInvoiceId());
 		Assert.assertNotNull(fetchedInvoice);
 		Assert.assertTrue(Arrays.equals(testInvoiceDocument, fetchedInvoice.getDocument()));
-		Assert.assertTrue(fetchedInvoice.getGroupReservation().same(testGroupReservation));
+		Assert.assertTrue(fetchedInvoice.getGroupReservation().sameValues(testGroupReservation));
 	}
 
 	@Test(expected = OperationNotSupportedException.class)
@@ -907,7 +907,7 @@ public class PersistenceEntityTest {
 
 	private <Entity extends BaseEntity> boolean containsEntity(final Set<Entity> entitySet, final Entity otherEntity) {
 		for (final Entity entity : entitySet) {
-			if (entity.same(otherEntity)) {
+			if (entity.sameValues(otherEntity)) {
 				return true;
 			}
 		}
