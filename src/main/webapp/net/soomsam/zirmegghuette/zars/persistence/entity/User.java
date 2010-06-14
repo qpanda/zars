@@ -52,7 +52,7 @@ public class User extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = User.COLUMNNAME_USERNAME, unique = true, nullable = false, length = 256)
+	@Column(name = User.COLUMNNAME_USERNAME, unique = true, nullable = false, length = 128)
 	private String username;
 
 	@NotNull
@@ -63,7 +63,7 @@ public class User extends BaseEntity {
 	@NotNull
 	@NotEmpty
 	@Email
-	@Column(name = User.COLUMNNAME_EMAILADDRESS, unique = true, nullable = false, length = 256)
+	@Column(name = User.COLUMNNAME_EMAILADDRESS, unique = true, nullable = false, length = 128)
 	private String emailAddress;
 
 	@Column(name = User.COLUMNNAME_FIRSTNAME, nullable = true, length = 256)

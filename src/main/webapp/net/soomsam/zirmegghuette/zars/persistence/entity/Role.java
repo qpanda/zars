@@ -47,7 +47,7 @@ public class Role extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Role.COLUMNNAME_NAME, unique = true, nullable = false, length = 256)
+	@Column(name = Role.COLUMNNAME_NAME, unique = true, nullable = false, length = 128)
 	private String name;
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "roles")

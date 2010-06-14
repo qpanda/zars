@@ -43,7 +43,7 @@ public class Setting extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Setting.COLUMNNAME_NAME, nullable = false, unique = true, length = 256)
+	@Column(name = Setting.COLUMNNAME_NAME, nullable = false, unique = true, length = 128)
 	private String name;
 
 	@Column(name = Setting.COLUMNNAME_VALUE, nullable = true, length = 256)
