@@ -31,6 +31,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Role extends BaseEntity {
 	public static final String TABLENAME_ROLE = "role";
 	public static final String COLUMNNAME_ROLEID = "role_id";
+	public static final String COLUMNNAME_ROLETIMESTAMP = "role_timestamp";
 	public static final String COLUMNNAME_NAME = "name";
 
 	public static final String FINDROLE_ID_QUERYNAME = "Role.findRoleById";
@@ -43,7 +44,8 @@ public class Role extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date timestamp;
+	@Column(name = Role.COLUMNNAME_ROLETIMESTAMP)
+	private Date roleTimestamp;
 
 	@NotNull
 	@NotEmpty
@@ -70,12 +72,12 @@ public class Role extends BaseEntity {
 		this.roleId = roleId;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
+	public Date getRoleTimestamp() {
+		return roleTimestamp;
 	}
 
-	void setTimestamp(final Date timestamp) {
-		this.timestamp = timestamp;
+	void setRoleTimestamp(final Date roleTimestamp) {
+		this.roleTimestamp = roleTimestamp;
 	}
 
 	public String getName() {
@@ -161,7 +163,7 @@ public class Role extends BaseEntity {
 		}
 
 		final Role other = (Role) entity;
-		return new EqualsBuilder().append(getRoleId(), other.getRoleId()).append(getTimestamp(), other.getTimestamp()).isEquals();
+		return new EqualsBuilder().append(getRoleId(), other.getRoleId()).append(getRoleTimestamp(), other.getRoleTimestamp()).isEquals();
 	}
 
 	@Override
@@ -175,16 +177,16 @@ public class Role extends BaseEntity {
 		}
 
 		final Role other = (Role) obj;
-		return new EqualsBuilder().append(getRoleId(), other.getRoleId()).append(getTimestamp(), other.getTimestamp()).append(getName(), other.getName()).isEquals();
+		return new EqualsBuilder().append(getRoleId(), other.getRoleId()).append(getRoleTimestamp(), other.getRoleTimestamp()).append(getName(), other.getName()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getRoleId()).append(getTimestamp()).append(getName()).toHashCode();
+		return new HashCodeBuilder().append(getRoleId()).append(getRoleTimestamp()).append(getName()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getRoleId()).append(getTimestamp()).append(getName()).toString();
+		return new ToStringBuilder(this).append(getRoleId()).append(getRoleTimestamp()).append(getName()).toString();
 	}
 }

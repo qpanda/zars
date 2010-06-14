@@ -34,6 +34,7 @@ import org.joda.time.DateMidnight;
 public class Report extends BaseEntity {
 	public static final String TABLENAME_REPORT = "report";
 	public static final String COLUMNNAME_REPORTID = "report_id";
+	public static final String COLUMNNAME_REPORTTIMESTAMP = "report_timestamp";
 	public static final String COLUMNNAME_DATE = "date";
 	public static final String COLUMNNAME_PERIODSTART = "period_start";
 	public static final String COLUMNNAME_PERIODEND = "period_end";
@@ -48,7 +49,8 @@ public class Report extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date timestamp;
+	@Column(name = Report.COLUMNNAME_REPORTTIMESTAMP)
+	private Date reportTimestamp;
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
@@ -115,12 +117,12 @@ public class Report extends BaseEntity {
 		this.reportId = reportId;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
+	public Date getReportTimestamp() {
+		return reportTimestamp;
 	}
 
-	public void setTimestamp(final Date timestamp) {
-		this.timestamp = timestamp;
+	public void setReportTimestamp(final Date reportTimestamp) {
+		this.reportTimestamp = reportTimestamp;
 	}
 
 	public Date getDate() {
@@ -219,7 +221,7 @@ public class Report extends BaseEntity {
 		}
 
 		final Report other = (Report) entity;
-		return new EqualsBuilder().append(getReportId(), other.getReportId()).append(getTimestamp(), other.getTimestamp()).isEquals();
+		return new EqualsBuilder().append(getReportId(), other.getReportId()).append(getReportTimestamp(), other.getReportTimestamp()).isEquals();
 	}
 
 	@Override
@@ -233,16 +235,16 @@ public class Report extends BaseEntity {
 		}
 
 		final Report other = (Report) obj;
-		return new EqualsBuilder().append(getReportId(), other.getReportId()).append(getTimestamp(), other.getTimestamp()).append(getDate(), other.getDate()).append(getPeriodStart(), other.getPeriodStart()).append(getPeriodEnd(), other.getPeriodEnd()).append(isStale(), other.isStale()).isEquals();
+		return new EqualsBuilder().append(getReportId(), other.getReportId()).append(getReportTimestamp(), other.getReportTimestamp()).append(getDate(), other.getDate()).append(getPeriodStart(), other.getPeriodStart()).append(getPeriodEnd(), other.getPeriodEnd()).append(isStale(), other.isStale()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getReportId()).append(getTimestamp()).append(getDate()).append(getPeriodStart()).append(getPeriodEnd()).append(isStale()).toHashCode();
+		return new HashCodeBuilder().append(getReportId()).append(getReportTimestamp()).append(getDate()).append(getPeriodStart()).append(getPeriodEnd()).append(isStale()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getReportId()).append(getTimestamp()).append(getDate()).append(getPeriodStart()).append(getPeriodEnd()).append(isStale()).toString();
+		return new ToStringBuilder(this).append(getReportId()).append(getReportTimestamp()).append(getDate()).append(getPeriodStart()).append(getPeriodEnd()).append(isStale()).toString();
 	}
 }

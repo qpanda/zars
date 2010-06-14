@@ -42,6 +42,7 @@ import org.joda.time.DateTime;
 public class GroupReservation extends BaseEntity {
 	public static final String TABLENAME_GROUPRESERVATION = "group_reservation";
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
+	public static final String COLUMNNAME_GROUPRESERVATIONTIMESTAMP = "group_reservation_timestamp";
 	public static final String COLUMNNAME_ARRIVAL = "arrival";
 	public static final String COLUMNNAME_DEPARTURE = "departure";
 	public static final String COLUMNNAME_COMMENT = "comment";
@@ -60,7 +61,8 @@ public class GroupReservation extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date timestamp;
+	@Column(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONTIMESTAMP)
+	private Date groupReservationTimestamp;
 
 	@NotNull
 	@Temporal(TemporalType.DATE)
@@ -216,12 +218,12 @@ public class GroupReservation extends BaseEntity {
 		this.groupReservationId = groupReservationId;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
+	public Date getGroupReservationTimestamp() {
+		return groupReservationTimestamp;
 	}
 
-	void setTimestamp(final Date timestamp) {
-		this.timestamp = timestamp;
+	void setGroupReservationTimestamp(final Date groupReservationTimestamp) {
+		this.groupReservationTimestamp = groupReservationTimestamp;
 	}
 
 	public DateMidnight getArrival() {
@@ -522,7 +524,7 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		final GroupReservation other = (GroupReservation) entity;
-		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getTimestamp(), other.getTimestamp()).isEquals();
+		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getGroupReservationTimestamp(), other.getGroupReservationTimestamp()).isEquals();
 	}
 
 	@Override
@@ -536,16 +538,16 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		final GroupReservation other = (GroupReservation) obj;
-		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getTimestamp(), other.getTimestamp()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
+		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getGroupReservationTimestamp(), other.getGroupReservationTimestamp()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getGroupReservationId()).append(getTimestamp()).append(getArrival()).append(getDeparture()).append(getGuests()).append(getComment()).toHashCode();
+		return new HashCodeBuilder().append(getGroupReservationId()).append(getGroupReservationTimestamp()).append(getArrival()).append(getDeparture()).append(getGuests()).append(getComment()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getGroupReservationId()).append(getTimestamp()).append(getArrival()).append(getDeparture()).append(getGuests()).append(getComment()).toString();
+		return new ToStringBuilder(this).append(getGroupReservationId()).append(getGroupReservationTimestamp()).append(getArrival()).append(getDeparture()).append(getGuests()).append(getComment()).toString();
 	}
 }

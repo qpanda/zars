@@ -25,6 +25,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Setting extends BaseEntity {
 	public static final String TABLENAME_SETTING = "setting";
 	public static final String COLUMNNAME_SETTINGID = "setting_id";
+	public static final String COLUMNNAME_SETTINGTIMESTAMP = "setting_timestamp";
 	public static final String COLUMNNAME_NAME = "name";
 	public static final String COLUMNNAME_VALUE = "value";
 	public static final String COLUMNNAME_TYPE = "type";
@@ -39,7 +40,8 @@ public class Setting extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date timestamp;
+	@Column(name = Setting.COLUMNNAME_SETTINGTIMESTAMP)
+	private Date settingTimestamp;
 
 	@NotNull
 	@NotEmpty
@@ -80,12 +82,12 @@ public class Setting extends BaseEntity {
 		this.settingId = settingId;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
+	public Date getSettingTimestamp() {
+		return settingTimestamp;
 	}
 
-	public void setTimestamp(final Date timestamp) {
-		this.timestamp = timestamp;
+	public void setSettingTimestamp(final Date settingTimestamp) {
+		this.settingTimestamp = settingTimestamp;
 	}
 
 	public String getName() {
@@ -133,7 +135,7 @@ public class Setting extends BaseEntity {
 		}
 
 		final Setting other = (Setting) entity;
-		return new EqualsBuilder().append(getSettingId(), other.getSettingId()).append(getTimestamp(), other.getTimestamp()).isEquals();
+		return new EqualsBuilder().append(getSettingId(), other.getSettingId()).append(getSettingTimestamp(), other.getSettingTimestamp()).isEquals();
 	}
 
 	@Override
@@ -147,16 +149,16 @@ public class Setting extends BaseEntity {
 		}
 
 		final Setting other = (Setting) obj;
-		return new EqualsBuilder().append(getSettingId(), other.getSettingId()).append(getTimestamp(), other.getTimestamp()).append(getName(), other.getName()).append(getValue(), other.getValue()).append(getType(), other.getType()).isEquals();
+		return new EqualsBuilder().append(getSettingId(), other.getSettingId()).append(getSettingTimestamp(), other.getSettingTimestamp()).append(getName(), other.getName()).append(getValue(), other.getValue()).append(getType(), other.getType()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getSettingId()).append(getTimestamp()).append(getName()).append(getValue()).append(getType()).toHashCode();
+		return new HashCodeBuilder().append(getSettingId()).append(getSettingTimestamp()).append(getName()).append(getValue()).append(getType()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getSettingId()).append(getTimestamp()).append(getName()).append(getValue()).append(getType()).toString();
+		return new ToStringBuilder(this).append(getSettingId()).append(getSettingTimestamp()).append(getName()).append(getValue()).append(getType()).toString();
 	}
 }

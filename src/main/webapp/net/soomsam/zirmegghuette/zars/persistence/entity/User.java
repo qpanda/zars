@@ -33,6 +33,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class User extends BaseEntity {
 	public static final String TABLENAME_USER = "user";
 	public static final String COLUMNNAME_USERID = "user_id";
+	public static final String COLUMNNAME_USERTIMESTAMP = "user_timestamp";
 	public static final String COLUMNNAME_USERNAME = "username";
 	public static final String COLUMNNAME_EMAILADDRESS = "email_address";
 	public static final String COLUMNNAME_FIRSTNAME = "first_name";
@@ -48,7 +49,8 @@ public class User extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date timestamp;
+	@Column(name = User.COLUMNNAME_USERTIMESTAMP)
+	private Date userTimestamp;
 
 	@NotNull
 	@NotEmpty
@@ -148,12 +150,12 @@ public class User extends BaseEntity {
 		this.userId = userId;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
+	public Date getUserTimestamp() {
+		return userTimestamp;
 	}
 
-	void setTimestamp(final Date timestamp) {
-		this.timestamp = timestamp;
+	void setUserTimestamp(final Date userTimestamp) {
+		this.userTimestamp = userTimestamp;
 	}
 
 	public String getUsername() {
@@ -319,7 +321,7 @@ public class User extends BaseEntity {
 		}
 
 		final User other = (User) entity;
-		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getTimestamp(), other.getTimestamp()).isEquals();
+		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getUserTimestamp(), other.getUserTimestamp()).isEquals();
 	}
 
 	@Override
@@ -333,16 +335,16 @@ public class User extends BaseEntity {
 		}
 
 		final User other = (User) obj;
-		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getTimestamp(), other.getTimestamp()).append(getUsername(), other.getUsername()).append(getPassword(), other.getPassword()).append(getEmailAddress(), other.getEmailAddress()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).append(isEnabled(), other.isEnabled()).isEquals();
+		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getUserTimestamp(), other.getUserTimestamp()).append(getUsername(), other.getUsername()).append(getPassword(), other.getPassword()).append(getEmailAddress(), other.getEmailAddress()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).append(isEnabled(), other.isEnabled()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getUserId()).append(getTimestamp()).append(getUsername()).append(getPassword()).append(getEmailAddress()).append(getFirstName()).append(getLastName()).append(isEnabled()).toHashCode();
+		return new HashCodeBuilder().append(getUserId()).append(getUserTimestamp()).append(getUsername()).append(getPassword()).append(getEmailAddress()).append(getFirstName()).append(getLastName()).append(isEnabled()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getUserId()).append(getTimestamp()).append(getUsername()).append(getPassword()).append(getEmailAddress()).append(getFirstName()).append(getLastName()).append(isEnabled()).toString();
+		return new ToStringBuilder(this).append(getUserId()).append(getUserTimestamp()).append(getUsername()).append(getPassword()).append(getEmailAddress()).append(getFirstName()).append(getLastName()).append(isEnabled()).toString();
 	}
 }

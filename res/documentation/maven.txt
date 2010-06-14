@@ -1,4 +1,0 @@
-process-classes				generate DDL from persistence entities using hibernate tools
-process-test-resources		create schema based on generated generated DDL
-jetty:run					executes jetty with the web application deployed
-xml:transform				creates XSD schema out of the taglibs

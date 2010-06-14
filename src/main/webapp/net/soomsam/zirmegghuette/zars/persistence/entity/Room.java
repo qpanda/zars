@@ -29,6 +29,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Room extends BaseEntity {
 	public static final String TABLENAME_ROOM = "room";
 	public static final String COLUMNNAME_ROOMID = "room_id";
+	public static final String COLUMNNAME_ROOMTIMESTAMP = "room_timestamp";
 	public static final String COLUMNNAME_NAME = "name";
 	public static final String COLUMNNAME_DESCRIPTION = "description";
 	public static final String COLUMNNAME_CAPACITY = "capacity";
@@ -42,7 +43,8 @@ public class Room extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date timestamp;
+	@Column(name = Room.COLUMNNAME_ROOMTIMESTAMP)
+	private Date roomTimestamp;
 
 	@NotNull
 	@NotEmpty
@@ -83,12 +85,12 @@ public class Room extends BaseEntity {
 		this.roomId = roomId;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
+	public Date getRoomTimestamp() {
+		return roomTimestamp;
 	}
 
-	void setTimestamp(final Date timestamp) {
-		this.timestamp = timestamp;
+	void setRoomTimestamp(final Date roomTimestamp) {
+		this.roomTimestamp = roomTimestamp;
 	}
 
 	public String getName() {
@@ -198,7 +200,7 @@ public class Room extends BaseEntity {
 		}
 
 		final Room other = (Room) entity;
-		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).append(getTimestamp(), other.getTimestamp()).isEquals();
+		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).append(getRoomTimestamp(), other.getRoomTimestamp()).isEquals();
 	}
 
 	@Override
@@ -212,16 +214,16 @@ public class Room extends BaseEntity {
 		}
 
 		final Room other = (Room) obj;
-		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).append(getTimestamp(), other.getTimestamp()).append(getName(), other.getName()).append(getCapacity(), other.getCapacity()).append(getPrecedence(), other.getPrecedence()).append(isInUse(), other.isInUse()).isEquals();
+		return new EqualsBuilder().append(getRoomId(), other.getRoomId()).append(getRoomTimestamp(), other.getRoomTimestamp()).append(getName(), other.getName()).append(getCapacity(), other.getCapacity()).append(getPrecedence(), other.getPrecedence()).append(isInUse(), other.isInUse()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getRoomId()).append(getTimestamp()).append(getName()).append(getCapacity()).append(getPrecedence()).append(isInUse()).toHashCode();
+		return new HashCodeBuilder().append(getRoomId()).append(getRoomTimestamp()).append(getName()).append(getCapacity()).append(getPrecedence()).append(isInUse()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getRoomId()).append(getTimestamp()).append(getName()).append(getCapacity()).append(getPrecedence()).append(isInUse()).toString();
+		return new ToStringBuilder(this).append(getRoomId()).append(getRoomTimestamp()).append(getName()).append(getCapacity()).append(getPrecedence()).append(isInUse()).toString();
 	}
 }

@@ -28,6 +28,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Invoice extends BaseEntity {
 	public static final String TABLENAME_INVOICE = "invoice";
 	public static final String COLUMNNAME_INVOICEID = "invoice_id";
+	public static final String COLUMNNAME_INVOICETIMESTAMP = "invoice_timestamp";
 	public static final String COLUMNNAME_DATE = "date";
 	public static final String COLUMNNAME_CURRENCY = "currency";
 	public static final String COLUMNNAME_AMOUNT = "amount";
@@ -42,7 +43,8 @@ public class Invoice extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date timestamp;
+	@Column(name = Invoice.COLUMNNAME_INVOICETIMESTAMP)
+	private Date invoiceTimestamp;
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
@@ -99,12 +101,12 @@ public class Invoice extends BaseEntity {
 		this.invoiceId = invoiceId;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
+	public Date getInvoiceTimestamp() {
+		return invoiceTimestamp;
 	}
 
-	void setTimestamp(final Date timestamp) {
-		this.timestamp = timestamp;
+	void setInvoiceTimestamp(final Date invoiceTimestamp) {
+		this.invoiceTimestamp = invoiceTimestamp;
 	}
 
 	public Date getDate() {
@@ -143,7 +145,7 @@ public class Invoice extends BaseEntity {
 		return stale;
 	}
 
-	public void setStale(boolean stale) {
+	public void setStale(final boolean stale) {
 		this.stale = stale;
 	}
 
@@ -189,7 +191,7 @@ public class Invoice extends BaseEntity {
 		}
 
 		final Invoice other = (Invoice) entity;
-		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getTimestamp(), other.getTimestamp()).isEquals();
+		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getInvoiceTimestamp(), other.getInvoiceTimestamp()).isEquals();
 	}
 
 	@Override
@@ -203,16 +205,16 @@ public class Invoice extends BaseEntity {
 		}
 
 		final Invoice other = (Invoice) obj;
-		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getTimestamp(), other.getTimestamp()).append(getDate(), other.getDate()).append(getCurrency(), other.getCurrency()).append(getAmount(), other.getAmount()).append(isPayed(), other.isPayed()).append(isStale(), other.isStale()).isEquals();
+		return new EqualsBuilder().append(getInvoiceId(), other.getInvoiceId()).append(getInvoiceTimestamp(), other.getInvoiceTimestamp()).append(getDate(), other.getDate()).append(getCurrency(), other.getCurrency()).append(getAmount(), other.getAmount()).append(isPayed(), other.isPayed()).append(isStale(), other.isStale()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getInvoiceId()).append(getTimestamp()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).append(isStale()).toHashCode();
+		return new HashCodeBuilder().append(getInvoiceId()).append(getInvoiceTimestamp()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).append(isStale()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getInvoiceId()).append(getTimestamp()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).append(isStale()).toString();
+		return new ToStringBuilder(this).append(getInvoiceId()).append(getInvoiceTimestamp()).append(getDate()).append(getCurrency()).append(getAmount()).append(isPayed()).append(isStale()).toString();
 	}
 }

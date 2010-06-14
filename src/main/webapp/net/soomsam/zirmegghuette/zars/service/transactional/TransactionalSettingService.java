@@ -57,13 +57,13 @@ public class TransactionalSettingService implements SettingService {
 
 		logger.debug("retrieved setting [" + setting + "]");
 		if (!setting.hasValue()) {
-			return new SettingBean(setting.getSettingId(), setting.getTimestamp(), name, Object.class);
+			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), name, Object.class);
 		}
 
 		try {
 			Class settingType = Class.forName(setting.getType());
 			Object settingValue = beanWrapper.convertIfNecessary(setting.getValue(), settingType);
-			return new SettingBean(setting.getSettingId(), setting.getTimestamp(), name, settingValue, settingType);
+			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), name, settingValue, settingType);
 		} catch (ClassNotFoundException classNotFoundException) {
 			throw new ServiceException("converting value for setting [" + setting + "] failed", classNotFoundException);
 		}
