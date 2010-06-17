@@ -6,8 +6,8 @@
 		<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" />
 		<hibernatetool destdir="${basedir}/target/generated-sources/schema">
 			<classpath refid="maven.compile.classpath" />
-			<annotationconfiguration configurationfile="${basedir}/src/utils/resources/hibernate/hibernatetool-hsqldb.cfg.xml" />
-			<hbm2ddl drop="false" create="true" export="${export}" outputfilename="schema-hsqldb.ddl" delimiter=";" format="true" />
+			<annotationconfiguration configurationfile="${basedir}/src/utils/resources/hibernate/hibernatetool-hsql.cfg.xml" />
+			<hbm2ddl drop="false" create="true" export="${export}" outputfilename="schema-hsql.ddl" delimiter=";" format="true" />
 		</hibernatetool>
 		<hibernatetool destdir="${basedir}/target/generated-sources/schema">
 			<classpath refid="maven.compile.classpath" />

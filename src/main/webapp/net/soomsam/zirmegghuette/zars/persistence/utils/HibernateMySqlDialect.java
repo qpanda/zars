@@ -7,7 +7,7 @@ import org.hibernate.exception.JDBCExceptionHelper;
 import org.hibernate.exception.TemplatedViolatedConstraintNameExtracter;
 import org.hibernate.exception.ViolatedConstraintNameExtracter;
 
-public class HibernateMySQL5InnoDBDialect extends MySQL5InnoDBDialect {
+public class HibernateMySqlDialect extends MySQL5InnoDBDialect {
 	@Override
 	public ViolatedConstraintNameExtracter getViolatedConstraintNameExtracter() {
 		return EXTRACTER;

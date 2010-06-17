@@ -99,7 +99,7 @@
 							<autocommit>true</autocommit>
 							<sqlCommand>DROP SCHEMA public CASCADE</sqlCommand>
 							<srcFiles>
-								<srcFile>target/generated-sources/schema/schema-hsqldb.ddl</srcFile>
+								<srcFile>target/generated-sources/schema/schema-hsql.ddl</srcFile>
 							</srcFiles>
 						</configuration>
 					</execution>

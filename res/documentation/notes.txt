@@ -4,8 +4,19 @@ MAVEN
 	jetty:run					executes jetty with the web application deployed
 	xml:transform				creates XSD schema out of the taglibs
 
-MYSQL	
-	create database zars;
-	alter database zars charset=utf8;
-	use zars;
-	source schema-mysql.ddl;
+MYSQL
+	SETUP
+		mysql -u root -p
+	USAGE
+		create database zars;
+		alter database zars charset=utf8;
+		use zars;
+		source schema-mysql.ddl;
+
+POSTGRESQL
+	SETUP
+		initdb -E UTF8 -D <DATA_DIR>
+		postgres -D <DATA_DIR>
+		createuser root
+		createuser zars
+		createdb -O zars -E UTF8 zars

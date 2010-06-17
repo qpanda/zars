@@ -22,7 +22,7 @@
       <property name="hibernate.format_sql" value="true"/>
       <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
       <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/zars"/>
-      <property name="hibernate.dialect" value="net.soomsam.zirmegghuette.zars.persistence.utils.HibernateMySQL5InnoDBDialect"/>
+      <property name="hibernate.dialect" value="net.soomsam.zirmegghuette.zars.persistence.utils.HibernateMySqlDialect"/>
       <property name="hibernate.connection.username" value="zars"/>
       <property name="hibernate.connection.password" value="zars"/>
     </properties>
