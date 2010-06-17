@@ -6,7 +6,7 @@
         <property name="hibernate.format_sql">true</property>
         <property name="use_sql_comments">true</property>
 
-        <property name="hibernate.dialect">net.soomsam.zirmegghuette.zars.persistence.utils.HibernateHsqlDialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         
         <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Invoice" />
         <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation" />

@@ -14,5 +14,10 @@
 			<annotationconfiguration configurationfile="${basedir}/src/utils/resources/hibernate/hibernatetool-mysql.cfg.xml" />
 			<hbm2ddl drop="false" create="true" export="${export}" outputfilename="schema-mysql.ddl" delimiter=";" format="true" />
 		</hibernatetool>
+		<hibernatetool destdir="${basedir}/target/generated-sources/schema">
+			<classpath refid="maven.compile.classpath" />
+			<annotationconfiguration configurationfile="${basedir}/src/utils/resources/hibernate/hibernatetool-pgsql.cfg.xml" />
+			<hbm2ddl drop="false" create="true" export="${export}" outputfilename="schema-pgsql.ddl" delimiter=";" format="true" />
+		</hibernatetool>
 	</target>
 </project>
