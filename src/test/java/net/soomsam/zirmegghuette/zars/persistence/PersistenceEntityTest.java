@@ -244,7 +244,7 @@ public class PersistenceEntityTest {
 			final Throwable persistenceExceptionCause = persistenceException.getCause();
 			Assert.assertTrue(persistenceExceptionCause instanceof org.hibernate.exception.ConstraintViolationException);
 			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
-			Assert.assertTrue(StringUtils.equalsIgnoreCase(User.COLUMNNAME_USERNAME, constraintViolationException.getConstraintName()));
+			Assert.assertTrue(StringUtils.containsIgnoreCase(constraintViolationException.getConstraintName(), User.COLUMNNAME_USERNAME));
 			throw constraintViolationException;
 		}
 	}
@@ -266,7 +266,7 @@ public class PersistenceEntityTest {
 			final Throwable persistenceExceptionCause = persistenceException.getCause();
 			Assert.assertTrue(persistenceExceptionCause instanceof org.hibernate.exception.ConstraintViolationException);
 			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
-			Assert.assertTrue(StringUtils.equalsIgnoreCase(User.COLUMNNAME_EMAILADDRESS, constraintViolationException.getConstraintName()));
+			Assert.assertTrue(StringUtils.containsIgnoreCase(constraintViolationException.getConstraintName(), User.COLUMNNAME_EMAILADDRESS));
 			throw constraintViolationException;
 		}
 	}

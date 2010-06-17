@@ -24,15 +24,15 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 	}
 
 	@Override
-	public void createUser(User user) throws UniqueConstraintException {
+	public void createUser(final User user) throws UniqueConstraintException {
 		try {
 			super.persist(user);
-		} catch (PersistenceException persistenceException) {
-			Throwable persistenceExceptionCause = persistenceException.getCause();
+		} catch (final PersistenceException persistenceException) {
+			final Throwable persistenceExceptionCause = persistenceException.getCause();
 			if (persistenceExceptionCause instanceof ConstraintViolationException) {
-				ConstraintViolationException constraintViolationException = (ConstraintViolationException) persistenceExceptionCause;
-				String uniqueConstraintName = constraintViolationException.getConstraintName();
-				if (StringUtils.equalsIgnoreCase(User.COLUMNNAME_USERNAME, uniqueConstraintName) || StringUtils.equalsIgnoreCase(User.COLUMNNAME_EMAILADDRESS, uniqueConstraintName)) {
+				final ConstraintViolationException constraintViolationException = (ConstraintViolationException) persistenceExceptionCause;
+				final String uniqueConstraintName = constraintViolationException.getConstraintName();
+				if (StringUtils.containsIgnoreCase(uniqueConstraintName, User.COLUMNNAME_USERNAME) || StringUtils.containsIgnoreCase(uniqueConstraintName, User.COLUMNNAME_EMAILADDRESS)) {
 					throw new UniqueConstraintException("unable to create user [" + user + "], unique constraint [" + uniqueConstraintName + "] violated", uniqueConstraintName, constraintViolationException);
 				}
 			}
