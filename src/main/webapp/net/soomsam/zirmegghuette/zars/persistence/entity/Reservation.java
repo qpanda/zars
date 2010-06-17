@@ -28,7 +28,7 @@ import org.joda.time.DateTime;
 @Entity
 @Table(name = Reservation.TABLENAME_RESERVATION)
 public class Reservation extends BaseEntity {
-	public static final String TABLENAME_RESERVATION = "reservation";
+	public static final String TABLENAME_RESERVATION = "zars_reservation";
 	public static final String COLUMNNAME_RESERVATIONID = "reservation_id";
 	public static final String COLUMNNAME_RESERVATIONTIMESTAMP = "reservation_timestamp";
 	public static final String COLUMNNAME_ARRIVAL = "arrival";

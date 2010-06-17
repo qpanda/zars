@@ -23,7 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = Setting.TABLENAME_SETTING)
 @NamedQueries( { @NamedQuery(name = Setting.FINDSETTING_QUERYNAME, query = Setting.FINDSETTING_QUERYSTRING) })
 public class Setting extends BaseEntity {
-	public static final String TABLENAME_SETTING = "setting";
+	public static final String TABLENAME_SETTING = "zars_setting";
 	public static final String COLUMNNAME_SETTINGID = "setting_id";
 	public static final String COLUMNNAME_SETTINGTIMESTAMP = "setting_timestamp";
 	public static final String COLUMNNAME_NAME = "name";

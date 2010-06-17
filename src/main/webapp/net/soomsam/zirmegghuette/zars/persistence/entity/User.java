@@ -31,7 +31,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = User.TABLENAME_USER)
 public class User extends BaseEntity {
-	public static final String TABLENAME_USER = "user";
+	public static final String TABLENAME_USER = "zars_user";
 	public static final String COLUMNNAME_USERID = "user_id";
 	public static final String COLUMNNAME_USERTIMESTAMP = "user_timestamp";
 	public static final String COLUMNNAME_USERNAME = "username";
@@ -40,7 +40,7 @@ public class User extends BaseEntity {
 	public static final String COLUMNNAME_LASTNAME = "last_name";
 	public static final String COLUMNNAME_PASSWORD = "password";
 	public static final String COLUMNNAME_ENABLED = "active";
-	public static final String JOINTABLENAME_USER_ROLE = "user_role";
+	public static final String JOINTABLENAME_USER_ROLE = "zars_user_role";
 
 	@Id
 	@GeneratedValue

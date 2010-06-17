@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = Role.TABLENAME_ROLE)
 @NamedQueries( { @NamedQuery(name = Role.FINDROLE_ID_QUERYNAME, query = Role.FINDROLE_ID_QUERYSTRING) })
 public class Role extends BaseEntity {
-	public static final String TABLENAME_ROLE = "role";
+	public static final String TABLENAME_ROLE = "zars_role";
 	public static final String COLUMNNAME_ROLEID = "role_id";
 	public static final String COLUMNNAME_ROLETIMESTAMP = "role_timestamp";
 	public static final String COLUMNNAME_NAME = "name";

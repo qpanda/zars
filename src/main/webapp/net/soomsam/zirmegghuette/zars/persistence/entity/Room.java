@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = Room.TABLENAME_ROOM)
 public class Room extends BaseEntity {
-	public static final String TABLENAME_ROOM = "room";
+	public static final String TABLENAME_ROOM = "zars_room";
 	public static final String COLUMNNAME_ROOMID = "room_id";
 	public static final String COLUMNNAME_ROOMTIMESTAMP = "room_timestamp";
 	public static final String COLUMNNAME_NAME = "name";

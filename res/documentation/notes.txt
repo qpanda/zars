@@ -5,18 +5,27 @@ MAVEN
 	xml:transform				creates XSD schema out of the taglibs
 
 MYSQL
-	SETUP
+	RMDS SETUP
+	DB SETUP
 		mysql -u root -p
-	USAGE
 		create database zars;
 		alter database zars charset=utf8;
+		create user 'zars'@'localhost' identified by 'zars';
+		grant all on zars.* to 'zars'@'localhost';	
+		mysql -u zars -p
 		use zars;
 		source schema-mysql.ddl;
+	RMDS SHUTDOWN
+		mysqladmin.exe -u root -p shutdown
 
 POSTGRESQL
-	SETUP
+	RMDS SETUP
 		initdb -E UTF8 -D <DATA_DIR>
 		postgres -D <DATA_DIR>
 		createuser root
 		createuser zars
 		createdb -O zars -E UTF8 zars
+	DB SETUP
+		psql -f schema-pgsql.ddl zars zars
+	RMDS SHUTDOWN
+		pg_ctl.exe stop -D <DATA_DIR>

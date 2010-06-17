@@ -32,7 +32,7 @@ import org.joda.time.DateMidnight;
 @Entity
 @Table(name = Report.TABLENAME_REPORT)
 public class Report extends BaseEntity {
-	public static final String TABLENAME_REPORT = "report";
+	public static final String TABLENAME_REPORT = "zars_report";
 	public static final String COLUMNNAME_REPORTID = "report_id";
 	public static final String COLUMNNAME_REPORTTIMESTAMP = "report_timestamp";
 	public static final String COLUMNNAME_DATE = "date";
@@ -40,7 +40,7 @@ public class Report extends BaseEntity {
 	public static final String COLUMNNAME_PERIODEND = "period_end";
 	public static final String COLUMNNAME_DOCUMENT = "document";
 	public static final String COLUMNNAME_STALE = "stale";
-	public static final String JOINTABLENAME_REPORT_GROUPRESERVATION = "report_group_reservation";
+	public static final String JOINTABLENAME_REPORT_GROUPRESERVATION = "zars_report_group_reservation";
 
 	@Id
 	@GeneratedValue

@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = Invoice.TABLENAME_INVOICE)
 public class Invoice extends BaseEntity {
-	public static final String TABLENAME_INVOICE = "invoice";
+	public static final String TABLENAME_INVOICE = "zars_invoice";
 	public static final String COLUMNNAME_INVOICEID = "invoice_id";
 	public static final String COLUMNNAME_INVOICETIMESTAMP = "invoice_timestamp";
 	public static final String COLUMNNAME_DATE = "date";
