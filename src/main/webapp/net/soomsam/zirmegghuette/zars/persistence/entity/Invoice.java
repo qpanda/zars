@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -71,6 +72,7 @@ public class Invoice extends BaseEntity {
 	@NotNull
 	@Lob
 	@Column(name = Invoice.COLUMNNAME_DOCUMENT, nullable = false)
+	@Type(type = "org.hibernate.type.PrimitiveByteArrayBlobType")
 	private byte[] document;
 
 	@NotNull

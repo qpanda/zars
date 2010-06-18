@@ -27,6 +27,7 @@ import net.soomsam.zirmegghuette.zars.persistence.utils.DateUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateMidnight;
 
 @Entity
@@ -40,7 +41,7 @@ public class Report extends BaseEntity {
 	public static final String COLUMNNAME_PERIODEND = "period_end";
 	public static final String COLUMNNAME_DOCUMENT = "document";
 	public static final String COLUMNNAME_STALE = "stale";
-	public static final String JOINTABLENAME_REPORT_GROUPRESERVATION = "zars_report_group_reservation";
+	public static final String JOINTABLENAME_REPORT_GROUPRESERVATION = "zars_report_zars_group_reservation";
 
 	@Id
 	@GeneratedValue
@@ -70,6 +71,7 @@ public class Report extends BaseEntity {
 	@NotNull
 	@Lob
 	@Column(name = Report.COLUMNNAME_DOCUMENT, nullable = false)
+	@Type(type = "org.hibernate.type.PrimitiveByteArrayBlobType")
 	private byte[] document;
 
 	@NotNull

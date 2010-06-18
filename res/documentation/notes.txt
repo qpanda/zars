@@ -7,25 +7,29 @@ MAVEN
 MYSQL
 	RMDS SETUP
 	DB SETUP
-		mysql -u root -p
-		create database zars;
-		alter database zars charset=utf8;
-		create user 'zars'@'localhost' identified by 'zars';
-		grant all on zars.* to 'zars'@'localhost';	
-		mysql -u zars -p
-		use zars;
-		source schema-mysql.ddl;
+		# mysql -u root -p
+		> create database zars;
+		> alter database zars charset=utf8;
+		> create user 'zars'@'localhost' identified by 'zars';
+		> grant all on zars.* to 'zars'@'localhost';	
+		# mysql -u zars -p
+		> use zars;
+		> source schema-mysql.ddl;
+	DB DROP
+		> drop database zars;
 	RMDS SHUTDOWN
-		mysqladmin.exe -u root -p shutdown
+		# mysqladmin.exe -u root -p shutdown
 
 POSTGRESQL
 	RMDS SETUP
-		initdb -E UTF8 -D <DATA_DIR>
-		postgres -D <DATA_DIR>
-		createuser root
-		createuser zars
-		createdb -O zars -E UTF8 zars
+		# initdb -E UTF8 -D <DATA_DIR>
+		# postgres -D <DATA_DIR>
+		# createuser root
+		# createuser zars
+		# createdb -O zars -E UTF8 zars
 	DB SETUP
-		psql -f schema-pgsql.ddl zars zars
+		# psql -f schema-pgsql.ddl zars zars
+	DB DROP
+		# dropdb zars
 	RMDS SHUTDOWN
-		pg_ctl.exe stop -D <DATA_DIR>
+		# pg_ctl.exe stop -D <DATA_DIR>

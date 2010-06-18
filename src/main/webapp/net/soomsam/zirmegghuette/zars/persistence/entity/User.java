@@ -40,7 +40,7 @@ public class User extends BaseEntity {
 	public static final String COLUMNNAME_LASTNAME = "last_name";
 	public static final String COLUMNNAME_PASSWORD = "password";
 	public static final String COLUMNNAME_ENABLED = "active";
-	public static final String JOINTABLENAME_USER_ROLE = "zars_user_role";
+	public static final String JOINTABLENAME_USER_ROLE = "zars_user_zars_role";
 
 	@Id
 	@GeneratedValue

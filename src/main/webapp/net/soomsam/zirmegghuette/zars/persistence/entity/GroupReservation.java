@@ -49,7 +49,7 @@ public class GroupReservation extends BaseEntity {
 	public static final String COLUMNNAME_GUESTS = "guests";
 	public static final String COLUMNNAME_BENEFICIARY_USERID = "beneficiary_user_id";
 	public static final String COLUMNNAME_ACCOUNTANT_USERID = "accountant_user_id";
-	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "zars_group_reservation_room";
+	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "zars_group_reservation_zars_room";
 
 	public static final String FINDGROUPRESERVATION_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationByStartDateEndDateQuery";
 	public static final String FINDGROUPRESERVATION_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival <= :endDate) or (:startDate <= departure and departure <= :endDate) or (arrival <= :startDate and :endDate <= departure)";

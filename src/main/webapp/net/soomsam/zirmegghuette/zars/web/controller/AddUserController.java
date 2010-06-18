@@ -120,7 +120,7 @@ public class AddUserController implements Serializable {
 			createdUser = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
 			return "showUser";
 		} catch (UniqueConstraintException uniqueConstraintException) {
-			String uniqueConstraintMessageId = "sectionsApplicationAddUserUnique" + uniqueConstraintException.getUniqueConstraintName().toUpperCase() + "Error";
+			String uniqueConstraintMessageId = "sectionsApplicationAddUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";
 			FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 		}

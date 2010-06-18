@@ -1,14 +1,14 @@
 package net.soomsam.zirmegghuette.zars.exception;
 
 public class UniqueConstraintException extends BusinessException {
-	private final String uniqueConstraintName;
+	private final String uniqueConstraintField;
 
-	public UniqueConstraintException(String message, String uniqueConstraintName, Throwable cause) {
+	public UniqueConstraintException(String message, String uniqueConstraintField, Throwable cause) {
 		super(message, cause);
-		this.uniqueConstraintName = uniqueConstraintName;
+		this.uniqueConstraintField = uniqueConstraintField;
 	}
 
-	public String getUniqueConstraintName() {
-		return uniqueConstraintName;
+	public String getUniqueConstraintField() {
+		return uniqueConstraintField;
 	}
 }
