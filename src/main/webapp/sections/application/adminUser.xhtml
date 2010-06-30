@@ -39,7 +39,7 @@
 						<p:commandLink action="#{adminUserController.doStuff}" value="#{displayMessages.sectionsApplicationEditUserLink}" styleClass="applicationLink"/>						
 						<h:outputText value="&#160;|&#160;" />
 						<c:choose>
-							<c:when test="#{user.enabled}">  -->
+							<c:when test="#{user.enabled}">
 								<p:commandLink actionListener="#{adminUserController.setSelectedUserId}" action="#{adminUserController.disableUser}" value="#{displayMessages.sectionsApplicationDisableUserLink}" ajax="false" styleClass="applicationLink" >
 									<f:attribute name="#{adminUserController.commandLinkSelectedUserIdAttributeName}" value="#{user.userId}" />
 								</p:commandLink>
