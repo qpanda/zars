@@ -44,12 +44,12 @@
 			</div>
 			<!--  TODO add POI jar (see user guide) -->
 			<div class="applicationFormItem">
-				<p:commandLink value="export current page" styleClass="applicationLink">
-					<p:dataExporter type="xls" target="userTable" fileName="users" pageOnly="true"/>
+				<p:commandLink value="export current page" styleClass="applicationLink" ajax="false">
+					<p:dataExporter type="xls" target="userTable" fileName="users" pageOnly="true" excludeColumns="5,6"/>
 				</p:commandLink>
 				<h:outputText value="&#160;&#160;&#160;" />
-				<p:commandLink value="export all" styleClass="applicationLink">
-					<p:dataExporter type="xls" target="userTable" fileName="users"/>
+				<p:commandLink value="export all" styleClass="applicationLink" ajax="false">
+					<p:dataExporter type="xls" target="userTable" fileName="users" excludeColumns="5,6"/>
 				</p:commandLink>
 			</div>
 		</h:form>
