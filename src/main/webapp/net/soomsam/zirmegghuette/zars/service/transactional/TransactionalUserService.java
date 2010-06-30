@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("userService")
-@Transactional(timeout = 1000)
+@Transactional(timeout = 10000)
 public class TransactionalUserService implements UserService {
 	@Autowired
 	private ServiceBeanMapper serviceBeanMapper;
@@ -62,7 +62,21 @@ public class TransactionalUserService implements UserService {
 	}
 
 	@Override
-	public List<UserBean> finaAllUsers() {
+	public List<UserBean> findAllUsers() {
 		return serviceBeanMapper.map(UserBean.class, userDao.findAll());
+	}
+
+	@Override
+	public void enableUser(final long userId) {
+		final User user = userDao.retrieveByPrimaryKey(userId);
+		user.setEnabled(true);
+		userDao.persist(user);
+	}
+
+	@Override
+	public void disableUser(final long userId) {
+		final User user = userDao.retrieveByPrimaryKey(userId);
+		user.setEnabled(false);
+		userDao.persist(user);
 	}
 }

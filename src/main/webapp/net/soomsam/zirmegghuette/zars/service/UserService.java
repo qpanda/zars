@@ -16,5 +16,9 @@ public interface UserService {
 
 	public UserBean createUser(String username, String password, String emailAddress, String firstName, String lastName, Set<Long> roleIdSet) throws UniqueConstraintException;
 
-	public List<UserBean> finaAllUsers();
+	public List<UserBean> findAllUsers();
+
+	public void enableUser(long userId);
+
+	public void disableUser(long userId);
 }
