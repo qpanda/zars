@@ -25,8 +25,8 @@ public class StatelessDatabaseService implements DatabaseService {
 
 	@Override
 	public void createInitialDataSet() {
-		SettingBean databaseSchemaVersionSetting = settingService.findSetting(DATABASESCHEMAVERSION_SETTINGNAME);
-		SettingBean databaseSchemaStateSetting = settingService.findSetting(DATABASESCHEMASTATE_SETTINGNAME);
+		final SettingBean databaseSchemaVersionSetting = settingService.findSetting(DATABASESCHEMAVERSION_SETTINGNAME);
+		final SettingBean databaseSchemaStateSetting = settingService.findSetting(DATABASESCHEMASTATE_SETTINGNAME);
 		if (!isSupportedDatabaseSchemaVersionSetting(databaseSchemaVersionSetting)) {
 			throw new ServiceException("detected unsupported schema version setting [" + databaseSchemaVersionSetting + "]");
 		}
@@ -36,7 +36,7 @@ public class StatelessDatabaseService implements DatabaseService {
 		}
 	}
 
-	protected boolean isSupportedDatabaseSchemaVersionSetting(SettingBean databaseSchemaVersionSetting) {
+	protected boolean isSupportedDatabaseSchemaVersionSetting(final SettingBean databaseSchemaVersionSetting) {
 		if (null == databaseSchemaVersionSetting) {
 			return true;
 		}
@@ -45,7 +45,7 @@ public class StatelessDatabaseService implements DatabaseService {
 			return false;
 		}
 
-		Integer databaseSchemaVersion = (Integer) databaseSchemaVersionSetting.getValue();
+		final Integer databaseSchemaVersion = (Integer) databaseSchemaVersionSetting.getValue();
 		if (null == databaseSchemaVersion) {
 			return true;
 		}
@@ -53,7 +53,7 @@ public class StatelessDatabaseService implements DatabaseService {
 		return DATABASESCHEMAVERSION_SUPPORTED_SETTINGVALUE == databaseSchemaVersion;
 	}
 
-	protected boolean isDatabaseInitializationRequired(SettingBean databaseSchemaStateSetting) {
+	protected boolean isDatabaseInitializationRequired(final SettingBean databaseSchemaStateSetting) {
 		if (null == databaseSchemaStateSetting) {
 			return true;
 		}
@@ -67,5 +67,6 @@ public class StatelessDatabaseService implements DatabaseService {
 		settingService.createSetting(DATABASESCHEMAVERSION_SETTINGNAME, DATABASESCHEMAVERSION_SUPPORTED_SETTINGVALUE);
 		settingService.createSetting(DATABASESCHEMASTATE_SETTINGNAME, DATABASESCHEMASTATE_INITIALIZED_SETTINGVALUE);
 		userService.createAllRoles();
+		userService.createDefaultUsers();
 	}
 }

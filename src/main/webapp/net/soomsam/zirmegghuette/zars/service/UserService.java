@@ -10,6 +10,8 @@ import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 public interface UserService {
 	public void createAllRoles();
 
+	public void createDefaultUsers();
+
 	public List<RoleBean> findAllRoles();
 
 	public UserBean createUser(String username, String password, String emailAddress, String firstName, String lastName, Set<Long> roleIdSet) throws UniqueConstraintException;

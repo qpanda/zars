@@ -35,10 +35,10 @@
 					</p:column>
 					<p:column>
 						<!--  TODO actual action method, use displayMessages for value, depending on user.enabled show enable or disable link -->
-						<f:facet name="header"><h:outputText value="Action" /></f:facet>
-						<p:commandLink action="#{adminUserController.doStuff}" value="test" styleClass="applicationLink"/>
-						<h:outputText value="&#160;&#160;&#160;" />
-						<p:commandLink action="#{adminUserController.doStuff}" value="sss" styleClass="applicationLink"/>			
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationActionLabel}" /></f:facet>
+						<p:commandLink action="#{adminUserController.doStuff}" value="#{displayMessages.sectionsApplicationEditUserLink}" styleClass="applicationLink"/>						
+						<h:outputText value="&#160;|&#160;" />
+						<p:commandLink action="#{adminUserController.doStuff}" value="#{user.enabled ? displayMessages.sectionsApplicationDisableUserLink : displayMessages.sectionsApplicationEnableUserLink}" styleClass="applicationLink"/>			
 					</p:column>				
 				</p:dataTable>
 			</div>

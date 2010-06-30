@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = Role.TABLENAME_ROLE)
-@NamedQueries( { @NamedQuery(name = Role.FINDROLE_ID_QUERYNAME, query = Role.FINDROLE_ID_QUERYSTRING) })
+@NamedQueries( { @NamedQuery(name = Role.FINDROLE_ID_QUERYNAME, query = Role.FINDROLE_ID_QUERYSTRING), @NamedQuery(name = Role.FINDROLE_NAME_QUERYNAME, query = Role.FINDROLE_NAME_QUERYSTRING) })
 public class Role extends BaseEntity {
 	public static final String TABLENAME_ROLE = "zars_role";
 	public static final String COLUMNNAME_ROLEID = "role_id";
@@ -36,6 +36,9 @@ public class Role extends BaseEntity {
 
 	public static final String FINDROLE_ID_QUERYNAME = "Role.findRoleById";
 	public static final String FINDROLE_ID_QUERYSTRING = "from Role where roleId in (:roleIdSet)";
+
+	public static final String FINDROLE_NAME_QUERYNAME = "Role.findRoleByName";
+	public static final String FINDROLE_NAME_QUERYSTRING = "from Role where name = :name";
 
 	@Id
 	@GeneratedValue

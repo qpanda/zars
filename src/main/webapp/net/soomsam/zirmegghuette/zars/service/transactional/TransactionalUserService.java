@@ -46,6 +46,13 @@ public class TransactionalUserService implements UserService {
 	}
 
 	@Override
+	public void createDefaultUsers() {
+		final Role adminRole = roleDao.retrieveByName(RoleEnum.ROLE_ADMIN.getRoleName());
+		final User adminUser = new User("admin", "admin", "admin@zars.soomsam.net", true, adminRole);
+		userDao.persist(adminUser);
+	}
+
+	@Override
 	@Transactional(rollbackFor = UniqueConstraintException.class)
 	public UserBean createUser(final String username, final String password, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) throws UniqueConstraintException {
 		final List<Role> roleList = roleDao.findByPrimaryKeys(roleIdSet);
