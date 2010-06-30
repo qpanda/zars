@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html-basic-2.0.2.xsd
 						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf-core-2.0.2.xsd
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
-						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd">
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd
+						http://java.sun.com/jsp/jstl/core	../../WEB-INF/schema/jstl_c-1.2.xsd">
 	<div class="applicationDialog">
 		<h:form id="adminUser" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAdminUserDialogLabel}</div>
@@ -34,11 +35,21 @@
 						<ui:repeat var="role" varStatus="roleIterator" value="#{user.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
 					</p:column>
 					<p:column>
-						<!--  TODO actual action method, use displayMessages for value, depending on user.enabled show enable or disable link -->
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationActionLabel}" /></f:facet>
 						<p:commandLink action="#{adminUserController.doStuff}" value="#{displayMessages.sectionsApplicationEditUserLink}" styleClass="applicationLink"/>						
 						<h:outputText value="&#160;|&#160;" />
-						<p:commandLink action="#{adminUserController.doStuff}" value="#{user.enabled ? displayMessages.sectionsApplicationDisableUserLink : displayMessages.sectionsApplicationEnableUserLink}" styleClass="applicationLink"/>			
+						<c:choose>
+							<c:when test="#{user.enabled}">  -->
+								<p:commandLink actionListener="#{adminUserController.setSelectedUserId}" action="#{adminUserController.disableUser}" value="#{displayMessages.sectionsApplicationDisableUserLink}" ajax="false" styleClass="applicationLink" >
+									<f:attribute name="#{adminUserController.commandLinkSelectedUserIdAttributeName}" value="#{user.userId}" />
+								</p:commandLink>
+							</c:when>
+							<c:otherwise>
+								<p:commandLink actionListener="#{adminUserController.setSelectedUserId}" action="#{adminUserController.enableUser}" value="#{displayMessages.sectionsApplicationEnableUserLink}" ajax="false" styleClass="applicationLink">
+									<f:attribute name="#{adminUserController.commandLinkSelectedUserIdAttributeName}" value="#{user.userId}" />
+								</p:commandLink>
+							</c:otherwise>
+						</c:choose>
 					</p:column>				
 				</p:dataTable>
 			</div>
