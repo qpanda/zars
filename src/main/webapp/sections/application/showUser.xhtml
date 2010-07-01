@@ -33,6 +33,10 @@
 						<td class="applicationFormTableData">#{addUserController.createdUser.lastName}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserStateLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.createdUser.enabled ? displayMessages.sectionsApplicationUserStateEnabledLabel : displayMessages.sectionsApplicationUserStateDisabledLabel}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserRolesLabel}</th>
 						<td class="applicationFormTableData">
 							<ui:repeat var="role" varStatus="roleIterator" value="#{addUserController.createdUser.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
