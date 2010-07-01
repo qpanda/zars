@@ -8,10 +8,10 @@
 			<p:menu effect="NONE" effectDuration="0">
 				<p:submenu label="Administration">
 					<p:menuitem>
-						<h:outputLink value="/views/addUser.jsf">#{displayMessages.sectionsApplicationAddUserMenuLabel}</h:outputLink>
+						<h:link outcome="addUser" value="#{displayMessages.sectionsApplicationAddUserMenuLabel}"/>
 					</p:menuitem>
 					<p:menuitem>
-						<h:outputLink value="/views/adminUser.jsf">#{displayMessages.sectionsApplicationAdminUserMenuLabel}</h:outputLink>
+						<h:link outcome="adminUser" value="#{displayMessages.sectionsApplicationAdminUserMenuLabel}"/>
 					</p:menuitem>
 				</p:submenu>
 				<p:submenu title="Videos" label="Videos">
