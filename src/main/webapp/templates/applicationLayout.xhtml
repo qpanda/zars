@@ -6,10 +6,11 @@
 	locale="#{localeController.activeLocale}"
 	contentType="text/html">
 	<util:doctype type="transitional" />
+	<ui:insert name="metadata"/>
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 		<f:loadBundle var="displayMessages" basename="DisplayMessages" />
 		<f:loadBundle var="enumMessages" basename="EnumMessages" />
-		<f:loadBundle var="validationMessages" basename="ValidationMessages" />
+		<f:loadBundle var="validationMessages" basename="ValidationMessages" />		
 		<h:head>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			<meta http-equiv="Pragma" content="no-cache"/>			
@@ -19,8 +20,8 @@
 				<ui:insert name="windowTitle">#{displayMessages.defaultWindowTitle}</ui:insert>
 			</title>
 		</h:head>
-		<h:body>
-			<div class="view">
+		<h:body>			
+			<div class="view">				
 				<div class="header">
 					<ui:insert name="header"/>
         		</div>
@@ -28,7 +29,7 @@
         			<div class="applicationMenu">
 	        			<ui:insert name="applicationMenu"/>
     	    		</div>			
-					<div class="applicationSection">
+					<div class="applicationSection">						
 						<ui:insert name="applicationSection" />
 					</div>
 				</div>

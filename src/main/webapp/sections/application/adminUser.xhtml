@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html-basic-2.0.2.xsd
 						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf-core-2.0.2.xsd
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
-						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd
-						http://java.sun.com/jsp/jstl/core	../../WEB-INF/schema/jstl_c-1.2.xsd">
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd">
 	<div class="applicationDialog">
 		<h:form id="adminUser" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAdminUserDialogLabel}</div>
@@ -40,7 +39,9 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationActionLabel}" /></f:facet>
-						<p:commandLink action="#{adminUserController.doStuff}" value="#{displayMessages.sectionsApplicationEditUserLink}" styleClass="applicationLink"/>						
+						<h:link outcome="editUser" value="#{displayMessages.sectionsApplicationEditUserLink}" styleClass="applicationLink">
+							<f:param name="userId" value="#{user.userId}"/>
+						</h:link>
 						<h:outputText value="&#160;|&#160;" />
 						<p:commandLink actionListener="#{adminUserController.setSelectedUserId}" action="#{adminUserController.disableUser}" value="#{displayMessages.sectionsApplicationDisableUserLink}" ajax="false" styleClass="applicationLink" rendered="#{user.enabled}">
 							<f:attribute name="#{adminUserController.commandLinkSelectedUserIdAttributeName}" value="#{user.userId}" />
@@ -51,7 +52,7 @@
 					</p:column>				
 				</p:dataTable>
 			</div>
-			<!--  TODO add POI jar (see user guide) -->
+			<!--  TODO use i18n messages, fix problem with broken form after export -->
 			<div class="applicationFormItem">
 				<p:commandLink value="export current page" styleClass="applicationLink" ajax="false">
 					<p:dataExporter type="xls" target="userTable" fileName="users" pageOnly="true" excludeColumns="5,6,7"/>
