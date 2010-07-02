@@ -264,6 +264,23 @@ public class User extends BaseEntity {
 		}
 	}
 
+	public void updateRoles(final Set<Role> newRoleSet) {
+		if (null == newRoleSet) {
+			throw new IllegalArgumentException("'roleSet' must not be null");
+		}
+
+		final Set<Role> oldRoleSet = getRoles();
+
+		final Set<Role> addedRoleSet = new HashSet<Role>(newRoleSet);
+		addedRoleSet.removeAll(oldRoleSet);
+
+		final Set<Role> removedRoleSet = new HashSet<Role>(oldRoleSet);
+		removedRoleSet.removeAll(newRoleSet);
+
+		unassociateRoles(removedRoleSet);
+		associateRoles(addedRoleSet);
+	}
+
 	public Set<GroupReservation> getBeneficiaryGroupReservations() {
 		return Collections.unmodifiableSet(beneficiaryGroupReservations);
 	}

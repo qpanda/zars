@@ -1,16 +1,23 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.service.UserService;
+import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
 
 import com.sun.faces.util.MessageFactory;
@@ -20,12 +27,32 @@ import com.sun.faces.util.MessageFactory;
 public class EditUserController implements Serializable {
 	private final static Logger logger = Logger.getLogger(EditUserController.class);
 
-	private Long userId;
-
 	@Inject
 	private transient UserService userService;
 
-	private UserBean editUser;
+	private Long retrieveUserId;
+
+	private Long userId;
+
+	@NotEmpty(message = "{sectionsApplicationAddUserUserNameError}")
+	private String username;
+
+	@NotEmpty(message = "{sectionsApplicationAddUserPasswordError}")
+	private String password;
+
+	@NotEmpty(message = "{sectionsApplicationAddUserEmailAddressError}")
+	@Email(message = "{sectionsApplicationAddUserEmailAddressError}")
+	private String emailAddress;
+
+	private String firstName;
+
+	private String lastName;
+
+	private List<RoleBean> availableRoles;
+
+	private List<Long> selectedRoleIds;
+
+	private UserBean savedUser;
 
 	public Long getUserId() {
 		return userId;
@@ -35,16 +62,102 @@ public class EditUserController implements Serializable {
 		this.userId = userId;
 	}
 
+	public Long getRetrieveUserId() {
+		return retrieveUserId;
+	}
+
+	public void setRetrieveUserId(final Long retrieveUserId) {
+		this.retrieveUserId = retrieveUserId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(final String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(final String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(final String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(final String lastName) {
+		this.lastName = lastName;
+	}
+
+	public List<RoleBean> getAvailableRoles() {
+		if (null == availableRoles) {
+			availableRoles = userService.findAllRoles();
+		}
+
+		return availableRoles;
+	}
+
+	public List<Long> getSelectedRoleIds() {
+		return selectedRoleIds;
+	}
+
+	public void setSelectedRoleIds(final List<Long> selectedRoleIds) {
+		this.selectedRoleIds = selectedRoleIds;
+	}
+
+	public Set<Long> determineSelectedRoleIds() {
+		return new HashSet<Long>(selectedRoleIds);
+	}
+
+	public UserBean getSavedUser() {
+		return savedUser;
+	}
+
 	public void retrieveUser() {
-		if (null == userId) {
-			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationEditUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
-			FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
-		} else {
-			System.out.println("### should retrieve user with id " + userId + " here");
+		if (null != retrieveUserId) {
+			final UserBean userBean = userService.retrieveUser(retrieveUserId);
+			this.userId = userBean.getUserId();
+			this.username = userBean.getUsername();
+			this.password = userBean.getPassword();
+			this.emailAddress = userBean.getEmailAddress();
+			this.firstName = userBean.getFirstName();
+			this.lastName = userBean.getLastName();
+			this.selectedRoleIds = userBean.getRoleIds();
 		}
 	}
 
-	public String save() {
+	public String update() {
+		logger.debug("updating user with id [" + retrieveUserId + "] and roles [" + determineSelectedRoleIds() + "]");
+		try {
+			savedUser = userService.updateUser(retrieveUserId, username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
+			return "showUser";
+		} catch (final UniqueConstraintException uniqueConstraintException) {
+			final String uniqueConstraintMessageId = "sectionsApplicationAddUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, null);
+			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
+		}
+
 		return null;
 	}
 }

@@ -5,7 +5,7 @@
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd">
 	<div class="applicationDialog">
-		<h:form id="addUser" styleClass="applicationForm">
+		<h:form id="addUserForm" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAddUserDialogLabel}</div>
 			<div class="applicationFormItem">		
 				<h:outputLabel for="username" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserUserNameLabel}" /><br />
@@ -43,7 +43,7 @@
 				</h:selectManyCheckbox>			
 			</div>
 			<div class="applicationFormItem">
-				<h:commandButton id="addUser" type="submit" action="#{addUserController.create}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAddUserCreateButton}"/>
+				<h:commandButton id="addUserAction" type="submit" action="#{addUserController.create}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAddUserCreateButton}"/>
 			</div>
 		</h:form>
 	</div>

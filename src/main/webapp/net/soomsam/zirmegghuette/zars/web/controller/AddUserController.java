@@ -48,7 +48,7 @@ public class AddUserController implements Serializable {
 
 	private List<Long> selectedRoleIds;
 
-	private UserBean createdUser;
+	private UserBean savedUser;
 
 	public String getUsername() {
 		return username;
@@ -110,18 +110,18 @@ public class AddUserController implements Serializable {
 		return new HashSet<Long>(selectedRoleIds);
 	}
 
-	public UserBean getCreatedUser() {
-		return createdUser;
+	public UserBean getSavedUser() {
+		return savedUser;
 	}
 
 	public String create() {
 		logger.debug("creating user with username [" + username + "] and roles [" + determineSelectedRoleIds() + "]");
 		try {
-			createdUser = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
+			savedUser = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
 			return "showUser";
-		} catch (UniqueConstraintException uniqueConstraintException) {
-			String uniqueConstraintMessageId = "sectionsApplicationAddUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";
-			FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, null);
+		} catch (final UniqueConstraintException uniqueConstraintException) {
+			final String uniqueConstraintMessageId = "sectionsApplicationAddUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 		}
 

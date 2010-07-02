@@ -13,33 +13,33 @@
 			<div class="applicationFormItem">
 				<table class="applicationFormTable">
 					<tr class="applicationFormTableRow">
-						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserIdLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.createdUser.userId}</td>
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserUserIdLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.savedUser.userId}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserUserNameLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.createdUser.username}</td>
+						<td class="applicationFormTableData">#{addUserController.savedUser.username}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserEmailAddressLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.createdUser.emailAddress}</td>
+						<td class="applicationFormTableData">#{addUserController.savedUser.emailAddress}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserFirstNameLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.createdUser.firstName}</td>
+						<td class="applicationFormTableData">#{addUserController.savedUser.firstName}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserLastNameLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.createdUser.lastName}</td>
+						<td class="applicationFormTableData">#{addUserController.savedUser.lastName}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserStateLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.createdUser.enabled ? displayMessages.sectionsApplicationUserStateEnabledLabel : displayMessages.sectionsApplicationUserStateDisabledLabel}</td>
+						<td class="applicationFormTableData">#{addUserController.savedUser.enabled ? displayMessages.sectionsApplicationUserStateEnabledLabel : displayMessages.sectionsApplicationUserStateDisabledLabel}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserRolesLabel}</th>
 						<td class="applicationFormTableData">
-							<ui:repeat var="role" varStatus="roleIterator" value="#{addUserController.createdUser.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
+							<ui:repeat var="role" varStatus="roleIterator" value="#{addUserController.savedUser.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
 						</td>
 					</tr>
 				</table>

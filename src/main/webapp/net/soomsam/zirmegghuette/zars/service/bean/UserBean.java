@@ -111,7 +111,15 @@ public class UserBean extends BaseBean {
 		return roles;
 	}
 
-	public void setRoles(List<RoleBean> roles) {
+	public List<Long> getRoleIds() {
+		final List<Long> roleIdList = new ArrayList<Long>();
+		for (final RoleBean roleBean : roles) {
+			roleIdList.add(roleBean.getRoleId());
+		}
+		return roleIdList;
+	}
+
+	public void setRoles(final List<RoleBean> roles) {
 		this.roles = roles;
 	}
 

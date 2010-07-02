@@ -62,6 +62,26 @@ public class TransactionalUserService implements UserService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = UniqueConstraintException.class)
+	public UserBean updateUser(final long userId, final String username, final String password, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) throws UniqueConstraintException {
+		final List<Role> roleList = roleDao.findByPrimaryKeys(roleIdSet);
+		final User user = userDao.retrieveByPrimaryKey(userId);
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setEmailAddress(emailAddress);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.updateRoles(new HashSet<Role>(roleList));
+		userDao.persist(user);
+		return serviceBeanMapper.map(UserBean.class, user);
+	}
+
+	@Override
+	public UserBean retrieveUser(final long userId) {
+		return serviceBeanMapper.map(UserBean.class, userDao.retrieveByPrimaryKey(userId));
+	}
+
+	@Override
 	public List<UserBean> findAllUsers() {
 		return serviceBeanMapper.map(UserBean.class, userDao.findAll());
 	}
@@ -70,13 +90,11 @@ public class TransactionalUserService implements UserService {
 	public void enableUser(final long userId) {
 		final User user = userDao.retrieveByPrimaryKey(userId);
 		user.setEnabled(true);
-		userDao.persist(user);
 	}
 
 	@Override
 	public void disableUser(final long userId) {
 		final User user = userDao.retrieveByPrimaryKey(userId);
 		user.setEnabled(false);
-		userDao.persist(user);
 	}
 }
