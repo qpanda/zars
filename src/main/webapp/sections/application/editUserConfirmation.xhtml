@@ -5,48 +5,46 @@
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd">
 	<div class="applicationDialog">
-		<div id="showUser" class="applicationForm">
-			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationShowUserDialogLabel}</div>
+		<div id="editUserConfirmation" class="applicationForm">
+			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationEditUserConfirmationDialogLabel}</div>
 			<div class="applicationFormItem">
-				<div class="applicationFormMessage">#{displayMessages.sectionsApplicationShowUserMessage}</div>
+				<div class="applicationFormMessage">#{displayMessages.sectionsApplicationEditUserConfirmationMessage}</div>
 			</div>
 			<div class="applicationFormItem">
 				<table class="applicationFormTable">
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserUserIdLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.savedUser.userId}</td>
+						<td class="applicationFormTableData">#{editUserController.savedUser.userId}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserUserNameLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.savedUser.username}</td>
+						<td class="applicationFormTableData">#{editUserController.savedUser.username}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserEmailAddressLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.savedUser.emailAddress}</td>
+						<td class="applicationFormTableData">#{editUserController.savedUser.emailAddress}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserFirstNameLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.savedUser.firstName}</td>
+						<td class="applicationFormTableData">#{editUserController.savedUser.firstName}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserLastNameLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.savedUser.lastName}</td>
+						<td class="applicationFormTableData">#{editUserController.savedUser.lastName}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserStateLabel}</th>
-						<td class="applicationFormTableData">#{addUserController.savedUser.enabled ? displayMessages.sectionsApplicationUserStateEnabledLabel : displayMessages.sectionsApplicationUserStateDisabledLabel}</td>
+						<td class="applicationFormTableData">#{editUserController.savedUser.enabled ? displayMessages.sectionsApplicationUserStateEnabledLabel : displayMessages.sectionsApplicationUserStateDisabledLabel}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserRolesLabel}</th>
 						<td class="applicationFormTableData">
-							<ui:repeat var="role" varStatus="roleIterator" value="#{addUserController.savedUser.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
+							<ui:repeat var="role" varStatus="roleIterator" value="#{editUserController.savedUser.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
 						</td>
 					</tr>
 				</table>
 			</div>
 			<div class="applicationFormItem">
-				<h:outputLink value="/views/addUser.jsf" styleClass="applicationLink">#{displayMessages.sectionsApplicationAddAnotherUserLink}</h:outputLink>
-				<h:outputText value="&#160;&#160;&#160;" />
 				<h:outputLink value="/views/adminUser.jsf" styleClass="applicationLink">#{displayMessages.sectionsApplicationAdminUserLink}</h:outputLink>
 			</div>
 		</div>

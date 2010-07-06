@@ -57,7 +57,7 @@ public class TransactionalUserService implements UserService {
 	public UserBean createUser(final String username, final String password, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) throws UniqueConstraintException {
 		final List<Role> roleList = roleDao.findByPrimaryKeys(roleIdSet);
 		final User user = new User(username, password, emailAddress, true, new HashSet<Role>(roleList));
-		userDao.createUser(user);
+		userDao.persistUser(user);
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
 
@@ -72,7 +72,7 @@ public class TransactionalUserService implements UserService {
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.updateRoles(new HashSet<Role>(roleList));
-		userDao.persist(user);
+		userDao.persistUser(user);
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
 

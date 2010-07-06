@@ -30,8 +30,6 @@ public class EditUserController implements Serializable {
 	@Inject
 	private transient UserService userService;
 
-	private Long retrieveUserId;
-
 	private Long userId;
 
 	@NotEmpty(message = "{sectionsApplicationAddUserUserNameError}")
@@ -60,14 +58,6 @@ public class EditUserController implements Serializable {
 
 	public void setUserId(final Long userId) {
 		this.userId = userId;
-	}
-
-	public Long getRetrieveUserId() {
-		return retrieveUserId;
-	}
-
-	public void setRetrieveUserId(final Long retrieveUserId) {
-		this.retrieveUserId = retrieveUserId;
 	}
 
 	public String getUsername() {
@@ -135,8 +125,8 @@ public class EditUserController implements Serializable {
 	}
 
 	public void retrieveUser() {
-		if (null != retrieveUserId) {
-			final UserBean userBean = userService.retrieveUser(retrieveUserId);
+		if (null != this.userId) {
+			final UserBean userBean = userService.retrieveUser(this.userId);
 			this.userId = userBean.getUserId();
 			this.username = userBean.getUsername();
 			this.password = userBean.getPassword();
@@ -148,10 +138,10 @@ public class EditUserController implements Serializable {
 	}
 
 	public String update() {
-		logger.debug("updating user with id [" + retrieveUserId + "] and roles [" + determineSelectedRoleIds() + "]");
+		logger.debug("updating user with id [" + userId + "] and roles [" + determineSelectedRoleIds() + "]");
 		try {
-			savedUser = userService.updateUser(retrieveUserId, username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
-			return "showUser";
+			savedUser = userService.updateUser(userId, username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
+			return "editUserConfirmation";
 		} catch (final UniqueConstraintException uniqueConstraintException) {
 			final String uniqueConstraintMessageId = "sectionsApplicationAddUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";
 			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, null);

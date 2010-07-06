@@ -29,7 +29,7 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 	}
 
 	@Override
-	public void createUser(final User user) throws UniqueConstraintException {
+	public void persistUser(final User user) throws UniqueConstraintException {
 		try {
 			super.persist(user);
 			persistenceContextManager.flush();
