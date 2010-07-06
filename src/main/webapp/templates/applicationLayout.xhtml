@@ -5,12 +5,12 @@
 						http://primefaces.prime.com.tr/ui	../WEB-INF/schema/primefaces-p-2.0.1.xsd"
 	locale="#{localeController.activeLocale}"
 	contentType="text/html">
-	<util:doctype type="transitional" />
-	<ui:insert name="metadata"/>
+	<util:doctype type="transitional" />	
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 		<f:loadBundle var="displayMessages" basename="DisplayMessages" />
 		<f:loadBundle var="enumMessages" basename="EnumMessages" />
-		<f:loadBundle var="validationMessages" basename="ValidationMessages" />		
+		<f:loadBundle var="validationMessages" basename="ValidationMessages" />
+		<ui:insert name="metadata"/>		
 		<h:head>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			<meta http-equiv="Pragma" content="no-cache"/>			
