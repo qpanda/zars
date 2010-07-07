@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
+import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
@@ -29,6 +30,8 @@ public class EditUserController implements Serializable {
 
 	@Inject
 	private transient UserService userService;
+
+	private boolean validNavigation = true;
 
 	private Long userId;
 
@@ -51,6 +54,10 @@ public class EditUserController implements Serializable {
 	private List<Long> selectedRoleIds;
 
 	private UserBean savedUser;
+
+	public boolean isValidNavigation() {
+		return validNavigation;
+	}
 
 	public Long getUserId() {
 		return userId;
@@ -126,14 +133,26 @@ public class EditUserController implements Serializable {
 
 	public void retrieveUser() {
 		if (null != this.userId) {
-			final UserBean userBean = userService.retrieveUser(this.userId);
-			this.userId = userBean.getUserId();
-			this.username = userBean.getUsername();
-			this.password = userBean.getPassword();
-			this.emailAddress = userBean.getEmailAddress();
-			this.firstName = userBean.getFirstName();
-			this.lastName = userBean.getLastName();
-			this.selectedRoleIds = userBean.getRoleIds();
+			try {
+				final UserBean userBean = userService.retrieveUser(this.userId);
+				this.userId = userBean.getUserId();
+				this.username = userBean.getUsername();
+				this.password = userBean.getPassword();
+				this.emailAddress = userBean.getEmailAddress();
+				this.firstName = userBean.getFirstName();
+				this.lastName = userBean.getLastName();
+				this.selectedRoleIds = userBean.getRoleIds();
+			} catch (final EntityNotFoundException entityNotFoundException) {
+				this.validNavigation = false;
+				final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationEditUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
+				FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
+			}
+		}
+
+		if (!FacesContext.getCurrentInstance().isPostback() && (null == this.userId)) {
+			this.validNavigation = false;
+			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationEditUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
+			FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
 		}
 	}
 
