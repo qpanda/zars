@@ -16,7 +16,7 @@ public interface UserService {
 
 	public UserBean createUser(String username, String password, String emailAddress, String firstName, String lastName, Set<Long> roleIdSet) throws UniqueConstraintException;
 
-	public UserBean updateUser(long userId, String username, String password, String emailAddress, String firstName, String lastName, Set<Long> roleIdSet) throws UniqueConstraintException;
+	public UserBean updateUser(long userId, String username, String emailAddress, String firstName, String lastName, Set<Long> roleIdSet) throws UniqueConstraintException;
 
 	public UserBean retrieveUser(long userId);
 

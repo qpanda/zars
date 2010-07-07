@@ -8,14 +8,14 @@
 		<h:form id="editUserForm" styleClass="applicationForm" rendered="#{editUserController.validNavigation}">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationEditUserDialogLabel}</div>
 			<div class="applicationFormItem">		
+				<h:outputLabel for="userId" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserUserIdLabel}" /><br />
+				<h:inputText id="userId" styleClass="applicationFormValue" value="#{editUserController.userId}" onfocus="this.readOnly=true;" onblur="this.readOnly=false;" size="25" />
+				<p:message for="userId" />
+			</div>
+			<div class="applicationFormItem">		
 				<h:outputLabel for="username" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserUserNameLabel}" /><br />
 				<h:inputText id="username" styleClass="applicationFormInput" value="#{editUserController.username}" size="25" />
 				<p:message for="username" />
-			</div>
-			<div class="applicationFormItem">		
-				<h:outputLabel for="password" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserPasswordLabel}" /><br />
-				<h:inputSecret id="password" styleClass="applicationFormInput" value="#{editUserController.password}" redisplay="true" size="25" />
-				<p:message for="password"/>
 			</div>
 			<div class="applicationFormItem">
 				<h:outputLabel for="emailAddress" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserEmailAddressLabel}" /><br />

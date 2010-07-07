@@ -43,6 +43,10 @@
 							<f:param name="userId" value="#{user.userId}"/>
 						</h:link>
 						<h:outputText value="&#160;|&#160;" />
+						<h:link outcome="resetUser" value="#{displayMessages.sectionsApplicationResetUserLink}" styleClass="applicationLink">
+							<f:param name="userId" value="#{user.userId}"/>
+						</h:link>
+						<h:outputText value="&#160;|&#160;" />
 						<p:commandLink actionListener="#{adminUserController.setSelectedUserId}" action="#{adminUserController.disableUser}" value="#{displayMessages.sectionsApplicationDisableUserLink}" ajax="false" styleClass="applicationLink" rendered="#{user.enabled}">
 							<f:attribute name="#{adminUserController.commandLinkSelectedUserIdAttributeName}" value="#{user.userId}" />
 						</p:commandLink>

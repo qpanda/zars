@@ -63,11 +63,10 @@ public class TransactionalUserService implements UserService {
 
 	@Override
 	@Transactional(rollbackFor = UniqueConstraintException.class)
-	public UserBean updateUser(final long userId, final String username, final String password, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) throws UniqueConstraintException {
+	public UserBean updateUser(final long userId, final String username, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) throws UniqueConstraintException {
 		final List<Role> roleList = roleDao.findByPrimaryKeys(roleIdSet);
 		final User user = userDao.retrieveByPrimaryKey(userId);
 		user.setUsername(username);
-		user.setPassword(password);
 		user.setEmailAddress(emailAddress);
 		user.setFirstName(firstName);
 		user.setLastName(lastName);

@@ -38,9 +38,6 @@ public class EditUserController implements Serializable {
 	@NotEmpty(message = "{sectionsApplicationAddUserUserNameError}")
 	private String username;
 
-	@NotEmpty(message = "{sectionsApplicationAddUserPasswordError}")
-	private String password;
-
 	@NotEmpty(message = "{sectionsApplicationAddUserEmailAddressError}")
 	@Email(message = "{sectionsApplicationAddUserEmailAddressError}")
 	private String emailAddress;
@@ -73,14 +70,6 @@ public class EditUserController implements Serializable {
 
 	public void setUsername(final String username) {
 		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(final String password) {
-		this.password = password;
 	}
 
 	public String getEmailAddress() {
@@ -137,7 +126,6 @@ public class EditUserController implements Serializable {
 				final UserBean userBean = userService.retrieveUser(this.userId);
 				this.userId = userBean.getUserId();
 				this.username = userBean.getUsername();
-				this.password = userBean.getPassword();
 				this.emailAddress = userBean.getEmailAddress();
 				this.firstName = userBean.getFirstName();
 				this.lastName = userBean.getLastName();
@@ -159,7 +147,7 @@ public class EditUserController implements Serializable {
 	public String update() {
 		logger.debug("updating user with id [" + userId + "] and roles [" + determineSelectedRoleIds() + "]");
 		try {
-			savedUser = userService.updateUser(userId, username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
+			savedUser = userService.updateUser(userId, username, emailAddress, firstName, lastName, determineSelectedRoleIds());
 			return "editUserConfirmation";
 		} catch (final UniqueConstraintException uniqueConstraintException) {
 			final String uniqueConstraintMessageId = "sectionsApplicationAddUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";

@@ -233,6 +233,17 @@ textarea:focus, input:focus {
 	border: 1px solid #000000;
 }
 
+.applicationFormValue {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #000000;
+	background-color: #D4D0C8;
+}
+
+.applicationFormValue:focus {
+	background-color: #D4D0C8;
+}
+
 .applicationFormSelection {
 	margin: 2px;
 	padding: 2px;
