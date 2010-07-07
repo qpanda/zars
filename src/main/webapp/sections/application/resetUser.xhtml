@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html-basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf-core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd">	
+	<div class="applicationDialog">
+		<h:form id="resetUserForm" styleClass="applicationForm" rendered="#{resetUserController.validNavigation}">
+			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationResetUserDialogLabel}</div>
+			<div class="applicationFormItem">		
+				<h:outputLabel for="userId" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserUserIdLabel}" /><br />
+				<h:inputText id="userId" styleClass="applicationFormValue" value="#{resetUserController.userId}" onfocus="this.readOnly=true;" onblur="this.readOnly=false;" size="25" />
+				<p:message for="userId" />
+			</div>
+			<div class="applicationFormItem">		
+				<h:outputLabel for="username" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserUserNameLabel}" /><br />
+				<h:inputText id="username" styleClass="applicationFormValue" value="#{resetUserController.username}" onfocus="this.readOnly=true;" onblur="this.readOnly=false;" size="25" />				
+				<p:message for="username" />
+			</div>
+			<div class="applicationFormItem">
+				<h:outputLabel for="password" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserPasswordLabel}" /><br />
+				<h:inputText id="password" styleClass="applicationFormInput" value="#{resetUserController.password}" size="35" />
+				<p:message for="password"/>
+			</div>
+			<div class="applicationFormItem">
+				<h:outputLabel for="confirmPassword" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserConfirmPasswordLabel}" /><br />
+				<h:inputText id="confirmPassword" styleClass="applicationFormInput" value="#{resetUserController.confirmPassword}" size="35" />
+				<p:message for="confirmPassword"/>
+			</div>
+			<div class="applicationFormItem">
+				<h:commandButton id="resetUserAction" type="submit" action="#{resetUserController.reset}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationResetUserResetButton}"/>
+			</div>
+		</h:form>
+	</div>
+	<p:messages globalOnly="true"/>
+</ui:composition>
