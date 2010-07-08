@@ -19,12 +19,12 @@
 			</div>
 			<div class="applicationFormItem">
 				<h:outputLabel for="password" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserPasswordLabel}" /><br />
-				<h:inputText id="password" styleClass="applicationFormInput" value="#{resetUserController.password}" size="35" />
+				<h:inputSecret id="password" styleClass="applicationFormInput" value="#{resetUserController.password}" redisplay="true" size="35" />
 				<p:message for="password"/>
 			</div>
 			<div class="applicationFormItem">
 				<h:outputLabel for="confirmPassword" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserConfirmPasswordLabel}" /><br />
-				<h:inputText id="confirmPassword" styleClass="applicationFormInput" value="#{resetUserController.confirmPassword}" size="35" />
+				<h:inputSecret id="confirmPassword" styleClass="applicationFormInput" value="#{resetUserController.confirmPassword}" redisplay="true" size="35" />				
 				<p:message for="confirmPassword"/>
 			</div>
 			<div class="applicationFormItem">

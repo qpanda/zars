@@ -5,7 +5,7 @@
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd">
 	<div class="applicationDialog">
-		<div id="editUserConfirmation" class="applicationForm">
+		<div id="resetUserConfirmation" class="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationResetUserConfirmationDialogLabel}</div>
 			<div class="applicationFormItem">
 				<div class="applicationFormMessage">#{displayMessages.sectionsApplicationResetUserConfirmationMessage}</div>
@@ -14,15 +14,15 @@
 				<table class="applicationFormTable">
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserUserIdLabel}</th>
-						<td class="applicationFormTableData">#{editUserController.savedUser.userId}</td>
+						<td class="applicationFormTableData">#{resetUserController.savedUser.userId}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserUserNameLabel}</th>
-						<td class="applicationFormTableData">#{editUserController.savedUser.username}</td>
+						<td class="applicationFormTableData">#{resetUserController.savedUser.username}</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserStateLabel}</th>
-						<td class="applicationFormTableData">#{editUserController.savedUser.enabled ? displayMessages.sectionsApplicationUserStateEnabledLabel : displayMessages.sectionsApplicationUserStateDisabledLabel}</td>
+						<td class="applicationFormTableData">#{resetUserController.savedUser.enabled ? displayMessages.sectionsApplicationUserStateEnabledLabel : displayMessages.sectionsApplicationUserStateDisabledLabel}</td>
 					</tr>
 				</table>
 			</div>

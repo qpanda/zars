@@ -11,7 +11,9 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
 
 import com.sun.faces.util.MessageFactory;
@@ -30,8 +32,10 @@ public class ResetUserController implements Serializable {
 
 	private String username;
 
+	@NotEmpty(message = "{sectionsApplicationAddUserPasswordError}")
 	private String password;
 
+	@NotEmpty(message = "{sectionsApplicationAddUserPasswordError}")
 	private String confirmPassword;
 
 	private UserBean savedUser;
@@ -97,8 +101,14 @@ public class ResetUserController implements Serializable {
 	}
 
 	public String reset() {
+		if (!StringUtils.equals(password, confirmPassword)) {
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationRestUserPasswordError", FacesMessage.SEVERITY_ERROR, null);
+			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
+			return null;
+		}
+
 		logger.debug("resetting user with id [" + userId + "]");
-		// TODO savedUser = userService.resetUser(userId, password, true);
+		savedUser = userService.resetUser(userId, password, true);
 		return "resetUserConfirmation";
 	}
 }

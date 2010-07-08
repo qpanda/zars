@@ -76,6 +76,15 @@ public class TransactionalUserService implements UserService {
 	}
 
 	@Override
+	public UserBean resetUser(final long userId, final String password, final boolean enabled) {
+		final User user = userDao.retrieveByPrimaryKey(userId);
+		user.setPassword(password);
+		user.setEnabled(enabled);
+		userDao.persist(user);
+		return serviceBeanMapper.map(UserBean.class, user);
+	}
+
+	@Override
 	public UserBean retrieveUser(final long userId) {
 		return serviceBeanMapper.map(UserBean.class, userDao.retrieveByPrimaryKey(userId));
 	}

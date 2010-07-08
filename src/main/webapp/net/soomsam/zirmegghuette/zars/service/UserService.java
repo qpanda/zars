@@ -18,6 +18,8 @@ public interface UserService {
 
 	public UserBean updateUser(long userId, String username, String emailAddress, String firstName, String lastName, Set<Long> roleIdSet) throws UniqueConstraintException;
 
+	public UserBean resetUser(long userId, String password, boolean enabled);
+
 	public UserBean retrieveUser(long userId);
 
 	public List<UserBean> findAllUsers();
