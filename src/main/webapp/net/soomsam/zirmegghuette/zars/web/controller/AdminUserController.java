@@ -56,12 +56,12 @@ public class AdminUserController implements Serializable {
 	public String disableUser() {
 		userService.disableUser(selectedUserId);
 		logger.debug("disabled user with id [" + selectedUserId + "]");
-		return null;
+		return "adminUser?faces-redirect=true";
 	}
 
 	public String enableUser() {
 		userService.enableUser(selectedUserId);
 		logger.debug("enabled user with id [" + selectedUserId + "]");
-		return null;
+		return "adminUser?faces-redirect=true";
 	}
 }
