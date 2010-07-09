@@ -18,6 +18,11 @@
 				<p:message for="password"/>
 			</div>
 			<div class="applicationFormItem">
+				<h:outputLabel for="confirmPassword" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserConfirmPasswordLabel}" /><br />
+				<h:inputSecret id="confirmPassword" styleClass="applicationFormInput" value="#{addUserController.confirmPassword}" redisplay="true" size="35" />				
+				<p:message for="confirmPassword"/>
+			</div>
+			<div class="applicationFormItem">
 				<h:outputLabel for="emailAddress" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserEmailAddressLabel}" /><br />
 				<h:inputText id="emailAddress" styleClass="applicationFormInput" value="#{addUserController.emailAddress}" size="35" />
 				<p:message for="emailAddress"/>

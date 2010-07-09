@@ -15,6 +15,7 @@ import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -35,6 +36,9 @@ public class AddUserController implements Serializable {
 
 	@NotEmpty(message = "{sectionsApplicationAddUserPasswordError}")
 	private String password;
+
+	@NotEmpty(message = "{sectionsApplicationAddUserPasswordError}")
+	private String confirmPassword;
 
 	@NotEmpty(message = "{sectionsApplicationAddUserEmailAddressError}")
 	@Email(message = "{sectionsApplicationAddUserEmailAddressError}")
@@ -64,6 +68,14 @@ public class AddUserController implements Serializable {
 
 	public void setPassword(final String password) {
 		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(final String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	public String getEmailAddress() {
@@ -115,6 +127,12 @@ public class AddUserController implements Serializable {
 	}
 
 	public String create() {
+		if (!StringUtils.equals(password, confirmPassword)) {
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationRestUserPasswordError", FacesMessage.SEVERITY_ERROR, null);
+			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
+			return null;
+		}
+
 		logger.debug("creating user with username [" + username + "] and roles [" + determineSelectedRoleIds() + "]");
 		try {
 			savedUser = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
