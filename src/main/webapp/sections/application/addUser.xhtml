@@ -8,7 +8,7 @@
 		<h:form id="addUserForm" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAddUserDialogLabel}</div>
 			<div class="applicationFormItem">		
-				<h:outputLabel for="username" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserUserNameLabel}" /><br />
+				<h:outputLabel for="username" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserUsernameLabel}" /><br />
 				<h:inputText id="username" styleClass="applicationFormInput" value="#{addUserController.username}" size="25" />
 				<p:message for="username" />
 			</div>
@@ -43,7 +43,7 @@
 				<h:outputLabel for="roles" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserRolesLabel}" />
 				<p:message for="roles"/>
 				<br />
-				<h:selectManyCheckbox id="roles" styleClass="applicationFormSelection" value="#{addUserController.selectedRoleIds}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationAddUserRolesError}">
+				<h:selectManyCheckbox id="roles" styleClass="applicationFormSelection" value="#{addUserController.selectedRoleIds}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationUserRolesError}">
 					<f:selectItems value="#{addUserController.availableRoles}" var="role" itemLabel="#{enumMessages[role.name]}" itemValue="#{role.roleId}"/>
 				</h:selectManyCheckbox>			
 			</div>

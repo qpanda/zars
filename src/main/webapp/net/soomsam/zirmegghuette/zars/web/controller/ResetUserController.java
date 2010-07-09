@@ -32,10 +32,10 @@ public class ResetUserController implements Serializable {
 
 	private String username;
 
-	@NotEmpty(message = "{sectionsApplicationAddUserPasswordError}")
+	@NotEmpty(message = "{sectionsApplicationUserPasswordError}")
 	private String password;
 
-	@NotEmpty(message = "{sectionsApplicationAddUserPasswordError}")
+	@NotEmpty(message = "{sectionsApplicationUserPasswordError}")
 	private String confirmPassword;
 
 	private UserBean savedUser;
@@ -88,21 +88,21 @@ public class ResetUserController implements Serializable {
 				this.username = userBean.getUsername();
 			} catch (final EntityNotFoundException entityNotFoundException) {
 				this.validNavigation = false;
-				final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationEditUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
+				final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
 				FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
 			}
 		}
 
 		if (!FacesContext.getCurrentInstance().isPostback() && (null == this.userId)) {
 			this.validNavigation = false;
-			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationEditUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
+			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
 		}
 	}
 
 	public String reset() {
 		if (!StringUtils.equals(password, confirmPassword)) {
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationRestUserPasswordError", FacesMessage.SEVERITY_ERROR, null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordError", FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 			return null;
 		}

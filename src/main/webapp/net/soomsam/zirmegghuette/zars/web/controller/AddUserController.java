@@ -31,17 +31,17 @@ public class AddUserController implements Serializable {
 	@Inject
 	private transient UserService userService;
 
-	@NotEmpty(message = "{sectionsApplicationAddUserUserNameError}")
+	@NotEmpty(message = "{sectionsApplicationUserUsernameError}")
 	private String username;
 
-	@NotEmpty(message = "{sectionsApplicationAddUserPasswordError}")
+	@NotEmpty(message = "{sectionsApplicationUserPasswordError}")
 	private String password;
 
-	@NotEmpty(message = "{sectionsApplicationAddUserPasswordError}")
+	@NotEmpty(message = "{sectionsApplicationUserPasswordError}")
 	private String confirmPassword;
 
-	@NotEmpty(message = "{sectionsApplicationAddUserEmailAddressError}")
-	@Email(message = "{sectionsApplicationAddUserEmailAddressError}")
+	@NotEmpty(message = "{sectionsApplicationUserEmailAddressError}")
+	@Email(message = "{sectionsApplicationUserEmailAddressError}")
 	private String emailAddress;
 
 	private String firstName;
@@ -128,7 +128,7 @@ public class AddUserController implements Serializable {
 
 	public String create() {
 		if (!StringUtils.equals(password, confirmPassword)) {
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationRestUserPasswordError", FacesMessage.SEVERITY_ERROR, null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordError", FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 			return null;
 		}
@@ -138,7 +138,7 @@ public class AddUserController implements Serializable {
 			savedUser = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
 			return "addUserConfirmation";
 		} catch (final UniqueConstraintException uniqueConstraintException) {
-			final String uniqueConstraintMessageId = "sectionsApplicationAddUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";
+			final String uniqueConstraintMessageId = "sectionsApplicationUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";
 			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 		}
