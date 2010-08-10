@@ -6,7 +6,7 @@
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.0.1.xsd">
 		<h:form>
 			<p:menu effect="NONE" effectDuration="0">
-				<p:submenu label="Administration">
+				<p:submenu label="#{displayMessages.sectionsApplicationAdministrationMenuLabel}">
 					<p:menuitem>
 						<h:link outcome="addUser" value="#{displayMessages.sectionsApplicationAddUserMenuLabel}"/>
 					</p:menuitem>
@@ -14,14 +14,10 @@
 						<h:link outcome="adminUser" value="#{displayMessages.sectionsApplicationAdminUserMenuLabel}"/>
 					</p:menuitem>
 				</p:submenu>
-				<p:submenu title="Videos" label="Videos">
-					<p:menuitem label="Youtube" url="http://www.youtube.com" />
-					<p:menuitem label="Break" url="http://www.break.com" />
-					<p:menuitem label="Metacafe" url="http://www.metacafe.com" />
-				</p:submenu>
-				<p:submenu title="Social Networks" label="Social Networks">
-					<p:menuitem label="Facebook" url="http://www.facebook.com" />
-					<p:menuitem label="MySpace" url="http://www.myspace.com" />
+				<p:submenu label="#{displayMessages.sectionsApplicationReservationMenuLabel}">
+					<p:menuitem>
+						<h:link outcome="addUser" value="#{displayMessages.sectionsApplicationAddReservationMenuLabel}"/>
+					</p:menuitem>
 				</p:submenu>
 			</p:menu>
 		</h:form>	
