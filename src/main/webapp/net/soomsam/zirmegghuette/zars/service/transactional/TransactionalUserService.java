@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.soomsam.zirmegghuette.zars.enums.Roles;
+import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
@@ -39,7 +39,7 @@ public class TransactionalUserService implements UserService {
 
 	@Override
 	public void createAllRoles() {
-		for (final Roles roleEnum : Roles.values()) {
+		for (final RoleType roleEnum : RoleType.values()) {
 			final Role role = new Role(roleEnum.getRoleName());
 			roleDao.persist(role);
 		}
@@ -47,7 +47,7 @@ public class TransactionalUserService implements UserService {
 
 	@Override
 	public void createDefaultUsers() {
-		final Role adminRole = roleDao.retrieveByName(Roles.ROLE_ADMIN.getRoleName());
+		final Role adminRole = roleDao.retrieveByName(RoleType.ROLE_ADMIN.getRoleName());
 		final User adminUser = new User("admin", "admin", "admin@zars.soomsam.net", true, adminRole);
 		userDao.persist(adminUser);
 	}
@@ -107,12 +107,12 @@ public class TransactionalUserService implements UserService {
 	}
 
 	@Override
-	public List<UserBean> findUsers(final Roles roleName) {
-		if (null == roleName) {
-			throw new IllegalArgumentException("'roleName' must not be null");
+	public List<UserBean> findUsers(final RoleType roleType) {
+		if (null == roleType) {
+			throw new IllegalArgumentException("'roleType' must not be null");
 		}
 		
-		final Role role = roleDao.retrieveByName(roleName.getRoleName());
+		final Role role = roleDao.retrieveByName(roleType.getRoleName());
 		return serviceBeanMapper.map(UserBean.class, userDao.findByRoleId(role.getRoleId()));
 	}
 }
