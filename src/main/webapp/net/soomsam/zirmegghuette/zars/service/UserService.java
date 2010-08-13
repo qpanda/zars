@@ -29,5 +29,5 @@ public interface UserService {
 
 	public void disableUser(long userId);
 	
-	public List<UserBean> findUsers(final RoleType role);
+	public List<UserBean> findUsers(final RoleType roleType);
 }
