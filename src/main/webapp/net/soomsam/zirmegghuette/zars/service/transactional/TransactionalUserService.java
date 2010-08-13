@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.soomsam.zirmegghuette.zars.enums.RoleName;
+import net.soomsam.zirmegghuette.zars.enums.Roles;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
@@ -39,7 +39,7 @@ public class TransactionalUserService implements UserService {
 
 	@Override
 	public void createAllRoles() {
-		for (final RoleName roleEnum : RoleName.values()) {
+		for (final Roles roleEnum : Roles.values()) {
 			final Role role = new Role(roleEnum.getRoleName());
 			roleDao.persist(role);
 		}
@@ -47,7 +47,7 @@ public class TransactionalUserService implements UserService {
 
 	@Override
 	public void createDefaultUsers() {
-		final Role adminRole = roleDao.retrieveByName(RoleName.ROLE_ADMIN.getRoleName());
+		final Role adminRole = roleDao.retrieveByName(Roles.ROLE_ADMIN.getRoleName());
 		final User adminUser = new User("admin", "admin", "admin@zars.soomsam.net", true, adminRole);
 		userDao.persist(adminUser);
 	}
@@ -107,7 +107,7 @@ public class TransactionalUserService implements UserService {
 	}
 
 	@Override
-	public List<UserBean> findUsers(final RoleName roleName) {
+	public List<UserBean> findUsers(final Roles roleName) {
 		if (null == roleName) {
 			throw new IllegalArgumentException("'roleName' must not be null");
 		}

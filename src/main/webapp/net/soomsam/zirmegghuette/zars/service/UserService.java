@@ -3,7 +3,7 @@ package net.soomsam.zirmegghuette.zars.service;
 import java.util.List;
 import java.util.Set;
 
-import net.soomsam.zirmegghuette.zars.enums.RoleName;
+import net.soomsam.zirmegghuette.zars.enums.Roles;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
@@ -29,5 +29,5 @@ public interface UserService {
 
 	public void disableUser(long userId);
 	
-	public List<UserBean> findUsers(final RoleName roleName);
+	public List<UserBean> findUsers(final Roles roleName);
 }
