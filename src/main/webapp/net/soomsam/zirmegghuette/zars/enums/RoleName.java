@@ -1,11 +1,11 @@
 package net.soomsam.zirmegghuette.zars.enums;
 
-public enum RoleEnum {
+public enum RoleName {
 	ROLE_USER("ROLE_USER"), ROLE_ADMIN("ROLE_ADMIN"), ROLE_ACCOUNTANT("ROLE_ACCOUNTANT");
 
 	private final String roleName;
 
-	private RoleEnum(final String roleName) {
+	private RoleName(final String roleName) {
 		this.roleName = roleName;
 	}
 

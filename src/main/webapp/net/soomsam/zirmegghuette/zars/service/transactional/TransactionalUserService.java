@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.soomsam.zirmegghuette.zars.enums.RoleEnum;
+import net.soomsam.zirmegghuette.zars.enums.RoleName;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
@@ -39,7 +39,7 @@ public class TransactionalUserService implements UserService {
 
 	@Override
 	public void createAllRoles() {
-		for (final RoleEnum roleEnum : RoleEnum.values()) {
+		for (final RoleName roleEnum : RoleName.values()) {
 			final Role role = new Role(roleEnum.getRoleName());
 			roleDao.persist(role);
 		}
@@ -47,7 +47,7 @@ public class TransactionalUserService implements UserService {
 
 	@Override
 	public void createDefaultUsers() {
-		final Role adminRole = roleDao.retrieveByName(RoleEnum.ROLE_ADMIN.getRoleName());
+		final Role adminRole = roleDao.retrieveByName(RoleName.ROLE_ADMIN.getRoleName());
 		final User adminUser = new User("admin", "admin", "admin@zars.soomsam.net", true, adminRole);
 		userDao.persist(adminUser);
 	}
@@ -56,7 +56,7 @@ public class TransactionalUserService implements UserService {
 	@Transactional(rollbackFor = UniqueConstraintException.class)
 	public UserBean createUser(final String username, final String password, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) throws UniqueConstraintException {
 		final List<Role> roleList = roleDao.findByPrimaryKeys(roleIdSet);
-		final User user = new User(username, password, emailAddress, true, new HashSet<Role>(roleList));
+		final User user = new User(username, password, emailAddress, firstName, lastName, true, new HashSet<Role>(roleList));
 		userDao.persistUser(user);
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
@@ -104,5 +104,15 @@ public class TransactionalUserService implements UserService {
 	public void disableUser(final long userId) {
 		final User user = userDao.retrieveByPrimaryKey(userId);
 		user.setEnabled(false);
+	}
+
+	@Override
+	public List<UserBean> findUsers(final RoleName roleName) {
+		if (null == roleName) {
+			throw new IllegalArgumentException("'roleName' must not be null");
+		}
+		
+		final Role role = roleDao.retrieveByName(roleName.getRoleName());
+		return serviceBeanMapper.map(UserBean.class, userDao.findByRoleId(role.getRoleId()));
 	}
 }

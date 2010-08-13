@@ -39,6 +39,8 @@ public class AddGroupReservationController implements Serializable {
 
 	private Date departure;
 
+	private long guests;
+
 	private GroupReservationBean savedGroupReservation;
 
 	public Date getArrival() {
@@ -47,7 +49,7 @@ public class AddGroupReservationController implements Serializable {
 
 	public void setArrival(Date arrival) {
 		this.arrival = arrival;
-	}	
+	}
 
 	public Date getDeparture() {
 		return departure;
@@ -56,21 +58,13 @@ public class AddGroupReservationController implements Serializable {
 	public void setDeparture(Date departure) {
 		this.departure = departure;
 	}
-	
-	public Date getMaxArrivalDate() {
-		if (null == departure) {
-			return null;
-		}
-		
-		return departure; 
+
+	public long getGuests() {
+		return guests;
 	}
-	
-	public Date getMinDepatureDate() {
-		if (null == arrival) {
-			return null;
-		}
-		
-		return arrival;
+
+	public void setGuests(long guests) {
+		this.guests = guests;
 	}
 
 	public GroupReservationBean getSavedGroupReservation() {

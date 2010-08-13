@@ -17,6 +17,11 @@
 				<p:calendar id="departure" inputStyleClass="applicationFormInput" value="#{addGroupReservationController.departure}" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" />
 				<p:message for="departure" />
 			</div>
+			<div class="applicationFormItem">		
+				<h:outputLabel for="guests" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationGuestsLabel}" /><br />
+				<h:inputText id="guests" styleClass="applicationFormInput" value="#{addGroupReservationController.guests}" size="3" />
+				<p:message for="guests" />
+			</div>
 			<div class="applicationFormItem">
 				<h:commandButton id="addGroupReservationAction" type="submit" action="#{addGroupReservationController.create}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAddGroupReservationCreateButton}"/>
 			</div>
