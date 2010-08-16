@@ -2,36 +2,28 @@ package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
+import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
-import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
-
-import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
 public class AddGroupReservationController implements Serializable {
-	private final static Logger logger = Logger
-			.getLogger(AddGroupReservationController.class);
+	private final static Logger logger = Logger.getLogger(AddGroupReservationController.class);
 
+	@Inject
+	private transient UserService userService;
+	
 	@Inject
 	private transient GroupReservationService groupReservationService;
 
@@ -40,6 +32,12 @@ public class AddGroupReservationController implements Serializable {
 	private Date departure;
 
 	private long guests;
+
+	private List<UserBean> availableAccountants;
+
+	private Long selectedAccountantId;
+	
+	private String comment;
 
 	private GroupReservationBean savedGroupReservation;
 
@@ -69,6 +67,30 @@ public class AddGroupReservationController implements Serializable {
 
 	public GroupReservationBean getSavedGroupReservation() {
 		return savedGroupReservation;
+	}
+	
+	public List<UserBean> getAvailableAccountants() {
+		if (null == availableAccountants) {
+			availableAccountants = userService.findUsers(RoleType.ROLE_ACCOUNTANT);
+		}
+
+		return availableAccountants;
+	}
+
+	public Long getSelectedAccountantId() {
+		return selectedAccountantId;
+	}
+
+	public void setSelectedAccountantId(Long selectedAccountantId) {
+		this.selectedAccountantId = selectedAccountantId;
+	}	
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public String create() {
