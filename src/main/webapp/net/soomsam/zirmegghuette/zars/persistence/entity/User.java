@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -30,6 +32,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = User.TABLENAME_USER)
+@NamedQueries( { @NamedQuery(name = User.FINDUSER_ROLEID_QUERYNAME, query = User.FINDUSER_ROLEID_QUERYSTRING) })
 public class User extends BaseEntity {
 	public static final String TABLENAME_USER = "zars_user";
 	public static final String COLUMNNAME_USERID = "user_id";
@@ -43,7 +46,7 @@ public class User extends BaseEntity {
 	public static final String JOINTABLENAME_USER_ROLE = "zars_user_zars_role";
 	
 	public static final String FINDUSER_ROLEID_QUERYNAME = "User.findUserByRoleId";
-	public static final String FINDUSER_ROLEID_QUERYSTRING = "from User where roles.roleId = :roleId";
+	public static final String FINDUSER_ROLEID_QUERYSTRING = "select user from User as user inner join user.roles as role where role.roleId = :roleId";
 
 	@Id
 	@GeneratedValue

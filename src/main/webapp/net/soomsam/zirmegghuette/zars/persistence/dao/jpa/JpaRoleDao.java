@@ -20,8 +20,8 @@ public class JpaRoleDao extends JpaEntityDao<Role> implements RoleDao {
 
 	@Override
 	public List<Role> findByPrimaryKeys(final Set<Long> roleIdSet) {
-		if (null == roleIdSet) {
-			throw new IllegalArgumentException("'roleIdSet' must not be null");
+		if ((null == roleIdSet) || roleIdSet.isEmpty()) {
+			throw new IllegalArgumentException("'roleIdSet' must not be null or empty");
 		}
 
 		final Query findRoleByPrimaryKeyQuery = createNamedQuery(Role.FINDROLE_ID_QUERYNAME);
