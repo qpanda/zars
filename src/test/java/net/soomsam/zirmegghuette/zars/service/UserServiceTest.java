@@ -103,6 +103,49 @@ public class UserServiceTest {
 		List<UserBean> userBeanList02 = userService.findUsers(RoleType.ROLE_ADMIN);		
 		Assert.assertTrue(containsUser(userBeanList02, userBean.getUserId()));
 	}
+	
+	@Test
+	public void findMultipleUsersWithRole() throws UniqueConstraintException {
+		List<RoleBean> roleBeanList = userService.findAllRoles();
+		Set<Long> roleIdSet01 = determineRoleIds(roleBeanList, RoleType.ROLE_USER);
+		UserBean userBean01 = userService.createUser("abc01", "def01", "ghi01@jkl.mno", "pqr01", "stu01", roleIdSet01);
+		Set<Long> roleIdSet02 = determineRoleIds(roleBeanList, RoleType.ROLE_ADMIN);
+		UserBean userBean02 = userService.createUser("abc02", "def02", "ghi02@jkl.mno", "pqr02", "stu02", roleIdSet02);
+		Set<Long> roleIdSet03 = determineRoleIds(roleBeanList, RoleType.ROLE_ACCOUNTANT);
+		UserBean userBean03 = userService.createUser("abc03", "def03", "ghi03@jkl.mno", "pqr03", "stu03", roleIdSet03);
+		
+		List<UserBean> userBeanList01 = userService.findUsers(RoleType.ROLE_USER);		
+		Assert.assertTrue(containsUser(userBeanList01, userBean01.getUserId()));
+		Assert.assertFalse(containsUser(userBeanList01, userBean02.getUserId()));
+		Assert.assertFalse(containsUser(userBeanList01, userBean03.getUserId()));
+		
+		List<UserBean> userBeanList02 = userService.findUsers(RoleType.ROLE_ADMIN);		
+		Assert.assertFalse(containsUser(userBeanList02, userBean01.getUserId()));
+		Assert.assertTrue(containsUser(userBeanList02, userBean02.getUserId()));
+		Assert.assertFalse(containsUser(userBeanList02, userBean03.getUserId()));
+		
+		List<UserBean> userBeanList03 = userService.findUsers(RoleType.ROLE_ACCOUNTANT);		
+		Assert.assertFalse(containsUser(userBeanList03, userBean01.getUserId()));
+		Assert.assertFalse(containsUser(userBeanList03, userBean02.getUserId()));
+		Assert.assertTrue(containsUser(userBeanList03, userBean03.getUserId()));
+	}
+	
+	@Test
+	public void findMultipleUsersWithMultipleRoles() throws UniqueConstraintException {
+		List<RoleBean> roleBeanList = userService.findAllRoles();
+		Set<Long> roleIdSet01 = determineRoleIds(roleBeanList, RoleType.ROLE_USER, RoleType.ROLE_ADMIN);
+		UserBean userBean01 = userService.createUser("abc01", "def01", "ghi01@jkl.mno", "pqr01", "stu01", roleIdSet01);
+		Set<Long> roleIdSet02 = determineRoleIds(roleBeanList, RoleType.ROLE_ADMIN);
+		UserBean userBean02 = userService.createUser("abc02", "def02", "ghi02@jkl.mno", "pqr02", "stu02", roleIdSet02);
+		
+		List<UserBean> userBeanList01 = userService.findUsers(RoleType.ROLE_USER);		
+		Assert.assertTrue(containsUser(userBeanList01, userBean01.getUserId()));
+		Assert.assertFalse(containsUser(userBeanList01, userBean02.getUserId()));
+		
+		List<UserBean> userBeanList02 = userService.findUsers(RoleType.ROLE_ADMIN);		
+		Assert.assertTrue(containsUser(userBeanList02, userBean01.getUserId()));
+		Assert.assertTrue(containsUser(userBeanList02, userBean02.getUserId()));
+	}
 		
 	protected boolean containsRoleType(List<RoleBean> roleBeanList, RoleType roleType) {
 		for (RoleBean roleBean : roleBeanList) {
