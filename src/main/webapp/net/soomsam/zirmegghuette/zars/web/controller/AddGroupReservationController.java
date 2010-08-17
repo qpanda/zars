@@ -1,10 +1,8 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -19,10 +17,8 @@ import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateMidnight;
 import org.springframework.context.annotation.Scope;
 
@@ -110,7 +106,10 @@ public class AddGroupReservationController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, arrivalDepatureFacesMessage);
 			return null;
 		}
-		return null;
+		
+		logger.debug("creating group reservation [" + arrival + "]-[" + departure + "] for [" + guests + "] guests");
+		savedGroupReservation = groupReservationService.createGroupReservation(selectedAccountantId /*TODO actual beneficiary is current user*/, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
+		return "addGroupReservationConfirmation";
 	}
 
 	protected boolean validDateRange() {

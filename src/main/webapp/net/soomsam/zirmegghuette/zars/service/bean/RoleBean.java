@@ -9,7 +9,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class RoleBean extends BaseBean {
 	private long roleId;
 
-	private Date timestamp;
+	private Date roleTimestamp;
 
 	private String name;
 
@@ -17,10 +17,10 @@ public class RoleBean extends BaseBean {
 		super();
 	}
 
-	public RoleBean(long roleId, Date timestamp, String name) {
+	public RoleBean(long roleId, Date roleTimestamp, String name) {
 		super();
 		this.roleId = roleId;
-		this.timestamp = timestamp;
+		this.roleTimestamp = roleTimestamp;
 		this.name = name;
 	}
 
@@ -32,12 +32,12 @@ public class RoleBean extends BaseBean {
 		this.roleId = roleId;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
+	public Date getRoleTimestamp() {
+		return roleTimestamp;
 	}
 
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
+	public void setRoleTimestamp(Date roleTimestamp) {
+		this.roleTimestamp = roleTimestamp;
 	}
 
 	public String getName() {

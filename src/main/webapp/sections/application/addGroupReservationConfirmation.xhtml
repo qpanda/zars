@@ -13,9 +13,39 @@
 			<div class="applicationFormItem">
 				<table class="applicationFormTable">
 					<tr class="applicationFormTableRow">
-						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}</th>
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationGroupReservationIdLabel}</th>
 						<td class="applicationFormTableData">#{addGroupReservationController.savedGroupReservation.groupReservationId}</td>
 					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}</th>
+						<td class="applicationFormTableData">#{addGroupReservationController.savedGroupReservation.arrival}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationDepartureLabel}</th>
+						<td class="applicationFormTableData">#{addGroupReservationController.savedGroupReservation.departure}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationGuestsLabel}</th>
+						<td class="applicationFormTableData">#{addGroupReservationController.savedGroupReservation.guests}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}</th>
+						<td class="applicationFormTableData">#{addGroupReservationController.savedGroupReservation.beneficiary.username}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationAccountantLabel}</th>
+						<td class="applicationFormTableData">#{addGroupReservationController.savedGroupReservation.accountant.username}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationRoomsLabel}</th>										
+						<td class="applicationFormTableData">
+							<ui:repeat var="room" varStatus="roomIterator" value="#{addGroupReservationController.savedGroupReservation.rooms}">#{enumMessages[room.name]}<h:outputText rendered="#{!roomIterator.last}" value=", "/></ui:repeat>
+						</td>						
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationCommentLabel}</th>
+						<td class="applicationFormTableData">#{addGroupReservationController.savedGroupReservation.comment}</td>
+					</tr>					
 				</table>
 			</div>
 			<div class="applicationFormItem">

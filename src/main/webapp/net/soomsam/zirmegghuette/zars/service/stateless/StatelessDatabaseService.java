@@ -1,6 +1,7 @@
 package net.soomsam.zirmegghuette.zars.service.stateless;
 
 import net.soomsam.zirmegghuette.zars.service.DatabaseService;
+import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.ServiceException;
 import net.soomsam.zirmegghuette.zars.service.SettingService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
@@ -22,6 +23,9 @@ public class StatelessDatabaseService implements DatabaseService {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private GroupReservationService groupReservationService;
 
 	@Override
 	public void createInitialDataSet() {
@@ -68,5 +72,6 @@ public class StatelessDatabaseService implements DatabaseService {
 		settingService.createSetting(DATABASESCHEMASTATE_SETTINGNAME, DATABASESCHEMASTATE_INITIALIZED_SETTINGVALUE);
 		userService.createAllRoles();
 		userService.createDefaultUsers();
+		groupReservationService.createAllRooms();
 	}
 }

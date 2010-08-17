@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class UserBean extends BaseBean {
 	private long userId;
 
-	private Date timestamp;
+	private Date userTimestamp;
 
 	private String username;
 
@@ -31,10 +31,10 @@ public class UserBean extends BaseBean {
 		super();
 	}
 
-	private UserBean(final long userId, final Date timestamp, final String username, final String password, final String emailAddress, final String firstName, final String lastName, final boolean enabled) {
+	private UserBean(final long userId, final Date userTimestamp, final String username, final String password, final String emailAddress, final String firstName, final String lastName, final boolean enabled) {
 		super();
 		this.userId = userId;
-		this.timestamp = timestamp;
+		this.userTimestamp = userTimestamp;
 		this.username = username;
 		this.password = password;
 		this.emailAddress = emailAddress;
@@ -51,12 +51,12 @@ public class UserBean extends BaseBean {
 		this.userId = userId;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
+	public Date getUserTimestamp() {
+		return userTimestamp;
 	}
 
-	public void setTimestamp(final Date timestamp) {
-		this.timestamp = timestamp;
+	public void setUserTimestamp(Date userTimestamp) {
+		this.userTimestamp = userTimestamp;
 	}
 
 	public String getUsername() {

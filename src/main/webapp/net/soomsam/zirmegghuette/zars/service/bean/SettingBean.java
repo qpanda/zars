@@ -9,7 +9,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class SettingBean extends BaseBean {
 	private final long settingId;
 
-	private final Date timestamp;
+	private final Date settingTimestamp;
 
 	private final String name;
 
@@ -17,19 +17,19 @@ public class SettingBean extends BaseBean {
 
 	private final Class type;
 
-	public SettingBean(long settingId, Date timestamp, String name, Class type) {
+	public SettingBean(long settingId, Date settingTimestamp, String name, Class type) {
 		super();
 		this.settingId = settingId;
-		this.timestamp = timestamp;
+		this.settingTimestamp = settingTimestamp;
 		this.name = name;
 		this.value = null;
 		this.type = type;
 	}
 
-	public SettingBean(long settingId, Date timestamp, String name, Object value, Class type) {
+	public SettingBean(long settingId, Date settingTimestamp, String name, Object value, Class type) {
 		super();
 		this.settingId = settingId;
-		this.timestamp = timestamp;
+		this.settingTimestamp = settingTimestamp;
 		this.name = name;
 		this.value = value;
 		this.type = type;
@@ -39,8 +39,8 @@ public class SettingBean extends BaseBean {
 		return settingId;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
+	public Date getSettingTimestamp() {
+		return settingTimestamp;
 	}
 
 	public String getName() {
