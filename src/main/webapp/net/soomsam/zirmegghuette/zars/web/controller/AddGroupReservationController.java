@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
@@ -13,8 +17,14 @@ import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateMidnight;
 import org.springframework.context.annotation.Scope;
+
+import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -23,23 +33,32 @@ public class AddGroupReservationController implements Serializable {
 
 	@Inject
 	private transient UserService userService;
-	
+
 	@Inject
 	private transient GroupReservationService groupReservationService;
 
+	@NotNull(message = "{sectionsApplicationGroupReservationArrivalError}")
 	private Date arrival;
 
+	@NotNull(message = "{sectionsApplicationGroupReservationDepartureError}")
 	private Date departure;
 
-	private long guests;
-
-	private List<UserBean> availableAccountants;
+	@Min(value = 1, message = "{sectionsApplicationGroupReservationGuestsError}")
+	@NotNull(message = "{sectionsApplicationGroupReservationGuestsError}")
+	private Long guests;
 
 	private Long selectedAccountantId;
-	
+
+	@Length(min = 0, max = 512, message = "{sectionsApplicationGroupReservationCommentError}")
 	private String comment;
 
 	private GroupReservationBean savedGroupReservation;
+
+	public AddGroupReservationController() {
+		super();
+		this.arrival = new DateMidnight().toDate();
+		this.departure = new DateMidnight().plusDays(1).toDate();
+	}
 
 	public Date getArrival() {
 		return arrival;
@@ -57,24 +76,20 @@ public class AddGroupReservationController implements Serializable {
 		this.departure = departure;
 	}
 
-	public long getGuests() {
+	public Long getGuests() {
 		return guests;
 	}
 
-	public void setGuests(long guests) {
+	public void setGuests(Long guests) {
 		this.guests = guests;
 	}
 
 	public GroupReservationBean getSavedGroupReservation() {
 		return savedGroupReservation;
 	}
-	
-	public List<UserBean> getAvailableAccountants() {
-		if (null == availableAccountants) {
-			availableAccountants = userService.findUsers(RoleType.ROLE_ACCOUNTANT);
-		}
 
-		return availableAccountants;
+	public List<UserBean> getAvailableAccountants() {
+		return userService.findUsers(RoleType.ROLE_ACCOUNTANT);
 	}
 
 	public Long getSelectedAccountantId() {
@@ -83,7 +98,7 @@ public class AddGroupReservationController implements Serializable {
 
 	public void setSelectedAccountantId(Long selectedAccountantId) {
 		this.selectedAccountantId = selectedAccountantId;
-	}	
+	}
 
 	public String getComment() {
 		return comment;
@@ -94,6 +109,17 @@ public class AddGroupReservationController implements Serializable {
 	}
 
 	public String create() {
+		if (!validDateRange()) {
+			final FacesMessage arrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationArrivalDepartureError", FacesMessage.SEVERITY_ERROR, null);
+			FacesContext.getCurrentInstance().addMessage(null, arrivalDepatureFacesMessage);
+			return null;
+		}
 		return null;
+	}
+	
+	protected boolean validDateRange() {
+		DateMidnight arrivalDateMidnight = new DateMidnight(arrival);
+		DateMidnight departureDateMidnight = new DateMidnight(departure);
+		return departureDateMidnight.isAfter(arrivalDateMidnight);
 	}
 }

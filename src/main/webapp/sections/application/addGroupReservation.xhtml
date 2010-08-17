@@ -25,14 +25,15 @@
 			<div class="applicationFormItem">		
 				<h:outputLabel for="accountant" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationAccountantLabel}" /><br />
 				<h:selectOneMenu id="accountant" styleClass="applicationFormInput" value="#{addGroupReservationController.selectedAccountantId}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationGroupReservationAccountantError}">
-					<f:selectItems value="#{addGroupReservationController.availableAccountants}" var="accountant" itemLabel="#{accountant.firstName} #{accountant.lastName}" itemValue="#{accountant.userId}"/>
+					<f:selectItems value="#{addGroupReservationController.availableAccountants}" var="accountant" itemLabel="#{accountant.username} (#{accountant.firstName} #{accountant.lastName})" itemValue="#{accountant.userId}"/>
 				</h:selectOneMenu>
 				<p:message for="accountant" />
 			</div>
 			<div class="applicationFormItem">		
-				<h:outputLabel for="comment" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationCommentLabel}" /><br />
-				<h:inputTextarea id="comment" styleClass="applicationFormInput" value="#{addGroupReservationController.comment}" rows="3" cols="80" />
+				<h:outputLabel for="comment" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationCommentLabel}" />
 				<p:message for="comment" />
+				<br />
+				<h:inputTextarea id="comment" styleClass="applicationFormInput" value="#{addGroupReservationController.comment}" rows="3" cols="80" />				
 			</div>
 			<div class="applicationFormItem">
 				<h:commandButton id="addGroupReservationAction" type="submit" action="#{addGroupReservationController.create}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAddGroupReservationCreateButton}"/>
