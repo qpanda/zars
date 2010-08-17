@@ -1,8 +1,10 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -53,12 +55,6 @@ public class AddGroupReservationController implements Serializable {
 	private String comment;
 
 	private GroupReservationBean savedGroupReservation;
-
-	public AddGroupReservationController() {
-		super();
-		this.arrival = new DateMidnight().toDate();
-		this.departure = new DateMidnight().plusDays(1).toDate();
-	}
 
 	public Date getArrival() {
 		return arrival;
@@ -116,7 +112,7 @@ public class AddGroupReservationController implements Serializable {
 		}
 		return null;
 	}
-	
+
 	protected boolean validDateRange() {
 		DateMidnight arrivalDateMidnight = new DateMidnight(arrival);
 		DateMidnight departureDateMidnight = new DateMidnight(departure);

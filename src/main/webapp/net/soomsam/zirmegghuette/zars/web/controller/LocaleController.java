@@ -1,6 +1,8 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -72,6 +74,10 @@ public class LocaleController implements Serializable {
 		}
 
 		return LocaleUtils.determineCurrentLocale();
+	}
+	
+	public String getActiveDateFormatPattern() {
+		return ((SimpleDateFormat)SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getActiveLocale())).toPattern();
 	}
 
 	public String changeLocale() {

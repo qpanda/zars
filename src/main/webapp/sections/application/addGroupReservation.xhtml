@@ -9,12 +9,12 @@
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAddGroupReservationDialogLabel}</div>
 			<div class="applicationFormItem">		
 				<h:outputLabel for="arrival" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}" /><br />
-				<p:calendar id="arrival" inputStyleClass="applicationFormInput" value="#{addGroupReservationController.arrival}" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" />
+				<p:calendar id="arrival" inputStyleClass="applicationFormInput" value="#{addGroupReservationController.arrival}" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}"/>
 				<p:message for="arrival" />
 			</div>
 			<div class="applicationFormItem">		
 				<h:outputLabel for="departure" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationDepatureLabel}" /><br />
-				<p:calendar id="departure" inputStyleClass="applicationFormInput" value="#{addGroupReservationController.departure}" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" />
+				<p:calendar id="departure" inputStyleClass="applicationFormInput" value="#{addGroupReservationController.departure}" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}"/>
 				<p:message for="departure" />
 			</div>
 			<div class="applicationFormItem">		
