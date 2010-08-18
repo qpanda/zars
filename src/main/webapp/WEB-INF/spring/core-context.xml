@@ -24,7 +24,9 @@
 		</property>
 	</bean>
 	
-	<bean id="dozerBeanMapper" class="org.dozer.spring.DozerBeanMapperFactoryBean"/>
+	<bean id="dozerBeanMapper" class="org.dozer.spring.DozerBeanMapperFactoryBean">
+		<property name="mappingFiles" value="classpath:/WEB-INF/dozer/beanmapping.xml"/>
+	</bean>
 	
 	<bean id="databaseService" class="net.soomsam.zirmegghuette.zars.service.stateless.StatelessDatabaseService" init-method="createInitialDataSet"/>
 </beans>

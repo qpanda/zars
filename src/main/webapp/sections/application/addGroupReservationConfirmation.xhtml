@@ -18,11 +18,19 @@
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}</th>
-						<td class="applicationFormTableData">#{addGroupReservationController.savedGroupReservation.arrival}</td>
+						<td class="applicationFormTableData">
+							<h:outputText value="#{addGroupReservationController.savedGroupReservation.arrival}">
+								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}"/>
+							</h:outputText>
+						</td>
 					</tr>
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationDepartureLabel}</th>
-						<td class="applicationFormTableData">#{addGroupReservationController.savedGroupReservation.departure}</td>
+						<td class="applicationFormTableData">
+							<h:outputText value="#{addGroupReservationController.savedGroupReservation.departure}">
+								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}"/>
+							</h:outputText>
+						</td>
 					</tr>					
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}</th>

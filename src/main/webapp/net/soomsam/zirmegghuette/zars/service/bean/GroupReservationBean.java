@@ -1,20 +1,20 @@
 package net.soomsam.zirmegghuette.zars.service.bean;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.joda.time.DateMidnight;
 
 public class GroupReservationBean extends BaseBean {
 	private long groupReservationId;
 
 	private Date groupReservationTimestamp;
 
-	private DateMidnight arrival;
+	private Date arrival;
 
-	private DateMidnight departure;
+	private Date departure;
 
 	private long guests;
 
@@ -24,7 +24,7 @@ public class GroupReservationBean extends BaseBean {
 
 	private UserBean accountant;
 
-	private RoomBean rooms;
+	private List<RoomBean> rooms;
 
 	public GroupReservationBean() {
 		super();
@@ -46,19 +46,19 @@ public class GroupReservationBean extends BaseBean {
 		this.groupReservationId = groupReservationId;
 	}
 
-	public DateMidnight getArrival() {
+	public Date getArrival() {
 		return arrival;
 	}
 
-	public void setArrival(DateMidnight arrival) {
+	public void setArrival(Date arrival) {
 		this.arrival = arrival;
 	}
 
-	public DateMidnight getDeparture() {
+	public Date getDeparture() {
 		return departure;
 	}
 
-	public void setDeparture(DateMidnight departure) {
+	public void setDeparture(Date departure) {
 		this.departure = departure;
 	}
 
@@ -94,11 +94,11 @@ public class GroupReservationBean extends BaseBean {
 		this.accountant = accountant;
 	}
 
-	public RoomBean getRooms() {
+	public List<RoomBean> getRooms() {
 		return rooms;
 	}
 
-	public void setRooms(RoomBean rooms) {
+	public void setRooms(List<RoomBean> rooms) {
 		this.rooms = rooms;
 	}
 
