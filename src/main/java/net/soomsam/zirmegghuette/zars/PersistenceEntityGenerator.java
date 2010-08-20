@@ -29,11 +29,11 @@ public class PersistenceEntityGenerator {
 		return new User(userName, String.valueOf(new Random().nextLong()), emailAddress, true, new HashSet<Role>(Arrays.asList(roles)));
 	}
 
-	public static Room createFirstRoom() {
-		return new Room("first", 4, 1, true);
+	public static Room createTestRoom() {
+		return new Room("test", 4, 3, true);
 	}
 
-	public static Room createSecondRoom() {
-		return new Room("second", 4, 2, true);
+	public static Room createAnotherTestRoom() {
+		return new Room("anotherTest", 4, 4, true);
 	}
 }

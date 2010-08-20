@@ -51,16 +51,27 @@ public class PersistenceDaoTest {
 	@Test
 	public void testFindGroupReservation() {
 		final User testUser = createTestUser();
-		final Room firstRoom = createFirstRoom();
-		final GroupReservation groupReservation01 = createGroupReservation(testUser, firstRoom, new DateMidnight().minusDays(6), new DateMidnight().minusDays(3));
-		final GroupReservation groupReservation02 = createGroupReservation(testUser, firstRoom, new DateMidnight().minusDays(3), new DateMidnight());
-		final GroupReservation groupReservation03 = createGroupReservation(testUser, firstRoom, new DateMidnight(), new DateMidnight().plusDays(3));
+		final Room testRoom = createTestRoom();
+		final GroupReservation groupReservation01 = createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(6), new DateMidnight().minusDays(3));
+		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(3), new DateMidnight());
+		final GroupReservation groupReservation03 = createGroupReservation(testUser, testRoom, new DateMidnight(), new DateMidnight().plusDays(3));
 
 		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservation(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)));
 		Assert.assertNotNull(groupReservationList);
 		Assert.assertFalse(groupReservationList.contains(groupReservation01));
 		Assert.assertTrue(groupReservationList.contains(groupReservation02));
 		Assert.assertTrue(groupReservationList.contains(groupReservation03));
+	}
+	
+	@Test
+	public void testFindRoomByPrecedence() {		
+		List<Room> roomNotInUseList = roomDao.findRoomByPrecedence(false);
+		Assert.assertTrue(roomNotInUseList.isEmpty());
+		
+		List<Room> roomInUseList = roomDao.findRoomByPrecedence(true);
+		Assert.assertEquals(2, roomInUseList.size());
+		Assert.assertEquals(1, roomInUseList.get(0).getPrecedence());
+		Assert.assertEquals(2, roomInUseList.get(1).getPrecedence());
 	}
 
 	private GroupReservation createGroupReservation(final User user, final Room room, final DateMidnight arrival, final DateMidnight departure) {
@@ -92,9 +103,9 @@ public class PersistenceDaoTest {
 		return adminRole;
 	}
 
-	private Room createFirstRoom() {
-		final Room firstRoom = PersistenceEntityGenerator.createFirstRoom();
-		roomDao.persist(firstRoom);
-		return firstRoom;
+	private Room createTestRoom() {
+		final Room testRoom = PersistenceEntityGenerator.createTestRoom();
+		roomDao.persist(testRoom);
+		return testRoom;
 	}
 }

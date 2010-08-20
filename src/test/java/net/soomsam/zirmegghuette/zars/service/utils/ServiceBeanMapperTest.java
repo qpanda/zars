@@ -46,14 +46,14 @@ public class ServiceBeanMapperTest {
 		Role adminRole = PersistenceEntityGenerator.createAdminRole();
 		User beneficiary = PersistenceEntityGenerator.createUserTest("beneficiary", "beneficiary@test.com", userRole, adminRole);
 		User accountant = PersistenceEntityGenerator.createUserTest("accountant", "accountant@test.com", userRole, adminRole);
-		Room firstRoom = PersistenceEntityGenerator.createFirstRoom();
-		Room secondRoom = PersistenceEntityGenerator.createSecondRoom();
+		Room testRoom = PersistenceEntityGenerator.createTestRoom();
+		Room anotherTestRoom = PersistenceEntityGenerator.createAnotherTestRoom();
 		DateMidnight arrival = new DateMidnight();
 		DateMidnight departure = arrival.plusDays(1);
 		long guests = 3;
 		GroupReservation groupReservation = new GroupReservation(beneficiary, accountant, arrival, departure, guests);
-		groupReservation.associateRoom(firstRoom);
-		groupReservation.associateRoom(secondRoom);
+		groupReservation.associateRoom(testRoom);
+		groupReservation.associateRoom(anotherTestRoom);
 
 		GroupReservationBean groupReservationBean = serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
 		Assert.assertEquals(groupReservationBean.getGroupReservationId(), groupReservation.getGroupReservationId());
