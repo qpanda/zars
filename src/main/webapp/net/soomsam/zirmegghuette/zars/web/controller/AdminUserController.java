@@ -50,9 +50,6 @@ public class AdminUserController implements Serializable {
 		}
 	}
 
-	public void doStuff() {
-	}
-
 	public String disableUser() {
 		userService.disableUser(selectedUserId);
 		logger.debug("disabled user with id [" + selectedUserId + "]");

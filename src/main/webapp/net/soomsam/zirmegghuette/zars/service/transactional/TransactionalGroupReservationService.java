@@ -42,6 +42,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	public GroupReservationBean createGroupReservation(long beneficiaryId, long accountantId, DateMidnight arrival, DateMidnight departure, long guests, String comment) {
+		// TODO check that this reservation does not overlap with a previous one
 		final User beneficiary = userDao.retrieveByPrimaryKey(beneficiaryId);
 		final User accountant = userDao.retrieveByPrimaryKey(accountantId);
 		final GroupReservation groupReservation = new GroupReservation(beneficiary, accountant, arrival, departure, guests, comment);
@@ -51,7 +52,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	@Override
-	public List<GroupReservation> findGroupReservation(Interval dateInterval) {
-		return groupReservationDao.findGroupReservation(dateInterval);
+	public List<GroupReservationBean> findGroupReservation(Interval dateInterval) {
+		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservation(dateInterval));
 	}
 }
