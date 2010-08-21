@@ -71,6 +71,7 @@ public class GroupReservationServiceTest {
 	
 	@Test
 	public void createGroupReservationWithoutConflict() throws UniqueConstraintException, GroupReservationConflictException {
+		// TODO new finder that allows adjenting group reservations
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
