@@ -12,6 +12,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
+import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
@@ -34,6 +35,9 @@ public class AddGroupReservationController implements Serializable {
 
 	@Inject
 	private transient GroupReservationService groupReservationService;
+	
+	@Inject
+	private transient LocaleController localeController;
 
 	@NotNull(message = "{sectionsApplicationGroupReservationArrivalError}")
 	private Date arrival;
@@ -97,6 +101,7 @@ public class AddGroupReservationController implements Serializable {
 	}
 
 	public void setComment(String comment) {
+		// TODO verify HTML code escaping
 		this.comment = comment;
 	}
 
@@ -108,8 +113,19 @@ public class AddGroupReservationController implements Serializable {
 		}
 		
 		logger.debug("creating group reservation [" + arrival + "]-[" + departure + "] for [" + guests + "] guests");
-		savedGroupReservation = groupReservationService.createGroupReservation(selectedAccountantId /*TODO actual beneficiary is current user*/, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
-		return "addGroupReservationConfirmation";
+		try {
+			savedGroupReservation = groupReservationService.createGroupReservation(selectedAccountantId /*TODO actual beneficiary is current user*/, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
+			return "addGroupReservationConfirmation";
+		} catch (final GroupReservationConflictException groupReservationConflictException) {
+			List<GroupReservationBean> conflictingGroupReservationList = groupReservationConflictException.getConflictingGroupReservations();
+			for (GroupReservationBean conflictingGroupReservation : conflictingGroupReservationList) {
+				// TODO i18n of dates!
+				final FacesMessage groupReservationConflictFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationConflictError", FacesMessage.SEVERITY_ERROR, conflictingGroupReservation.getGroupReservationId(), conflictingGroupReservation.getArrival(), conflictingGroupReservation.getDeparture(), conflictingGroupReservation.getBeneficiary().getUsername());
+				FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
+			}
+		}
+		
+		return null;
 	}
 
 	protected boolean validDateRange() {

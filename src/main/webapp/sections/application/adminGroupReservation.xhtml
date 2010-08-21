@@ -38,6 +38,7 @@
 						<h:outputText value="#{groupReservation.accountant.username}" />
 					</p:column>
 					<p:column>
+						<!-- TODO display only for own reservations and admin user -->
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationActionLabel}" /></f:facet>
 						<h:link outcome="editGroupReservation" value="#{displayMessages.sectionsApplicationEditGroupReservationLink}" styleClass="applicationLink">
 							<f:param name="groupReservationId" value="#{groupReservation.groupReservationId}"/>

@@ -3,6 +3,13 @@ package net.soomsam.zirmegghuette.zars;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import net.soomsam.zirmegghuette.zars.enums.RoleType;
+import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
+import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
 import org.apache.log4j.Logger;
 
@@ -43,5 +50,38 @@ public class TestUtils {
 		byte[] outputStreamBuffer = byteArrayOutputStream.toByteArray();
 		logger.info("read [" + outputStreamBuffer.length + "] bytes from file [" + classpathResourceName + "]");
 		return outputStreamBuffer;
+	}
+	
+	public static boolean containsRoleType(List<RoleBean> roleBeanList, RoleType roleType) {
+		for (RoleBean roleBean : roleBeanList) {
+			if (roleType.getRoleName().equals(roleBean.getName())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static Set<Long> determineRoleIds(List<RoleBean> roleBeanList, RoleType... roleTypeArray) {
+		Set<Long> roleIdSet = new HashSet<Long>();
+		for (RoleBean roleBean : roleBeanList) {
+			for (RoleType roleType : roleTypeArray) {
+				if (roleType.getRoleName().equals(roleBean.getName())) {
+					roleIdSet.add(roleBean.getRoleId());
+				}
+			}
+		}
+		
+		return roleIdSet;
+	}
+	
+	public static boolean containsUser(List<UserBean> userBeanList, long userId) {
+		for (UserBean userBean : userBeanList) {
+			if (userId == userBean.getUserId()) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

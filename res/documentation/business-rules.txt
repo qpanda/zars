@@ -1,0 +1,1 @@
+BR001 - overlapping group reservations are not supported and will be referred to as conflicting group reservations

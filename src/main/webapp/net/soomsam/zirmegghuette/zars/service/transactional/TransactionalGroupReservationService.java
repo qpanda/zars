@@ -2,7 +2,9 @@ package net.soomsam.zirmegghuette.zars.service.transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
@@ -41,18 +43,51 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	@Override
-	public GroupReservationBean createGroupReservation(long beneficiaryId, long accountantId, DateMidnight arrival, DateMidnight departure, long guests, String comment) {
-		// TODO check that this reservation does not overlap with a previous one
+	@Transactional(rollbackFor = GroupReservationConflictException.class)
+	public GroupReservationBean createGroupReservation(long beneficiaryId, long accountantId, DateMidnight arrival, DateMidnight departure, long guests, String comment) throws GroupReservationConflictException { 
+		if ((null == arrival) || (null == departure)) {
+			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
+		}
+		
+		// implements BR001
+		Interval arrivalDepartureInterval = new Interval(arrival, departure);
+		List<GroupReservation> conflictingGroupReservations = groupReservationDao.findGroupReservation(arrivalDepartureInterval);
+		if (!conflictingGroupReservations.isEmpty()) {
+			throw new GroupReservationConflictException("unable to create group reservation for user [" + beneficiaryId + "], arrival [" + arrival + "], departure [" + departure + "], with [" + guests + "] guests. it conflicts with [" + conflictingGroupReservations.size() + "] existing group reservations", serviceBeanMapper.map(GroupReservationBean.class, conflictingGroupReservations));
+		}
+		
 		final User beneficiary = userDao.retrieveByPrimaryKey(beneficiaryId);
 		final User accountant = userDao.retrieveByPrimaryKey(accountantId);
+		final Set<Room> requiredRooms = determineRequiredRooms(guests);
 		final GroupReservation groupReservation = new GroupReservation(beneficiary, accountant, arrival, departure, guests, comment);
-		groupReservation.associateRooms(new HashSet<Room>(roomDao.findAll())); // TODO fix this		
+		groupReservation.associateRooms(requiredRooms);		
 		groupReservationDao.persist(groupReservation);
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
+		
+		// TODO required capacity fulfilled??? 
 	}
 
 	@Override
 	public List<GroupReservationBean> findGroupReservation(Interval dateInterval) {
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservation(dateInterval));
+	}
+	
+	protected Set<Room> determineRequiredRooms(long requiredCapacity) {
+		// assumes BR001
+		long availableCapacity = 0;
+		Set<Room> requiredRoomList = new HashSet<Room>();
+		
+		List<Room> availableRoomList = roomDao.findByPrecedence(true);
+		for (Room availableRoom : availableRoomList) {
+			requiredRoomList.add(availableRoom);
+			availableCapacity += availableRoom.getCapacity();
+			
+			if (availableCapacity >= requiredCapacity) {
+				return requiredRoomList;
+			}
+		}
+		
+		return requiredRoomList;	
+		// TODO required capacity fulfilled???
 	}
 }
