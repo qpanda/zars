@@ -51,7 +51,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		
 		// implements BR001
 		Interval arrivalDepartureInterval = new Interval(arrival, departure);
-		List<GroupReservation> conflictingGroupReservations = groupReservationDao.findGroupReservation(arrivalDepartureInterval, false);
+		List<GroupReservation> conflictingGroupReservations = groupReservationDao.findGroupReservationExclusive(arrivalDepartureInterval);
 		if (!conflictingGroupReservations.isEmpty()) {
 			throw new GroupReservationConflictException("unable to create group reservation for user [" + beneficiaryId + "], arrival [" + arrival + "], departure [" + departure + "], with [" + guests + "] guests. it conflicts with [" + conflictingGroupReservations.size() + "] existing group reservations", serviceBeanMapper.map(GroupReservationBean.class, conflictingGroupReservations));
 		}
@@ -69,7 +69,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	public List<GroupReservationBean> findGroupReservation(Interval dateInterval) {
-		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservation(dateInterval, true));
+		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservationInclusive(dateInterval));
 	}
 	
 	protected Set<Room> determineRequiredRooms(long requiredCapacity) {
