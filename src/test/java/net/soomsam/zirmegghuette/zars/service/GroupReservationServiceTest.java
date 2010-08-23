@@ -1,6 +1,6 @@
 package net.soomsam.zirmegghuette.zars.service;
 
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -13,12 +13,10 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
-import net.soomsam.zirmegghuette.zars.service.bean.SettingBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +69,6 @@ public class GroupReservationServiceTest {
 	
 	@Test
 	public void createGroupReservationWithoutConflict() throws UniqueConstraintException, GroupReservationConflictException {
-		// TODO new finder that allows adjenting group reservations
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -80,18 +77,27 @@ public class GroupReservationServiceTest {
 	}
 	
 	@Test
-	public void verifyGroupReservationRoomSelection() throws UniqueConstraintException, GroupReservationConflictException {
-		List<Room> allRooms = roomDao.findByPrecedence(true);
+	public void verifyGroupReservationRoomSelection() throws UniqueConstraintException, GroupReservationConflictException {		
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
-		GroupReservationBean createdGroupReservationRequiringOneRoom = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight(), new DateMidnight().plusDays(1), allRooms.get(0).getCapacity(), null);
-		Assert.assertEquals(1, createdGroupReservationRequiringOneRoom.getRooms().size());
-		GroupReservationBean createdGroupReservationRequiringOneAndAHalfRooms = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusDays(2), new DateMidnight().plusDays(3), allRooms.get(0).getCapacity() + 1, null);
-		Assert.assertEquals(2, createdGroupReservationRequiringOneAndAHalfRooms.getRooms().size());
-		GroupReservationBean createdGroupReservationRequiringTwoRooms = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusDays(4), new DateMidnight().plusDays(5), allRooms.get(0).getCapacity() + allRooms.get(1).getCapacity(), null);
-		Assert.assertEquals(2, createdGroupReservationRequiringTwoRooms.getRooms().size());
-		GroupReservationBean createdGroupReservationRequiringTwoAndAHalfRooms = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusDays(6), new DateMidnight().plusDays(7), allRooms.get(0).getCapacity() + allRooms.get(1).getCapacity() + 1, null);
-		Assert.assertEquals(2, createdGroupReservationRequiringTwoAndAHalfRooms.getRooms().size());
+		
+		List<Room> allRooms = roomDao.findByPrecedence(true);
+		
+		int i = 0;
+		int totalCapacity = 0;
+		Iterator<Room> allRoomIterator = allRooms.iterator();
+		while (allRoomIterator.hasNext()) {
+			i++;
+			Room room = allRoomIterator.next();			
+			totalCapacity += room.getCapacity();
+			
+			GroupReservationBean createdGroupReservationWithLessThanTotalCapacity = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().minusDays(2).plusMonths(i - 1), new DateMidnight().minusDays(1).plusMonths(i - 1), totalCapacity - 1, null);
+			Assert.assertEquals(i, createdGroupReservationWithLessThanTotalCapacity.getRooms().size());
+			GroupReservationBean createdGroupReservationWithTotalCapacity = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusMonths(i - 1), new DateMidnight().plusDays(1).plusMonths(i - 1), totalCapacity, null);
+			Assert.assertEquals(i, createdGroupReservationWithTotalCapacity.getRooms().size());
+			GroupReservationBean createdGroupReservationWithMoreThanTotalCapacity = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusDays(2).plusMonths(i - 1), new DateMidnight().plusDays(3).plusMonths(i - 1), totalCapacity + 1, null);
+			Assert.assertEquals(allRoomIterator.hasNext() ? (i + 1) : i, createdGroupReservationWithMoreThanTotalCapacity.getRooms().size());			
+		}
 	}
 }

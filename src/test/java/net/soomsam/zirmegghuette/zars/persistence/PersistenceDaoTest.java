@@ -56,7 +56,7 @@ public class PersistenceDaoTest {
 		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(3), new DateMidnight());
 		final GroupReservation groupReservation03 = createGroupReservation(testUser, testRoom, new DateMidnight(), new DateMidnight().plusDays(3));
 
-		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservation(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)));
+		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservation(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), true);
 		Assert.assertNotNull(groupReservationList);
 		Assert.assertFalse(groupReservationList.contains(groupReservation01));
 		Assert.assertTrue(groupReservationList.contains(groupReservation02));
@@ -65,7 +65,7 @@ public class PersistenceDaoTest {
 	
 	@Test
 	public void testFindNoGroupReservation() {
-		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservation(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)));
+		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservation(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), true);
 		Assert.assertNotNull(groupReservationList);
 		Assert.assertTrue(groupReservationList.isEmpty());
 	}
