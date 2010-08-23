@@ -55,7 +55,7 @@ public class GroupReservation extends BaseEntity {
 	public static final String FINDGROUPRESERVATIONINCLUSIVE_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival <= :endDate) or (:startDate <= departure and departure <= :endDate) or (arrival <= :startDate and :endDate <= departure)";
 	
 	public static final String FINDGROUPRESERVATIONEXCLUSIVE_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationExclusiveByStartDateEndDateQuery";
-	public static final String FINDGROUPRESERVATIONEXCLUSIVE_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival < :endDate) or (:startDate < departure and departure <= :endDate) or (arrival <= :startDate and :endDate <= departure)";
+	public static final String FINDGROUPRESERVATIONEXCLUSIVE_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival < :endDate) or (:startDate < departure and departure <= :endDate) or (arrival <= :startDate and :endDate < departure)";
 
 	@Id
 	@GeneratedValue
