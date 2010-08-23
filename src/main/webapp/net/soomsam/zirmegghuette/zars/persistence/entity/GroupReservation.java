@@ -38,7 +38,7 @@ import org.joda.time.DateTime;
 
 @Entity
 @Table(name = GroupReservation.TABLENAME_GROUPRESERVATION)
-@NamedQueries( { @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONINCLUSIVE_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONINCLUSIVE_STARTDATE_ENDDATE_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONEXCLUSIVE_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONEXCLUSIVE_STARTDATE_ENDDATE_QUERYSTRING) })
+@NamedQueries( { @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYSTRING) })
 public class GroupReservation extends BaseEntity {
 	public static final String TABLENAME_GROUPRESERVATION = "zars_group_reservation";
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
@@ -51,11 +51,11 @@ public class GroupReservation extends BaseEntity {
 	public static final String COLUMNNAME_ACCOUNTANT_USERID = "accountant_user_id";
 	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "zars_group_reservation_zars_room";
 
-	public static final String FINDGROUPRESERVATIONINCLUSIVE_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationInclusiveByStartDateEndDateQuery";
-	public static final String FINDGROUPRESERVATIONINCLUSIVE_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival <= :endDate) or (:startDate <= departure and departure <= :endDate) or (arrival <= :startDate and :endDate <= departure)";
+	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationByClosedStartEndIntervalQuery";
+	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival <= :endDate) or (:startDate <= departure and departure <= :endDate) or (arrival <= :startDate and :endDate <= departure)";
 	
-	public static final String FINDGROUPRESERVATIONEXCLUSIVE_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationExclusiveByStartDateEndDateQuery";
-	public static final String FINDGROUPRESERVATIONEXCLUSIVE_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival < :endDate) or (:startDate < departure and departure <= :endDate) or (arrival <= :startDate and :endDate < departure)";
+	public static final String FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationByOpenStartEndIntervalQuery";
+	public static final String FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival < :endDate) or (:startDate < departure and departure <= :endDate) or (arrival <= :startDate and :endDate < departure)";
 
 	@Id
 	@GeneratedValue

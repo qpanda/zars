@@ -56,7 +56,7 @@ public class PersistenceDaoTest {
 		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(3), new DateMidnight());
 		final GroupReservation groupReservation03 = createGroupReservation(testUser, testRoom, new DateMidnight(), new DateMidnight().plusDays(3));
 
-		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservationInclusive(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)));
+		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)));
 		Assert.assertNotNull(groupReservationList);
 		Assert.assertFalse(groupReservationList.contains(groupReservation01));
 		Assert.assertTrue(groupReservationList.contains(groupReservation02));
@@ -64,38 +64,38 @@ public class PersistenceDaoTest {
 	}
 	
 	@Test
-	public void testFindGroupReservationInclusive() {
+	public void testFindGroupReservationByClosedDateInterval() {
 		final User testUser = createTestUser();
 		final Room testRoom = createTestRoom();
 		createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(3), new DateMidnight().plusDays(3));
 
-		Assert.assertTrue(groupReservationDao.findGroupReservationInclusive(new Interval(new DateMidnight().minusDays(5), new DateMidnight().minusDays(4))).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationInclusive(new Interval(new DateMidnight().minusDays(4), new DateMidnight().minusDays(3))).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationInclusive(new Interval(new DateMidnight().minusDays(3), new DateMidnight().minusDays(2))).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationInclusive(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1))).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationInclusive(new Interval(new DateMidnight().plusDays(2), new DateMidnight().plusDays(3))).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationInclusive(new Interval(new DateMidnight().plusDays(3), new DateMidnight().plusDays(4))).isEmpty());
-		Assert.assertTrue(groupReservationDao.findGroupReservationInclusive(new Interval(new DateMidnight().plusDays(4), new DateMidnight().plusDays(5))).isEmpty());
+		Assert.assertTrue(groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(5), new DateMidnight().minusDays(4))).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(4), new DateMidnight().minusDays(3))).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(3), new DateMidnight().minusDays(2))).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1))).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().plusDays(2), new DateMidnight().plusDays(3))).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().plusDays(3), new DateMidnight().plusDays(4))).isEmpty());
+		Assert.assertTrue(groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().plusDays(4), new DateMidnight().plusDays(5))).isEmpty());
 	}
 	
 	@Test
-	public void testFindGroupReservationExclusive() {
+	public void testFindGroupReservationByOpenDateInterval() {
 		final User testUser = createTestUser();
 		final Room testRoom = createTestRoom();
 		createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(3), new DateMidnight().plusDays(3));
 
-		Assert.assertTrue(groupReservationDao.findGroupReservationExclusive(new Interval(new DateMidnight().minusDays(5), new DateMidnight().minusDays(4))).isEmpty());
-		Assert.assertTrue(groupReservationDao.findGroupReservationExclusive(new Interval(new DateMidnight().minusDays(4), new DateMidnight().minusDays(3))).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationExclusive(new Interval(new DateMidnight().minusDays(3), new DateMidnight().minusDays(2))).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationExclusive(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1))).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationExclusive(new Interval(new DateMidnight().plusDays(2), new DateMidnight().plusDays(3))).isEmpty());
-		Assert.assertTrue(groupReservationDao.findGroupReservationExclusive(new Interval(new DateMidnight().plusDays(3), new DateMidnight().plusDays(4))).isEmpty());
-		Assert.assertTrue(groupReservationDao.findGroupReservationExclusive(new Interval(new DateMidnight().plusDays(4), new DateMidnight().plusDays(5))).isEmpty());
+		Assert.assertTrue(groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().minusDays(5), new DateMidnight().minusDays(4))).isEmpty());
+		Assert.assertTrue(groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().minusDays(4), new DateMidnight().minusDays(3))).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().minusDays(3), new DateMidnight().minusDays(2))).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1))).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().plusDays(2), new DateMidnight().plusDays(3))).isEmpty());
+		Assert.assertTrue(groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().plusDays(3), new DateMidnight().plusDays(4))).isEmpty());
+		Assert.assertTrue(groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().plusDays(4), new DateMidnight().plusDays(5))).isEmpty());
 	}
 	
 	@Test
 	public void testFindNoGroupReservation() {
-		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservationInclusive(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)));
+		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)));
 		Assert.assertNotNull(groupReservationList);
 		Assert.assertTrue(groupReservationList.isEmpty());
 	}
