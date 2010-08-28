@@ -159,11 +159,11 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Index of the active tab, use a comma seperated list for multiple tabs.]]></description>
+			<description><![CDATA[Index of the active tab.]]></description>
 			<name>activeIndex</name>
 			<required>false</required>
 			<deferred-value>
-				<type>java.lang.String</type>
+				<type>int</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -183,43 +183,51 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Enables activation of multiple tabs.]]></description>
-			<name>multiple</name>
+			<description><![CDATA[Disables or enables accordion]]></description>
+			<name>disabled</name>
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Animation speed in seconds.]]></description>
-			<name>speed</name>
+			<description><![CDATA[Effect to use when toggling the content]]></description>
+			<name>effect</name>
 			<required>false</required>
 			<deferred-value>
-				<type>double</type>
+				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Controls animation, set to false to turn of animation.]]></description>
-			<name>animate</name>
+			<description><![CDATA[When enabled, highest content is used as the reference. Provides more consistent animations.]]></description>
+			<name>autoHeight</name>
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Enabled toggling on hover.]]></description>
-			<name>hover</name>
+			<description><![CDATA[Defines if accordion can be collapsed all together.]]></description>
+			<name>collapsible</name>
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Time to wait in terms of ms to toggle when a panel is hovered.]]></description>
-			<name>hoverDelay</name>
+			<description><![CDATA[When enabled, accordion fills the height of it's parent.]]></description>
+			<name>fillSpace</name>
 			<required>false</required>
 			<deferred-value>
-				<type>int</type>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies the event to use to toggle a tab.]]></description>
+			<name>event</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 	</tag>
@@ -587,30 +595,6 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Specifies horizontal animation.]]></description>
-			<name>animHoriz</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Specifies vertical animation.]]></description>
-			<name>animVert</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Speed of the animation in seconds, default value is 0.3 seconds.]]></description>
-			<name>animSpeed</name>
-			<required>false</required>
-			<deferred-value>
-				<type>double</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[Maximum number of results to be displayed.]]></description>
 			<name>maxResults</name>
 			<required>false</required>
@@ -627,48 +611,56 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Delay to wait in seconds before sending each query to the server.]]></description>
+			<description><![CDATA[Delay to wait in milliseconds before sending each query to the server.]]></description>
 			<name>queryDelay</name>
 			<required>false</required>
 			<deferred-value>
-				<type>double</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[When suggested items are listed, first item is highlighted automatically. This feature can be controlled with autoHighlight attribute.]]></description>
-			<name>autoHighlight</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Shadow is displayed under the results list when set to true, default is false.]]></description>
-			<name>useShadow</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Updates the input field with the first query result, default is false.]]></description>
-			<name>typeAhead</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Delay before updating the input field with the first query result if typeAhead is set to true.]]></description>
-			<name>typeAheadDelay</name>
-			<required>false</required>
-			<deferred-value>
-				<type>double</type>
+				<type>int</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
 			<description><![CDATA[When enabled, autocomplete only accepts values from the suggestion list.]]></description>
 			<name>forceSelection</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Server side listener to invoke when a suggested item is selected.]]></description>
+			<name>selectListener</name>
+			<required>false</required>
+			<deferred-method>
+				<method-signature>void selectListener(org.primefaces.event.SelectEvent)</method-signature>
+			</deferred-method>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Component(s) to update with ajax after a suggested item is selected.]]></description>
+			<name>onSelectUpdate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript event handler to be called before ajax request to load items begins.]]></description>
+			<name>onstart</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript event handler to be called after ajax request to load items completed.]]></description>
+			<name>oncomplete</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Disables the calendar.]]></description>
+			<name>disabled</name>
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
@@ -897,6 +889,14 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
+			<description><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></description>
+			<name>model</name>
+			<required>false</required>
+			<deferred-value>
+				<type>org.primefaces.model.MenuModel</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
 			<description><![CDATA[Number of expanded menuitems at end.]]></description>
 			<name>expandedEndItems</name>
 			<required>false</required>
@@ -1088,14 +1088,6 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Displays a title text at the top of calendar]]></description>
-			<name>title</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[Sets calendar's minimum visible date. Can be java.lang.String or java.util.Date. If String, mindate will be parsed with the format "MM/dd/yyyy".]]></description>
 			<name>mindate</name>
 			<required>false</required>
@@ -1112,14 +1104,6 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Sets calendar's selection mode, "single" selects only one date, "multiple" can select multiple dates. Default value is "single".]]></description>
-			<name>selection</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[Enables multiple page rendering if more than 1, default value is 1.]]></description>
 			<name>pages</name>
 			<required>false</required>
@@ -1128,8 +1112,8 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Displays a close icon the top of calendar]]></description>
-			<name>close</name>
+			<description><![CDATA[Disables the calendar.]]></description>
+			<name>disabled</name>
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
@@ -1161,43 +1145,19 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Determines rendering of weekday headers]]></description>
-			<name>showWeekdays</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Specifies display format of months, possible values are "short", "medium", "long"(default)]]></description>
-			<name>monthFormat</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Determines rendering of weekday format, possible values are "1char", "short"(default), "medium", "long"]]></description>
-			<name>weekdayFormat</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Specifies first day of week, by default it's 0 corresponding to sunday]]></description>
-			<name>startWeekday</name>
-			<required>false</required>
-			<deferred-value>
-				<type>int</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[Icon of the popup button]]></description>
 			<name>popupIcon</name>
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[When enabled, popup icon is rendered without the button.]]></description>
+			<name>popupIconOnly</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -1209,35 +1169,11 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Initial month and year shown on calendar in MM/yyyy format, can be a String or a java.util.Date.]]></description>
-			<name>pagedate</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.Object</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[String or a java.util.TimeZone instance to specify the timezone used for date conversion, defaults to TimeZone.getDefault()]]></description>
 			<name>timeZone</name>
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.Object</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Determines displaying week headers.]]></description>
-			<name>showWeekHeader</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Determines displaying week footer.]]></description>
-			<name>showWeekFooter</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -1294,6 +1230,62 @@
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies the visibility of button panel that contains today and done buttons.]]></description>
+			<name>showButtonPanel</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies the effect to use when displaying and hiding the calendar.]]></description>
+			<name>effect</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies the speed of the display effect used.]]></description>
+			<name>effectDuration</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies the event to display the overlay in popup mode, valid values are "focus", "button" and "both".]]></description>
+			<name>showOn</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[When enabled, week number of year is displayed next to each week.]]></description>
+			<name>showWeek</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[When enabled, days belonging to other months are displayed.]]></description>
+			<name>showOtherMonths</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[When enabled, days belonging to other months become selectable.]]></description>
+			<name>selectOtherMonths</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 	</tag>
@@ -1431,6 +1423,14 @@
 				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
+		<attribute>
+			<description><![CDATA[TabIndex value of the captcha]]></description>
+			<name>tabindex</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
 	</tag>
 	<tag>
 		<name>carousel</name>
@@ -1495,14 +1495,6 @@
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Index of the selected item]]></description>
-			<name>selectedItem</name>
-			<required>false</required>
-			<deferred-value>
-				<type>int</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -1577,11 +1569,66 @@
 				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
+		<attribute>
+			<description><![CDATA[Style of the main container.]]></description>
+			<name>style</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style class of the main container.]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style of each item container.]]></description>
+			<name>itemStyle</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style of each item container.]]></description>
+			<name>itemStyleClass</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
 	</tag>
 	<tag>
 		<name>chartSeries</name>
 		<tag-class>org.primefaces.component.chart.series.ChartSeriesTag</tag-class>
 		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[Id of the component]]></description>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<name>rendered</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<name>binding</name>
+			<required>false</required>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
 		<attribute>
 			<description><![CDATA[Id of the component]]></description>
 			<name>id</name>
@@ -1766,14 +1813,6 @@
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Modality of the colorpicker dialog.]]></description>
-			<name>modal</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -2182,6 +2221,14 @@
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript variable name of the wrapped yui widget]]></description>
+			<name>widgetVar</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -2847,6 +2894,14 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
+			<description><![CDATA[Javascript variable name of the wrapped yui widget]]></description>
+			<name>widgetVar</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
 			<description><![CDATA[The text displayed in the dialog]]></description>
 			<name>message</name>
 			<required>true</required>
@@ -2863,23 +2918,7 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[The text displayed for the yes button]]></description>
-			<name>yesLabel</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[The text displayed for the no button]]></description>
-			<name>noLabel</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[help|info|warn|tip|alarm|block type icons for to display in the dialog]]></description>
+			<description><![CDATA[Icon for the severity of the message]]></description>
 			<name>severity</name>
 			<required>false</required>
 			<deferred-value>
@@ -2887,29 +2926,11 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Displays a "close" icon in the header]]></description>
-			<name>close</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Boolean value whether to allow the user to drag the Panel using
-				its header]]></description>
+			<description><![CDATA[Boolean value whether to allow the user to drag the Panel using its header.]]></description>
 			<name>draggable</name>
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Specifies the type of underlay to display under the Panel.
-				Possible values: none|shadow|matte]]></description>
-			<name>underlay</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -2924,55 +2945,11 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Sets the element's "display" style property to either
-				"block"(true) or "none" (false)]]></description>
-			<name>visible</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Boolean value to keep the tooltip panel inside the confines of
-				the size of viewport]]></description>
-			<name>constrainToViewport</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Sets the element's "left" style property]]></description>
-			<name>x</name>
-			<required>false</required>
-			<deferred-value>
-				<type>int</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Sets the element's "top" style property]]></description>
-			<name>y</name>
-			<required>false</required>
-			<deferred-value>
-				<type>int</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Boolean value that specifies whether the component should be
-				automatically centered in the viewport on window scroll and
-				resize]]></description>
-			<name>fixedCenter</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[Width of the element in pixels]]></description>
 			<name>width</name>
 			<required>false</required>
 			<deferred-value>
-				<type>java.lang.String</type>
+				<type>int</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -2980,23 +2957,63 @@
 			<name>height</name>
 			<required>false</required>
 			<deferred-value>
-				<type>java.lang.String</type>
+				<type>int</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Effect to be displayed when showing and hiding the dialog, valid values are FADE or SLIDE]]></description>
-			<name>effect</name>
+			<description><![CDATA[zindex property to control overlapping with other elements]]></description>
+			<name>zindex</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style class of the main container of dialog.]]></description>
+			<name>styleClass</name>
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Duration of effect in seconds]]></description>
-			<name>effectDuration</name>
+			<description><![CDATA[Effect to use when showing the dialog]]></description>
+			<name>showEffect</name>
 			<required>false</required>
 			<deferred-value>
-				<type>double</type>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Effect to use when hiding the dialog]]></description>
+			<name>hideEffect</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines where the dialog should be displayed]]></description>
+			<name>position</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines if dialog should be closed when escape key is pressed]]></description>
+			<name>closeOnEscape</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines if close icon should be displayed or not]]></description>
+			<name>closable</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 	</tag>
@@ -3127,6 +3144,434 @@
 				<method-signature>void reorderListener(org.primefaces.event.DashboardReorderEvent)</method-signature>
 			</deferred-method>
 		</attribute>
+		<attribute>
+			<description><![CDATA[Style of the main container of dashboard.]]></description>
+			<name>style</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style class of the main container of dashboard.]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
+		<name>dataGrid</name>
+		<tag-class>org.primefaces.component.datagrid.DataGridTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[Id of the component]]></description>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<name>rendered</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<name>binding</name>
+			<required>false</required>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Value of the component that can be either an EL expression or a literal text]]></description>
+			<name>value</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.Object</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Name of the request-scoped variable that'll be used as the holder of each rowdata before processing a row]]></description>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Number of rows to display per page]]></description>
+			<name>rows</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Index of the first row to be displayed]]></description>
+			<name>first</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript variable name of the wrapped yui widget]]></description>
+			<name>widgetVar</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Number of columns to display]]></description>
+			<name>columns</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Enables paginator, default value is false]]></description>
+			<name>paginator</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Template for the paginator layout, default value is "{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"]]></description>
+			<name>paginatorTemplate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Template for the rowsPerPage dropdown]]></description>
+			<name>rowsPerPageTemplate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Template for the {currentPageReport} UI.]]></description>
+			<name>currentPageReportTemplate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Number of pageLinks to display when paginator is enabled, defaults to 10 at most.]]></description>
+			<name>pageLinks</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Label of the first link paginator]]></description>
+			<name>firstPageLinkLabel</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Label of the previous link paginator]]></description>
+			<name>previousPageLinkLabel</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Label of the next link paginator]]></description>
+			<name>nextPageLinkLabel</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Label of the last link paginator]]></description>
+			<name>lastPageLinkLabel</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Position of the paginator, valid values are "both","top","bottom".]]></description>
+			<name>paginatorPosition</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines if paginator should be hidden when number of rows displayed is less than paginator rowsPerPage option.]]></description>
+			<name>paginatorAlwaysVisible</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Index of the current page, first page is 1.]]></description>
+			<name>page</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Enabled fade effect during pagination.]]></description>
+			<name>effect</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Speed of the fade effect during pagination.]]></description>
+			<name>effectSpeed</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style of the main container of datagrid.]]></description>
+			<name>style</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style class of the main container of datagrid.]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
+		<name>dataList</name>
+		<tag-class>org.primefaces.component.datalist.DataListTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[Id of the component]]></description>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<name>rendered</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<name>binding</name>
+			<required>false</required>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Value of the component that can be either an EL expression or a literal text]]></description>
+			<name>value</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.Object</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Name of the request-scoped variable that'll be used as the holder of each rowdata before processing a row]]></description>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Number of rows to display per page]]></description>
+			<name>rows</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Index of the first row to be displayed]]></description>
+			<name>first</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript variable name of the wrapped yui widget]]></description>
+			<name>widgetVar</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Type of the list, valid values are "unordered"(default), "ordered" and "definition".]]></description>
+			<name>type</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies how items would be displayed.]]></description>
+			<name>itemType</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Enables paginator, default value is false]]></description>
+			<name>paginator</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Template for the paginator layout, default value is "{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"]]></description>
+			<name>paginatorTemplate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Template for the rowsPerPage dropdown]]></description>
+			<name>rowsPerPageTemplate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Template for the {currentPageReport} UI.]]></description>
+			<name>currentPageReportTemplate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Number of pageLinks to display when paginator is enabled, defaults to 10 at most.]]></description>
+			<name>pageLinks</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Label of the first link paginator]]></description>
+			<name>firstPageLinkLabel</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Label of the previous link paginator]]></description>
+			<name>previousPageLinkLabel</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Label of the next link paginator]]></description>
+			<name>nextPageLinkLabel</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Label of the last link paginator]]></description>
+			<name>lastPageLinkLabel</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Position of the paginator, valid values are "both","top","bottom".]]></description>
+			<name>paginatorPosition</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines if paginator should be hidden when number of rows displayed is less than paginator rowsPerPage option.]]></description>
+			<name>paginatorAlwaysVisible</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Index of the current page, first page is 1.]]></description>
+			<name>page</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Enabled fade effect during pagination.]]></description>
+			<name>effect</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Speed of the fade effect during pagination.]]></description>
+			<name>effectSpeed</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style of the main container of datagrid.]]></description>
+			<name>style</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style class of the main container of datagrid.]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
 	</tag>
 	<tag>
 		<name>dataTable</name>
@@ -3218,6 +3663,22 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
+			<description><![CDATA[Template for the {currentPageReport} UI.]]></description>
+			<name>currentPageReportTemplate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines if paginator should be hidden when number of rows displayed is less than paginator rowsPerPage option.]]></description>
+			<name>paginatorAlwaysVisible</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
 			<description><![CDATA[Controls scrolling, default value is false]]></description>
 			<name>scrollable</name>
 			<required>false</required>
@@ -3274,7 +3735,7 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Type for row click selection, can be 'multiple' or 'single'.]]></description>
+			<description><![CDATA[Type for row click selection, can be 'multiple', 'single', 'cellblock', 'cellrange' and 'singlecell';]]></description>
 			<name>selectionMode</name>
 			<required>false</required>
 			<deferred-value>
@@ -3470,22 +3931,6 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Footer text]]></description>
-			<name>footer</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Displays a "close" icon on the header]]></description>
-			<name>close</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[Boolean value whether to allow the user to drag the Panel using its header.]]></description>
 			<name>draggable</name>
 			<required>false</required>
@@ -3502,15 +3947,6 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Specifies the type of underlay to display under the Panel.
-				Possible values: none|shadow|matte]]></description>
-			<name>underlay</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[Boolean value that specifies whether the document should be
 				shielded with a partially transparent mask to require the user
 				to close the Panel before being able to activate any elements in
@@ -3522,44 +3958,8 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Sets the element's "display" style property to either
-				"block"(true) or "none" (false)]]></description>
+			<description><![CDATA[When set to true, dialog is visible by default.]]></description>
 			<name>visible</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Boolean value to keep the tooltip panel inside the confines of
-				the size of viewport]]></description>
-			<name>constrainToViewport</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Sets the element's "left" style property]]></description>
-			<name>x</name>
-			<required>false</required>
-			<deferred-value>
-				<type>int</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Sets the element's "top" style property]]></description>
-			<name>y</name>
-			<required>false</required>
-			<deferred-value>
-				<type>int</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Boolean value that specifies whether the component should be
-				automatically centered in the viewport on window scroll and
-				resize]]></description>
-			<name>fixedCenter</name>
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
@@ -3570,7 +3970,7 @@
 			<name>width</name>
 			<required>false</required>
 			<deferred-value>
-				<type>java.lang.String</type>
+				<type>int</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -3578,23 +3978,7 @@
 			<name>height</name>
 			<required>false</required>
 			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Effect to be displayed when showing and hiding the dialog, valid values are FADE or SLIDE]]></description>
-			<name>effect</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Duration of effect in seconds]]></description>
-			<name>effectDuration</name>
-			<required>false</required>
-			<deferred-value>
-				<type>double</type>
+				<type>int</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -3622,14 +4006,6 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Style of the main container of dialog.]]></description>
-			<name>style</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[Style class of the main container of dialog.]]></description>
 			<name>styleClass</name>
 			<required>false</required>
@@ -3654,11 +4030,43 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Arguments for context sensitive positioning.]]></description>
-			<name>context</name>
+			<description><![CDATA[Effect to use when showing the dialog]]></description>
+			<name>showEffect</name>
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Effect to use when hiding the dialog]]></description>
+			<name>hideEffect</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines where the dialog should be displayed]]></description>
+			<name>position</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines if dialog should be closed when escape key is pressed]]></description>
+			<name>closeOnEscape</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines if close icon should be displayed or not]]></description>
+			<name>closable</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 	</tag>
@@ -3687,6 +4095,14 @@
 			<required>false</required>
 			<deferred-value>
 				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></description>
+			<name>model</name>
+			<required>false</required>
+			<deferred-value>
+				<type>org.primefaces.model.MenuModel</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -3782,8 +4198,136 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Client side id of the component(s) to be updated after async partial submit request.]]></description>
-			<name>update</name>
+			<description><![CDATA[Id of the component to add draggable behavior]]></description>
+			<name>for</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Disables or enables dragging]]></description>
+			<name>disabled</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies drag axis, possible values are x and y]]></description>
+			<name>axis</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Constrains dragging within the boundaries of containment element]]></description>
+			<name>containment</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Helper element to display when dragging]]></description>
+			<name>helper</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Reverts draggable to it's original position when not dropped onto a droppable]]></description>
+			<name>revert</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Draggable will snap to edge of the near elements]]></description>
+			<name>snap</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Draggable will snap to edge of the near elements]]></description>
+			<name>snapMode</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Distance from the snap element in pixels to trigger snap]]></description>
+			<name>snapTolerance</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[zindex to apply during dragging]]></description>
+			<name>zindex</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies a handle for draggable]]></description>
+			<name>handle</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines the opacity of helper]]></description>
+			<name>opacity</name>
+			<required>false</required>
+			<deferred-value>
+				<type>double</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[In stack mode, draggables overlap is controlled automatically, dragged item always overlays other draggables.]]></description>
+			<name>stack</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Dragging happens in every x and y pixels in a grid.]]></description>
+			<name>grid</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Scope key to match draggables and droppables.]]></description>
+			<name>scope</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[CSS cursor during dragging.]]></description>
+			<name>cursor</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Id of the dashboard to connect draggable to.]]></description>
+			<name>dashboard</name>
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
@@ -3826,12 +4370,84 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
+			<description><![CDATA[Id of the component to add droppable behavior]]></description>
+			<name>for</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Disables or enables drop behavior]]></description>
+			<name>disabled</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style class to apply when an acceptable draggable is dragged over.]]></description>
+			<name>hoverStyleClass</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style class to apply when an acceptable draggable is dropped.]]></description>
+			<name>activeStyleClass</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Component(s) to update with ajax after a draggable is dropped]]></description>
+			<name>onDropUpdate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
 			<description><![CDATA[A server side listener to process a DragDrop event]]></description>
 			<name>dropListener</name>
 			<required>false</required>
 			<deferred-method>
 				<method-signature>void dropListener(org.primefaces.event.DragDropEvent)</method-signature>
 			</deferred-method>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript event handler to invoke when a draggable is dropped]]></description>
+			<name>onDrop</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines the type of draggables that can be dropped]]></description>
+			<name>accept</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Scope key to match draggables and droppables.]]></description>
+			<name>scope</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies the mode to accept a droppable.]]></description>
+			<name>tolerance</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
 		</attribute>
 	</tag>
 	<tag>
@@ -4278,6 +4894,262 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>gmap</name>
+		<tag-class>org.primefaces.component.gmap.GMapTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[Id of the component]]></description>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<name>rendered</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<name>binding</name>
+			<required>false</required>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript variable name of the wrapped yui widget]]></description>
+			<name>widgetVar</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An org.primefaces.model.map.MapModel instance.]]></description>
+			<name>model</name>
+			<required>false</required>
+			<deferred-value>
+				<type>org.primefaces.model.map.MapModel</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style of the main container of datagrid.]]></description>
+			<name>style</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style class of the main container of datagrid.]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Type of the map.]]></description>
+			<name>type</name>
+			<required>true</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Center point of the map.]]></description>
+			<name>center</name>
+			<required>true</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines zoom level.]]></description>
+			<name>zoom</name>
+			<required>true</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies component(s) to update after ajax overlay selection.]]></description>
+			<name>onOverlaySelectUpdate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript callback to execute when ajax request to overlay selection starts.]]></description>
+			<name>onOverlaySelectStart</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript callback to execute when ajax request to overlay selection completes.]]></description>
+			<name>onOverlaySelectComplete</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Server side listener to invoke when an overlay is selected with ajax.]]></description>
+			<name>overlaySelectListener</name>
+			<required>false</required>
+			<deferred-method>
+				<method-signature>void overlaySelectListener(org.primefaces.event.map.OverlaySelectEvent)</method-signature>
+			</deferred-method>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Server side listener to invoke when map state is changed.]]></description>
+			<name>stateChangeListener</name>
+			<required>false</required>
+			<deferred-method>
+				<method-signature>void stateChangeListener(org.primefaces.event.map.StateChangeEvent)</method-signature>
+			</deferred-method>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies component(s) to update after map state is changed.]]></description>
+			<name>onStateChangeUpdate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Server side listener to invoke when a point in map is selected.]]></description>
+			<name>pointSelectListener</name>
+			<required>false</required>
+			<deferred-method>
+				<method-signature>void pointSelectListener(org.primefaces.event.map.PointSelectEvent)</method-signature>
+			</deferred-method>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies component(s) to update after when a map point is selected.]]></description>
+			<name>onPointSelectUpdate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Server side listener to invoke when a marker is dragged.]]></description>
+			<name>markerDragListener</name>
+			<required>false</required>
+			<deferred-method>
+				<method-signature>void markerDragListener(org.primefaces.event.map.MarkerDragEvent)</method-signature>
+			</deferred-method>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies component(s) to update after when a marker is dragged.]]></description>
+			<name>onMarkerDragUpdate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Enables street view support when set to true.]]></description>
+			<name>streetView</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Disables default UI controls.]]></description>
+			<name>disableDefaultUI</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines visibility of navigation control.]]></description>
+			<name>navigationControl</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines visibility of map type control.]]></description>
+			<name>mapTypeControl</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[When set to false, map cannot be dragged.]]></description>
+			<name>draggable</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Disables zooming on map on double click.]]></description>
+			<name>disableDoubleClickZoom</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript callback to execute when a point in map is clicked.]]></description>
+			<name>onPointClick</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
+		<name>gmapInfoWindow</name>
+		<tag-class>org.primefaces.component.gmap.GMapInfoWindowTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[Id of the component]]></description>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<name>rendered</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<name>binding</name>
+			<required>false</required>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Max width of the info window.]]></description>
+			<name>maxWidth</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
 		<name>graphicImage</name>
 		<tag-class>org.primefaces.component.graphicimage.GraphicImageTag</tag-class>
 		<body-content>JSP</body-content>
@@ -4478,6 +5350,14 @@
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Controls caching behavior of browsers]]></description>
+			<name>cache</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 	</tag>
@@ -6201,6 +7081,30 @@
 				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
+		<attribute>
+			<description><![CDATA[Client side callback to invoke after resizeListener is invoked.]]></description>
+			<name>onResizeComplete</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Client side callback to invoke after closeListener is invoked.]]></description>
+			<name>onCloseComplete</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Client side callback to invoke after toggleListener is invoked.]]></description>
+			<name>onToggleComplete</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
 	</tag>
 	<tag>
 		<name>layoutUnit</name>
@@ -6836,6 +7740,14 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
+			<description><![CDATA[Image of the button.]]></description>
+			<name>image</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
 			<description><![CDATA[Style to apply to the button element.]]></description>
 			<name>style</name>
 			<required>false</required>
@@ -7076,6 +7988,14 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
+			<description><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></description>
+			<name>model</name>
+			<required>false</required>
+			<deferred-value>
+				<type>org.primefaces.model.MenuModel</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
 			<description><![CDATA[Sets the menu's visibility, true by default]]></description>
 			<name>visible</name>
 			<required>false</required>
@@ -7266,6 +8186,14 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
+			<description><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></description>
+			<name>model</name>
+			<required>false</required>
+			<deferred-value>
+				<type>org.primefaces.model.MenuModel</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
 			<description><![CDATA[When set to true, submenus are displayed on mouseover of a menuitem.]]></description>
 			<name>autoSubmenuDisplay</name>
 			<required>false</required>
@@ -7334,9 +8262,17 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
+			<description><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></description>
+			<name>model</name>
+			<required>false</required>
+			<deferred-value>
+				<type>org.primefaces.model.MenuModel</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
 			<description><![CDATA[Label of the button.]]></description>
 			<name>value</name>
-			<required>true</required>
+			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
 			</deferred-value>
@@ -7355,6 +8291,14 @@
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Disabled or enables the button.]]></description>
+			<name>disabled</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 	</tag>
@@ -7413,14 +8357,6 @@
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Label to be displayed]]></description>
-			<name>label</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -7603,6 +8539,14 @@
 				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
+		<attribute>
+			<description><![CDATA[Defines if already rendered messages should be rendered.]]></description>
+			<name>redisplay</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
 	</tag>
 	<tag>
 		<name>messages</name>
@@ -7650,6 +8594,14 @@
 		<attribute>
 			<description><![CDATA[When true, only facesmessages with no clientIds are displayed.]]></description>
 			<name>globalOnly</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines if already rendered messages should be rendered.]]></description>
+			<name>redisplay</name>
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
@@ -8901,67 +9853,11 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Minimum value of the bar, defaults to 0.]]></description>
-			<name>minValue</name>
+			<description><![CDATA[Disables or enables progressbar.]]></description>
+			<name>disabled</name>
 			<required>false</required>
 			<deferred-value>
-				<type>int</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Maximum value of the bar, defaults to 100.]]></description>
-			<name>maxValue</name>
-			<required>false</required>
-			<deferred-value>
-				<type>int</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Step factor value to be used when incrementing the value in client side progressbar.]]></description>
-			<name>step</name>
-			<required>false</required>
-			<deferred-value>
-				<type>int</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Width of the bar, defaults to 200px.]]></description>
-			<name>width</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Height of the bar, defaults to 20px.]]></description>
-			<name>height</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Direction of the progress, can be "ltr", "rtl", "ttb" or "btt".]]></description>
-			<name>direction</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Type of the easing effect to be used when changing the progress value.]]></description>
-			<name>effect</name>
-			<required>false</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Duration of the effect in seconds, defaults to 1.]]></description>
-			<name>effectDuration</name>
-			<required>false</required>
-			<deferred-value>
-				<type>double</type>
+				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -8997,8 +9893,8 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Specifies the components to update with ajax after progress is completed.]]></description>
-			<name>oncompleteUpdate</name>
+			<description><![CDATA[Specifies the component(s) to update with ajax after progress is completed.]]></description>
+			<name>onCompleteUpdate</name>
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
@@ -9007,6 +9903,22 @@
 		<attribute>
 			<description><![CDATA[A server side listener to invoke when progress is completed]]></description>
 			<name>completeListener</name>
+			<required>false</required>
+			<deferred-method>
+				<method-signature>void completeListener()</method-signature>
+			</deferred-method>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies the component(s) to update with ajax after progress is cancelled.]]></description>
+			<name>onCancelUpdate</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[A server side listener to invoke when progress is cancelled]]></description>
+			<name>cancelListener</name>
 			<required>false</required>
 			<deferred-method>
 				<method-signature>void completeListener()</method-signature>
@@ -9572,14 +10484,6 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Enables/disables use of jQuery UI themes.]]></description>
-			<name>theme</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[Whether to include Saturday/Sunday columns in any of the views.]]></description>
 			<name>showWeekends</name>
 			<required>false</required>
@@ -9640,7 +10544,7 @@
 			<name>dateSelectListener</name>
 			<required>false</required>
 			<deferred-method>
-				<method-signature>void dateSelectListener(org.primefaces.event.ScheduleDateSelectEvent)</method-signature>
+				<method-signature>void dateSelectListener(org.primefaces.event.DateSelectEvent)</method-signature>
 			</deferred-method>
 		</attribute>
 		<attribute>
@@ -9809,6 +10713,72 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>sheet</name>
+		<tag-class>org.primefaces.component.spreadsheet.SheetTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[Id of the component]]></description>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<name>rendered</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<name>binding</name>
+			<required>false</required>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Value of the component that can be either an EL expression or a literal text]]></description>
+			<name>value</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.Object</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Name of the request-scoped variable that'll be used as the holder of each rowdata before processing a row]]></description>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Number of rows to display per page]]></description>
+			<name>rows</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Index of the first row to be displayed]]></description>
+			<name>first</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Title text of the sheet]]></description>
+			<name>title</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
 		<name>slider</name>
 		<tag-class>org.primefaces.component.slider.SliderTag</tag-class>
 		<body-content>JSP</body-content>
@@ -9836,6 +10806,26 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
+			<description><![CDATA[Value of the component that can be either an EL expression or a
+		literal text]]></description>
+			<name>value</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.Object</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An EL expression or a literal text that defines a converter for
+		the component. When it's an EL expression, it's resolved to a
+		converter instance. In case it's a static text, it must refer to
+		a converter id]]></description>
+			<name>converter</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.faces.convert.Converter</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
 			<description><![CDATA[Javascript variable name of the wrapped yui widget]]></description>
 			<name>widgetVar</name>
 			<required>false</required>
@@ -9844,8 +10834,16 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Id of the component that the slider will be used for]]></description>
+			<description><![CDATA[Id of the component that the slider will be used for.]]></description>
 			<name>for</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Id of the component to display the slider value.]]></description>
+			<name>display</name>
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
@@ -9868,27 +10866,19 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Image of the slider thumb]]></description>
-			<name>thumbImage</name>
+			<description><![CDATA[Style of the main container of panel.]]></description>
+			<name>style</name>
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Fixed pixel increments that the slider will move in]]></description>
-			<name>tickMarks</name>
+			<description><![CDATA[Style class of the main container of panel.]]></description>
+			<name>styleClass</name>
 			<required>false</required>
 			<deferred-value>
-				<type>int</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[size of the background image of slider, this must be changed when the background image is changed]]></description>
-			<name>size</name>
-			<required>false</required>
-			<deferred-value>
-				<type>int</type>
+				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -9900,11 +10890,27 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[horizontal|vertical, Specifies the type of the slider]]></description>
+			<description><![CDATA[Specifies the type of the slider, valid values are "horizontal" and "vertical".]]></description>
 			<name>type</name>
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines the amount of each step.]]></description>
+			<name>step</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Disables or enables slider.]]></description>
+			<name>disabled</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
 			</deferred-value>
 		</attribute>
 	</tag>
@@ -10234,6 +11240,114 @@
 				<type>double</type>
 			</deferred-value>
 		</attribute>
+		<attribute>
+			<description><![CDATA[Minimum boundary value]]></description>
+			<name>min</name>
+			<required>false</required>
+			<deferred-value>
+				<type>double</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Maximum boundary value]]></description>
+			<name>max</name>
+			<required>false</required>
+			<deferred-value>
+				<type>double</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Prefix of the input text]]></description>
+			<name>prefix</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Suffix of the input text]]></description>
+			<name>suffix</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines when spinner buttons would be available]]></description>
+			<name>showOn</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines the width of the buttons]]></description>
+			<name>width</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
+		<name>spreadsheet</name>
+		<tag-class>org.primefaces.component.spreadsheet.SpreadsheetTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[Id of the component]]></description>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<name>rendered</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<name>binding</name>
+			<required>false</required>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript variable name of the wrapped yui widget]]></description>
+			<name>widgetVar</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Title text of the spreadsheet]]></description>
+			<name>title</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Defines if display is editable or readonly]]></description>
+			<name>editable</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Global setting to define common width for each column in pixels]]></description>
+			<name>columnWidth</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
 	</tag>
 	<tag>
 		<name>stack</name>
@@ -10268,6 +11382,14 @@
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></description>
+			<name>model</name>
+			<required>false</required>
+			<deferred-value>
+				<type>org.primefaces.model.MenuModel</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -10835,19 +11957,19 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Defines how the tabs should oriented, valid values are top|bottom|left|right]]></description>
-			<name>orientation</name>
+			<description><![CDATA[Applies a transition effect during changing the tabs. Valid values are 'opacity', 'height' and 'width'.]]></description>
+			<name>effect</name>
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Applies a transition effect during changing the tabs, default value is false]]></description>
-			<name>contentTransition</name>
+			<description><![CDATA[Defines the duration of effect]]></description>
+			<name>effectDuration</name>
 			<required>false</required>
 			<deferred-value>
-				<type>boolean</type>
+				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -10865,6 +11987,22 @@
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An active tab can be collapsed onclick when collapsible option is enabled]]></description>
+			<name>collapsible</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Event to use when selecting a tab]]></description>
+			<name>event</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 	</tag>
@@ -10942,6 +12080,82 @@
 			<deferred-method>
 				<method-signature>java.lang.String commandHandler(java.lang.String, java.lang.String[])</method-signature>
 			</deferred-method>
+		</attribute>
+	</tag>
+	<tag>
+		<name>themeSwitcher</name>
+		<tag-class>org.primefaces.component.themeswitcher.ThemeSwitcherTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[Id of the component]]></description>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<name>rendered</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<name>binding</name>
+			<required>false</required>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Name of initial theme to load]]></description>
+			<name>theme</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Width of the switcher menu]]></description>
+			<name>width</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Height of the switcher menu]]></description>
+			<name>height</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Height of switcher button]]></description>
+			<name>buttonHeight</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Text of switcher button.]]></description>
+			<name>initialText</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Text that precedes the theme name.]]></description>
+			<name>buttonPreText</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
 		</attribute>
 	</tag>
 	<tag>
@@ -11265,7 +12479,7 @@
 			<name>selection</name>
 			<required>false</required>
 			<deferred-value>
-				<type>org.primefaces.model.TreeNode[]</type>
+				<type>java.lang.Object</type>
 			</deferred-value>
 		</attribute>
 		<attribute>
@@ -11298,6 +12512,14 @@
 			<required>false</required>
 			<deferred-value>
 				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Specifies the selection mode, valid options are "single", "multiple" and "checkbox".]]></description>
+			<name>selectionMode</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
 			</deferred-value>
 		</attribute>
 	</tag>
@@ -11346,6 +12568,104 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>treeTable</name>
+		<tag-class>org.primefaces.component.treetable.TreeTableTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description><![CDATA[Id of the component]]></description>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
+			<name>rendered</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></description>
+			<name>binding</name>
+			<required>false</required>
+			<deferred-value>
+				<type>javax.faces.component.UIComponent</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Value of the component that can be either an EL expression or a literal text]]></description>
+			<name>value</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.Object</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Name of the request-scoped variable that'll be used as the holder of each rowdata before processing a row]]></description>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Number of rows to display per page]]></description>
+			<name>rows</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Index of the first row to be displayed]]></description>
+			<name>first</name>
+			<required>false</required>
+			<deferred-value>
+				<type>int</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript variable name of the wrapped yui widget]]></description>
+			<name>widgetVar</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style of the main container of panel.]]></description>
+			<name>style</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Style class of the main container of panel.]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[When readOnly, treeTable is rendered as expanded and expand/collapse is disabled]]></description>
+			<name>readOnly</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Rendered treeTable as expanded by defaul]]></description>
+			<name>expanded</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+	</tag>
+	<tag>
 		<name>watermark</name>
 		<tag-class>org.primefaces.component.watermark.WatermarkTag</tag-class>
 		<body-content>JSP</body-content>
@@ -11383,7 +12703,15 @@
 		<attribute>
 			<description><![CDATA[Id of the component to attach the watermark]]></description>
 			<name>for</name>
-			<required>true</required>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[jQuery selector to attach the watermark]]></description>
+			<name>forElement</name>
+			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>
 			</deferred-value>
@@ -11433,14 +12761,6 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Effect to be used for switching, "fade", "slide" or "both".]]></description>
-			<name>effect</name>
-			<required>true</required>
-			<deferred-value>
-				<type>java.lang.String</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[Style of the main wizard container]]></description>
 			<name>style</name>
 			<required>false</required>
@@ -11483,6 +12803,38 @@
 		<attribute>
 			<description><![CDATA[Javascript event handler to be invoked when flow goes next.]]></description>
 			<name>onnext</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Label of the next step navigation button.]]></description>
+			<name>nextLabel</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Label of the back step navigation button.]]></description>
+			<name>backLabel</name>
+			<required>false</required>
+			<deferred-value>
+				<type>java.lang.String</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Enabled fade effect during pagination.]]></description>
+			<name>effect</name>
+			<required>false</required>
+			<deferred-value>
+				<type>boolean</type>
+			</deferred-value>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Speed of the fade effect during pagination.]]></description>
+			<name>effectSpeed</name>
 			<required>false</required>
 			<deferred-value>
 				<type>java.lang.String</type>

@@ -131,7 +131,7 @@
          </xs:attribute>
          <xs:attribute name="activeIndex">
             <xs:annotation>
-               <xs:documentation><![CDATA[Index of the active tab, use a comma seperated list for multiple tabs.]]></xs:documentation>
+               <xs:documentation><![CDATA[Index of the active tab.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="style">
@@ -144,29 +144,34 @@
                <xs:documentation><![CDATA[Style class of the root container of accordion panel]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="multiple">
+         <xs:attribute name="disabled">
             <xs:annotation>
-               <xs:documentation><![CDATA[Enables activation of multiple tabs.]]></xs:documentation>
+               <xs:documentation><![CDATA[Disables or enables accordion]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="speed">
+         <xs:attribute name="effect">
             <xs:annotation>
-               <xs:documentation><![CDATA[Animation speed in seconds.]]></xs:documentation>
+               <xs:documentation><![CDATA[Effect to use when toggling the content]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="animate">
+         <xs:attribute name="autoHeight">
             <xs:annotation>
-               <xs:documentation><![CDATA[Controls animation, set to false to turn of animation.]]></xs:documentation>
+               <xs:documentation><![CDATA[When enabled, highest content is used as the reference. Provides more consistent animations.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="hover">
+         <xs:attribute name="collapsible">
             <xs:annotation>
-               <xs:documentation><![CDATA[Enabled toggling on hover.]]></xs:documentation>
+               <xs:documentation><![CDATA[Defines if accordion can be collapsed all together.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="hoverDelay">
+         <xs:attribute name="fillSpace">
             <xs:annotation>
-               <xs:documentation><![CDATA[Time to wait in terms of ms to toggle when a panel is hovered.]]></xs:documentation>
+               <xs:documentation><![CDATA[When enabled, accordion fills the height of it's parent.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="event">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies the event to use to toggle a tab.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -434,21 +439,6 @@
                <xs:documentation><![CDATA[Value of the item.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="animHoriz">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Specifies horizontal animation.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="animVert">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Specifies vertical animation.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="animSpeed">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Speed of the animation in seconds, default value is 0.3 seconds.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="maxResults">
             <xs:annotation>
                <xs:documentation><![CDATA[Maximum number of results to be displayed.]]></xs:documentation>
@@ -461,32 +451,37 @@
          </xs:attribute>
          <xs:attribute name="queryDelay">
             <xs:annotation>
-               <xs:documentation><![CDATA[Delay to wait in seconds before sending each query to the server.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="autoHighlight">
-            <xs:annotation>
-               <xs:documentation><![CDATA[When suggested items are listed, first item is highlighted automatically. This feature can be controlled with autoHighlight attribute.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="useShadow">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Shadow is displayed under the results list when set to true, default is false.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="typeAhead">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Updates the input field with the first query result, default is false.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="typeAheadDelay">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Delay before updating the input field with the first query result if typeAhead is set to true.]]></xs:documentation>
+               <xs:documentation><![CDATA[Delay to wait in milliseconds before sending each query to the server.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="forceSelection">
             <xs:annotation>
                <xs:documentation><![CDATA[When enabled, autocomplete only accepts values from the suggestion list.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="selectListener">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Server side listener to invoke when a suggested item is selected.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onSelectUpdate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Component(s) to update with ajax after a suggested item is selected.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onstart">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript event handler to be called before ajax request to load items begins.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="oncomplete">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript event handler to be called after ajax request to load items completed.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="disabled">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Disables the calendar.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -650,6 +645,11 @@
 		in a backing bean]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="model">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
          <xs:attribute name="expandedEndItems">
             <xs:annotation>
                <xs:documentation><![CDATA[Number of expanded menuitems at end.]]></xs:documentation>
@@ -784,11 +784,6 @@
                <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="title">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Displays a title text at the top of calendar]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="mindate">
             <xs:annotation>
                <xs:documentation><![CDATA[Sets calendar's minimum visible date. Can be java.lang.String or java.util.Date. If String, mindate will be parsed with the format "MM/dd/yyyy".]]></xs:documentation>
@@ -799,19 +794,14 @@
                <xs:documentation><![CDATA[Sets calendar's maximum visible date. Can be java.lang.String or java.util.Date. If String, maxdate will be parsed with the format "MM/dd/yyyy".]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="selection">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Sets calendar's selection mode, "single" selects only one date, "multiple" can select multiple dates. Default value is "single".]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="pages">
             <xs:annotation>
                <xs:documentation><![CDATA[Enables multiple page rendering if more than 1, default value is 1.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="close">
+         <xs:attribute name="disabled">
             <xs:annotation>
-               <xs:documentation><![CDATA[Displays a close icon the top of calendar]]></xs:documentation>
+               <xs:documentation><![CDATA[Disables the calendar.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="mode">
@@ -830,29 +820,14 @@
                <xs:documentation><![CDATA[Locale for localization and date conversion, can be String or a java.util.Locale instance.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="showWeekdays">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Determines rendering of weekday headers]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="monthFormat">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Specifies display format of months, possible values are "short", "medium", "long"(default)]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="weekdayFormat">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Determines rendering of weekday format, possible values are "1char", "short"(default), "medium", "long"]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="startWeekday">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Specifies first day of week, by default it's 0 corresponding to sunday]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="popupIcon">
             <xs:annotation>
                <xs:documentation><![CDATA[Icon of the popup button]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="popupIconOnly">
+            <xs:annotation>
+               <xs:documentation><![CDATA[When enabled, popup icon is rendered without the button.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="navigator">
@@ -860,24 +835,9 @@
                <xs:documentation><![CDATA[Enables month/year navigator]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="pagedate">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Initial month and year shown on calendar in MM/yyyy format, can be a String or a java.util.Date.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="timeZone">
             <xs:annotation>
                <xs:documentation><![CDATA[String or a java.util.TimeZone instance to specify the timezone used for date conversion, defaults to TimeZone.getDefault()]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="showWeekHeader">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Determines displaying week headers.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="showWeekFooter">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Determines displaying week footer.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="readOnlyInputText">
@@ -913,6 +873,41 @@
          <xs:attribute name="inputStyleClass">
             <xs:annotation>
                <xs:documentation><![CDATA[Style class of the input text of popup display.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="showButtonPanel">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies the visibility of button panel that contains today and done buttons.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="effect">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies the effect to use when displaying and hiding the calendar.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="effectDuration">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies the speed of the display effect used.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="showOn">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies the event to display the overlay in popup mode, valid values are "focus", "button" and "both".]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="showWeek">
+            <xs:annotation>
+               <xs:documentation><![CDATA[When enabled, week number of year is displayed next to each week.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="showOtherMonths">
+            <xs:annotation>
+               <xs:documentation><![CDATA[When enabled, days belonging to other months are displayed.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="selectOtherMonths">
+            <xs:annotation>
+               <xs:documentation><![CDATA[When enabled, days belonging to other months become selectable.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -1014,6 +1009,11 @@
                <xs:documentation><![CDATA[Key of the supported languages, default is "en"]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="tabindex">
+            <xs:annotation>
+               <xs:documentation><![CDATA[TabIndex value of the captcha]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
       </xs:complexType>
    </xs:element>
    <xs:element name="carousel">
@@ -1067,11 +1067,6 @@
                <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="selectedItem">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Index of the selected item]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="scrollIncrement">
             <xs:annotation>
                <xs:documentation><![CDATA[Number of items to scroll]]></xs:documentation>
@@ -1117,6 +1112,26 @@
                <xs:documentation><![CDATA[Prefix text of the pager dropdown]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="style">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style of the main container.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="styleClass">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style class of the main container.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="itemStyle">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style of each item container.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="itemStyleClass">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style of each item container.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
       </xs:complexType>
    </xs:element>
    <xs:element name="chartSeries">
@@ -1129,6 +1144,22 @@
          <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:any processContents="lax"/>
          </xs:choice>
+         <xs:attribute name="id">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rendered">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Boolean value to specify the visibility of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="binding">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
          <xs:attribute name="id">
             <xs:annotation>
                <xs:documentation><![CDATA[Id of the component]]></xs:documentation>
@@ -1261,11 +1292,6 @@
          <xs:attribute name="header">
             <xs:annotation>
                <xs:documentation><![CDATA[Header text for the color picker title.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="modal">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Modality of the colorpicker dialog.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="showControls">
@@ -1556,6 +1582,11 @@
          <xs:attribute name="immediate">
             <xs:annotation>
                <xs:documentation><![CDATA[]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="widgetVar">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="ajax">
@@ -1995,6 +2026,11 @@
 		in a backing bean]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="widgetVar">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
          <xs:attribute name="message" use="required">
             <xs:annotation>
                <xs:documentation><![CDATA[The text displayed in the dialog]]></xs:documentation>
@@ -2005,36 +2041,14 @@
                <xs:documentation><![CDATA[The text displayed in the dialog's header part]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="yesLabel">
-            <xs:annotation>
-               <xs:documentation><![CDATA[The text displayed for the yes button]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="noLabel">
-            <xs:annotation>
-               <xs:documentation><![CDATA[The text displayed for the no button]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="severity">
             <xs:annotation>
-               <xs:documentation><![CDATA[help|info|warn|tip|alarm|block type icons for to display in the dialog]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="close">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Displays a "close" icon in the header]]></xs:documentation>
+               <xs:documentation><![CDATA[Icon for the severity of the message]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="draggable">
             <xs:annotation>
-               <xs:documentation><![CDATA[Boolean value whether to allow the user to drag the Panel using
-				its header]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="underlay">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Specifies the type of underlay to display under the Panel.
-				Possible values: none|shadow|matte]]></xs:documentation>
+               <xs:documentation><![CDATA[Boolean value whether to allow the user to drag the Panel using its header.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="modal">
@@ -2043,35 +2057,6 @@
 				shielded with a partially transparent mask to require the user
 				to close the Panel before being able to activate any elements in
 				the document.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="visible">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Sets the element's "display" style property to either
-				"block"(true) or "none" (false)]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="constrainToViewport">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Boolean value to keep the tooltip panel inside the confines of
-				the size of viewport]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="x">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Sets the element's "left" style property]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="y">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Sets the element's "top" style property]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="fixedCenter">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Boolean value that specifies whether the component should be
-				automatically centered in the viewport on window scroll and
-				resize]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="width">
@@ -2084,14 +2069,39 @@
                <xs:documentation><![CDATA[Height of the element in pixels]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="effect">
+         <xs:attribute name="zindex">
             <xs:annotation>
-               <xs:documentation><![CDATA[Effect to be displayed when showing and hiding the dialog, valid values are FADE or SLIDE]]></xs:documentation>
+               <xs:documentation><![CDATA[zindex property to control overlapping with other elements]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="effectDuration">
+         <xs:attribute name="styleClass">
             <xs:annotation>
-               <xs:documentation><![CDATA[Duration of effect in seconds]]></xs:documentation>
+               <xs:documentation><![CDATA[Style class of the main container of dialog.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="showEffect">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Effect to use when showing the dialog]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="hideEffect">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Effect to use when hiding the dialog]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="position">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines where the dialog should be displayed]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="closeOnEscape">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines if dialog should be closed when escape key is pressed]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="closable">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines if close icon should be displayed or not]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -2195,6 +2205,297 @@
                <xs:documentation><![CDATA[A server side listener to invoke when dashboard widgets are reordered.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="style">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style of the main container of dashboard.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="styleClass">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style class of the main container of dashboard.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="dataGrid">
+      <xs:annotation>
+         <xs:documentation><![CDATA[]]></xs:documentation>
+         <xs:documentation>tag-class: org.primefaces.component.datagrid.DataGridTag</xs:documentation>
+         <xs:documentation>body-content: JSP</xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+         <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any processContents="lax"/>
+         </xs:choice>
+         <xs:attribute name="id">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rendered">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Boolean value to specify the visibility of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="binding">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="value">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Value of the component that can be either an EL expression or a literal text]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="var" use="required">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Name of the request-scoped variable that'll be used as the holder of each rowdata before processing a row]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rows">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Number of rows to display per page]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="first">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Index of the first row to be displayed]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="widgetVar">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="columns">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Number of columns to display]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="paginator">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Enables paginator, default value is false]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="paginatorTemplate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Template for the paginator layout, default value is "{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rowsPerPageTemplate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Template for the rowsPerPage dropdown]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="currentPageReportTemplate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Template for the {currentPageReport} UI.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="pageLinks">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Number of pageLinks to display when paginator is enabled, defaults to 10 at most.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="firstPageLinkLabel">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Label of the first link paginator]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="previousPageLinkLabel">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Label of the previous link paginator]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="nextPageLinkLabel">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Label of the next link paginator]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="lastPageLinkLabel">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Label of the last link paginator]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="paginatorPosition">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Position of the paginator, valid values are "both","top","bottom".]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="paginatorAlwaysVisible">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines if paginator should be hidden when number of rows displayed is less than paginator rowsPerPage option.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="page">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Index of the current page, first page is 1.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="effect">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Enabled fade effect during pagination.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="effectSpeed">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Speed of the fade effect during pagination.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="style">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style of the main container of datagrid.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="styleClass">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style class of the main container of datagrid.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="dataList">
+      <xs:annotation>
+         <xs:documentation><![CDATA[]]></xs:documentation>
+         <xs:documentation>tag-class: org.primefaces.component.datalist.DataListTag</xs:documentation>
+         <xs:documentation>body-content: JSP</xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+         <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any processContents="lax"/>
+         </xs:choice>
+         <xs:attribute name="id">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rendered">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Boolean value to specify the visibility of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="binding">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="value">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Value of the component that can be either an EL expression or a literal text]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="var" use="required">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Name of the request-scoped variable that'll be used as the holder of each rowdata before processing a row]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rows">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Number of rows to display per page]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="first">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Index of the first row to be displayed]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="widgetVar">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="type">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Type of the list, valid values are "unordered"(default), "ordered" and "definition".]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="itemType">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies how items would be displayed.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="paginator">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Enables paginator, default value is false]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="paginatorTemplate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Template for the paginator layout, default value is "{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rowsPerPageTemplate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Template for the rowsPerPage dropdown]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="currentPageReportTemplate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Template for the {currentPageReport} UI.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="pageLinks">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Number of pageLinks to display when paginator is enabled, defaults to 10 at most.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="firstPageLinkLabel">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Label of the first link paginator]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="previousPageLinkLabel">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Label of the previous link paginator]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="nextPageLinkLabel">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Label of the next link paginator]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="lastPageLinkLabel">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Label of the last link paginator]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="paginatorPosition">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Position of the paginator, valid values are "both","top","bottom".]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="paginatorAlwaysVisible">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines if paginator should be hidden when number of rows displayed is less than paginator rowsPerPage option.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="page">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Index of the current page, first page is 1.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="effect">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Enabled fade effect during pagination.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="effectSpeed">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Speed of the fade effect during pagination.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="style">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style of the main container of datagrid.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="styleClass">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style class of the main container of datagrid.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
       </xs:complexType>
    </xs:element>
    <xs:element name="dataTable">
@@ -2263,6 +2564,16 @@
                <xs:documentation><![CDATA[Template for the rowsPerPage dropdown, default value is "25,50,100"]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="currentPageReportTemplate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Template for the {currentPageReport} UI.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="paginatorAlwaysVisible">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines if paginator should be hidden when number of rows displayed is less than paginator rowsPerPage option.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
          <xs:attribute name="scrollable">
             <xs:annotation>
                <xs:documentation><![CDATA[Controls scrolling, default value is false]]></xs:documentation>
@@ -2300,7 +2611,7 @@
          </xs:attribute>
          <xs:attribute name="selectionMode">
             <xs:annotation>
-               <xs:documentation><![CDATA[Type for row click selection, can be 'multiple' or 'single'.]]></xs:documentation>
+               <xs:documentation><![CDATA[Type for row click selection, can be 'multiple', 'single', 'cellblock', 'cellrange' and 'singlecell';]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="selection">
@@ -2431,16 +2742,6 @@
                <xs:documentation><![CDATA[Header text]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="footer">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Footer text]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="close">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Displays a "close" icon on the header]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="draggable">
             <xs:annotation>
                <xs:documentation><![CDATA[Boolean value whether to allow the user to drag the Panel using its header.]]></xs:documentation>
@@ -2449,12 +2750,6 @@
          <xs:attribute name="resizable">
             <xs:annotation>
                <xs:documentation><![CDATA[Makes the dialog resizable.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="underlay">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Specifies the type of underlay to display under the Panel.
-				Possible values: none|shadow|matte]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="modal">
@@ -2467,31 +2762,7 @@
          </xs:attribute>
          <xs:attribute name="visible">
             <xs:annotation>
-               <xs:documentation><![CDATA[Sets the element's "display" style property to either
-				"block"(true) or "none" (false)]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="constrainToViewport">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Boolean value to keep the tooltip panel inside the confines of
-				the size of viewport]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="x">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Sets the element's "left" style property]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="y">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Sets the element's "top" style property]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="fixedCenter">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Boolean value that specifies whether the component should be
-				automatically centered in the viewport on window scroll and
-				resize]]></xs:documentation>
+               <xs:documentation><![CDATA[When set to true, dialog is visible by default.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="width">
@@ -2502,16 +2773,6 @@
          <xs:attribute name="height">
             <xs:annotation>
                <xs:documentation><![CDATA[Height of the element in pixels]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="effect">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Effect to be displayed when showing and hiding the dialog, valid values are FADE or SLIDE]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="effectDuration">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Duration of effect in seconds]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="zindex">
@@ -2529,11 +2790,6 @@
                <xs:documentation><![CDATA[Minimum height of resizable dialog.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="style">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Style of the main container of dialog.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="styleClass">
             <xs:annotation>
                <xs:documentation><![CDATA[Style class of the main container of dialog.]]></xs:documentation>
@@ -2549,9 +2805,29 @@
                <xs:documentation><![CDATA[Id(s) of components to update after ajax closeListener is processed and dialog is closed]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="context">
+         <xs:attribute name="showEffect">
             <xs:annotation>
-               <xs:documentation><![CDATA[Arguments for context sensitive positioning.]]></xs:documentation>
+               <xs:documentation><![CDATA[Effect to use when showing the dialog]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="hideEffect">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Effect to use when hiding the dialog]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="position">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines where the dialog should be displayed]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="closeOnEscape">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines if dialog should be closed when escape key is pressed]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="closable">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines if close icon should be displayed or not]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -2580,6 +2856,11 @@
             <xs:annotation>
                <xs:documentation><![CDATA[An EL expression that maps to a server-side component instance
 		in a backing bean]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="model">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="position">
@@ -2650,9 +2931,89 @@
                <xs:documentation><![CDATA[Disabled dropping, just for movement.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="update">
+         <xs:attribute name="for">
             <xs:annotation>
-               <xs:documentation><![CDATA[Client side id of the component(s) to be updated after async partial submit request.]]></xs:documentation>
+               <xs:documentation><![CDATA[Id of the component to add draggable behavior]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="disabled">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Disables or enables dragging]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="axis">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies drag axis, possible values are x and y]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="containment">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Constrains dragging within the boundaries of containment element]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="helper">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Helper element to display when dragging]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="revert">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Reverts draggable to it's original position when not dropped onto a droppable]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="snap">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Draggable will snap to edge of the near elements]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="snapMode">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Draggable will snap to edge of the near elements]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="snapTolerance">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Distance from the snap element in pixels to trigger snap]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="zindex">
+            <xs:annotation>
+               <xs:documentation><![CDATA[zindex to apply during dragging]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="handle">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies a handle for draggable]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="opacity">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines the opacity of helper]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="stack">
+            <xs:annotation>
+               <xs:documentation><![CDATA[In stack mode, draggables overlap is controlled automatically, dragged item always overlays other draggables.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="grid">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Dragging happens in every x and y pixels in a grid.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="scope">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Scope key to match draggables and droppables.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="cursor">
+            <xs:annotation>
+               <xs:documentation><![CDATA[CSS cursor during dragging.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="dashboard">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the dashboard to connect draggable to.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -2688,9 +3049,54 @@
                <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="for">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the component to add droppable behavior]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="disabled">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Disables or enables drop behavior]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="hoverStyleClass">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style class to apply when an acceptable draggable is dragged over.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="activeStyleClass">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style class to apply when an acceptable draggable is dropped.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onDropUpdate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Component(s) to update with ajax after a draggable is dropped]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
          <xs:attribute name="dropListener">
             <xs:annotation>
                <xs:documentation><![CDATA[A server side listener to process a DragDrop event]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onDrop">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript event handler to invoke when a draggable is dropped]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="accept">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines the type of draggables that can be dropped]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="scope">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Scope key to match draggables and droppables.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="tolerance">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies the mode to accept a droppable.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -3018,6 +3424,187 @@
          </xs:attribute>
       </xs:complexType>
    </xs:element>
+   <xs:element name="gmap">
+      <xs:annotation>
+         <xs:documentation><![CDATA[]]></xs:documentation>
+         <xs:documentation>tag-class: org.primefaces.component.gmap.GMapTag</xs:documentation>
+         <xs:documentation>body-content: JSP</xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+         <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any processContents="lax"/>
+         </xs:choice>
+         <xs:attribute name="id">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rendered">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Boolean value to specify the visibility of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="binding">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="widgetVar">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="model">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An org.primefaces.model.map.MapModel instance.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="style">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style of the main container of datagrid.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="styleClass">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style class of the main container of datagrid.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="type" use="required">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Type of the map.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="center" use="required">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Center point of the map.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="zoom" use="required">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines zoom level.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onOverlaySelectUpdate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies component(s) to update after ajax overlay selection.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onOverlaySelectStart">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript callback to execute when ajax request to overlay selection starts.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onOverlaySelectComplete">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript callback to execute when ajax request to overlay selection completes.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="overlaySelectListener">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Server side listener to invoke when an overlay is selected with ajax.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="stateChangeListener">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Server side listener to invoke when map state is changed.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onStateChangeUpdate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies component(s) to update after map state is changed.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="pointSelectListener">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Server side listener to invoke when a point in map is selected.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onPointSelectUpdate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies component(s) to update after when a map point is selected.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="markerDragListener">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Server side listener to invoke when a marker is dragged.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onMarkerDragUpdate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies component(s) to update after when a marker is dragged.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="streetView">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Enables street view support when set to true.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="disableDefaultUI">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Disables default UI controls.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="navigationControl">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines visibility of navigation control.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="mapTypeControl">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines visibility of map type control.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="draggable">
+            <xs:annotation>
+               <xs:documentation><![CDATA[When set to false, map cannot be dragged.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="disableDoubleClickZoom">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Disables zooming on map on double click.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onPointClick">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript callback to execute when a point in map is clicked.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="gmapInfoWindow">
+      <xs:annotation>
+         <xs:documentation><![CDATA[]]></xs:documentation>
+         <xs:documentation>tag-class: org.primefaces.component.gmap.GMapInfoWindowTag</xs:documentation>
+         <xs:documentation>body-content: JSP</xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+         <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any processContents="lax"/>
+         </xs:choice>
+         <xs:attribute name="id">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rendered">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Boolean value to specify the visibility of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="binding">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="maxWidth">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Max width of the info window.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
    <xs:element name="graphicImage">
       <xs:annotation>
          <xs:documentation><![CDATA[]]></xs:documentation>
@@ -3152,6 +3739,11 @@
          <xs:attribute name="onmouseup">
             <xs:annotation>
                <xs:documentation><![CDATA[onmouseup dom event handler]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="cache">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Controls caching behavior of browsers]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -4360,6 +4952,21 @@
                <xs:documentation><![CDATA[Id(s) of components to update after ajax resizelistener is processed and unit is resized]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="onResizeComplete">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Client side callback to invoke after resizeListener is invoked.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onCloseComplete">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Client side callback to invoke after closeListener is invoked.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onToggleComplete">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Client side callback to invoke after toggleListener is invoked.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
       </xs:complexType>
    </xs:element>
    <xs:element name="layoutUnit">
@@ -4801,6 +5408,11 @@
                <xs:documentation><![CDATA[String specifying the target for the button.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="image">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Image of the button.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
          <xs:attribute name="style">
             <xs:annotation>
                <xs:documentation><![CDATA[Style to apply to the button element.]]></xs:documentation>
@@ -4972,6 +5584,11 @@
                <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="model">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
          <xs:attribute name="visible">
             <xs:annotation>
                <xs:documentation><![CDATA[Sets the menu's visibility, true by default]]></xs:documentation>
@@ -5102,6 +5719,11 @@
                <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="model">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
          <xs:attribute name="autoSubmenuDisplay">
             <xs:annotation>
                <xs:documentation><![CDATA[When set to true, submenus are displayed on mouseover of a menuitem.]]></xs:documentation>
@@ -5155,7 +5777,12 @@
                <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="value" use="required">
+         <xs:attribute name="model">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="value">
             <xs:annotation>
                <xs:documentation><![CDATA[Label of the button.]]></xs:documentation>
             </xs:annotation>
@@ -5168,6 +5795,11 @@
          <xs:attribute name="styleClass">
             <xs:annotation>
                <xs:documentation><![CDATA[Style class of the main container of panel.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="disabled">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Disabled or enables the button.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -5217,11 +5849,6 @@
          <xs:attribute name="immediate">
             <xs:annotation>
                <xs:documentation><![CDATA[]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="label">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Label to be displayed]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="url">
@@ -5347,6 +5974,11 @@
                <xs:documentation><![CDATA[Id of the component whose messages to display.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="redisplay">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines if already rendered messages should be rendered.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
       </xs:complexType>
    </xs:element>
    <xs:element name="messages">
@@ -5388,6 +6020,11 @@
          <xs:attribute name="globalOnly">
             <xs:annotation>
                <xs:documentation><![CDATA[When true, only facesmessages with no clientIds are displayed.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="redisplay">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines if already rendered messages should be rendered.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -6274,44 +6911,9 @@
                <xs:documentation><![CDATA[Value of the progressbar.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="minValue">
+         <xs:attribute name="disabled">
             <xs:annotation>
-               <xs:documentation><![CDATA[Minimum value of the bar, defaults to 0.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="maxValue">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Maximum value of the bar, defaults to 100.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="step">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Step factor value to be used when incrementing the value in client side progressbar.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="width">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Width of the bar, defaults to 200px.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="height">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Height of the bar, defaults to 20px.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="direction">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Direction of the progress, can be "ltr", "rtl", "ttb" or "btt".]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="effect">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Type of the easing effect to be used when changing the progress value.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="effectDuration">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Duration of the effect in seconds, defaults to 1.]]></xs:documentation>
+               <xs:documentation><![CDATA[Disables or enables progressbar.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="ajax">
@@ -6334,14 +6936,24 @@
                <xs:documentation><![CDATA[Style class of the main container of progressBar.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="oncompleteUpdate">
+         <xs:attribute name="onCompleteUpdate">
             <xs:annotation>
-               <xs:documentation><![CDATA[Specifies the components to update with ajax after progress is completed.]]></xs:documentation>
+               <xs:documentation><![CDATA[Specifies the component(s) to update with ajax after progress is completed.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="completeListener">
             <xs:annotation>
                <xs:documentation><![CDATA[A server side listener to invoke when progress is completed]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="onCancelUpdate">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies the component(s) to update with ajax after progress is cancelled.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="cancelListener">
+            <xs:annotation>
+               <xs:documentation><![CDATA[A server side listener to invoke when progress is cancelled]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -6770,11 +7382,6 @@
                <xs:documentation><![CDATA[The initial date that is used when schedule loads. If ommitted, the schedule starts on the current date.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="theme">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Enables/disables use of jQuery UI themes.]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="showWeekends">
             <xs:annotation>
                <xs:documentation><![CDATA[Whether to include Saturday/Sunday columns in any of the views.]]></xs:documentation>
@@ -6930,6 +7537,59 @@
          </xs:attribute>
       </xs:complexType>
    </xs:element>
+   <xs:element name="sheet">
+      <xs:annotation>
+         <xs:documentation><![CDATA[]]></xs:documentation>
+         <xs:documentation>tag-class: org.primefaces.component.spreadsheet.SheetTag</xs:documentation>
+         <xs:documentation>body-content: JSP</xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+         <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any processContents="lax"/>
+         </xs:choice>
+         <xs:attribute name="id">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rendered">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Boolean value to specify the visibility of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="binding">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="value">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Value of the component that can be either an EL expression or a literal text]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="var" use="required">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Name of the request-scoped variable that'll be used as the holder of each rowdata before processing a row]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rows">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Number of rows to display per page]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="first">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Index of the first row to be displayed]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="title">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Title text of the sheet]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
    <xs:element name="slider">
       <xs:annotation>
          <xs:documentation><![CDATA[]]></xs:documentation>
@@ -6956,6 +7616,20 @@
 		in a backing bean]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="value">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Value of the component that can be either an EL expression or a
+		literal text]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="converter">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An EL expression or a literal text that defines a converter for
+		the component. When it's an EL expression, it's resolved to a
+		converter instance. In case it's a static text, it must refer to
+		a converter id]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
          <xs:attribute name="widgetVar">
             <xs:annotation>
                <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
@@ -6963,7 +7637,12 @@
          </xs:attribute>
          <xs:attribute name="for">
             <xs:annotation>
-               <xs:documentation><![CDATA[Id of the component that the slider will be used for]]></xs:documentation>
+               <xs:documentation><![CDATA[Id of the component that the slider will be used for.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="display">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the component to display the slider value.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="minValue">
@@ -6976,19 +7655,14 @@
                <xs:documentation><![CDATA[Maximum value of the slider]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="thumbImage">
+         <xs:attribute name="style">
             <xs:annotation>
-               <xs:documentation><![CDATA[Image of the slider thumb]]></xs:documentation>
+               <xs:documentation><![CDATA[Style of the main container of panel.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="tickMarks">
+         <xs:attribute name="styleClass">
             <xs:annotation>
-               <xs:documentation><![CDATA[Fixed pixel increments that the slider will move in]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="size">
-            <xs:annotation>
-               <xs:documentation><![CDATA[size of the background image of slider, this must be changed when the background image is changed]]></xs:documentation>
+               <xs:documentation><![CDATA[Style class of the main container of panel.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="animate">
@@ -6998,7 +7672,17 @@
          </xs:attribute>
          <xs:attribute name="type">
             <xs:annotation>
-               <xs:documentation><![CDATA[horizontal|vertical, Specifies the type of the slider]]></xs:documentation>
+               <xs:documentation><![CDATA[Specifies the type of the slider, valid values are "horizontal" and "vertical".]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="step">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines the amount of each step.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="disabled">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Disables or enables slider.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -7220,6 +7904,84 @@
                <xs:documentation><![CDATA[Stepping factor for each increment and decrement]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="min">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Minimum boundary value]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="max">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Maximum boundary value]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="prefix">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Prefix of the input text]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="suffix">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Suffix of the input text]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="showOn">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines when spinner buttons would be available]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="width">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines the width of the buttons]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="spreadsheet">
+      <xs:annotation>
+         <xs:documentation><![CDATA[]]></xs:documentation>
+         <xs:documentation>tag-class: org.primefaces.component.spreadsheet.SpreadsheetTag</xs:documentation>
+         <xs:documentation>body-content: JSP</xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+         <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any processContents="lax"/>
+         </xs:choice>
+         <xs:attribute name="id">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rendered">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Boolean value to specify the visibility of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="binding">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="widgetVar">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="title">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Title text of the spreadsheet]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="editable">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Defines if display is editable or readonly]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="columnWidth">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Global setting to define common width for each column in pixels]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
       </xs:complexType>
    </xs:element>
    <xs:element name="stack">
@@ -7251,6 +8013,11 @@
          <xs:attribute name="widgetVar">
             <xs:annotation>
                <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="model">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An org.primefaces.model.MenuModel instance to build menu dynamically.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="icon">
@@ -7671,14 +8438,14 @@
                <xs:documentation><![CDATA[Index of the active tab]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="orientation">
+         <xs:attribute name="effect">
             <xs:annotation>
-               <xs:documentation><![CDATA[Defines how the tabs should oriented, valid values are top|bottom|left|right]]></xs:documentation>
+               <xs:documentation><![CDATA[Applies a transition effect during changing the tabs. Valid values are 'opacity', 'height' and 'width'.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="contentTransition">
+         <xs:attribute name="effectDuration">
             <xs:annotation>
-               <xs:documentation><![CDATA[Applies a transition effect during changing the tabs, default value is false]]></xs:documentation>
+               <xs:documentation><![CDATA[Defines the duration of effect]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
          <xs:attribute name="dynamic">
@@ -7690,6 +8457,16 @@
             <xs:annotation>
                <xs:documentation><![CDATA[When tab contents are lazy loaded by ajax toggleMode, caching only retrieves the tab contents once and subsequent toggles of a cached tab
 			does not communicate with server. If caching is turned off, tab contents are refetched from server each time tab is clicked. This setting is true by default.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="collapsible">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An active tab can be collapsed onclick when collapsible option is enabled]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="event">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Event to use when selecting a tab]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -7748,6 +8525,64 @@
          <xs:attribute name="commandHandler">
             <xs:annotation>
                <xs:documentation><![CDATA[Method to be called with arguments to process a command]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="themeSwitcher">
+      <xs:annotation>
+         <xs:documentation><![CDATA[]]></xs:documentation>
+         <xs:documentation>tag-class: org.primefaces.component.themeswitcher.ThemeSwitcherTag</xs:documentation>
+         <xs:documentation>body-content: JSP</xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+         <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any processContents="lax"/>
+         </xs:choice>
+         <xs:attribute name="id">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rendered">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Boolean value to specify the visibility of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="binding">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="theme">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Name of initial theme to load]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="width">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Width of the switcher menu]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="height">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Height of the switcher menu]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="buttonHeight">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Height of switcher button]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="initialText">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Text of switcher button.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="buttonPreText">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Text that precedes the theme name.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -7996,6 +8831,11 @@
                <xs:documentation><![CDATA[Specifies if selection will be propagated down to the children of clicked node.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="selectionMode">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Specifies the selection mode, valid options are "single", "multiple" and "checkbox".]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
       </xs:complexType>
    </xs:element>
    <xs:element name="treeNode">
@@ -8036,6 +8876,79 @@
          </xs:attribute>
       </xs:complexType>
    </xs:element>
+   <xs:element name="treeTable">
+      <xs:annotation>
+         <xs:documentation><![CDATA[]]></xs:documentation>
+         <xs:documentation>tag-class: org.primefaces.component.treetable.TreeTableTag</xs:documentation>
+         <xs:documentation>body-content: JSP</xs:documentation>
+      </xs:annotation>
+      <xs:complexType mixed="true">
+         <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any processContents="lax"/>
+         </xs:choice>
+         <xs:attribute name="id">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Id of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rendered">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Boolean value to specify the visibility of the component]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="binding">
+            <xs:annotation>
+               <xs:documentation><![CDATA[An EL expression that maps to a server-side component instance
+		in a backing bean]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="value">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Value of the component that can be either an EL expression or a literal text]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="var" use="required">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Name of the request-scoped variable that'll be used as the holder of each rowdata before processing a row]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="rows">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Number of rows to display per page]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="first">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Index of the first row to be displayed]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="widgetVar">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Javascript variable name of the wrapped yui widget]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="style">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style of the main container of panel.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="styleClass">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Style class of the main container of panel.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="readOnly">
+            <xs:annotation>
+               <xs:documentation><![CDATA[When readOnly, treeTable is rendered as expanded and expand/collapse is disabled]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="expanded">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Rendered treeTable as expanded by defaul]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
    <xs:element name="watermark">
       <xs:annotation>
          <xs:documentation><![CDATA[]]></xs:documentation>
@@ -8067,9 +8980,14 @@
                <xs:documentation><![CDATA[The text that will be visible as watermark]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="for" use="required">
+         <xs:attribute name="for">
             <xs:annotation>
                <xs:documentation><![CDATA[Id of the component to attach the watermark]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="forElement">
+            <xs:annotation>
+               <xs:documentation><![CDATA[jQuery selector to attach the watermark]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
@@ -8110,11 +9028,6 @@
                <xs:documentation><![CDATA[Id of the current step in flow]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="effect" use="required">
-            <xs:annotation>
-               <xs:documentation><![CDATA[Effect to be used for switching, "fade", "slide" or "both".]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
          <xs:attribute name="style">
             <xs:annotation>
                <xs:documentation><![CDATA[Style of the main wizard container]]></xs:documentation>
@@ -8143,6 +9056,26 @@
          <xs:attribute name="onnext">
             <xs:annotation>
                <xs:documentation><![CDATA[Javascript event handler to be invoked when flow goes next.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="nextLabel">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Label of the next step navigation button.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="backLabel">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Label of the back step navigation button.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="effect">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Enabled fade effect during pagination.]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="effectSpeed">
+            <xs:annotation>
+               <xs:documentation><![CDATA[Speed of the fade effect during pagination.]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
       </xs:complexType>
