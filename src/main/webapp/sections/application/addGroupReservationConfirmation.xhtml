@@ -21,7 +21,7 @@
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}</th>
 						<td class="applicationFormTableData">
 							<h:outputText value="#{addGroupReservationController.savedGroupReservation.arrival}">
-								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}"/>
+								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
 							</h:outputText>
 						</td>
 					</tr>
@@ -29,7 +29,7 @@
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationDepartureLabel}</th>
 						<td class="applicationFormTableData">
 							<h:outputText value="#{addGroupReservationController.savedGroupReservation.departure}">
-								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}"/>
+								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
 							</h:outputText>
 						</td>
 					</tr>					
