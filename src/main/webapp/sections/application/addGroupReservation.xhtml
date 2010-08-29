@@ -25,7 +25,7 @@
 			<div class="applicationFormItem">		
 				<h:outputLabel for="accountant" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationAccountantLabel}" /><br />
 				<h:selectOneMenu id="accountant" styleClass="applicationFormInput" value="#{addGroupReservationController.selectedAccountantId}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationGroupReservationAccountantError}">
-					<f:selectItems value="#{addGroupReservationController.availableAccountants}" var="accountant" itemLabel="#{accountant.username} (#{accountant.firstName} #{accountant.lastName})" itemValue="#{accountant.userId}"/>
+					<f:selectItems value="#{addGroupReservationController.availableAccountants}" var="accountant" itemLabel="#{accountant.username} (#{accountant.emailAddress})" itemValue="#{accountant.userId}"/>
 				</h:selectOneMenu>
 				<p:message for="accountant" />
 			</div>
