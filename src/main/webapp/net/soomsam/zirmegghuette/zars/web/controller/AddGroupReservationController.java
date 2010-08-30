@@ -5,7 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Min;
@@ -18,9 +22,11 @@ import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.DateMidnight;
+import org.primefaces.component.calendar.Calendar;
 import org.springframework.context.annotation.Scope;
 
 import com.sun.faces.util.MessageFactory;
@@ -30,19 +36,25 @@ import com.sun.faces.util.MessageFactory;
 public class AddGroupReservationController implements Serializable {
 	private final static Logger logger = Logger.getLogger(AddGroupReservationController.class);
 
+	private final static String ARRIVALCALENDAR_RESERVATIONCOMPONENT_IDPREFIX = "arrival";
+	private final static String DEPARTURECALENDAR_RESERVATIONCOMPONENT_IDPREFIX = "depature";
+	private final static String FIRSTNAMEINPUTTEXT_RESERVATIONCOMPONENT_IDPREFIX = "firstName";
+	private final static String LASTNAMEINPUTTEXT_RESERVATIONCOMPONENT_IDPREFIX = "lastName";
+
+	@Inject
+	private transient LocaleController localController;
+
 	@Inject
 	private transient UserService userService;
 
 	@Inject
 	private transient GroupReservationService groupReservationService;
-	
+
 	@Inject
 	private transient LocaleController localeController;
 
-	@NotNull(message = "{sectionsApplicationGroupReservationArrivalError}")
 	private Date arrival;
 
-	@NotNull(message = "{sectionsApplicationGroupReservationDepartureError}")
 	private Date departure;
 
 	@Min(value = 1, message = "{sectionsApplicationGroupReservationGuestsError}")
@@ -54,7 +66,22 @@ public class AddGroupReservationController implements Serializable {
 	@Length(min = 0, max = 512, message = "{sectionsApplicationGroupReservationCommentError}")
 	private String comment;
 
+	private Calendar arrivalCalendar;
+
+	private Calendar departureCalendar;
+
+	private HtmlInputText guestsInputText;
+
+	private HtmlPanelGrid reservationPanelGrid;
+
 	private GroupReservationBean savedGroupReservation;
+
+	public AddGroupReservationController() {
+		if (!FacesContext.getCurrentInstance().isPostback()) {
+			setDefaultArrivalDate();
+			setDefaultDepartureDate();
+		}
+	}
 
 	public Date getArrival() {
 		return arrival;
@@ -101,20 +128,218 @@ public class AddGroupReservationController implements Serializable {
 	}
 
 	public void setComment(String comment) {
-		// TODO verify HTML code escaping
 		this.comment = comment;
 	}
 
+	public HtmlPanelGrid getReservationPanelGrid() {
+		return reservationPanelGrid;
+	}
+
+	public void setReservationPanelGrid(HtmlPanelGrid reservationPanelGrid) {
+		this.reservationPanelGrid = reservationPanelGrid;
+	}
+
+	public Calendar getArrivalCalendar() {
+		return arrivalCalendar;
+	}
+
+	public void setArrivalCalendar(Calendar arrivalCalendar) {
+		this.arrivalCalendar = arrivalCalendar;
+	}
+
+	public Calendar getDepartureCalendar() {
+		return departureCalendar;
+	}
+
+	public void setDepartureCalendar(Calendar departureCalendar) {
+		this.departureCalendar = departureCalendar;
+	}
+
+	public HtmlInputText getGuestsInputText() {
+		return guestsInputText;
+	}
+
+	public void setGuestsInputText(HtmlInputText guestsInputText) {
+		this.guestsInputText = guestsInputText;
+	}
+
+	public void addReservation(final ActionEvent addReservationCommandLinkActionEvent) {
+		addReservationComponents();
+
+		arrivalCalendar.setDisabled(true);
+		arrivalCalendar.resetValue();
+
+		departureCalendar.setDisabled(true);
+		departureCalendar.resetValue();
+
+		guestsInputText.setDisabled(true);
+		guestsInputText.setValue(determineReservationCount());
+		guestsInputText.setSubmittedValue(determineReservationCount());
+		guestsInputText.setLocalValueSet(false);
+		guestsInputText.setValid(true);
+	}
+
+	public void removeReservation(final ActionEvent commandLinkActionEvent) {
+		if (0 != determineReservationCount()) {
+			for (int i = 0; i < reservationPanelGrid.getColumns(); ++i) {
+				reservationPanelGrid.getChildren().remove(reservationPanelGrid.getChildCount() - 1);
+			}
+
+			guestsInputText.setValue(determineReservationCount());
+			guestsInputText.setSubmittedValue(determineReservationCount());
+			guestsInputText.setLocalValueSet(false);
+			guestsInputText.setValid(true);
+		}
+
+		if (0 == determineReservationCount()) {
+			setDefaultArrivalDate();
+			arrivalCalendar.setDisabled(false);
+			arrivalCalendar.resetValue();
+
+			setDefaultDepartureDate();
+			departureCalendar.setDisabled(false);
+			departureCalendar.resetValue();
+
+			guestsInputText.setDisabled(false);
+			guestsInputText.resetValue();
+		}
+	}
+
+	protected void addReservationComponents() {
+		int reservationPanelRow = determineReservationCount() + 1;
+		addArrivalCalendarReservationComponent(reservationPanelRow);
+		addDepartureCalendarReservationComponent(reservationPanelRow);
+		addFirstNameInputTextReservationComponent(reservationPanelRow);
+		addLastNameInputTextReservationComponent(reservationPanelRow);
+	}
+
+	protected void addArrivalCalendarReservationComponent(final int reservationPanelRow) {
+		Calendar templateArrivalCalendar = determineCalendarReservationComponent(determineReservationComponentId(ARRIVALCALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow - 1));
+		if (null == templateArrivalCalendar) {
+			templateArrivalCalendar = arrivalCalendar;
+		}
+
+		String arrivalCalendarReservationComponentId = determineReservationComponentId(ARRIVALCALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow);
+		Calendar arrivalCalendarReservationComponent = createCalendarReservationComponent(arrivalCalendarReservationComponentId, templateArrivalCalendar);
+		reservationPanelGrid.getChildren().add(arrivalCalendarReservationComponent);
+	}
+
+	protected void addDepartureCalendarReservationComponent(final int reservationPanelRow) {
+		Calendar templateDepartureCalendar = determineCalendarReservationComponent(determineReservationComponentId(DEPARTURECALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow - 1));
+		if (null == templateDepartureCalendar) {
+			templateDepartureCalendar = departureCalendar;
+		}
+
+		String departureCalendarReservationComponentId = determineReservationComponentId(DEPARTURECALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow);
+		Calendar departureCalendarReservationComponent = createCalendarReservationComponent(departureCalendarReservationComponentId, templateDepartureCalendar);
+		reservationPanelGrid.getChildren().add(departureCalendarReservationComponent);
+	}
+
+	protected void addFirstNameInputTextReservationComponent(final int reservationPanelRow) {
+		String firstNameInputTextReservationComponentId = determineReservationComponentId(FIRSTNAMEINPUTTEXT_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow);
+		HtmlInputText firstNameInputTextReservationComponent = createInputTextReservationComponent();
+		firstNameInputTextReservationComponent.setId(firstNameInputTextReservationComponentId);
+		// TODO final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId,
+		// FacesMessage.SEVERITY_ERROR, null);
+		firstNameInputTextReservationComponent.setRequiredMessage("first name [" + reservationPanelRow + "]");
+		firstNameInputTextReservationComponent.setValidatorMessage("first name [" + reservationPanelRow + "]");
+		reservationPanelGrid.getChildren().add(firstNameInputTextReservationComponent);
+	}
+
+	protected void addLastNameInputTextReservationComponent(final int reservationPanelRow) {
+		String lastNameInputTextReservationComponentId = determineReservationComponentId(LASTNAMEINPUTTEXT_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow);
+		HtmlInputText lastNameInputTextReservationComponent = createInputTextReservationComponent();
+		lastNameInputTextReservationComponent.setId(lastNameInputTextReservationComponentId);
+		// TODO
+		lastNameInputTextReservationComponent.setRequiredMessage("last name [" + reservationPanelRow + "]");
+		lastNameInputTextReservationComponent.setValidatorMessage("last name [" + reservationPanelRow + "]");
+		reservationPanelGrid.getChildren().add(lastNameInputTextReservationComponent);
+	}
+
+	protected Calendar createCalendarReservationComponent(String calendarReservationComponentId, Calendar templateCalendar) {
+		Calendar calendarReservationComponent = new Calendar();
+		calendarReservationComponent.setId(calendarReservationComponentId);
+		calendarReservationComponent.setMode("popup");
+		calendarReservationComponent.setShowOn("button");
+		calendarReservationComponent.setPopupIconOnly(true);
+		calendarReservationComponent.setReadOnlyInputText(true);
+		calendarReservationComponent.setLocale(localController.getActiveLocale());
+		calendarReservationComponent.setPattern(localeController.getActiveDateFormatPattern());
+		calendarReservationComponent.setRequired(true);
+		calendarReservationComponent.setInputStyleClass("applicationFormInput");
+
+		String templateCalendarSubmittedValue = (String) templateCalendar.getSubmittedValue();
+		if (!StringUtils.isEmpty(templateCalendarSubmittedValue)) {
+			calendarReservationComponent.setValue(templateCalendar.getValue());
+			calendarReservationComponent.setSubmittedValue(templateCalendar.getSubmittedValue());
+			calendarReservationComponent.setLocalValueSet(templateCalendar.isLocalValueSet());
+			calendarReservationComponent.setValid(templateCalendar.isValid());
+		}
+
+		return calendarReservationComponent;
+	}
+
+	protected HtmlInputText createInputTextReservationComponent() {
+		HtmlInputText inputTextReservationComponent = new HtmlInputText();
+		inputTextReservationComponent.setStyleClass("applicationFormInput");
+		inputTextReservationComponent.setRequired(true);
+		return inputTextReservationComponent;
+	}
+
+	protected int determineReservationCount() {
+		if (0 != (reservationPanelGrid.getChildCount() % reservationPanelGrid.getColumns())) {
+			throw new IllegalStateException("invalid number of components in panel grid [" + reservationPanelGrid.getId() + "]");
+		}
+
+		int reservationComponentCount = reservationPanelGrid.getChildCount() - reservationPanelGrid.getColumns();
+		return reservationComponentCount / reservationPanelGrid.getColumns();
+	}
+
+	protected String determineReservationComponentId(String reservationComponentIdPrefix, int reservationPanelRow) {
+		return reservationComponentIdPrefix + reservationPanelRow;
+	}
+
+	protected Calendar determineCalendarReservationComponent(String calendarReservationComponentId) {
+		List<UIComponent> reservationComponentList = reservationPanelGrid.getChildren();
+		for (UIComponent reservationComponent : reservationComponentList) {
+			if (reservationComponent instanceof Calendar) {
+				Calendar calendarReservationComponent = (Calendar) reservationComponent;
+				if (calendarReservationComponentId.equals(calendarReservationComponent.getId())) {
+					return calendarReservationComponent;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	protected void setDefaultArrivalDate() {
+		arrival = new DateMidnight().toDate();
+	}
+
+	protected void setDefaultDepartureDate() {
+		departure = new DateMidnight().plusDays(1).toDate();
+	}
+
 	public String create() {
-		if (!validDateRange()) {
+		if (0 == determineReservationCount()) {
+			return createGroupReservation();
+		}
+
+		return createGroupReservationWithIndividualReservations();
+	}
+
+	protected String createGroupReservation() {
+		if (!validArrivalDepartureDateRange(arrival, departure)) {
 			final FacesMessage arrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationArrivalDepartureError", FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, arrivalDepatureFacesMessage);
 			return null;
 		}
-		
+
 		logger.debug("creating group reservation [" + arrival + "]-[" + departure + "] for [" + guests + "] guests");
 		try {
-			savedGroupReservation = groupReservationService.createGroupReservation(selectedAccountantId /*TODO actual beneficiary is current user*/, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
+			// TODO selectAccountantId: actual beneficiary is current user
+			savedGroupReservation = groupReservationService.createGroupReservation(selectedAccountantId, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
 			return "addGroupReservationConfirmation";
 		} catch (final GroupReservationConflictException groupReservationConflictException) {
 			List<GroupReservationBean> conflictingGroupReservationList = groupReservationConflictException.getConflictingGroupReservations();
@@ -124,11 +349,17 @@ public class AddGroupReservationController implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
 			}
 		}
-		
+
 		return null;
 	}
 
-	protected boolean validDateRange() {
+	protected String createGroupReservationWithIndividualReservations() {
+		// TODO validate all date ranges
+		// TODO call separate groupReservationService.createGroupReservation method
+		return null;
+	}
+
+	protected boolean validArrivalDepartureDateRange(Date arrival, Date departure) {
 		DateMidnight arrivalDateMidnight = new DateMidnight(arrival);
 		DateMidnight departureDateMidnight = new DateMidnight(departure);
 		return departureDateMidnight.isAfter(arrivalDateMidnight);
