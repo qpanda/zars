@@ -76,11 +76,23 @@ public class LocaleController implements Serializable {
 		return LocaleUtils.determineCurrentLocale();
 	}
 	
+	public SimpleDateFormat getActiveDateFormat() {
+		// TODO we should pre-create SimpleDataFormat objects
+		return (SimpleDateFormat) SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getActiveLocale());
+	}
+	
 	public String getActiveDateFormatPattern() {
+		// TODO we should pre-create patterns
 		return ((SimpleDateFormat)SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getActiveLocale())).toPattern();
 	}
 	
+	public SimpleDateFormat getActiveDateTimeFormat() {
+		// TODO we should pre-create SimpleDataFormat objects
+		return (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, getActiveLocale());
+	}
+	
 	public String getActiveDateTimeFormatPattern() {
+		// TODO we should pre-create patterns
 		return ((SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, getActiveLocale())).toPattern();
 	}
 

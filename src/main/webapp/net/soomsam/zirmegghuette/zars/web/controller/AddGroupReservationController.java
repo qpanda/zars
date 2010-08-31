@@ -214,7 +214,7 @@ public class AddGroupReservationController implements Serializable {
 	}
 
 	protected void addArrivalCalendarReservationComponent(final int reservationPanelRow) {
-		Calendar templateArrivalCalendar = determineCalendarReservationComponent(determineReservationComponentId(ARRIVALCALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow - 1));
+		Calendar templateArrivalCalendar = (Calendar)determineReservationComponent(determineReservationComponentId(ARRIVALCALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow - 1));
 		if (null == templateArrivalCalendar) {
 			templateArrivalCalendar = arrivalCalendar;
 		}
@@ -225,7 +225,7 @@ public class AddGroupReservationController implements Serializable {
 	}
 
 	protected void addDepartureCalendarReservationComponent(final int reservationPanelRow) {
-		Calendar templateDepartureCalendar = determineCalendarReservationComponent(determineReservationComponentId(DEPARTURECALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow - 1));
+		Calendar templateDepartureCalendar = (Calendar)determineReservationComponent(determineReservationComponentId(DEPARTURECALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow - 1));
 		if (null == templateDepartureCalendar) {
 			templateDepartureCalendar = departureCalendar;
 		}
@@ -299,14 +299,11 @@ public class AddGroupReservationController implements Serializable {
 		return reservationComponentIdPrefix + reservationPanelRow;
 	}
 
-	protected Calendar determineCalendarReservationComponent(String calendarReservationComponentId) {
+	protected UIComponent determineReservationComponent(String reservationComponentId) {
 		List<UIComponent> reservationComponentList = reservationPanelGrid.getChildren();
 		for (UIComponent reservationComponent : reservationComponentList) {
-			if (reservationComponent instanceof Calendar) {
-				Calendar calendarReservationComponent = (Calendar) reservationComponent;
-				if (calendarReservationComponentId.equals(calendarReservationComponent.getId())) {
-					return calendarReservationComponent;
-				}
+			if (reservationComponentId.equals(reservationComponent.getId())) {
+				return reservationComponent;
 			}
 		}
 
@@ -331,7 +328,9 @@ public class AddGroupReservationController implements Serializable {
 
 	protected String createGroupReservation() {
 		if (!validArrivalDepartureDateRange(arrival, departure)) {
-			final FacesMessage arrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationArrivalDepartureError", FacesMessage.SEVERITY_ERROR, null);
+			String arrivalValue = localeController.getActiveDateFormat().format(arrival);
+			String departureValue = localController.getActiveDateFormat().format(departure);
+			final FacesMessage arrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationArrivalDepartureError", FacesMessage.SEVERITY_ERROR, arrivalValue, departureValue);
 			FacesContext.getCurrentInstance().addMessage(null, arrivalDepatureFacesMessage);
 			return null;
 		}
@@ -344,8 +343,9 @@ public class AddGroupReservationController implements Serializable {
 		} catch (final GroupReservationConflictException groupReservationConflictException) {
 			List<GroupReservationBean> conflictingGroupReservationList = groupReservationConflictException.getConflictingGroupReservations();
 			for (GroupReservationBean conflictingGroupReservation : conflictingGroupReservationList) {
-				// TODO i18n of dates!
-				final FacesMessage groupReservationConflictFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationConflictError", FacesMessage.SEVERITY_ERROR, conflictingGroupReservation.getGroupReservationId(), conflictingGroupReservation.getArrival(), conflictingGroupReservation.getDeparture(), conflictingGroupReservation.getBeneficiary().getUsername());
+				String arrivalValue = localeController.getActiveDateFormat().format(conflictingGroupReservation.getArrival());
+				String departureValue = localController.getActiveDateFormat().format(conflictingGroupReservation.getDeparture());
+				final FacesMessage groupReservationConflictFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationConflictError", FacesMessage.SEVERITY_ERROR, conflictingGroupReservation.getGroupReservationId(), arrivalValue, departureValue, conflictingGroupReservation.getBeneficiary().getUsername());
 				FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
 			}
 		}
@@ -354,7 +354,25 @@ public class AddGroupReservationController implements Serializable {
 	}
 
 	protected String createGroupReservationWithIndividualReservations() {
-		// TODO validate all date ranges
+		for (int i = 1; i <= determineReservationCount(); ++i) {
+			String arrivalCalendarReservationComponentId = determineReservationComponentId(ARRIVALCALENDAR_RESERVATIONCOMPONENT_IDPREFIX, i);
+			Calendar arrivalCalendarReservationComponent = (Calendar) determineReservationComponent(arrivalCalendarReservationComponentId);
+			Date individualReservationArrival = (Date) arrivalCalendarReservationComponent.getValue();
+			String departureCalendarReservationComponentId = determineReservationComponentId(DEPARTURECALENDAR_RESERVATIONCOMPONENT_IDPREFIX, i);
+			Calendar departureCalendarReservationComponent = (Calendar) determineReservationComponent(departureCalendarReservationComponentId);
+			Date individualReservationDeparture = (Date) departureCalendarReservationComponent.getValue();
+			
+			if (!validArrivalDepartureDateRange(individualReservationArrival, individualReservationDeparture)) {
+				String individualReservationArrivalValue = localeController.getActiveDateFormat().format(individualReservationArrival);
+				String individualReservationDepartureValue = localController.getActiveDateFormat().format(individualReservationDeparture);
+				final FacesMessage arrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationIndividualArrivalDepartureError", FacesMessage.SEVERITY_ERROR, individualReservationArrivalValue, individualReservationDepartureValue, i);
+				FacesContext.getCurrentInstance().addMessage(null, arrivalDepatureFacesMessage);
+				return null;
+			}
+		}
+		
+		logger.debug("creating group reservation with [" + determineReservationCount() + "] individual reservations");
+
 		// TODO call separate groupReservationService.createGroupReservation method
 		return null;
 	}
