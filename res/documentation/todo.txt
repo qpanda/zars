@@ -1,20 +1,23 @@
-o beneficiary dropdown
-o research dynamic set of values (setSubmittedValue, ...) and complete addGroupReservation
-o use all setters in actionlistener to set arrival/dapature/guests accordingly when individual reservations are used: http://download.oracle.com/javaee/5/api/javax/faces/component/UIInput.html#resetValue%28%29
-o security to determine current user
-
-* EL expression in f:view should also default to request context if localeController.activeLocale is null
-* business logic
-	* check that user assigned to GroupReservation has role accountant
-	* mark Invoice and Report invalid if associated GroupReservation is changed
-* generic exception page
-	* http://www.laliluna.de/articles/jsf-2-evaluation-test.html 
+MUST-HAVE
+	o beneficiary dropdown on group reservation
+	o security
+		o to determine current user
+		o to determine permissions (actions, views) of current user
+	o edit group reservation
+	o delete group reservation
+	o generic exception page
+	  http://www.laliluna.de/articles/jsf-2-evaluation-test.html
 	  http://santhoshjohn78.blogspot.com/2009/02/catch-all-exception-page-for-jsf-web.html
-* security (prevent users with insufficient rights to navigate to some pages)
-* user settings for locale, timezone, and first days of week
+	  
+SHOULD-HAVE
+	o EL expression in f:view should also default to request context if localeController.activeLocale is null
+	o check that user assigned to GroupReservation has role accountant
+	o mark Invoice and Report invalid if associated GroupReservation is changed
 
 NICE-TO-HAVE
 	o consolidate Reservation.firstName and Reservation.lastName into a single field Reservation.guestName
 	o provide autocomplete for Reservation.guestName
-	o review all forms to check length of input strings 
-	o move ServiceBeanMapper to package net.soomsam.zirmegghuette.zars.service.bean and declare all constructors package private
+	o review all forms to check length of input strings
+	o user settings for locale, timezone, and first days of week
+	o allow user to change password
+	o recalculate group reservations based on room inuse
