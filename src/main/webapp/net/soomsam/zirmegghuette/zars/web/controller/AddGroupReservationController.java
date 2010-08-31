@@ -87,7 +87,7 @@ public class AddGroupReservationController implements Serializable {
 		return arrival;
 	}
 
-	public void setArrival(Date arrival) {
+	public void setArrival(final Date arrival) {
 		this.arrival = arrival;
 	}
 
@@ -95,7 +95,7 @@ public class AddGroupReservationController implements Serializable {
 		return departure;
 	}
 
-	public void setDeparture(Date departure) {
+	public void setDeparture(final Date departure) {
 		this.departure = departure;
 	}
 
@@ -103,7 +103,7 @@ public class AddGroupReservationController implements Serializable {
 		return guests;
 	}
 
-	public void setGuests(Long guests) {
+	public void setGuests(final Long guests) {
 		this.guests = guests;
 	}
 
@@ -119,7 +119,7 @@ public class AddGroupReservationController implements Serializable {
 		return selectedAccountantId;
 	}
 
-	public void setSelectedAccountantId(Long selectedAccountantId) {
+	public void setSelectedAccountantId(final Long selectedAccountantId) {
 		this.selectedAccountantId = selectedAccountantId;
 	}
 
@@ -127,7 +127,7 @@ public class AddGroupReservationController implements Serializable {
 		return comment;
 	}
 
-	public void setComment(String comment) {
+	public void setComment(final String comment) {
 		this.comment = comment;
 	}
 
@@ -135,7 +135,7 @@ public class AddGroupReservationController implements Serializable {
 		return reservationPanelGrid;
 	}
 
-	public void setReservationPanelGrid(HtmlPanelGrid reservationPanelGrid) {
+	public void setReservationPanelGrid(final HtmlPanelGrid reservationPanelGrid) {
 		this.reservationPanelGrid = reservationPanelGrid;
 	}
 
@@ -143,7 +143,7 @@ public class AddGroupReservationController implements Serializable {
 		return arrivalCalendar;
 	}
 
-	public void setArrivalCalendar(Calendar arrivalCalendar) {
+	public void setArrivalCalendar(final Calendar arrivalCalendar) {
 		this.arrivalCalendar = arrivalCalendar;
 	}
 
@@ -151,7 +151,7 @@ public class AddGroupReservationController implements Serializable {
 		return departureCalendar;
 	}
 
-	public void setDepartureCalendar(Calendar departureCalendar) {
+	public void setDepartureCalendar(final Calendar departureCalendar) {
 		this.departureCalendar = departureCalendar;
 	}
 
@@ -159,7 +159,7 @@ public class AddGroupReservationController implements Serializable {
 		return guestsInputText;
 	}
 
-	public void setGuestsInputText(HtmlInputText guestsInputText) {
+	public void setGuestsInputText(final HtmlInputText guestsInputText) {
 		this.guestsInputText = guestsInputText;
 	}
 
@@ -214,7 +214,7 @@ public class AddGroupReservationController implements Serializable {
 	}
 
 	protected void addArrivalCalendarReservationComponent(final int reservationPanelRow) {
-		Calendar templateArrivalCalendar = (Calendar)determineReservationComponent(determineReservationComponentId(ARRIVALCALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow - 1));
+		Calendar templateArrivalCalendar = (Calendar) determineReservationComponent(determineReservationComponentId(ARRIVALCALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow - 1));
 		if (null == templateArrivalCalendar) {
 			templateArrivalCalendar = arrivalCalendar;
 		}
@@ -225,7 +225,7 @@ public class AddGroupReservationController implements Serializable {
 	}
 
 	protected void addDepartureCalendarReservationComponent(final int reservationPanelRow) {
-		Calendar templateDepartureCalendar = (Calendar)determineReservationComponent(determineReservationComponentId(DEPARTURECALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow - 1));
+		Calendar templateDepartureCalendar = (Calendar) determineReservationComponent(determineReservationComponentId(DEPARTURECALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow - 1));
 		if (null == templateDepartureCalendar) {
 			templateDepartureCalendar = departureCalendar;
 		}
@@ -239,10 +239,7 @@ public class AddGroupReservationController implements Serializable {
 		String firstNameInputTextReservationComponentId = determineReservationComponentId(FIRSTNAMEINPUTTEXT_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow);
 		HtmlInputText firstNameInputTextReservationComponent = createInputTextReservationComponent();
 		firstNameInputTextReservationComponent.setId(firstNameInputTextReservationComponentId);
-		// TODO final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId,
-		// FacesMessage.SEVERITY_ERROR, null);
-		firstNameInputTextReservationComponent.setRequiredMessage("first name [" + reservationPanelRow + "]");
-		firstNameInputTextReservationComponent.setValidatorMessage("first name [" + reservationPanelRow + "]");
+		firstNameInputTextReservationComponent.setRequiredMessage(MessageFactory.getMessage("sectionsApplicationGroupReservationIndividualGuestNameError", reservationPanelRow).getDetail());
 		reservationPanelGrid.getChildren().add(firstNameInputTextReservationComponent);
 	}
 
@@ -250,13 +247,11 @@ public class AddGroupReservationController implements Serializable {
 		String lastNameInputTextReservationComponentId = determineReservationComponentId(LASTNAMEINPUTTEXT_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow);
 		HtmlInputText lastNameInputTextReservationComponent = createInputTextReservationComponent();
 		lastNameInputTextReservationComponent.setId(lastNameInputTextReservationComponentId);
-		// TODO
-		lastNameInputTextReservationComponent.setRequiredMessage("last name [" + reservationPanelRow + "]");
-		lastNameInputTextReservationComponent.setValidatorMessage("last name [" + reservationPanelRow + "]");
+		lastNameInputTextReservationComponent.setRequiredMessage(MessageFactory.getMessage("sectionsApplicationGroupReservationIndividualGuestNameError", reservationPanelRow).getDetail());
 		reservationPanelGrid.getChildren().add(lastNameInputTextReservationComponent);
 	}
 
-	protected Calendar createCalendarReservationComponent(String calendarReservationComponentId, Calendar templateCalendar) {
+	protected Calendar createCalendarReservationComponent(final String calendarReservationComponentId, final Calendar templateCalendar) {
 		Calendar calendarReservationComponent = new Calendar();
 		calendarReservationComponent.setId(calendarReservationComponentId);
 		calendarReservationComponent.setMode("popup");
@@ -295,11 +290,11 @@ public class AddGroupReservationController implements Serializable {
 		return reservationComponentCount / reservationPanelGrid.getColumns();
 	}
 
-	protected String determineReservationComponentId(String reservationComponentIdPrefix, int reservationPanelRow) {
+	protected String determineReservationComponentId(final String reservationComponentIdPrefix, final int reservationPanelRow) {
 		return reservationComponentIdPrefix + reservationPanelRow;
 	}
 
-	protected UIComponent determineReservationComponent(String reservationComponentId) {
+	protected UIComponent determineReservationComponent(final String reservationComponentId) {
 		List<UIComponent> reservationComponentList = reservationPanelGrid.getChildren();
 		for (UIComponent reservationComponent : reservationComponentList) {
 			if (reservationComponentId.equals(reservationComponent.getId())) {
@@ -361,23 +356,23 @@ public class AddGroupReservationController implements Serializable {
 			String departureCalendarReservationComponentId = determineReservationComponentId(DEPARTURECALENDAR_RESERVATIONCOMPONENT_IDPREFIX, i);
 			Calendar departureCalendarReservationComponent = (Calendar) determineReservationComponent(departureCalendarReservationComponentId);
 			Date individualReservationDeparture = (Date) departureCalendarReservationComponent.getValue();
-			
+
 			if (!validArrivalDepartureDateRange(individualReservationArrival, individualReservationDeparture)) {
 				String individualReservationArrivalValue = localeController.getActiveDateFormat().format(individualReservationArrival);
 				String individualReservationDepartureValue = localController.getActiveDateFormat().format(individualReservationDeparture);
-				final FacesMessage arrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationIndividualArrivalDepartureError", FacesMessage.SEVERITY_ERROR, individualReservationArrivalValue, individualReservationDepartureValue, i);
-				FacesContext.getCurrentInstance().addMessage(null, arrivalDepatureFacesMessage);
+				final FacesMessage individualArrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationIndividualArrivalDepartureError", FacesMessage.SEVERITY_ERROR, individualReservationArrivalValue, individualReservationDepartureValue, i);
+				FacesContext.getCurrentInstance().addMessage(null, individualArrivalDepatureFacesMessage);
 				return null;
 			}
 		}
-		
+
 		logger.debug("creating group reservation with [" + determineReservationCount() + "] individual reservations");
 
 		// TODO call separate groupReservationService.createGroupReservation method
 		return null;
 	}
 
-	protected boolean validArrivalDepartureDateRange(Date arrival, Date departure) {
+	protected boolean validArrivalDepartureDateRange(final Date arrival, final Date departure) {
 		DateMidnight arrivalDateMidnight = new DateMidnight(arrival);
 		DateMidnight departureDateMidnight = new DateMidnight(departure);
 		return departureDateMidnight.isAfter(arrivalDateMidnight);

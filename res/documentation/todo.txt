@@ -12,3 +12,9 @@ o security to determine current user
 	  http://santhoshjohn78.blogspot.com/2009/02/catch-all-exception-page-for-jsf-web.html
 * security (prevent users with insufficient rights to navigate to some pages)
 * user settings for locale, timezone, and first days of week
+
+NICE-TO-HAVE
+	o consolidate Reservation.firstName and Reservation.lastName into a single field Reservation.guestName
+	o provide autocomplete for Reservation.guestName
+	o review all forms to check length of input strings 
+	o move ServiceBeanMapper to package net.soomsam.zirmegghuette.zars.service.bean and declare all constructors package private
