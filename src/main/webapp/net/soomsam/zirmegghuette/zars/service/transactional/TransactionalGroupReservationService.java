@@ -88,6 +88,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		groupReservationDao.persist(groupReservation);
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
 
+		// TODO assert no gaps (implementation should be on GroupReservation entity or here?)
 		// TODO required capacity fulfilled???
 	}
 

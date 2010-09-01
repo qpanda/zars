@@ -130,8 +130,6 @@ public class GroupReservationServiceTest {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
-		DateMidnight arrival = new DateMidnight();
-		DateMidnight departure = arrival.plusDays(3);
 
 		DateMidnight arrival00 = new DateMidnight();
 		DateMidnight arrival01 = arrival00.plusDays(1);
