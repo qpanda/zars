@@ -23,3 +23,4 @@ NICE-TO-HAVE
 	o user settings for locale, timezone, and first days of week
 	o allow user to change password
 	o recalculate group reservations based on room inuse
+	o deleete button next to individual reservations to delete particular/specific one
