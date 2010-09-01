@@ -14,7 +14,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.utils.ServiceBeanMapper;
-import net.soomsam.zirmegghuette.zars.service.vo.ReservationDto;
+import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;
@@ -70,7 +70,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	@Transactional(rollbackFor = GroupReservationConflictException.class)
-	public GroupReservationBean createGroupReservation(final long beneficiaryId, final long accountantId, final Set<ReservationDto> reservationDtoSet, final String comment) throws GroupReservationConflictException {
+	public GroupReservationBean createGroupReservation(final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException {
 		return null;
 	}
 

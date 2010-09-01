@@ -7,13 +7,13 @@ import org.hibernate.annotations.Immutable;
 import org.joda.time.DateMidnight;
 
 @Immutable
-public class ReservationDto extends BaseDto {
+public class ReservationVo extends BaseVo {
 	private final DateMidnight arrival;
 	private final DateMidnight departure;
 	private final String firstName;
 	private final String lastName;
 
-	public ReservationDto(final DateMidnight arrival, final DateMidnight departure, final String firstName, final String lastName) {
+	public ReservationVo(final DateMidnight arrival, final DateMidnight departure, final String firstName, final String lastName) {
 		this.arrival = arrival;
 		this.departure = departure;
 		this.firstName = firstName;
