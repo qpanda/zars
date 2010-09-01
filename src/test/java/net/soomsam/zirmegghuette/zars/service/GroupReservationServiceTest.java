@@ -58,6 +58,7 @@ public class GroupReservationServiceTest {
 		Assert.assertEquals(guests, createdGroupReservation.getGuests());
 		Assert.assertEquals(comment, createdGroupReservation.getComment());
 		Assert.assertFalse(createdGroupReservation.getRooms().isEmpty());
+		Assert.assertTrue(createdGroupReservation.getReservations().isEmpty());
 	}
 
 	@Test(expected = GroupReservationConflictException.class)
@@ -118,6 +119,7 @@ public class GroupReservationServiceTest {
 		Assert.assertEquals(reservationVoSet.size(), createdGroupReservation.getGuests());
 		Assert.assertEquals(comment, createdGroupReservation.getComment());
 		Assert.assertFalse(createdGroupReservation.getRooms().isEmpty());
+		Assert.assertFalse(createdGroupReservation.getReservations().isEmpty());
 	}
 
 	protected Set<ReservationVo> createReservationVoSet(final DateMidnight arrival, final DateMidnight departure) {

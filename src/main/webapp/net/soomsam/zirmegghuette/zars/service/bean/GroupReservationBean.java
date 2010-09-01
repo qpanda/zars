@@ -3,6 +3,8 @@ package net.soomsam.zirmegghuette.zars.service.bean;
 import java.util.Date;
 import java.util.List;
 
+import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -26,6 +28,8 @@ public class GroupReservationBean extends BaseBean {
 
 	private List<RoomBean> rooms;
 
+	private List<Reservation> reservations;
+
 	public GroupReservationBean() {
 		super();
 	}
@@ -34,7 +38,7 @@ public class GroupReservationBean extends BaseBean {
 		return groupReservationTimestamp;
 	}
 
-	public void setGroupReservationTimestamp(Date groupReservationTimestamp) {
+	public void setGroupReservationTimestamp(final Date groupReservationTimestamp) {
 		this.groupReservationTimestamp = groupReservationTimestamp;
 	}
 
@@ -42,7 +46,7 @@ public class GroupReservationBean extends BaseBean {
 		return groupReservationId;
 	}
 
-	public void setGroupReservationId(long groupReservationId) {
+	public void setGroupReservationId(final long groupReservationId) {
 		this.groupReservationId = groupReservationId;
 	}
 
@@ -50,7 +54,7 @@ public class GroupReservationBean extends BaseBean {
 		return arrival;
 	}
 
-	public void setArrival(Date arrival) {
+	public void setArrival(final Date arrival) {
 		this.arrival = arrival;
 	}
 
@@ -58,7 +62,7 @@ public class GroupReservationBean extends BaseBean {
 		return departure;
 	}
 
-	public void setDeparture(Date departure) {
+	public void setDeparture(final Date departure) {
 		this.departure = departure;
 	}
 
@@ -66,7 +70,7 @@ public class GroupReservationBean extends BaseBean {
 		return guests;
 	}
 
-	public void setGuests(long guests) {
+	public void setGuests(final long guests) {
 		this.guests = guests;
 	}
 
@@ -74,7 +78,7 @@ public class GroupReservationBean extends BaseBean {
 		return comment;
 	}
 
-	public void setComment(String comment) {
+	public void setComment(final String comment) {
 		this.comment = comment;
 	}
 
@@ -82,7 +86,7 @@ public class GroupReservationBean extends BaseBean {
 		return beneficiary;
 	}
 
-	public void setBeneficiary(UserBean beneficiary) {
+	public void setBeneficiary(final UserBean beneficiary) {
 		this.beneficiary = beneficiary;
 	}
 
@@ -90,7 +94,7 @@ public class GroupReservationBean extends BaseBean {
 		return accountant;
 	}
 
-	public void setAccountant(UserBean accountant) {
+	public void setAccountant(final UserBean accountant) {
 		this.accountant = accountant;
 	}
 
@@ -98,8 +102,16 @@ public class GroupReservationBean extends BaseBean {
 		return rooms;
 	}
 
-	public void setRooms(List<RoomBean> rooms) {
+	public void setRooms(final List<RoomBean> rooms) {
 		this.rooms = rooms;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(final List<Reservation> reservations) {
+		this.reservations = reservations;
 	}
 
 	@Override
