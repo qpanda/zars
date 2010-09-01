@@ -3,8 +3,6 @@ package net.soomsam.zirmegghuette.zars.service.bean;
 import java.util.Date;
 import java.util.List;
 
-import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -28,7 +26,7 @@ public class GroupReservationBean extends BaseBean {
 
 	private List<RoomBean> rooms;
 
-	private List<Reservation> reservations;
+	private List<ReservationBean> reservations;
 
 	public GroupReservationBean() {
 		super();
@@ -106,11 +104,11 @@ public class GroupReservationBean extends BaseBean {
 		this.rooms = rooms;
 	}
 
-	public List<Reservation> getReservations() {
+	public List<ReservationBean> getReservations() {
 		return reservations;
 	}
 
-	public void setReservations(final List<Reservation> reservations) {
+	public void setReservations(final List<ReservationBean> reservations) {
 		this.reservations = reservations;
 	}
 
