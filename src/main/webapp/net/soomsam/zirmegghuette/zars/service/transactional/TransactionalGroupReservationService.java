@@ -9,6 +9,7 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
+import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
@@ -50,12 +51,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
 		}
 
-		// implements BR001
-		Interval openArrivalDepartureInterval = new Interval(arrival, departure);
-		List<GroupReservation> conflictingGroupReservations = groupReservationDao.findGroupReservationByOpenDateInterval(openArrivalDepartureInterval);
-		if (!conflictingGroupReservations.isEmpty()) {
-			throw new GroupReservationConflictException("unable to create group reservation for user [" + beneficiaryId + "], arrival [" + arrival + "], departure [" + departure + "], with [" + guests + "] guests. it conflicts with [" + conflictingGroupReservations.size() + "] existing group reservations", serviceBeanMapper.map(GroupReservationBean.class, conflictingGroupReservations));
-		}
+		assertNonConflictingArrivalDepature(arrival, departure);
 
 		final User beneficiary = userDao.retrieveByPrimaryKey(beneficiaryId);
 		final User accountant = userDao.retrieveByPrimaryKey(accountantId);
@@ -71,7 +67,28 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	@Override
 	@Transactional(rollbackFor = GroupReservationConflictException.class)
 	public GroupReservationBean createGroupReservation(final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException {
-		return null;
+		if ((null == reservationVoSet) || (reservationVoSet.isEmpty())) {
+			throw new IllegalArgumentException("'reservationVoSet' must not be null or empty");
+		}
+
+		Set<Reservation> reservationSet = new HashSet<Reservation>();
+		for (ReservationVo reservationVo : reservationVoSet) {
+			assertNonConflictingArrivalDepature(reservationVo.getArrival(), reservationVo.getDeparture());
+
+			Reservation reservation = new Reservation(reservationVo.getArrival(), reservationVo.getDeparture(), reservationVo.getFirstName(), reservationVo.getLastName());
+			reservationSet.add(reservation);
+		}
+
+		final int guests = reservationVoSet.size();
+		final User beneficiary = userDao.retrieveByPrimaryKey(beneficiaryId);
+		final User accountant = userDao.retrieveByPrimaryKey(accountantId);
+		final Set<Room> requiredRooms = determineRequiredRooms(guests);
+		final GroupReservation groupReservation = new GroupReservation(beneficiary, accountant, reservationSet, comment);
+		groupReservation.associateRooms(requiredRooms);
+		groupReservationDao.persist(groupReservation);
+		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
+
+		// TODO required capacity fulfilled???
 	}
 
 	@Override
@@ -96,5 +113,14 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 		return requiredRoomList;
 		// TODO required capacity fulfilled???
+	}
+
+	protected void assertNonConflictingArrivalDepature(final DateMidnight arrival, final DateMidnight departure) throws GroupReservationConflictException {
+		// implements BR001
+		Interval openArrivalDepartureInterval = new Interval(arrival, departure);
+		List<GroupReservation> conflictingGroupReservations = groupReservationDao.findGroupReservationByOpenDateInterval(openArrivalDepartureInterval);
+		if (!conflictingGroupReservations.isEmpty()) {
+			throw new GroupReservationConflictException("unable to create group reservation with arrival [" + arrival + "] and departure [" + departure + "]. it conflicts with [" + conflictingGroupReservations.size() + "] existing group reservations", serviceBeanMapper.map(GroupReservationBean.class, conflictingGroupReservations));
+		}
 	}
 }
