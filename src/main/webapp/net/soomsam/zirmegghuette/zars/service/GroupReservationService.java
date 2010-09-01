@@ -5,7 +5,7 @@ import java.util.Set;
 
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
-import net.soomsam.zirmegghuette.zars.service.dto.ReservationDto;
+import net.soomsam.zirmegghuette.zars.service.vo.ReservationDto;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;

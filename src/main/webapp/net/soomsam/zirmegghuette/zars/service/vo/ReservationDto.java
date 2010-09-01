@@ -1,4 +1,4 @@
-package net.soomsam.zirmegghuette.zars.service.dto;
+package net.soomsam.zirmegghuette.zars.service.vo;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;

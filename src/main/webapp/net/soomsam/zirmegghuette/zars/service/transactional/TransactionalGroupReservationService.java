@@ -13,8 +13,8 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
-import net.soomsam.zirmegghuette.zars.service.dto.ReservationDto;
 import net.soomsam.zirmegghuette.zars.service.utils.ServiceBeanMapper;
+import net.soomsam.zirmegghuette.zars.service.vo.ReservationDto;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;
