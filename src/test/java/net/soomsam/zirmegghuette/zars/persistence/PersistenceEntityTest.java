@@ -3,6 +3,7 @@ package net.soomsam.zirmegghuette.zars.persistence;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
@@ -468,6 +469,44 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation01));
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation02));
 		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation03));
+	}
+
+	@Test
+	public void testCreateGroupReservationWithReservationsOrderedByPrecedence() {
+		final User testUser = createTestUser();
+		final Room testRoom = createTestRoom();
+		final Reservation testReservation01 = new Reservation(3, new DateMidnight(), new DateMidnight().plusDays(1), "a", "b");
+		final Reservation testReservation02 = new Reservation(2, new DateMidnight(), new DateMidnight().plusDays(1), "c", "d");
+		final Reservation testReservation03 = new Reservation(1, new DateMidnight(), new DateMidnight().plusDays(1), "e", "f");
+		final GroupReservation testGroupReservation = new GroupReservation(testUser, testUser, new DateMidnight(), new DateMidnight().plusDays(1), 3);
+		testGroupReservation.associateReservation(testReservation01);
+		testGroupReservation.associateReservation(testReservation02);
+		testGroupReservation.associateReservation(testReservation03);
+		testGroupReservation.associateRoom(testRoom);
+		groupReservationDao.persist(testGroupReservation);
+		persistenceContextManager.flush();
+		logger.debug("persisted groupReservation as [" + testGroupReservation + "]");
+
+		persistenceContextManager.clear();
+		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		Assert.assertNotNull(fetchedGroupReservation);
+		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
+		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
+		Assert.assertNotNull(fetchedGroupReservation.getRooms());
+		Assert.assertEquals(1, fetchedGroupReservation.getRooms().size());
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getRooms(), testRoom));
+		Assert.assertTrue(fetchedGroupReservation.hasReservations());
+		Assert.assertEquals(3, fetchedGroupReservation.getReservations().size());
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation01));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation02));
+		Assert.assertTrue(containsEntity(fetchedGroupReservation.getReservations(), testReservation03));
+
+		long i = 0;
+		Iterator<Reservation> reservationIterator = fetchedGroupReservation.getReservations().iterator();
+		while (reservationIterator.hasNext()) {
+			Reservation reservation = reservationIterator.next();
+			Assert.assertEquals(++i, reservation.getPrecedence());
+		}
 	}
 
 	@Test
