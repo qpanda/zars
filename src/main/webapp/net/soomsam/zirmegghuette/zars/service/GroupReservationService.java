@@ -18,4 +18,6 @@ public interface GroupReservationService {
 	public GroupReservationBean createGroupReservation(long beneficiaryId, long accountantId, Set<ReservationVo> reservationVoSet, String comment) throws GroupReservationConflictException;
 
 	public List<GroupReservationBean> findGroupReservation(Interval dateInterval);
+
+	public GroupReservationBean retrieveGroupReservation(long groupReservationId);
 }

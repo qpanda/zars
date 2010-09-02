@@ -1,4 +1,10 @@
+CURRENT PENDING TASKS
+	o completely review addGroupReservation* and editGroupReservation* (xhtml and java)
+	o using a set causes reservations with the same arrival, depature, firstname and lastname to get merged into a single reservation
+
 MUST-HAVE
+	o use abstract controller UserController for AddUserController and EditUserController
+	o use abstract controller GroupReservationController for AddGroupReservationController and EditGroupReservationController
 	o beneficiary dropdown on group reservation (only for admin)
 	o security
 		o to determine current user

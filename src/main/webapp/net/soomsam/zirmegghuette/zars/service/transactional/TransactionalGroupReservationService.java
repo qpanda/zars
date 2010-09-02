@@ -97,6 +97,11 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservationByClosedDateInterval(dateInterval));
 	}
 
+	@Override
+	public GroupReservationBean retrieveGroupReservation(final long groupReservationId) {
+		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.retrieveByPrimaryKey(groupReservationId));
+	}
+
 	protected Set<Room> determineRequiredRooms(final long requiredCapacity) {
 		// assumes BR001
 		long availableCapacity = 0;
