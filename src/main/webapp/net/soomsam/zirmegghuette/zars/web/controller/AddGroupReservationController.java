@@ -2,7 +2,9 @@ package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -21,6 +23,7 @@ import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
+import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -349,10 +352,12 @@ public class AddGroupReservationController implements Serializable {
 	}
 
 	protected String createGroupReservationWithIndividualReservations() {
+		Set<ReservationVo> reservationVoSet = new HashSet<ReservationVo>();
 		for (int i = 1; i <= determineReservationCount(); ++i) {
 			String arrivalCalendarReservationComponentId = determineReservationComponentId(ARRIVALCALENDAR_RESERVATIONCOMPONENT_IDPREFIX, i);
 			Calendar arrivalCalendarReservationComponent = (Calendar) determineReservationComponent(arrivalCalendarReservationComponentId);
 			Date individualReservationArrival = (Date) arrivalCalendarReservationComponent.getValue();
+
 			String departureCalendarReservationComponentId = determineReservationComponentId(DEPARTURECALENDAR_RESERVATIONCOMPONENT_IDPREFIX, i);
 			Calendar departureCalendarReservationComponent = (Calendar) determineReservationComponent(departureCalendarReservationComponentId);
 			Date individualReservationDeparture = (Date) departureCalendarReservationComponent.getValue();
@@ -364,11 +369,34 @@ public class AddGroupReservationController implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, individualArrivalDepatureFacesMessage);
 				return null;
 			}
+
+			String firstNameReservationComponentId = determineReservationComponentId(FIRSTNAMEINPUTTEXT_RESERVATIONCOMPONENT_IDPREFIX, i);
+			HtmlInputText firstNameReservationComponent = (HtmlInputText) determineReservationComponent(firstNameReservationComponentId);
+			String individualReservationFirstName = (String) firstNameReservationComponent.getValue();
+
+			String lastNameReservationComponentId = determineReservationComponentId(LASTNAMEINPUTTEXT_RESERVATIONCOMPONENT_IDPREFIX, i);
+			HtmlInputText lastNameReservationComponent = (HtmlInputText) determineReservationComponent(lastNameReservationComponentId);
+			String individualReservationLastName = (String) lastNameReservationComponent.getValue();
+
+			ReservationVo reservationVo = new ReservationVo(new DateMidnight(individualReservationArrival), new DateMidnight(individualReservationDeparture), individualReservationFirstName, individualReservationLastName);
+			reservationVoSet.add(reservationVo);
 		}
 
 		logger.debug("creating group reservation with [" + determineReservationCount() + "] individual reservations");
+		try {
+			// TODO selectAccountantId: actual beneficiary is current user
+			savedGroupReservation = groupReservationService.createGroupReservation(selectedAccountantId, selectedAccountantId, reservationVoSet, comment);
+			return "addGroupReservationConfirmation";
+		} catch (final GroupReservationConflictException groupReservationConflictException) {
+			List<GroupReservationBean> conflictingGroupReservationList = groupReservationConflictException.getConflictingGroupReservations();
+			for (GroupReservationBean conflictingGroupReservation : conflictingGroupReservationList) {
+				String arrivalValue = localeController.getActiveDateFormat().format(conflictingGroupReservation.getArrival());
+				String departureValue = localController.getActiveDateFormat().format(conflictingGroupReservation.getDeparture());
+				final FacesMessage groupReservationConflictFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationConflictError", FacesMessage.SEVERITY_ERROR, conflictingGroupReservation.getGroupReservationId(), arrivalValue, departureValue, conflictingGroupReservation.getBeneficiary().getUsername());
+				FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
+			}
+		}
 
-		// TODO call separate groupReservationService.createGroupReservation method
 		return null;
 	}
 
