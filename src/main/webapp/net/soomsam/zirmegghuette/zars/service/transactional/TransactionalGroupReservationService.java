@@ -93,6 +93,18 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	@Override
+	@Transactional(rollbackFor = GroupReservationConflictException.class)
+	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, DateMidnight arrival, DateMidnight departure, long guests, String comment) throws GroupReservationConflictException {
+		return null;
+	}
+
+	@Override
+	@Transactional(rollbackFor = GroupReservationConflictException.class)
+	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, Set<ReservationVo> reservationVoSet, String comment) throws GroupReservationConflictException {
+		return null;
+	}
+
+	@Override
 	public List<GroupReservationBean> findGroupReservation(final Interval dateInterval) {
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservationByClosedDateInterval(dateInterval));
 	}

@@ -442,9 +442,8 @@ public class EditGroupReservationController implements Serializable {
 		logger.debug("creating group reservation [" + arrival + "]-[" + departure + "] for [" + guests + "] guests");
 		try {
 			// TODO selectAccountantId: actual beneficiary is current user
-			// TODO change to updateGroupReservation
-			savedGroupReservation = groupReservationService.createGroupReservation(selectedAccountantId, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
-			return "addGroupReservationConfirmation";
+			savedGroupReservation = groupReservationService.updateGroupReservation(groupReservationId, selectedAccountantId, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
+			return "editGroupReservationConfirmation";
 		} catch (final GroupReservationConflictException groupReservationConflictException) {
 			List<GroupReservationBean> conflictingGroupReservationList = groupReservationConflictException.getConflictingGroupReservations();
 			for (GroupReservationBean conflictingGroupReservation : conflictingGroupReservationList) {
@@ -492,9 +491,8 @@ public class EditGroupReservationController implements Serializable {
 		logger.debug("creating group reservation with [" + determineReservationCount() + "] individual reservations");
 		try {
 			// TODO selectAccountantId: actual beneficiary is current user
-			// TODO change to updateGroupReservation
-			savedGroupReservation = groupReservationService.createGroupReservation(selectedAccountantId, selectedAccountantId, reservationVoSet, comment);
-			return "addGroupReservationConfirmation";
+			savedGroupReservation = groupReservationService.updateGroupReservation(groupReservationId, selectedAccountantId, selectedAccountantId, reservationVoSet, comment);
+			return "editGroupReservationConfirmation";
 		} catch (final GroupReservationConflictException groupReservationConflictException) {
 			List<GroupReservationBean> conflictingGroupReservationList = groupReservationConflictException.getConflictingGroupReservations();
 			for (GroupReservationBean conflictingGroupReservation : conflictingGroupReservationList) {

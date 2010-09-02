@@ -17,6 +17,10 @@ public interface GroupReservationService {
 
 	public GroupReservationBean createGroupReservation(long beneficiaryId, long accountantId, Set<ReservationVo> reservationVoSet, String comment) throws GroupReservationConflictException;
 
+	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, DateMidnight arrival, DateMidnight departure, long guests, String comment) throws GroupReservationConflictException;
+
+	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, Set<ReservationVo> reservationVoSet, String comment) throws GroupReservationConflictException;
+
 	public List<GroupReservationBean> findGroupReservation(Interval dateInterval);
 
 	public GroupReservationBean retrieveGroupReservation(long groupReservationId);
