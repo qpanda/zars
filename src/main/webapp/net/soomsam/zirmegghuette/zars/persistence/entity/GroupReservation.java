@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -53,7 +54,7 @@ public class GroupReservation extends BaseEntity {
 
 	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationByClosedStartEndIntervalQuery";
 	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival <= :endDate) or (:startDate <= departure and departure <= :endDate) or (arrival <= :startDate and :endDate <= departure)";
-	
+
 	public static final String FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationByOpenStartEndIntervalQuery";
 	public static final String FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival < :endDate) or (:startDate < departure and departure <= :endDate) or (arrival <= :startDate and :endDate < departure)";
 
@@ -96,6 +97,7 @@ public class GroupReservation extends BaseEntity {
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, optional = true, mappedBy = "groupReservation")
 	private Invoice invoice;
 
+	@OrderBy(Reservation.COLUMNNAME_PRECEDENCE)
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "groupReservation")
 	private final Set<Reservation> reservations = new HashSet<Reservation>(0);
 

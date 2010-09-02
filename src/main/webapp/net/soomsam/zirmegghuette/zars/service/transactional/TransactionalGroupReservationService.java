@@ -95,7 +95,30 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	@Override
 	@Transactional(rollbackFor = GroupReservationConflictException.class)
 	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, DateMidnight arrival, DateMidnight departure, long guests, String comment) throws GroupReservationConflictException {
-		return null;
+		if ((null == arrival) || (null == departure)) {
+			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
+		}
+
+		// TODO all but this should not overlap!!!
+		// assertNonConflictingArrivalDepature(arrival, departure);
+
+		final User beneficiary = userDao.retrieveByPrimaryKey(beneficiaryId);
+		final User accountant = userDao.retrieveByPrimaryKey(accountantId);
+		final Set<Room> requiredRooms = determineRequiredRooms(guests);
+		final GroupReservation groupReservation = groupReservationDao.retrieveByPrimaryKey(groupReservationId);
+		groupReservation.setArrival(arrival);
+		groupReservation.setDeparture(departure);
+		groupReservation.setGuests(guests);
+		groupReservation.setComment(comment);
+		// TODO verify if the following associate calls are correct or if we need to unassociate all first!
+		groupReservation.associateBeneficiary(beneficiary);
+		groupReservation.associateAccountant(accountant);
+		groupReservation.associateRooms(requiredRooms);
+		groupReservationDao.persist(groupReservation);
+		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
+
+		// TODO required capacity fulfilled???
+		// TODO re-associate rooms
 	}
 
 	@Override
