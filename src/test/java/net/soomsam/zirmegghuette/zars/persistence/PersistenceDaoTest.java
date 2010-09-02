@@ -62,7 +62,7 @@ public class PersistenceDaoTest {
 		Assert.assertTrue(groupReservationList.contains(groupReservation02));
 		Assert.assertTrue(groupReservationList.contains(groupReservation03));
 	}
-	
+
 	@Test
 	public void testFindGroupReservationByClosedDateInterval() {
 		final User testUser = createTestUser();
@@ -77,7 +77,7 @@ public class PersistenceDaoTest {
 		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().plusDays(3), new DateMidnight().plusDays(4))).isEmpty());
 		Assert.assertTrue(groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().plusDays(4), new DateMidnight().plusDays(5))).isEmpty());
 	}
-	
+
 	@Test
 	public void testFindGroupReservationByOpenDateInterval() {
 		final User testUser = createTestUser();
@@ -92,19 +92,19 @@ public class PersistenceDaoTest {
 		Assert.assertTrue(groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().plusDays(3), new DateMidnight().plusDays(4))).isEmpty());
 		Assert.assertTrue(groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().plusDays(4), new DateMidnight().plusDays(5))).isEmpty());
 	}
-	
+
 	@Test
 	public void testFindNoGroupReservation() {
 		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)));
 		Assert.assertNotNull(groupReservationList);
 		Assert.assertTrue(groupReservationList.isEmpty());
 	}
-	
+
 	@Test
-	public void testFindRoomByPrecedence() {		
+	public void testFindRoomByPrecedence() {
 		List<Room> roomNotInUseList = roomDao.findByPrecedence(false);
 		Assert.assertTrue(roomNotInUseList.isEmpty());
-		
+
 		List<Room> roomInUseList = roomDao.findByPrecedence(true);
 		Assert.assertEquals(2, roomInUseList.size());
 		Assert.assertEquals(1, roomInUseList.get(0).getPrecedence());
@@ -112,7 +112,7 @@ public class PersistenceDaoTest {
 	}
 
 	private GroupReservation createGroupReservation(final User user, final Room room, final DateMidnight arrival, final DateMidnight departure) {
-		final Reservation testReservation = new Reservation(arrival, departure, "a", "b");
+		final Reservation testReservation = new Reservation(1, arrival, departure, "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(user, user, arrival, departure, 1);
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.associateRoom(room);

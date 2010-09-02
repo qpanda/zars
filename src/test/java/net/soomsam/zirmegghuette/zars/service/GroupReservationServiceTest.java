@@ -161,7 +161,7 @@ public class GroupReservationServiceTest {
 
 	protected Set<ReservationVo> createReservationVoSet(final DateMidnight arrival, final DateMidnight departure) {
 		Set<ReservationVo> reservationVoSet = new HashSet<ReservationVo>();
-		ReservationVo reservationVo = new ReservationVo(arrival, departure, "abc", "def");
+		ReservationVo reservationVo = new ReservationVo(1, arrival, departure, "abc", "def");
 		reservationVoSet.add(reservationVo);
 		return reservationVoSet;
 	}
@@ -170,9 +170,10 @@ public class GroupReservationServiceTest {
 		Iterator<DateMidnight> arrivalIterator = arrivalSet.iterator();
 		Iterator<DateMidnight> departureIterator = departureSet.iterator();
 
+		long precedence = 0;
 		Set<ReservationVo> reservationVoSet = new HashSet<ReservationVo>();
 		while (arrivalIterator.hasNext() && departureIterator.hasNext()) {
-			ReservationVo reservationVo = new ReservationVo(arrivalIterator.next(), departureIterator.next(), "abc", "def");
+			ReservationVo reservationVo = new ReservationVo(++precedence, arrivalIterator.next(), departureIterator.next(), "abc", "def");
 			reservationVoSet.add(reservationVo);
 		}
 

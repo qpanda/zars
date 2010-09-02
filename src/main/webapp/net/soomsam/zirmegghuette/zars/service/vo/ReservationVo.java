@@ -8,16 +8,22 @@ import org.joda.time.DateMidnight;
 
 @Immutable
 public class ReservationVo extends BaseVo {
+	private final long precedence;
 	private final DateMidnight arrival;
 	private final DateMidnight departure;
 	private final String firstName;
 	private final String lastName;
 
-	public ReservationVo(final DateMidnight arrival, final DateMidnight departure, final String firstName, final String lastName) {
+	public ReservationVo(final long precedence, final DateMidnight arrival, final DateMidnight departure, final String firstName, final String lastName) {
+		this.precedence = precedence;
 		this.arrival = arrival;
 		this.departure = departure;
 		this.firstName = firstName;
 		this.lastName = lastName;
+	}
+
+	public long getPrecedence() {
+		return precedence;
 	}
 
 	public DateMidnight getArrival() {

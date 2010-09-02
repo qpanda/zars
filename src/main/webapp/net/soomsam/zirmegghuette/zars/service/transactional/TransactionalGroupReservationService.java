@@ -75,7 +75,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		for (ReservationVo reservationVo : reservationVoSet) {
 			assertNonConflictingArrivalDepature(reservationVo.getArrival(), reservationVo.getDeparture());
 
-			Reservation reservation = new Reservation(reservationVo.getArrival(), reservationVo.getDeparture(), reservationVo.getFirstName(), reservationVo.getLastName());
+			Reservation reservation = new Reservation(reservationVo.getPrecedence(), reservationVo.getArrival(), reservationVo.getDeparture(), reservationVo.getFirstName(), reservationVo.getLastName());
 			reservationSet.add(reservation);
 		}
 

@@ -11,6 +11,8 @@ public class ReservationBean extends BaseBean {
 
 	private Date reservationTimestamp;
 
+	private long precedence;
+
 	private Date arrival;
 
 	private Date departure;
@@ -37,6 +39,14 @@ public class ReservationBean extends BaseBean {
 
 	public void setReservationTimestamp(final Date reservationTimestamp) {
 		this.reservationTimestamp = reservationTimestamp;
+	}
+
+	public long getPrecedence() {
+		return precedence;
+	}
+
+	public void setPrecedence(long precedence) {
+		this.precedence = precedence;
 	}
 
 	public Date getArrival() {

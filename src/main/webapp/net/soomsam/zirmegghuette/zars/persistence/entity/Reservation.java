@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import net.soomsam.zirmegghuette.zars.persistence.utils.DateUtils;
@@ -31,6 +32,7 @@ public class Reservation extends BaseEntity {
 	public static final String TABLENAME_RESERVATION = "zars_reservation";
 	public static final String COLUMNNAME_RESERVATIONID = "reservation_id";
 	public static final String COLUMNNAME_RESERVATIONTIMESTAMP = "reservation_timestamp";
+	public static final String COLUMNNAME_PRECEDENCE = "precedence";
 	public static final String COLUMNNAME_ARRIVAL = "arrival";
 	public static final String COLUMNNAME_DEPARTURE = "departure";
 	public static final String COLUMNNAME_GUESTFIRSTNAME = "guest_first_name";
@@ -45,6 +47,10 @@ public class Reservation extends BaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = Reservation.COLUMNNAME_RESERVATIONTIMESTAMP)
 	private Date reservationTimestamp;
+
+	@Min(value = 1)
+	@Column(name = Reservation.COLUMNNAME_PRECEDENCE, nullable = false)
+	private long precedence;
 
 	@NotNull
 	@Temporal(TemporalType.DATE)
@@ -75,7 +81,7 @@ public class Reservation extends BaseEntity {
 		super();
 	}
 
-	public Reservation(final DateMidnight arrival, final DateMidnight departure, final String firstName, final String lastName) {
+	public Reservation(final long precedence, final DateMidnight arrival, final DateMidnight departure, final String firstName, final String lastName) {
 		super();
 
 		if ((null == arrival) || (null == departure)) {
@@ -86,13 +92,14 @@ public class Reservation extends BaseEntity {
 			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
 		}
 
+		this.precedence = precedence;
 		this.arrival = DateUtils.convertDateMidnight(arrival);
 		this.departure = DateUtils.convertDateMidnight(departure);
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
 
-	public Reservation(final DateMidnight arrival, final DateMidnight departure, final String firstName, final String lastName, final GroupReservation groupReservation) {
+	public Reservation(final long precedence, final DateMidnight arrival, final DateMidnight departure, final String firstName, final String lastName, final GroupReservation groupReservation) {
 		super();
 
 		if ((null == arrival) || (null == departure)) {
@@ -103,6 +110,7 @@ public class Reservation extends BaseEntity {
 			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
 		}
 
+		this.precedence = precedence;
 		this.arrival = DateUtils.convertDateMidnight(arrival);
 		this.departure = DateUtils.convertDateMidnight(departure);
 		this.firstName = firstName;
@@ -125,6 +133,14 @@ public class Reservation extends BaseEntity {
 
 	void setReservationTimestamp(final Date reservationTimestamp) {
 		this.reservationTimestamp = reservationTimestamp;
+	}
+
+	public long getPrecedence() {
+		return precedence;
+	}
+
+	public void setPrecedence(long precedence) {
+		this.precedence = precedence;
 	}
 
 	public DateMidnight getArrival() {
@@ -217,16 +233,16 @@ public class Reservation extends BaseEntity {
 		}
 
 		final Reservation other = (Reservation) obj;
-		return new EqualsBuilder().append(getReservationId(), other.getReservationId()).append(getReservationTimestamp(), other.getReservationTimestamp()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).isEquals();
+		return new EqualsBuilder().append(getReservationId(), other.getReservationId()).append(getReservationTimestamp(), other.getReservationTimestamp()).append(getPrecedence(), other.getPrecedence()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getReservationId()).append(getReservationTimestamp()).append(getArrival()).append(getDeparture()).append(getFirstName()).append(getLastName()).toHashCode();
+		return new HashCodeBuilder().append(getReservationId()).append(getReservationTimestamp()).append(getPrecedence()).append(getArrival()).append(getDeparture()).append(getFirstName()).append(getLastName()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getReservationId()).append(getReservationTimestamp()).append(getArrival()).append(getDeparture()).append(getFirstName()).append(getLastName()).toString();
+		return new ToStringBuilder(this).append(getReservationId()).append(getReservationTimestamp()).append(getPrecedence()).append(getArrival()).append(getDeparture()).append(getFirstName()).append(getLastName()).toString();
 	}
 }

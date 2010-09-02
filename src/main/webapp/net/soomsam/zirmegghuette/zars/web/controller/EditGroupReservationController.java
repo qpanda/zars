@@ -484,7 +484,7 @@ public class EditGroupReservationController implements Serializable {
 			HtmlInputText lastNameReservationComponent = (HtmlInputText) determineReservationComponent(lastNameReservationComponentId);
 			String individualReservationLastName = (String) lastNameReservationComponent.getValue();
 
-			ReservationVo reservationVo = new ReservationVo(new DateMidnight(individualReservationArrival), new DateMidnight(individualReservationDeparture), individualReservationFirstName, individualReservationLastName);
+			ReservationVo reservationVo = new ReservationVo(i, new DateMidnight(individualReservationArrival), new DateMidnight(individualReservationDeparture), individualReservationFirstName, individualReservationLastName);
 			reservationVoSet.add(reservationVo);
 		}
 
