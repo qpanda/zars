@@ -75,7 +75,7 @@ public class AddGroupReservationController implements Serializable {
 
 	private HtmlInputText guestsInputText;
 
-	private HtmlPanelGrid reservationPanelGrid;
+	private HtmlPanelGrid individualReservationPanelGrid;
 
 	private GroupReservationBean savedGroupReservation;
 
@@ -134,12 +134,12 @@ public class AddGroupReservationController implements Serializable {
 		this.comment = comment;
 	}
 
-	public HtmlPanelGrid getReservationPanelGrid() {
-		return reservationPanelGrid;
+	public HtmlPanelGrid getIndividualReservationPanelGrid() {
+		return individualReservationPanelGrid;
 	}
 
-	public void setReservationPanelGrid(final HtmlPanelGrid reservationPanelGrid) {
-		this.reservationPanelGrid = reservationPanelGrid;
+	public void setIndividualReservationPanelGrid(HtmlPanelGrid individualReservationPanelGrid) {
+		this.individualReservationPanelGrid = individualReservationPanelGrid;
 	}
 
 	public Calendar getArrivalCalendar() {
@@ -184,8 +184,8 @@ public class AddGroupReservationController implements Serializable {
 
 	public void removeReservation(final ActionEvent commandLinkActionEvent) {
 		if (0 != determineReservationCount()) {
-			for (int i = 0; i < reservationPanelGrid.getColumns(); ++i) {
-				reservationPanelGrid.getChildren().remove(reservationPanelGrid.getChildCount() - 1);
+			for (int i = 0; i < individualReservationPanelGrid.getColumns(); ++i) {
+				individualReservationPanelGrid.getChildren().remove(individualReservationPanelGrid.getChildCount() - 1);
 			}
 
 			guestsInputText.setValue(determineReservationCount());
@@ -224,7 +224,7 @@ public class AddGroupReservationController implements Serializable {
 
 		String arrivalCalendarReservationComponentId = determineReservationComponentId(ARRIVALCALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow);
 		Calendar arrivalCalendarReservationComponent = createCalendarReservationComponent(arrivalCalendarReservationComponentId, templateArrivalCalendar);
-		reservationPanelGrid.getChildren().add(arrivalCalendarReservationComponent);
+		individualReservationPanelGrid.getChildren().add(arrivalCalendarReservationComponent);
 	}
 
 	protected void addDepartureCalendarReservationComponent(final int reservationPanelRow) {
@@ -235,7 +235,7 @@ public class AddGroupReservationController implements Serializable {
 
 		String departureCalendarReservationComponentId = determineReservationComponentId(DEPARTURECALENDAR_RESERVATIONCOMPONENT_IDPREFIX, reservationPanelRow);
 		Calendar departureCalendarReservationComponent = createCalendarReservationComponent(departureCalendarReservationComponentId, templateDepartureCalendar);
-		reservationPanelGrid.getChildren().add(departureCalendarReservationComponent);
+		individualReservationPanelGrid.getChildren().add(departureCalendarReservationComponent);
 	}
 
 	protected void addFirstNameInputTextReservationComponent(final int reservationPanelRow) {
@@ -243,7 +243,7 @@ public class AddGroupReservationController implements Serializable {
 		HtmlInputText firstNameInputTextReservationComponent = createInputTextReservationComponent();
 		firstNameInputTextReservationComponent.setId(firstNameInputTextReservationComponentId);
 		firstNameInputTextReservationComponent.setRequiredMessage(MessageFactory.getMessage("sectionsApplicationGroupReservationIndividualGuestNameError", reservationPanelRow).getDetail());
-		reservationPanelGrid.getChildren().add(firstNameInputTextReservationComponent);
+		individualReservationPanelGrid.getChildren().add(firstNameInputTextReservationComponent);
 	}
 
 	protected void addLastNameInputTextReservationComponent(final int reservationPanelRow) {
@@ -251,7 +251,7 @@ public class AddGroupReservationController implements Serializable {
 		HtmlInputText lastNameInputTextReservationComponent = createInputTextReservationComponent();
 		lastNameInputTextReservationComponent.setId(lastNameInputTextReservationComponentId);
 		lastNameInputTextReservationComponent.setRequiredMessage(MessageFactory.getMessage("sectionsApplicationGroupReservationIndividualGuestNameError", reservationPanelRow).getDetail());
-		reservationPanelGrid.getChildren().add(lastNameInputTextReservationComponent);
+		individualReservationPanelGrid.getChildren().add(lastNameInputTextReservationComponent);
 	}
 
 	protected Calendar createCalendarReservationComponent(final String calendarReservationComponentId, final Calendar templateCalendar) {
@@ -285,12 +285,12 @@ public class AddGroupReservationController implements Serializable {
 	}
 
 	protected int determineReservationCount() {
-		if (0 != (reservationPanelGrid.getChildCount() % reservationPanelGrid.getColumns())) {
-			throw new IllegalStateException("invalid number of components in panel grid [" + reservationPanelGrid.getId() + "]");
+		if (0 != (individualReservationPanelGrid.getChildCount() % individualReservationPanelGrid.getColumns())) {
+			throw new IllegalStateException("invalid number of components in panel grid [" + individualReservationPanelGrid.getId() + "]");
 		}
 
-		int reservationComponentCount = reservationPanelGrid.getChildCount() - reservationPanelGrid.getColumns();
-		return reservationComponentCount / reservationPanelGrid.getColumns();
+		int reservationComponentCount = individualReservationPanelGrid.getChildCount() - individualReservationPanelGrid.getColumns();
+		return reservationComponentCount / individualReservationPanelGrid.getColumns();
 	}
 
 	protected String determineReservationComponentId(final String reservationComponentIdPrefix, final int reservationPanelRow) {
@@ -298,7 +298,7 @@ public class AddGroupReservationController implements Serializable {
 	}
 
 	protected UIComponent determineReservationComponent(final String reservationComponentId) {
-		List<UIComponent> reservationComponentList = reservationPanelGrid.getChildren();
+		List<UIComponent> reservationComponentList = individualReservationPanelGrid.getChildren();
 		for (UIComponent reservationComponent : reservationComponentList) {
 			if (reservationComponentId.equals(reservationComponent.getId())) {
 				return reservationComponent;
