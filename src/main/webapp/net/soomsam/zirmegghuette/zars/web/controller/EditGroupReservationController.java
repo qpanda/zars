@@ -422,7 +422,7 @@ public class EditGroupReservationController implements Serializable {
 		departure = new DateMidnight().plusDays(1).toDate();
 	}
 
-	public String create() {
+	public String update() {
 		if (0 == determineReservationCount()) {
 			return createGroupReservation();
 		}

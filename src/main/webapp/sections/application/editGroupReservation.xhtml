@@ -7,6 +7,7 @@
 	<div class="applicationDialog">
 		<h:form id="editGroupReservationForm" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationEditGroupReservationDialogLabel}</div>
+			<!-- TODO show beneficiary selectOneMenu if admin -->
 			<div class="applicationFormItem">		
 				<h:outputLabel for="arrival" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}" /><br />
 				<p:calendar id="arrival" inputStyleClass="applicationFormInput" value="#{editGroupReservationController.arrival}" binding="#{editGroupReservationController.arrivalCalendar}" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" readOnlyInputText="true"/>
@@ -36,25 +37,24 @@
 				<h:inputTextarea id="comment" styleClass="applicationFormInput" value="#{editGroupReservationController.comment}" rows="3" cols="80" />				
 			</div>
 			<div class="applicationFormSeparator"/>
-			<!-- TODO use i18n messages and revise -->
 			<div class="applicationFormItem">
 				<h:outputLabel for="reservations" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationLabel}" /><br />
 				<h:panelGrid id="reservations" styleClass="applicationFormDialog" binding="#{editGroupReservationController.reservationPanelGrid}" columns="4">
-					<h:outputText id="arrivalHeader" styleClass="applicationFormLabel" value="Arrival" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />
-					<h:outputText id="departureHeader" styleClass="applicationFormLabel" value="Depature" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />
-					<h:outputText id="firstNameHeader" styleClass="applicationFormLabel" value="First Name" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />
-					<h:outputText id="lastNameHeader" styleClass="applicationFormLabel" value="Last Name" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />
+					<h:outputText id="reservationArrivalHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationArrivalHeader}" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />
+					<h:outputText id="reservationDepartureHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationDepartureHeader}" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />
+					<h:outputText id="reservationFirstNameHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationFirstNameHeader}" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />
+					<h:outputText id="reservationLastNameHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationLastNameHeader}" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />
 					<f:facet name="footer">
-						<h:panelGroup>							
-							<p:commandLink actionListener="#{editGroupReservationController.addReservation}" value="Add Reservation" immediate="true" update="arrival, departure, guests, reservations" styleClass="applicationLink"/>
+						<h:panelGroup>
+							<p:commandLink actionListener="#{editGroupReservationController.addReservation}" value="#{displayMessages.sectionsApplicationGroupReservationAddReservationLink}" immediate="true" update="arrival, departure, guests, reservations" styleClass="applicationLink"/>
 							<h:outputText value="&#160;&#160;&#160;" />
-							<p:commandLink actionListener="#{editGroupReservationController.removeReservation}" value="Remove Reservation" immediate="true" update="arrival, departure, guests, reservations" styleClass="applicationLink"/>													
+							<p:commandLink actionListener="#{editGroupReservationController.removeReservation}" value="#{displayMessages.sectionsApplicationGroupReservationRemoveReservationLink}" immediate="true" update="arrival, departure, guests, reservations" styleClass="applicationLink"/>
 						</h:panelGroup>
 					</f:facet>					
 				</h:panelGrid>				
 			</div>
 			<div class="applicationFormItem">
-				<h:commandButton id="editGroupReservationAction" type="submit" action="#{editGroupReservationController.create}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAddGroupReservationCreateButton}"/>
+				<h:commandButton id="editGroupReservationAction" type="submit" action="#{editGroupReservationController.update}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationEditGroupReservationUpdateButton}"/>
 			</div>
 		</h:form>
 	</div>
