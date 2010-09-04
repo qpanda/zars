@@ -7,6 +7,7 @@
 	<div class="applicationDialog">
 		<h:form id="editGroupReservationForm" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationEditGroupReservationDialogLabel}</div>
+			<!-- TODO show groupReservationId -->
 			<!-- TODO show beneficiary selectOneMenu if admin -->
 			<div class="applicationFormItem">		
 				<h:outputLabel for="arrival" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}" /><br />
@@ -54,7 +55,7 @@
 				</h:panelGrid>				
 			</div>
 			<div class="applicationFormItem">
-				<h:commandButton id="editGroupReservationAction" type="submit" action="#{editGroupReservationController.update}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationEditGroupReservationUpdateButton}"/>
+				<h:commandButton id="editGroupReservationAction" type="submit" action="#{editGroupReservationController.save}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationEditGroupReservationUpdateButton}"/>
 			</div>
 		</h:form>
 	</div>
