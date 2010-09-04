@@ -1,5 +1,4 @@
 CURRENT PENDING TASKS
-	o use order field for Reservation to avoid issue with Set usage and provide consistency
 	o completely review addGroupReservation* and editGroupReservation* (xhtml and java)
 	o use abstract controller UserController for AddUserController and EditUserController
 	o use abstract controller GroupReservationController for AddGroupReservationController and EditGroupReservationController
