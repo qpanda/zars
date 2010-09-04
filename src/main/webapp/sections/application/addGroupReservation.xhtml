@@ -38,17 +38,17 @@
 			</div>
 			<div class="applicationFormSeparator"/>
 			<div class="applicationFormItem">
-				<h:outputLabel for="individualReservation" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationIndividualReservationLabel}" /><br />
-				<h:panelGrid id="individualReservation" styleClass="applicationFormDialog" binding="#{addGroupReservationController.individualReservationPanelGrid}" columns="4">
-					<h:outputText id="individualReservationArrivalHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationIndividualReservationArrivalHeader}" rendered="#{addGroupReservationController.individualReservationPanelGrid.childCount &gt; addGroupReservationController.individualReservationPanelGrid.columns}" />
-					<h:outputText id="individualReservationDepartureHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationIndividualReservationDepartureHeader}" rendered="#{addGroupReservationController.individualReservationPanelGrid.childCount &gt; addGroupReservationController.individualReservationPanelGrid.columns}" />
-					<h:outputText id="individualReservationFirstNameHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationIndividualReservationFirstNameHeader}" rendered="#{addGroupReservationController.individualReservationPanelGrid.childCount &gt; addGroupReservationController.individualReservationPanelGrid.columns}" />
-					<h:outputText id="individualReservationLastNameHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationIndividualReservationLastNameHeader}" rendered="#{addGroupReservationController.individualReservationPanelGrid.childCount &gt; addGroupReservationController.individualReservationPanelGrid.columns}" />
+				<h:outputLabel for="reservations" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationLabel}" /><br />
+				<h:panelGrid id="reservations" styleClass="applicationFormDialog" binding="#{addGroupReservationController.reservationPanelGrid}" columns="4">
+					<h:outputText id="reservationArrivalHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationArrivalHeader}" rendered="#{addGroupReservationController.reservationPanelGrid.childCount &gt; addGroupReservationController.reservationPanelGrid.columns}" />
+					<h:outputText id="reservationDepartureHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationDepartureHeader}" rendered="#{addGroupReservationController.reservationPanelGrid.childCount &gt; addGroupReservationController.reservationPanelGrid.columns}" />
+					<h:outputText id="reservationFirstNameHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationFirstNameHeader}" rendered="#{addGroupReservationController.reservationPanelGrid.childCount &gt; addGroupReservationController.reservationPanelGrid.columns}" />
+					<h:outputText id="reservationLastNameHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationLastNameHeader}" rendered="#{addGroupReservationController.reservationPanelGrid.childCount &gt; addGroupReservationController.reservationPanelGrid.columns}" />
 					<f:facet name="footer">
 						<h:panelGroup>
-							<p:commandLink actionListener="#{addGroupReservationController.addReservation}" value="#{displayMessages.sectionsApplicationGroupReservationAddIndividualReservationLink}" immediate="true" update="arrival, departure, guests, individualReservation" styleClass="applicationLink"/>
+							<p:commandLink actionListener="#{addGroupReservationController.addReservation}" value="#{displayMessages.sectionsApplicationGroupReservationAddReservationLink}" immediate="true" update="arrival, departure, guests, reservations" styleClass="applicationLink"/>
 							<h:outputText value="&#160;&#160;&#160;" />
-							<p:commandLink actionListener="#{addGroupReservationController.removeReservation}" value="#{displayMessages.sectionsApplicationGroupReservationRemoveIndividualReservationLink}" immediate="true" update="arrival, departure, guests, individualReservation" styleClass="applicationLink"/>
+							<p:commandLink actionListener="#{addGroupReservationController.removeReservation}" value="#{displayMessages.sectionsApplicationGroupReservationRemoveReservationLink}" immediate="true" update="arrival, departure, guests, reservations" styleClass="applicationLink"/>
 						</h:panelGroup>
 					</f:facet>					
 				</h:panelGrid>				
