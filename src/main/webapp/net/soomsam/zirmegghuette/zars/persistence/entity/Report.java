@@ -202,8 +202,10 @@ public class Report extends BaseEntity {
 		}
 
 		for (final GroupReservation groupReservation : groupReservationSet) {
-			associateGroupReservation(groupReservation);
+			groupReservation.addReport(this);
 		}
+
+		this.groupReservations.addAll(groupReservationSet);
 	}
 
 	@Override

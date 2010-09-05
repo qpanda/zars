@@ -38,7 +38,7 @@ public class Room extends BaseEntity {
 	public static final String COLUMNNAME_CAPACITY = "capacity";
 	public static final String COLUMNNAME_PRECEDENCE = "precedence";
 	public static final String COLUMNNAME_INUSE = "in_use";
-	
+
 	public static final String FINDROOM_INUSE_BYPRECEDENCE_QUERYNAME = "Room.findRoomInUseByPrecedence";
 	public static final String FINDROOM_INUSE_BYPRECEDENCE_QUERYSTRING = "from Room where inUse = :inUse order by precedence asc";
 
@@ -166,8 +166,10 @@ public class Room extends BaseEntity {
 		}
 
 		for (final GroupReservation groupReservation : groupReservationSet) {
-			associateGroupReservation(groupReservation);
+			groupReservation.addRoom(this);
 		}
+
+		this.groupReservations.addAll(groupReservationSet);
 	}
 
 	public void unassociateGroupReservation(final GroupReservation groupReservation) {
@@ -185,8 +187,10 @@ public class Room extends BaseEntity {
 		}
 
 		for (final GroupReservation groupReservation : groupReservationSet) {
-			unassociateGroupReservation(groupReservation);
+			groupReservation.removeRoom(this);
 		}
+
+		this.groupReservations.removeAll(groupReservationSet);
 	}
 
 	@Override

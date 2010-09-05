@@ -247,8 +247,10 @@ public class User extends BaseEntity {
 		}
 
 		for (final Role role : roleSet) {
-			associateRole(role);
+			role.addUser(this);
 		}
+
+		this.roles.addAll(roleSet);
 	}
 
 	public void unassociateRole(final Role role) {
@@ -266,8 +268,10 @@ public class User extends BaseEntity {
 		}
 
 		for (final Role role : roleSet) {
-			unassociateRole(role);
+			role.removeUser(this);
 		}
+
+		this.roles.removeAll(roleSet);
 	}
 
 	public void updateRoles(final Set<Role> newRoleSet) {

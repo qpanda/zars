@@ -360,8 +360,10 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		for (final Reservation reservation : reservationSet) {
-			associateReservation(reservation);
+			reservation.setGroupReservation(this);
 		}
+
+		this.reservations.addAll(reservationSet);
 	}
 
 	public void unassociateReservation(final Reservation reservation) {
@@ -379,8 +381,10 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		for (final Reservation reservation : reservationSet) {
-			unassociateReservation(reservation);
+			reservation.setGroupReservation(null);
 		}
+
+		this.reservations.removeAll(reservationSet);
 	}
 
 	public Reservation getEarliestArrivalReservation() {
@@ -450,8 +454,10 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		for (final Room room : roomSet) {
-			associateRoom(room);
+			room.addGroupReservations(this);
 		}
+
+		this.rooms.addAll(roomSet);
 	}
 
 	public void unassociateRoom(final Room room) {
@@ -469,8 +475,10 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		for (final Room room : roomSet) {
-			unassociateRoom(room);
+			room.removeGroupReservations(this);
 		}
+
+		this.rooms.removeAll(roomSet);
 	}
 
 	public void updateRooms(final Set<Room> newRoomSet) {
@@ -525,8 +533,10 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		for (final Report report : reportSet) {
-			unassociateReport(report);
+			report.removeGroupReservation(this);
 		}
+
+		this.reports.removeAll(reportSet);
 	}
 
 	public void markInvoiceStale() {
