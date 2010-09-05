@@ -2,7 +2,7 @@ CURRENT PENDING TASKS
 	o complete add/edit group reservations (all TODOs)
 	o completed admin group reservation
 	o complete delete group reservation
-	o use abstract controller UserController for AddUserController and EditUserController
+	o use abstract controller UserController for AddUserController and EditUserController and others
 	o name formatter
 	o remove language selector from menu or full resubmit
 

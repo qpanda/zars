@@ -44,7 +44,7 @@ public class User extends BaseEntity {
 	public static final String COLUMNNAME_PASSWORD = "password";
 	public static final String COLUMNNAME_ENABLED = "active";
 	public static final String JOINTABLENAME_USER_ROLE = "zars_user_zars_role";
-	
+
 	public static final String FINDUSER_ROLEID_QUERYNAME = "User.findUserByRoleId";
 	public static final String FINDUSER_ROLEID_QUERYSTRING = "select user from User as user inner join user.roles as role where role.roleId = :roleId";
 
@@ -272,7 +272,7 @@ public class User extends BaseEntity {
 
 	public void updateRoles(final Set<Role> newRoleSet) {
 		if (null == newRoleSet) {
-			throw new IllegalArgumentException("'roleSet' must not be null");
+			throw new IllegalArgumentException("'newRoleSet' must not be null");
 		}
 
 		final Set<Role> oldRoleSet = getRoles();

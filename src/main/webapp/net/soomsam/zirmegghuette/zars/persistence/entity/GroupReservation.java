@@ -473,6 +473,23 @@ public class GroupReservation extends BaseEntity {
 		}
 	}
 
+	public void updateRooms(final Set<Room> newRoomSet) {
+		if (null == newRoomSet) {
+			throw new IllegalArgumentException("'newRoomSet' must not be null");
+		}
+
+		final Set<Room> oldRoomSet = getRooms();
+
+		final Set<Room> addedRoomSet = new HashSet<Room>(newRoomSet);
+		addedRoomSet.removeAll(oldRoomSet);
+
+		final Set<Room> removedRoomSet = new HashSet<Room>(oldRoomSet);
+		removedRoomSet.removeAll(newRoomSet);
+
+		unassociateRooms(removedRoomSet);
+		associateRooms(addedRoomSet);
+	}
+
 	public Set<Report> getReports() {
 		return Collections.unmodifiableSet(reports);
 	}
@@ -509,6 +526,20 @@ public class GroupReservation extends BaseEntity {
 
 		for (final Report report : reportSet) {
 			unassociateReport(report);
+		}
+	}
+
+	public void markInvoiceStale() {
+		Invoice invoice = getInvoice();
+		if (null != invoice) {
+			invoice.setStale(true);
+		}
+	}
+
+	public void markReportsStale() {
+		final Set<Report> reportSet = getReports();
+		for (Report report : reportSet) {
+			report.setStale(true);
 		}
 	}
 

@@ -2,7 +2,9 @@ package net.soomsam.zirmegghuette.zars.persistence.dao.jpa;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -78,6 +80,15 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	@Override
 	public void remove(final Entity entity) {
 		entityManager.remove(entity);
+	}
+
+	@Override
+	public void removeAll(Set<Entity> entitySet) {
+		Iterator<Entity> entityIterator = entitySet.iterator();
+		while (entityIterator.hasNext()) {
+			Entity entity = entityIterator.next();
+			entityManager.remove(entity);
+		}
 	}
 
 	@Override

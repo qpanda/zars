@@ -2,6 +2,7 @@ package net.soomsam.zirmegghuette.zars.persistence.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
 
@@ -82,4 +83,14 @@ public interface EntityDao<Entity extends BaseEntity> {
 	 *             if the DAO implementation does not support remove
 	 */
 	public void remove(Entity entity) throws OperationNotSupportedException;
+
+	/**
+	 * removes all persistence entities from the persistence context
+	 * 
+	 * @param entitySet
+	 *            the persistence entities to remove from the persistence context
+	 * @throws OperationNotSupportedException
+	 *             if the DAO implementation does not support removeAll
+	 */
+	public void removeAll(Set<Entity> entitySet) throws OperationNotSupportedException;
 }

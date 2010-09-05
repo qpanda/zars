@@ -1,6 +1,7 @@
 package net.soomsam.zirmegghuette.zars.persistence.dao.jpa;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Query;
 
@@ -20,6 +21,11 @@ public class JpaRoomDao extends JpaEntityDao<Room> implements RoomDao {
 	@Override
 	public void remove(final Room entity) {
 		throw new OperationNotSupportedException("[" + JpaRoomDao.class.getSimpleName() + "] does not support operation 'remove'");
+	}
+
+	@Override
+	public void removeAll(Set<Room> entitySet) {
+		throw new OperationNotSupportedException("[" + JpaRoomDao.class.getSimpleName() + "] does not support operation 'removeAll'");
 	}
 
 	@Override

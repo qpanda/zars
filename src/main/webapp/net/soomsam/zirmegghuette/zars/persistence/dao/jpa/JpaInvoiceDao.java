@@ -1,5 +1,7 @@
 package net.soomsam.zirmegghuette.zars.persistence.dao.jpa;
 
+import java.util.Set;
+
 import net.soomsam.zirmegghuette.zars.persistence.dao.InvoiceDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.OperationNotSupportedException;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Invoice;
@@ -16,5 +18,10 @@ public class JpaInvoiceDao extends JpaEntityDao<Invoice> implements InvoiceDao {
 	@Override
 	public void remove(Invoice entity) {
 		throw new OperationNotSupportedException("[" + JpaInvoiceDao.class.getSimpleName() + "] does not support operation 'remove'");
+	}
+
+	@Override
+	public void removeAll(Set<Invoice> entitySet) {
+		throw new OperationNotSupportedException("[" + JpaInvoiceDao.class.getSimpleName() + "] does not support operation 'removeAll'");
 	}
 }

@@ -819,6 +819,26 @@ public class PersistenceEntityTest {
 	}
 
 	@Test
+	public void testMarkInvoice() {
+		final GroupReservation testGroupReservation = createTestGroupReservation();
+		persistenceContextManager.flush();
+		final byte[] testInvoiceDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
+
+		final Invoice testInvoice = new Invoice(new Date(), "EUR", 123.456, true, testInvoiceDocument, testGroupReservation);
+		invoiceDao.persist(testInvoice);
+		persistenceContextManager.flush();
+		logger.debug("persisted invoice as [" + testInvoice + "]");
+
+		testGroupReservation.markInvoiceStale();
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		Assert.assertNotNull(fetchedGroupReservation);
+		Assert.assertNotNull(fetchedGroupReservation.getInvoice());
+		Assert.assertTrue(fetchedGroupReservation.getInvoice().isStale());
+	}
+
+	@Test
 	public void testCreateReport() {
 		final GroupReservation testGroupReservation = createTestGroupReservation();
 		persistenceContextManager.flush();
@@ -854,6 +874,30 @@ public class PersistenceEntityTest {
 		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
 		Assert.assertNotNull(fetchedGroupReservation);
 		Assert.assertTrue(fetchedGroupReservation.getReports().isEmpty());
+	}
+
+	@Test
+	public void testMarkReport() {
+		final GroupReservation testGroupReservation = createTestGroupReservation();
+		persistenceContextManager.flush();
+		final byte[] testReportDocument = TestUtils.readFile("net/soomsam/zirmegghuette/zars/persistence/test.pdf");
+
+		final Report testReport = new Report(new Date(), new DateMidnight().plusDays(1), new DateMidnight(), testReportDocument, testGroupReservation);
+		reportDao.persist(testReport);
+		persistenceContextManager.flush();
+		logger.debug("persisted report as [" + testReport + "]");
+
+		testGroupReservation.markReportsStale();
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
+		Assert.assertNotNull(fetchedGroupReservation);
+		Assert.assertFalse(fetchedGroupReservation.getReports().isEmpty());
+		Assert.assertEquals(1, fetchedGroupReservation.getReports().size());
+
+		for (Report report : fetchedGroupReservation.getReports()) {
+			Assert.assertTrue(report.isStale());
+		}
 	}
 
 	@Test

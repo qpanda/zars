@@ -136,7 +136,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 
 	@Override
 	protected String modifyGroupReservation() throws GroupReservationConflictException {
-		logger.debug("updating group reservation with id [" + groupReservationId + "], arrival/depature [" + arrival + "]-[" + departure + "] for [" + guests + "] guests");
+		logger.debug("updating group reservation with id [" + groupReservationId + "] and arrival/departure [" + arrival + "]-[" + departure + "] for [" + guests + "] guests");
 		// TODO selectAccountantId: actual beneficiary is current user
 		savedGroupReservation = groupReservationService.updateGroupReservation(groupReservationId, selectedAccountantId, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
 		return "editGroupReservationConfirmation";
@@ -144,8 +144,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 
 	@Override
 	protected String modifyGroupReservation(Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException {
-		// TODO debug message
-		logger.debug("creating group reservation with [" + determineReservationCount() + "] reservations");
+		logger.debug("updating group reservation with id [" + groupReservationId + "] and [" + determineReservationCount() + "] reservations");
 		// TODO selectAccountantId: actual beneficiary is current user
 		savedGroupReservation = groupReservationService.updateGroupReservation(groupReservationId, selectedAccountantId, selectedAccountantId, reservationVoSet, comment);
 		return "editGroupReservationConfirmation";

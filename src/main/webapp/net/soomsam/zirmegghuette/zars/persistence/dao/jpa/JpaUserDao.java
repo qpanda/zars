@@ -1,16 +1,15 @@
 package net.soomsam.zirmegghuette.zars.persistence.dao.jpa;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
-import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.OperationNotSupportedException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
-import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 
 import org.apache.commons.lang.StringUtils;
@@ -34,6 +33,11 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 	}
 
 	@Override
+	public void removeAll(Set<User> entitySet) {
+		throw new OperationNotSupportedException("[" + JpaUserDao.class.getSimpleName() + "] does not support operation 'removeAll'");
+	}
+
+	@Override
 	public void persistUser(final User user) throws UniqueConstraintException {
 		try {
 			super.persist(user);
@@ -53,7 +57,7 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 			throw persistenceException;
 		}
 	}
-	
+
 	@Override
 	public List<User> findByRoleId(final long roleId) {
 		final Query findUserByRoleIdQuery = createNamedQuery(User.FINDUSER_ROLEID_QUERYNAME);
