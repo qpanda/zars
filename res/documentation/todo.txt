@@ -1,5 +1,8 @@
 CURRENT PENDING TASKS
 	o complete add/edit group reservations (all TODOs)
+		o confirmation pages
+		o TODOs
+		o unit test for updateGroupReservation
 	o completed admin group reservation
 	o complete delete group reservation
 	o use abstract controller UserController for AddUserController and EditUserController and others
