@@ -1,6 +1,7 @@
 package net.soomsam.zirmegghuette.zars.persistence.dao.jpa;
 
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
 
 import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
@@ -27,5 +28,10 @@ public class JpaPersistenceContextManager implements PersistenceContextManager {
 	@Override
 	public void flush() {
 		entityManager.flush();
+	}
+
+	@Override
+	public void setFlushMode(FlushModeType flushMode) {
+		entityManager.setFlushMode(flushMode);
 	}
 }

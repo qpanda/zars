@@ -1,5 +1,6 @@
 package net.soomsam.zirmegghuette.zars.persistence.dao;
 
+import javax.persistence.FlushModeType;
 
 /**
  * common interface for all persistence context managers
@@ -19,4 +20,9 @@ public interface PersistenceContextManager {
 	 * clears the persistence context effectively ensuring that entities can be garbage collected
 	 */
 	public void clear();
+
+	/**
+	 * sets the flush mode to use
+	 */
+	public void setFlushMode(FlushModeType flushMode);
 }
