@@ -7,7 +7,11 @@
 	<div class="applicationDialog">
 		<h:form id="editGroupReservationForm" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationEditGroupReservationDialogLabel}</div>
-			<!-- TODO show groupReservationId -->
+			<div class="applicationFormItem">		
+				<h:outputLabel for="groupReservationId" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationGroupReservationIdLabel}" /><br />
+				<h:inputText id="groupReservationId" styleClass="applicationFormValue" value="#{editGroupReservationController.groupReservationId}" onfocus="this.readOnly=true;" onblur="this.readOnly=false;" size="5" />
+				<p:message for="groupReservationId" />
+			</div>
 			<!-- TODO show beneficiary selectOneMenu if admin -->
 			<div class="applicationFormItem">		
 				<h:outputLabel for="arrival" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}" /><br />
