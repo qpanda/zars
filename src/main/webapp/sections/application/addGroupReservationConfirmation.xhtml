@@ -54,7 +54,28 @@
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationCommentLabel}</th>
 						<td class="applicationFormTableData">#{addGroupReservationController.savedGroupReservation.comment}</td>
-					</tr>					
+					</tr>
+					<h:dataTable id="reservations" var="reservation" value="#{addGroupReservationController.savedGroupReservation.reservations}" rendered="#{!empty addGroupReservationController.savedGroupReservation.reservations}" styleClass="applicationFormDataTable" captionClass="applicationFormDataTableCaption" headerClass="applicationFormDataTableHeader" rowClasses="applicationFormDataTableRow" columnClasses="applicationFormDataTableData, applicationFormDataTableData, applicationFormDataTableData">
+						<f:facet name="caption">
+							<h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationLabel}" />
+						</f:facet>						
+						<h:column>
+							<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationArrivalHeader}" /></f:facet>
+							<h:outputText value="#{reservation.arrival}">
+								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+							</h:outputText>
+						</h:column>
+						<h:column>
+							<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationDepartureHeader}" /></f:facet>
+							<h:outputText value="#{reservation.departure}">
+								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+							</h:outputText>
+						</h:column>
+						<h:column>
+							<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationPersonHeader}" /></f:facet>
+							<h:outputText value="#{reservation.firstName} #{reservation.lastName}" />
+						</h:column>
+					</h:dataTable>
 				</table>
 			</div>
 			<div class="applicationFormItem">
