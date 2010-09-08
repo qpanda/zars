@@ -1,6 +1,5 @@
 CURRENT PENDING TASKS
 	o complete add/edit group reservations (all TODOs)
-		o confirmation pages (use h:datatable for reservations)
 		o TODOs
 		o unit test for updateGroupReservation
 	o completed admin group reservation

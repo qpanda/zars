@@ -224,12 +224,28 @@ public class User extends BaseEntity {
 		this.roles.add(role);
 	}
 
+	void addRoles(final Set<Role> roleSet) {
+		if (null == roleSet) {
+			throw new IllegalArgumentException("'roleSet' must not be null");
+		}
+
+		this.roles.addAll(roleSet);
+	}
+
 	void removeRole(final Role role) {
 		if (null == role) {
 			throw new IllegalArgumentException("'role' must not be null");
 		}
 
 		this.roles.remove(role);
+	}
+
+	void removeRoles(final Set<Role> roleSet) {
+		if (null == roleSet) {
+			throw new IllegalArgumentException("'roleSet' must not be null");
+		}
+
+		this.roles.removeAll(roleSet);
 	}
 
 	public void associateRole(final Role role) {
@@ -250,7 +266,7 @@ public class User extends BaseEntity {
 			role.addUser(this);
 		}
 
-		this.roles.addAll(roleSet);
+		addRoles(roleSet);
 	}
 
 	public void unassociateRole(final Role role) {
@@ -271,7 +287,7 @@ public class User extends BaseEntity {
 			role.removeUser(this);
 		}
 
-		this.roles.removeAll(roleSet);
+		removeRoles(roleSet);
 	}
 
 	public void updateRoles(final Set<Role> newRoleSet) {

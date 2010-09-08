@@ -135,7 +135,7 @@ public class Room extends BaseEntity {
 		return Collections.unmodifiableSet(groupReservations);
 	}
 
-	void addGroupReservations(final GroupReservation groupReservation) {
+	void addGroupReservation(final GroupReservation groupReservation) {
 		if (null == groupReservation) {
 			throw new IllegalArgumentException("'groupReservation' must not be null");
 		}
@@ -143,7 +143,15 @@ public class Room extends BaseEntity {
 		this.groupReservations.add(groupReservation);
 	}
 
-	void removeGroupReservations(final GroupReservation groupReservation) {
+	void addGroupReservations(final Set<GroupReservation> groupReservationSet) {
+		if (null == groupReservationSet) {
+			throw new IllegalArgumentException("'groupReservationSet' must not be null");
+		}
+
+		this.groupReservations.addAll(groupReservationSet);
+	}
+
+	void removeGroupReservation(final GroupReservation groupReservation) {
 		if (null == groupReservation) {
 			throw new IllegalArgumentException("'groupReservation' must not be null");
 		}
@@ -151,12 +159,20 @@ public class Room extends BaseEntity {
 		this.groupReservations.remove(groupReservation);
 	}
 
+	void removeGroupReservations(final Set<GroupReservation> groupReservationSet) {
+		if (null == groupReservationSet) {
+			throw new IllegalArgumentException("'groupReservationSet' must not be null");
+		}
+
+		this.groupReservations.removeAll(groupReservationSet);
+	}
+
 	public void associateGroupReservation(final GroupReservation groupReservation) {
 		if (null == groupReservation) {
 			throw new IllegalArgumentException("'groupReservation' must not be null");
 		}
 
-		addGroupReservations(groupReservation);
+		addGroupReservation(groupReservation);
 		groupReservation.addRoom(this);
 	}
 
@@ -169,7 +185,7 @@ public class Room extends BaseEntity {
 			groupReservation.addRoom(this);
 		}
 
-		this.groupReservations.addAll(groupReservationSet);
+		addGroupReservations(groupReservationSet);
 	}
 
 	public void unassociateGroupReservation(final GroupReservation groupReservation) {
@@ -177,7 +193,7 @@ public class Room extends BaseEntity {
 			throw new IllegalArgumentException("'groupReservation' must not be null");
 		}
 
-		removeGroupReservations(groupReservation);
+		removeGroupReservation(groupReservation);
 		groupReservation.removeRoom(this);
 	}
 
@@ -190,7 +206,7 @@ public class Room extends BaseEntity {
 			groupReservation.removeRoom(this);
 		}
 
-		this.groupReservations.removeAll(groupReservationSet);
+		removeGroupReservations(groupReservationSet);
 	}
 
 	@Override

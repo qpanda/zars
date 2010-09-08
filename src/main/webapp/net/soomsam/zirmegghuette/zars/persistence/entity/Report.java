@@ -179,6 +179,14 @@ public class Report extends BaseEntity {
 		this.groupReservations.add(groupReservation);
 	}
 
+	void addGroupReservations(final Set<GroupReservation> groupReservationSet) {
+		if (null == groupReservationSet) {
+			throw new IllegalArgumentException("'groupReservationSet' must not be null");
+		}
+
+		this.groupReservations.addAll(groupReservationSet);
+	}
+
 	void removeGroupReservation(final GroupReservation groupReservation) {
 		if (null == groupReservation) {
 			throw new IllegalArgumentException("'groupReservation' must not be null");
@@ -205,7 +213,7 @@ public class Report extends BaseEntity {
 			groupReservation.addReport(this);
 		}
 
-		this.groupReservations.addAll(groupReservationSet);
+		addGroupReservations(groupReservationSet);
 	}
 
 	@Override

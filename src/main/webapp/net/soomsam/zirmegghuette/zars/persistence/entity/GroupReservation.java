@@ -337,12 +337,28 @@ public class GroupReservation extends BaseEntity {
 		this.reservations.add(reservation);
 	}
 
+	void addReservations(final Set<Reservation> reservationSet) {
+		if (null == reservationSet) {
+			throw new IllegalArgumentException("'reservationSet' must not be null");
+		}
+
+		this.reservations.addAll(reservationSet);
+	}
+
 	void removeReservation(final Reservation reservation) {
 		if (null == reservation) {
 			throw new IllegalArgumentException("'reservation' must not be null");
 		}
 
 		this.reservations.remove(reservation);
+	}
+
+	void removeReservations(final Set<Reservation> reservationSet) {
+		if (null == reservationSet) {
+			throw new IllegalArgumentException("'reservationSet' must not be null");
+		}
+
+		this.reservations.removeAll(reservationSet);
 	}
 
 	public void associateReservation(final Reservation reservation) {
@@ -363,7 +379,7 @@ public class GroupReservation extends BaseEntity {
 			reservation.setGroupReservation(this);
 		}
 
-		this.reservations.addAll(reservationSet);
+		addReservations(reservationSet);
 	}
 
 	public void unassociateReservation(final Reservation reservation) {
@@ -384,7 +400,7 @@ public class GroupReservation extends BaseEntity {
 			reservation.setGroupReservation(null);
 		}
 
-		this.reservations.removeAll(reservationSet);
+		removeReservations(reservationSet);
 	}
 
 	public Reservation getEarliestArrivalReservation() {
@@ -431,6 +447,14 @@ public class GroupReservation extends BaseEntity {
 		this.rooms.add(room);
 	}
 
+	void addRooms(final Set<Room> roomSet) {
+		if (null == roomSet) {
+			throw new IllegalArgumentException("'roomSet' must not be null");
+		}
+
+		this.rooms.addAll(roomSet);
+	}
+
 	void removeRoom(final Room room) {
 		if (null == room) {
 			throw new IllegalArgumentException("'room' must not be null");
@@ -439,13 +463,21 @@ public class GroupReservation extends BaseEntity {
 		this.rooms.remove(room);
 	}
 
+	void removeRooms(final Set<Room> roomSet) {
+		if (null == roomSet) {
+			throw new IllegalArgumentException("'roomSet' must not be null");
+		}
+
+		this.rooms.removeAll(roomSet);
+	}
+
 	public void associateRoom(final Room room) {
 		if (null == room) {
 			throw new IllegalArgumentException("'room' must not be null");
 		}
 
 		addRoom(room);
-		room.addGroupReservations(this);
+		room.addGroupReservation(this);
 	}
 
 	public void associateRooms(final Set<Room> roomSet) {
@@ -454,10 +486,10 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		for (final Room room : roomSet) {
-			room.addGroupReservations(this);
+			room.addGroupReservation(this);
 		}
 
-		this.rooms.addAll(roomSet);
+		addRooms(roomSet);
 	}
 
 	public void unassociateRoom(final Room room) {
@@ -466,7 +498,7 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		removeRoom(room);
-		room.removeGroupReservations(this);
+		room.removeGroupReservation(this);
 	}
 
 	public void unassociateRooms(final Set<Room> roomSet) {
@@ -475,10 +507,10 @@ public class GroupReservation extends BaseEntity {
 		}
 
 		for (final Room room : roomSet) {
-			room.removeGroupReservations(this);
+			room.removeGroupReservation(this);
 		}
 
-		this.rooms.removeAll(roomSet);
+		removeRooms(roomSet);
 	}
 
 	public void updateRooms(final Set<Room> newRoomSet) {
@@ -518,6 +550,14 @@ public class GroupReservation extends BaseEntity {
 		this.reports.remove(report);
 	}
 
+	void removeReports(final Set<Report> reportSet) {
+		if (null == reportSet) {
+			throw new IllegalArgumentException("'reportSet' must not be null");
+		}
+
+		this.reports.removeAll(reportSet);
+	}
+
 	public void unassociateReport(final Report report) {
 		if (null == report) {
 			throw new IllegalArgumentException("'report' must not be null");
@@ -536,7 +576,7 @@ public class GroupReservation extends BaseEntity {
 			report.removeGroupReservation(this);
 		}
 
-		this.reports.removeAll(reportSet);
+		removeReports(reportSet);
 	}
 
 	public void markInvoiceStale() {
