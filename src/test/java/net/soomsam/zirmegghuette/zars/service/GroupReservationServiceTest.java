@@ -159,6 +159,110 @@ public class GroupReservationServiceTest {
 		Assert.assertEquals(reservationVoSet.size(), createdGroupReservation.getReservations().size());
 	}
 
+	@Test
+	public void updateGroupReservation() throws UniqueConstraintException, GroupReservationConflictException {
+		List<RoleBean> allRoles = userService.findAllRoles();
+		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
+		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
+		DateMidnight initialArrival = new DateMidnight();
+		DateMidnight initialDeparture = initialArrival.plusDays(3);
+		long initialGuests = 3;
+		String initialComment = null;
+		GroupReservationBean createdGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), initialArrival, initialDeparture, initialGuests, initialComment);
+		Assert.assertEquals(initialArrival.toDate(), createdGroupReservation.getArrival());
+		Assert.assertEquals(initialDeparture.toDate(), createdGroupReservation.getDeparture());
+		Assert.assertEquals(initialGuests, createdGroupReservation.getGuests());
+		Assert.assertEquals(initialComment, createdGroupReservation.getComment());
+		Assert.assertFalse(createdGroupReservation.getRooms().isEmpty());
+		Assert.assertTrue(createdGroupReservation.getReservations().isEmpty());
+
+		DateMidnight updatedArrival = new DateMidnight();
+		DateMidnight updatedDeparture = initialArrival.plusDays(5);
+		long updatedGuests = 5;
+		String updatedComment = "updated";
+		GroupReservationBean updatedGroupReservation = groupReservationService.updateGroupReservation(createdGroupReservation.getGroupReservationId(), createdUser.getUserId(), createdUser.getUserId(), updatedArrival, updatedDeparture, updatedGuests, updatedComment);
+		Assert.assertEquals(updatedArrival.toDate(), updatedGroupReservation.getArrival());
+		Assert.assertEquals(updatedDeparture.toDate(), updatedGroupReservation.getDeparture());
+		Assert.assertEquals(updatedGuests, updatedGroupReservation.getGuests());
+		Assert.assertEquals(updatedComment, updatedGroupReservation.getComment());
+		Assert.assertFalse(updatedGroupReservation.getRooms().isEmpty());
+		Assert.assertTrue(updatedGroupReservation.getReservations().isEmpty());
+	}
+
+	@Test
+	public void updateGroupReservationAddOneReservation() throws UniqueConstraintException, GroupReservationConflictException {
+		List<RoleBean> allRoles = userService.findAllRoles();
+		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
+		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
+		DateMidnight initialArrival = new DateMidnight();
+		DateMidnight initialDeparture = initialArrival.plusDays(3);
+		long initialGuests = 3;
+		String initialComment = null;
+		GroupReservationBean createdGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), initialArrival, initialDeparture, initialGuests, initialComment);
+		Assert.assertEquals(initialArrival.toDate(), createdGroupReservation.getArrival());
+		Assert.assertEquals(initialDeparture.toDate(), createdGroupReservation.getDeparture());
+		Assert.assertEquals(initialGuests, createdGroupReservation.getGuests());
+		Assert.assertEquals(initialComment, createdGroupReservation.getComment());
+		Assert.assertFalse(createdGroupReservation.getRooms().isEmpty());
+		Assert.assertTrue(createdGroupReservation.getReservations().isEmpty());
+
+		Set<ReservationVo> reservationVoSet = createReservationVoSet(initialArrival, initialDeparture);
+		String updatedComment = "updated";
+		GroupReservationBean updatedGroupReservation = groupReservationService.updateGroupReservation(createdGroupReservation.getGroupReservationId(), createdUser.getUserId(), createdUser.getUserId(), reservationVoSet, updatedComment);
+		Assert.assertEquals(initialArrival.toDate(), updatedGroupReservation.getArrival());
+		Assert.assertEquals(initialDeparture.toDate(), updatedGroupReservation.getDeparture());
+		Assert.assertEquals(reservationVoSet.size(), updatedGroupReservation.getGuests());
+		Assert.assertEquals(updatedComment, updatedGroupReservation.getComment());
+		Assert.assertFalse(updatedGroupReservation.getRooms().isEmpty());
+		Assert.assertFalse(updatedGroupReservation.getReservations().isEmpty());
+		Assert.assertEquals(reservationVoSet.size(), updatedGroupReservation.getReservations().size());
+	}
+
+	@Test
+	public void updateGroupReservationAddMultipleReservation() throws UniqueConstraintException, GroupReservationConflictException {
+		List<RoleBean> allRoles = userService.findAllRoles();
+		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
+		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
+		DateMidnight initialArrival = new DateMidnight();
+		DateMidnight initialDeparture = initialArrival.plusDays(3);
+		long initialGuests = 3;
+		String initialComment = null;
+		GroupReservationBean createdGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), initialArrival, initialDeparture, initialGuests, initialComment);
+		Assert.assertEquals(initialArrival.toDate(), createdGroupReservation.getArrival());
+		Assert.assertEquals(initialDeparture.toDate(), createdGroupReservation.getDeparture());
+		Assert.assertEquals(initialGuests, createdGroupReservation.getGuests());
+		Assert.assertEquals(initialComment, createdGroupReservation.getComment());
+		Assert.assertFalse(createdGroupReservation.getRooms().isEmpty());
+		Assert.assertTrue(createdGroupReservation.getReservations().isEmpty());
+
+		DateMidnight arrival00 = new DateMidnight();
+		DateMidnight arrival01 = arrival00.plusDays(1);
+		DateMidnight arrival02 = arrival00.plusDays(2);
+		Set<DateMidnight> arrivalSet = new HashSet<DateMidnight>();
+		arrivalSet.add(arrival00);
+		arrivalSet.add(arrival01);
+		arrivalSet.add(arrival02);
+
+		DateMidnight departure00 = new DateMidnight().plusMonths(1);
+		DateMidnight departure01 = departure00.minusDays(1);
+		DateMidnight departure02 = departure00.minusDays(2);
+		Set<DateMidnight> departureSet = new HashSet<DateMidnight>();
+		departureSet.add(departure00);
+		departureSet.add(departure01);
+		departureSet.add(departure02);
+
+		Set<ReservationVo> reservationVoSet = createReservationVoSet(arrivalSet, departureSet);
+		String updatedComment = "updated";
+		GroupReservationBean updatedGroupReservation = groupReservationService.updateGroupReservation(createdGroupReservation.getGroupReservationId(), createdUser.getUserId(), createdUser.getUserId(), reservationVoSet, updatedComment);
+		Assert.assertEquals(arrival00.toDate(), updatedGroupReservation.getArrival());
+		Assert.assertEquals(departure00.toDate(), updatedGroupReservation.getDeparture());
+		Assert.assertEquals(reservationVoSet.size(), updatedGroupReservation.getGuests());
+		Assert.assertEquals(updatedComment, updatedGroupReservation.getComment());
+		Assert.assertFalse(updatedGroupReservation.getRooms().isEmpty());
+		Assert.assertFalse(updatedGroupReservation.getReservations().isEmpty());
+		Assert.assertEquals(reservationVoSet.size(), updatedGroupReservation.getReservations().size());
+	}
+
 	protected Set<ReservationVo> createReservationVoSet(final DateMidnight arrival, final DateMidnight departure) {
 		Set<ReservationVo> reservationVoSet = new HashSet<ReservationVo>();
 		ReservationVo reservationVo = new ReservationVo(1, arrival, departure, "abc", "def");
