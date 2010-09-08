@@ -202,13 +202,13 @@ public class GroupReservation extends BaseEntity {
 		autoSetArrivalDeparture();
 	}
 
-	protected void autoSetGuests() {
+	public void autoSetGuests() {
 		if (hasReservations()) {
 			this.guests = getReservations().size();
 		}
 	}
 
-	protected void autoSetArrivalDeparture() {
+	public void autoSetArrivalDeparture() {
 		if (hasReservations()) {
 			setArrival(getEarliestArrivalReservation().getArrival());
 			setDeparture(getLatestDepartureReservation().getDeparture());
