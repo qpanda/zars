@@ -101,7 +101,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	@Transactional(rollbackFor = GroupReservationConflictException.class)
-	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, DateMidnight arrival, DateMidnight departure, long guests, String comment) throws GroupReservationConflictException {
+	public GroupReservationBean updateGroupReservation(final long groupReservationId, final long beneficiaryId, final long accountantId, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) throws GroupReservationConflictException {
 		if ((null == arrival) || (null == departure)) {
 			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
 		}
@@ -136,7 +136,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	@Transactional(rollbackFor = GroupReservationConflictException.class)
-	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, Set<ReservationVo> reservationVoSet, String comment) throws GroupReservationConflictException {
+	public GroupReservationBean updateGroupReservation(final long groupReservationId, final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException {
 		if ((null == reservationVoSet) || (reservationVoSet.isEmpty())) {
 			throw new IllegalArgumentException("'reservationVoSet' must not be null or empty");
 		}
@@ -166,6 +166,8 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		reservationDao.removeAll(oldReservations);
 		groupReservation.associateReservations(newReservationSet);
 
+		groupReservation.autoSetArrivalDeparture();
+		groupReservation.autoSetGuests();
 		groupReservationDao.persist(groupReservation);
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
 
