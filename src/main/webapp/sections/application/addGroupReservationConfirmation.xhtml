@@ -56,7 +56,7 @@
 						<td class="applicationFormTableData">#{addGroupReservationController.savedGroupReservation.comment}</td>
 					</tr>
 				</table>
-				<h:dataTable id="reservations" var="reservation" value="#{addGroupReservationController.savedGroupReservation.reservations}" rendered="#{!empty addGroupReservationController.savedGroupReservation.reservations}" styleClass="applicationFormDataTable" captionClass="applicationFormDataTableCaption" headerClass="applicationFormDataTableHeader" rowClasses="applicationFormDataTableRow" columnClasses="applicationFormDataTableData, applicationFormDataTableData, applicationFormDataTableData">
+				<h:dataTable id="reservations" var="reservation" value="#{addGroupReservationController.savedGroupReservation.reservations}" rendered="#{!empty addGroupReservationController.savedGroupReservation.reservations}" styleClass="applicationFormDataTable" captionClass="applicationFormDataTableCaption" headerClass="applicationFormDataTableHeader" columnClasses="applicationFormDataTableData, applicationFormDataTableData, applicationFormDataTableData">
 					<f:facet name="caption">
 						<h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationLabel}" />
 					</f:facet>						
