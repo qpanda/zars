@@ -10,6 +10,7 @@ import net.soomsam.zirmegghuette.zars.TestUtils;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
+import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
@@ -42,6 +43,9 @@ public class GroupReservationServiceTest {
 
 	@Autowired
 	private RoomDao roomDao;
+
+	@Autowired
+	private PersistenceContextManager persistenceContextManager;
 
 	@Test
 	public void createGroupReservation() throws UniqueConstraintException, GroupReservationConflictException {
@@ -105,7 +109,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void createGroupReservationWithOneIndividualReservation() throws UniqueConstraintException, GroupReservationConflictException {
+	public void createGroupReservationWithOneReservation() throws UniqueConstraintException, GroupReservationConflictException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -126,7 +130,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void createGroupReservationWithMultipleIndividualReservations() throws UniqueConstraintException, GroupReservationConflictException {
+	public void createGroupReservationWithMultipleReservations() throws UniqueConstraintException, GroupReservationConflictException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -261,6 +265,49 @@ public class GroupReservationServiceTest {
 		Assert.assertFalse(updatedGroupReservation.getRooms().isEmpty());
 		Assert.assertFalse(updatedGroupReservation.getReservations().isEmpty());
 		Assert.assertEquals(reservationVoSet.size(), updatedGroupReservation.getReservations().size());
+	}
+
+	@Test(expected = GroupReservationConflictException.class)
+	public void updateGroupReservationConflict() throws UniqueConstraintException, GroupReservationConflictException {
+		List<RoleBean> allRoles = userService.findAllRoles();
+		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
+		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
+		GroupReservationBean createdFirstGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight(), new DateMidnight().plusDays(3), 3, null);
+		GroupReservationBean createdSecondGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusDays(4), new DateMidnight().plusDays(6), 3, null);
+		GroupReservationBean updatedGroupReservation = groupReservationService.updateGroupReservation(createdSecondGroupReservation.getGroupReservationId(), createdUser.getUserId(), createdUser.getUserId(), new DateMidnight(), new DateMidnight().plusDays(3), 3, null);
+	}
+
+	@Test
+	public void updateGroupReservationRemoveOnlyReservation() throws UniqueConstraintException, GroupReservationConflictException {
+		List<RoleBean> allRoles = userService.findAllRoles();
+		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
+		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
+		DateMidnight arrival = new DateMidnight();
+		DateMidnight departure = arrival.plusDays(3);
+		Set<ReservationVo> reservationVoSet = createReservationVoSet(arrival, departure);
+		String comment = null;
+		GroupReservationBean createdGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), reservationVoSet, comment);
+		Assert.assertEquals(arrival.toDate(), createdGroupReservation.getArrival());
+		Assert.assertEquals(departure.toDate(), createdGroupReservation.getDeparture());
+		Assert.assertEquals(reservationVoSet.size(), createdGroupReservation.getGuests());
+		Assert.assertEquals(comment, createdGroupReservation.getComment());
+		Assert.assertFalse(createdGroupReservation.getRooms().isEmpty());
+		Assert.assertFalse(createdGroupReservation.getReservations().isEmpty());
+		Assert.assertEquals(reservationVoSet.size(), createdGroupReservation.getReservations().size());
+		Assert.assertEquals(arrival.toDate(), createdGroupReservation.getReservations().get(0).getArrival());
+		Assert.assertEquals(departure.toDate(), createdGroupReservation.getReservations().get(0).getDeparture());
+
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+
+		long guests = 5;
+		GroupReservationBean updatedGroupReservation = groupReservationService.updateGroupReservation(createdGroupReservation.getGroupReservationId(), createdUser.getUserId(), createdUser.getUserId(), arrival, departure, guests, comment);
+		Assert.assertEquals(arrival.toDate(), updatedGroupReservation.getArrival());
+		Assert.assertEquals(departure.toDate(), updatedGroupReservation.getDeparture());
+		Assert.assertEquals(guests, updatedGroupReservation.getGuests());
+		Assert.assertEquals(comment, updatedGroupReservation.getComment());
+		Assert.assertFalse(updatedGroupReservation.getRooms().isEmpty());
+		Assert.assertTrue(updatedGroupReservation.getReservations().isEmpty());
 	}
 
 	protected Set<ReservationVo> createReservationVoSet(final DateMidnight arrival, final DateMidnight departure) {
