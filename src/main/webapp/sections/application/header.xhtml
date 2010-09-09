@@ -10,6 +10,12 @@
 		<div class="headerMenu">
 			<h:form>
 				<p:menubar effect="NONE" effectDuration="0">
+					<p:submenu>
+						<!-- TODO i18n -->
+						<f:facet name="label">
+							<p:menuitem value="Logout" url="/logout"/>  
+						</f:facet>
+					</p:submenu>				
 					<p:submenu label="#{displayMessages.sectionsWelcomeHeaderLanguageMenuLabel}">
 						<c:forEach var="selectLocale" items="#{localeController.selectLocales}">
 							<p:menuitem>
