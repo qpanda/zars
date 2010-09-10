@@ -4,8 +4,10 @@ import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -20,18 +22,19 @@ import com.sun.faces.util.MessageFactory;
 @Named
 @Scope("request")
 public class LoginController implements Serializable {
+	private final static Logger logger = Logger.getLogger(LoginController.class);
+
 	@Autowired
 	private transient AuthenticationManager authenticationManager;
+
+	@Inject
+	protected transient LocaleController localeController;
 
 	@NotEmpty(message = "{sectionsWelcomeLoginUsernameError}")
 	private String username;
 
 	@NotEmpty(message = "{sectionsWelcomeLoginPasswordError}")
 	private String password;
-
-	private boolean loginFailed;
-
-	private String loginFailedMessage;
 
 	public String getUsername() {
 		return username;
@@ -49,31 +52,15 @@ public class LoginController implements Serializable {
 		this.password = password;
 	}
 
-	public boolean isLoginFailed() {
-		return loginFailed;
-	}
-
-	public void setLoginFailed(final boolean loginFailed) {
-		this.loginFailed = loginFailed;
-	}
-
-	public String getLoginFailedMessage() {
-		return loginFailedMessage;
-	}
-
-	public void setLoginFailedMessage(final String loginFailedMessage) {
-		this.loginFailedMessage = loginFailedMessage;
-	}
-
 	public String login() {
 		try {
 			Authentication authenticationToken = new UsernamePasswordAuthenticationToken(getUsername(), getPassword());
 			Authentication authentication = authenticationManager.authenticate(authenticationToken);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} catch (AuthenticationException authenticationException) {
-			// TODO error message
-			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
-			FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
+			logger.warn("authentication for user [" + getUsername() + "] failed with 'AuthenticationException' [" + authenticationException.getCause() + "] and message [" + authenticationException.getMessage() + "]");
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsWelcomeLoginAuthenticationError", FacesMessage.SEVERITY_ERROR, null);
+			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 			return null;
 		}
 
