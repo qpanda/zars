@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
@@ -26,9 +25,6 @@ public class LoginController implements Serializable {
 
 	@Autowired
 	private transient AuthenticationManager authenticationManager;
-
-	@Inject
-	protected transient LocaleController localeController;
 
 	@NotEmpty(message = "{sectionsWelcomeLoginUsernameError}")
 	private String username;
