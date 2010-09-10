@@ -111,8 +111,13 @@ public class TransactionalUserService implements UserService {
 		if (null == roleType) {
 			throw new IllegalArgumentException("'roleType' must not be null");
 		}
-		
+
 		final Role role = roleDao.retrieveByName(roleType.getRoleName());
 		return serviceBeanMapper.map(UserBean.class, userDao.findByRoleId(role.getRoleId()));
+	}
+
+	@Override
+	public UserBean retrieveUser(final String username) {
+		return serviceBeanMapper.map(UserBean.class, userDao.retrieveByUsername(username));
 	}
 }

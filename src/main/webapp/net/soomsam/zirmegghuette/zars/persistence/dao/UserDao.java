@@ -7,6 +7,8 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 
 public interface UserDao extends EntityDao<User> {
 	public void persistUser(User user) throws UniqueConstraintException;
-	
+
 	public List<User> findByRoleId(final long roleId);
+
+	public User retrieveByUsername(final String username);
 }

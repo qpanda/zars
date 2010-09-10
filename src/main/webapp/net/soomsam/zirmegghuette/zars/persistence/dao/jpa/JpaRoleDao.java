@@ -3,6 +3,7 @@ package net.soomsam.zirmegghuette.zars.persistence.dao.jpa;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
@@ -37,11 +38,11 @@ public class JpaRoleDao extends JpaEntityDao<Role> implements RoleDao {
 
 		final Query findRoleByNameQuery = createNamedQuery(Role.FINDROLE_NAME_QUERYNAME);
 		findRoleByNameQuery.setParameter("name", name);
-		final Role role = (Role) findRoleByNameQuery.getSingleResult();
-		if (role == null) {
-			throw new EntityNotFoundException("role with name [" + name + "] not found");
-		}
 
-		return role;
+		try {
+			return (Role) findRoleByNameQuery.getSingleResult();
+		} catch (NoResultException noResultException) {
+			throw new EntityNotFoundException("role with name [" + name + "] not found", noResultException);
+		}
 	}
 }

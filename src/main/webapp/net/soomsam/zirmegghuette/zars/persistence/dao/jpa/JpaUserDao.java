@@ -3,10 +3,12 @@ package net.soomsam.zirmegghuette.zars.persistence.dao.jpa;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
+import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.OperationNotSupportedException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
@@ -63,5 +65,21 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 		final Query findUserByRoleIdQuery = createNamedQuery(User.FINDUSER_ROLEID_QUERYNAME);
 		findUserByRoleIdQuery.setParameter("roleId", roleId);
 		return findUserByRoleIdQuery.getResultList();
+	}
+
+	@Override
+	public User retrieveByUsername(String username) {
+		if (null == username) {
+			throw new IllegalArgumentException("'username' must not be null");
+		}
+
+		final Query findUserByUsernameQuery = createNamedQuery(User.FINDUSER_USERNAME_QUERYNAME);
+		findUserByUsernameQuery.setParameter("username", username);
+
+		try {
+			return (User) findUserByUsernameQuery.getSingleResult();
+		} catch (NoResultException noResultException) {
+			throw new EntityNotFoundException("user with username [" + username + "] not found", noResultException);
+		}
 	}
 }

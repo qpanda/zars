@@ -27,11 +27,16 @@
 	</security:http>
 
 	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider user-service-ref="userDetailsService">
+			<security:password-encoder hash="plaintext"/>
+		</security:authentication-provider>
 		<security:authentication-provider>
+			<security:password-encoder hash="plaintext"/>
 			<security:user-service>
-				<security:user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN"/>
-				<security:user name="user" password="user" authorities="ROLE_USER"/>
+				<security:user name="sadmin" password="sadmin" authorities="ROLE_ADMIN"/>
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
+	
+	<bean id="userDetailsService" class="net.soomsam.zirmegghuette.zars.service.stateless.StatelessUserDetailsService"/>
 </beans>

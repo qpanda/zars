@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = User.TABLENAME_USER)
-@NamedQueries( { @NamedQuery(name = User.FINDUSER_ROLEID_QUERYNAME, query = User.FINDUSER_ROLEID_QUERYSTRING) })
+@NamedQueries( { @NamedQuery(name = User.FINDUSER_ROLEID_QUERYNAME, query = User.FINDUSER_ROLEID_QUERYSTRING), @NamedQuery(name = User.FINDUSER_USERNAME_QUERYNAME, query = User.FINDUSER_USERNAME_QUERYSTRING) })
 public class User extends BaseEntity {
 	public static final String TABLENAME_USER = "zars_user";
 	public static final String COLUMNNAME_USERID = "user_id";
@@ -47,6 +47,9 @@ public class User extends BaseEntity {
 
 	public static final String FINDUSER_ROLEID_QUERYNAME = "User.findUserByRoleId";
 	public static final String FINDUSER_ROLEID_QUERYSTRING = "select user from User as user inner join user.roles as role where role.roleId = :roleId";
+
+	public static final String FINDUSER_USERNAME_QUERYNAME = "User.findUserByUsername";
+	public static final String FINDUSER_USERNAME_QUERYSTRING = "from User where username = :username";
 
 	@Id
 	@GeneratedValue

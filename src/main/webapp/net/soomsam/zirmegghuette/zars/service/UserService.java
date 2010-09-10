@@ -28,6 +28,8 @@ public interface UserService {
 	public void enableUser(long userId);
 
 	public void disableUser(long userId);
-	
+
 	public List<UserBean> findUsers(final RoleType roleType);
+
+	public UserBean retrieveUser(String username);
 }
