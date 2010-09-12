@@ -22,8 +22,8 @@
 		<security:intercept-url pattern="/views/terms.jsf" access="permitAll"/>
 		<security:intercept-url pattern="/**" access="isAuthenticated()" />
 		
-		<security:form-login login-page="/views/login.jsf" login-processing-url="/processing_login" default-target-url="/views/adminGroupReservation.jsf" always-use-default-target="true" authentication-failure-url="/views/login.jsf"/>
-		<security:logout logout-url="/processing_logout" logout-success-url="/views/login.jsf"/>		
+		<security:form-login login-page="/views/login.jsf" default-target-url="/views/adminGroupReservation.jsf" authentication-failure-url="/views/login.jsf"/>
+		<security:logout logout-success-url="/views/login.jsf"/>		
 	</security:http>
 
 	<security:authentication-manager alias="authenticationManager">

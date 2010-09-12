@@ -1,20 +1,27 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.WebAttributes;
 
 import com.sun.faces.util.MessageFactory;
 
@@ -48,18 +55,33 @@ public class LoginController implements Serializable {
 		this.password = password;
 	}
 
-	public String login() {
-		try {
-			Authentication authenticationToken = new UsernamePasswordAuthenticationToken(getUsername(), getPassword());
-			Authentication authentication = authenticationManager.authenticate(authenticationToken);
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-		} catch (AuthenticationException authenticationException) {
-			logger.warn("authentication for user [" + getUsername() + "] failed with 'AuthenticationException' [" + authenticationException.getCause() + "] and message [" + authenticationException.getMessage() + "]");
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsWelcomeLoginAuthenticationError", FacesMessage.SEVERITY_ERROR, null);
-			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
-			return null;
-		}
+	public String login() throws IOException, ServletException {
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		RequestDispatcher requestDispatcher = ((ServletRequest) externalContext.getRequest()).getRequestDispatcher("/j_spring_security_check");
+		requestDispatcher.forward((ServletRequest) externalContext.getRequest(), (ServletResponse) externalContext.getResponse());
+		FacesContext.getCurrentInstance().responseComplete();
+		return null;
+	}
 
-		return "adminGroupReservation?faces-redirect=true";
+	@PostConstruct
+	@SuppressWarnings("unused")
+	private void handleAuthenticationFailure() {
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		Map<String, Object> sessionMap = externalContext.getSessionMap();
+		Object authenticationExceptionObject = sessionMap.get(WebAttributes.AUTHENTICATION_EXCEPTION);
+		if (authenticationExceptionObject instanceof AuthenticationException) {
+			AuthenticationException authenticationException = (AuthenticationException) authenticationExceptionObject;
+			Authentication authentication = authenticationException.getAuthentication();
+			if (null != authentication) {
+				setUsername(authentication.getName());
+				logger.warn("authentication for user [" + getUsername() + "] failed with 'AuthenticationException' [" + authenticationException.getCause() + "] and message [" + authenticationException.getMessage() + "]");
+			} else {
+				logger.warn("authentication failed with 'AuthenticationException' [" + authenticationException.getCause() + "] and message [" + authenticationException.getMessage() + "]");
+			}
+
+			sessionMap.remove(WebAttributes.AUTHENTICATION_EXCEPTION);
+			final FacesMessage authenticationFailedFacesMessage = MessageFactory.getMessage("sectionsWelcomeLoginAuthenticationError", FacesMessage.SEVERITY_ERROR, null);
+			FacesContext.getCurrentInstance().addMessage(null, authenticationFailedFacesMessage);
+		}
 	}
 }
