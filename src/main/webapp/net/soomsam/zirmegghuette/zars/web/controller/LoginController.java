@@ -16,9 +16,7 @@ import javax.servlet.ServletResponse;
 
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.WebAttributes;
@@ -29,9 +27,6 @@ import com.sun.faces.util.MessageFactory;
 @Scope("request")
 public class LoginController implements Serializable {
 	private final static Logger logger = Logger.getLogger(LoginController.class);
-
-	@Autowired
-	private transient AuthenticationManager authenticationManager;
 
 	@NotEmpty(message = "{sectionsWelcomeLoginUsernameError}")
 	private String username;

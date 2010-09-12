@@ -8,6 +8,8 @@ import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
+import org.springframework.security.access.annotation.Secured;
+
 public interface UserService {
 	public void createAllRoles();
 
@@ -25,8 +27,10 @@ public interface UserService {
 
 	public List<UserBean> findAllUsers();
 
+	@Secured("ROLE_ADMIN")
 	public void enableUser(long userId);
 
+	@Secured("ROLE_ADMIN")
 	public void disableUser(long userId);
 
 	public List<UserBean> findUsers(final RoleType roleType);
