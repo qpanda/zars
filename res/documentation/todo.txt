@@ -5,6 +5,7 @@ CURRENT PENDING TASKS
 	o use abstract controller UserController for AddUserController and EditUserController and others
 	o name formatter
 	o remove language selector from menu or full resubmit
+	o allow users to change the password
 
 MUST-HAVE
 	o beneficiary dropdown on group reservation (only for admin)
