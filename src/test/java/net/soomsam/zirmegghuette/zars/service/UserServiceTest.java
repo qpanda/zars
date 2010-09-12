@@ -40,9 +40,9 @@ public class UserServiceTest {
 	@Test
 	public void findAllRoles() {
 		List<RoleBean> roleBeanList = userService.findAllRoles();
-		Assert.assertTrue(containsRoleType(roleBeanList, RoleType.ROLE_ACCOUNTANT));
-		Assert.assertTrue(containsRoleType(roleBeanList, RoleType.ROLE_ADMIN));
-		Assert.assertTrue(containsRoleType(roleBeanList, RoleType.ROLE_USER));
+		Assert.assertTrue(TestUtils.containsRoleType(roleBeanList, RoleType.ROLE_ACCOUNTANT));
+		Assert.assertTrue(TestUtils.containsRoleType(roleBeanList, RoleType.ROLE_ADMIN));
+		Assert.assertTrue(TestUtils.containsRoleType(roleBeanList, RoleType.ROLE_USER));
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class UserServiceTest {
 		List<RoleBean> roleBeanList = userService.findAllRoles();
 		Set<Long> roleIdSet = TestUtils.determineRoleIds(roleBeanList, RoleType.ROLE_USER);
 		UserBean userBean = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", roleIdSet);
-		Assert.assertTrue(containsRoleType(userBean.getRoles(), RoleType.ROLE_USER));
+		Assert.assertTrue(TestUtils.containsRoleType(userBean.getRoles(), RoleType.ROLE_USER));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -64,13 +64,13 @@ public class UserServiceTest {
 
 		Set<Long> initialRoleIdSet = TestUtils.determineRoleIds(roleBeanList, RoleType.ROLE_USER);
 		UserBean initialUserBean = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", initialRoleIdSet);
-		Assert.assertTrue(containsRoleType(initialUserBean.getRoles(), RoleType.ROLE_USER));
-		Assert.assertFalse(containsRoleType(initialUserBean.getRoles(), RoleType.ROLE_ADMIN));
+		Assert.assertTrue(TestUtils.containsRoleType(initialUserBean.getRoles(), RoleType.ROLE_USER));
+		Assert.assertFalse(TestUtils.containsRoleType(initialUserBean.getRoles(), RoleType.ROLE_ADMIN));
 
 		Set<Long> updatedRoleIdSet = TestUtils.determineRoleIds(roleBeanList, RoleType.ROLE_USER, RoleType.ROLE_ADMIN);
 		UserBean updatedUserBean = userService.updateUser(initialUserBean.getUserId(), "abc", "ghi@jkl.mno", "pqr", "stu", updatedRoleIdSet);
-		Assert.assertTrue(containsRoleType(updatedUserBean.getRoles(), RoleType.ROLE_USER));
-		Assert.assertTrue(containsRoleType(updatedUserBean.getRoles(), RoleType.ROLE_ADMIN));
+		Assert.assertTrue(TestUtils.containsRoleType(updatedUserBean.getRoles(), RoleType.ROLE_USER));
+		Assert.assertTrue(TestUtils.containsRoleType(updatedUserBean.getRoles(), RoleType.ROLE_ADMIN));
 	}
 
 	@Test(expected = EntityNotFoundException.class)
@@ -153,15 +153,5 @@ public class UserServiceTest {
 		List<UserBean> userBeanList02 = userService.findUsers(RoleType.ROLE_ADMIN);
 		Assert.assertTrue(TestUtils.containsUser(userBeanList02, userBean01.getUserId()));
 		Assert.assertTrue(TestUtils.containsUser(userBeanList02, userBean02.getUserId()));
-	}
-
-	protected boolean containsRoleType(List<RoleBean> roleBeanList, RoleType roleType) {
-		for (RoleBean roleBean : roleBeanList) {
-			if (roleType.getRoleName().equals(roleBean.getName())) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 }

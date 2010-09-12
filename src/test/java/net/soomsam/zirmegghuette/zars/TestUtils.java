@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
+import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
@@ -51,17 +52,17 @@ public class TestUtils {
 		logger.info("read [" + outputStreamBuffer.length + "] bytes from file [" + classpathResourceName + "]");
 		return outputStreamBuffer;
 	}
-	
+
 	public static boolean containsRoleType(List<RoleBean> roleBeanList, RoleType roleType) {
 		for (RoleBean roleBean : roleBeanList) {
 			if (roleType.getRoleName().equals(roleBean.getName())) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	public static Set<Long> determineRoleIds(List<RoleBean> roleBeanList, RoleType... roleTypeArray) {
 		Set<Long> roleIdSet = new HashSet<Long>();
 		for (RoleBean roleBean : roleBeanList) {
@@ -71,17 +72,27 @@ public class TestUtils {
 				}
 			}
 		}
-		
+
 		return roleIdSet;
 	}
-	
+
 	public static boolean containsUser(List<UserBean> userBeanList, long userId) {
 		for (UserBean userBean : userBeanList) {
 			if (userId == userBean.getUserId()) {
 				return true;
 			}
 		}
-		
+
+		return false;
+	}
+
+	public static <Entity extends BaseEntity> boolean containsEntity(final Set<Entity> entitySet, final Entity otherEntity) {
+		for (final Entity entity : entitySet) {
+			if (entity.sameValues(otherEntity)) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 }
