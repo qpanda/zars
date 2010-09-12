@@ -28,15 +28,11 @@
 
 	<security:authentication-manager alias="authenticationManager">
 		<security:authentication-provider user-service-ref="userDetailsService">
-			<security:password-encoder hash="plaintext"/>
-		</security:authentication-provider>
-		<security:authentication-provider>
-			<security:password-encoder hash="plaintext"/>
-			<security:user-service>
-				<security:user name="sadmin" password="sadmin" authorities="ROLE_ADMIN"/>
-			</security:user-service>
+			<security:password-encoder ref="passwordEncoder"/>
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
 	<bean id="userDetailsService" class="net.soomsam.zirmegghuette.zars.service.stateless.StatelessUserDetailsService"/>
+	
+	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
 </beans>

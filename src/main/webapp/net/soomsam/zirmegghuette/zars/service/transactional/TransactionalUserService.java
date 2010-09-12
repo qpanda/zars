@@ -16,6 +16,7 @@ import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.service.utils.ServiceBeanMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,9 @@ public class TransactionalUserService implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -48,7 +52,7 @@ public class TransactionalUserService implements UserService {
 	@Override
 	public void createDefaultUsers() {
 		final Role adminRole = roleDao.retrieveByName(RoleType.ROLE_ADMIN.getRoleName());
-		final User adminUser = new User("admin", "admin", "admin@zars.soomsam.net", true, adminRole);
+		final User adminUser = new User("admin", encodePassword("admin"), "admin@zars.soomsam.net", true, adminRole);
 		userDao.persist(adminUser);
 	}
 
@@ -56,7 +60,7 @@ public class TransactionalUserService implements UserService {
 	@Transactional(rollbackFor = UniqueConstraintException.class)
 	public UserBean createUser(final String username, final String password, final String emailAddress, final String firstName, final String lastName, final Set<Long> roleIdSet) throws UniqueConstraintException {
 		final List<Role> roleList = roleDao.findByPrimaryKeys(roleIdSet);
-		final User user = new User(username, password, emailAddress, firstName, lastName, true, new HashSet<Role>(roleList));
+		final User user = new User(username, encodePassword(password), emailAddress, firstName, lastName, true, new HashSet<Role>(roleList));
 		userDao.persistUser(user);
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
@@ -78,7 +82,7 @@ public class TransactionalUserService implements UserService {
 	@Override
 	public UserBean resetUser(final long userId, final String password, final boolean enabled) {
 		final User user = userDao.retrieveByPrimaryKey(userId);
-		user.setPassword(password);
+		user.setPassword(encodePassword(password));
 		user.setEnabled(enabled);
 		userDao.persist(user);
 		return serviceBeanMapper.map(UserBean.class, user);
@@ -119,5 +123,9 @@ public class TransactionalUserService implements UserService {
 	@Override
 	public UserBean retrieveUser(final String username) {
 		return serviceBeanMapper.map(UserBean.class, userDao.retrieveByUsername(username));
+	}
+
+	protected String encodePassword(String rawPassword) {
+		return passwordEncoder.encodePassword(rawPassword, null);
 	}
 }
