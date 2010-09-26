@@ -1,4 +1,5 @@
 CURRENT PENDING TASKS
+	o switch accountant/benificiary to string (username) in controller/service signature and disable input for non admins 
 	o complete add/edit group reservations (all TODOs)
 		o especially user dropdown for admin/and not shown for regular users 
 	o completed admin group reservation
