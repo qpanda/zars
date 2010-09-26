@@ -56,6 +56,8 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 	protected Long selectedAccountantId;
 
+	protected Long selectedBeneficiaryId;
+
 	@Length(min = 0, max = 512, message = "{sectionsApplicationGroupReservationCommentError}")
 	protected String comment;
 
@@ -107,6 +109,18 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 	public void setSelectedAccountantId(final Long selectedAccountantId) {
 		this.selectedAccountantId = selectedAccountantId;
+	}
+
+	public List<UserBean> getAvailableBeneficiaries() {
+		return userService.findUsers(RoleType.ROLE_USER);
+	}
+
+	public Long getSelectedBeneficiaryId() {
+		return selectedBeneficiaryId;
+	}
+
+	public void setSelectedBeneficiaryId(Long selectedBeneficiaryId) {
+		this.selectedBeneficiaryId = selectedBeneficiaryId;
 	}
 
 	public String getComment() {
