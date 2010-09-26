@@ -1,13 +1,13 @@
 CURRENT PENDING TASKS
-	o complete security
-		o annotate all service methods with @Secured
-		o do not render admin menu entries for regular users (requires util class)
 	o complete add/edit group reservations (all TODOs)
 		o especially user dropdown for admin/and not shown for regular users 
 	o completed admin group reservation
 	o complete delete group reservation
-	o use abstract controller UserController for AddUserController and EditUserController and others
 	o name formatter
+	o complete security
+		o annotate all service methods with @Secured
+		o do not render admin menu entries for regular users (requires util class)
+	o use abstract controller UserController for AddUserController and EditUserController and others
 	o remove language selector from menu or full resubmit
 	o allow users to change the password
 
@@ -29,6 +29,7 @@ SHOULD-HAVE
 	o mark Invoice and Report invalid if associated GroupReservation is changed
 
 NICE-TO-HAVE
+	o forwarding from login page if already logged in (pretty faces)
 	o consolidate Reservation.firstName and Reservation.lastName into a single field Reservation.guestName
 	o provide autocomplete for Reservation.guestName
 	o review all forms to check length of input strings

@@ -9,8 +9,10 @@ import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
+import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,25 @@ public class ServiceSecurityTest {
 	@Test(expected = BadCredentialsException.class)
 	public void testAuthenticationFailure() {
 		login("wrong", "wrong");
+		logout();
+	}
+
+	@Test
+	public void verifyAdminRoles() {
+		login("admin", "admin");
+		Assert.assertTrue(SecurityUtils.hasRole(RoleType.ROLE_ADMIN));
+		Assert.assertFalse(SecurityUtils.hasRole(RoleType.ROLE_USER));
+		Assert.assertFalse(SecurityUtils.hasRole(RoleType.ROLE_ACCOUNTANT));
+		logout();
+	}
+
+	@Test
+	public void verifyUserRoles() throws UniqueConstraintException {
+		createUser("abc", "def");
+		login("abc", "def");
+		Assert.assertFalse(SecurityUtils.hasRole(RoleType.ROLE_ADMIN));
+		Assert.assertTrue(SecurityUtils.hasRole(RoleType.ROLE_USER));
+		Assert.assertFalse(SecurityUtils.hasRole(RoleType.ROLE_ACCOUNTANT));
 		logout();
 	}
 
