@@ -28,6 +28,10 @@ public class SecurityUtils {
 		return authentication;
 	}
 
+	public final static String determineUsername() {
+		return determineAuthentication().getName();
+	}
+
 	public final static boolean isAuthorityPresent(Collection<GrantedAuthority> grantedAuthorityCollection, String role) {
 		for (GrantedAuthority grantedAuthority : grantedAuthorityCollection) {
 			String authority = grantedAuthority.getAuthority();

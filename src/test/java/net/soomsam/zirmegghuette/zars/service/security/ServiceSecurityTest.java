@@ -9,6 +9,7 @@ import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
+import net.soomsam.zirmegghuette.zars.utils.NoAuthenticationException;
 import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
 
 import org.apache.log4j.Logger;
@@ -70,6 +71,26 @@ public class ServiceSecurityTest {
 		Assert.assertTrue(SecurityUtils.hasRole(RoleType.ROLE_USER));
 		Assert.assertFalse(SecurityUtils.hasRole(RoleType.ROLE_ACCOUNTANT));
 		logout();
+	}
+
+	@Test
+	public void verifyAdminUsername() {
+		login("admin", "admin");
+		Assert.assertEquals("admin", SecurityUtils.determineUsername());
+		logout();
+	}
+
+	@Test
+	public void verifyDummyUsername() throws UniqueConstraintException {
+		createUser("abc", "def");
+		login("abc", "def");
+		Assert.assertEquals("abc", SecurityUtils.determineUsername());
+		logout();
+	}
+
+	@Test(expected = NoAuthenticationException.class)
+	public void verifyNoAuthentication() {
+		SecurityUtils.determineAuthentication();
 	}
 
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
