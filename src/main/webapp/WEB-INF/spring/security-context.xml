@@ -15,6 +15,7 @@
 	<security:global-method-security secured-annotations="enabled" jsr250-annotations="enabled"/>
 
 	<security:http use-expressions="true">
+		<security:intercept-url pattern="/favicon.ico" access="permitAll"/>
 		<security:intercept-url pattern="/primefaces_resource/**" access="permitAll"/>
 		<security:intercept-url pattern="/javax.faces.resource/**" access="permitAll"/>
 		<security:intercept-url pattern="/views/login.jsf" access="permitAll"/>
