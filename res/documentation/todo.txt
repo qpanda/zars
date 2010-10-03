@@ -1,9 +1,9 @@
 CURRENT PENDING TASKS 
-	o display current user in menubar
 	o complete add/edit group reservations (all TODOs)
 	o completed admin group reservation
 	o complete delete group reservation
 	o name formatter
+	o display current user in menubar
 	o complete security
 		o annotate all service methods with @Secured
 		o do not render admin menu entries for regular users (requires util class)
@@ -12,9 +12,7 @@ CURRENT PENDING TASKS
 	o allow users to change the password
 
 MUST-HAVE
-	o beneficiary dropdown on group reservation (only for admin)
 	o security
-		o to determine current user
 		o to determine permissions (actions, views) of current user
 	o edit group reservation
 	o delete group reservation

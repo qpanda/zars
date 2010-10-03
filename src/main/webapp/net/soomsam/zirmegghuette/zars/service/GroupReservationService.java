@@ -22,6 +22,8 @@ public interface GroupReservationService {
 
 	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, Set<ReservationVo> reservationVoSet, String comment) throws GroupReservationConflictException, InsufficientPermissionException;
 
+	public void deleteGroupReservation(long groupReservationId) throws InsufficientPermissionException;
+
 	public List<GroupReservationBean> findGroupReservation(Interval dateInterval);
 
 	public GroupReservationBean retrieveGroupReservation(long groupReservationId);

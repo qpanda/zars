@@ -54,7 +54,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	@Override
-	@Transactional(rollbackFor = GroupReservationConflictException.class)
+	@Transactional(rollbackFor = { GroupReservationConflictException.class, InsufficientPermissionException.class })
 	public GroupReservationBean createGroupReservation(final long beneficiaryId, final long accountantId, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) throws GroupReservationConflictException, InsufficientPermissionException {
 		if ((null == arrival) || (null == departure)) {
 			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
@@ -76,7 +76,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	@Override
-	@Transactional(rollbackFor = GroupReservationConflictException.class)
+	@Transactional(rollbackFor = { GroupReservationConflictException.class, InsufficientPermissionException.class })
 	public GroupReservationBean createGroupReservation(final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException, InsufficientPermissionException {
 		if ((null == reservationVoSet) || (reservationVoSet.isEmpty())) {
 			throw new IllegalArgumentException("'reservationVoSet' must not be null or empty");
@@ -107,7 +107,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	@Override
-	@Transactional(rollbackFor = GroupReservationConflictException.class)
+	@Transactional(rollbackFor = { GroupReservationConflictException.class, InsufficientPermissionException.class })
 	public GroupReservationBean updateGroupReservation(final long groupReservationId, final long beneficiaryId, final long accountantId, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) throws GroupReservationConflictException, InsufficientPermissionException {
 		if ((null == arrival) || (null == departure)) {
 			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
@@ -143,7 +143,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	@Override
-	@Transactional(rollbackFor = GroupReservationConflictException.class)
+	@Transactional(rollbackFor = { GroupReservationConflictException.class, InsufficientPermissionException.class })
 	public GroupReservationBean updateGroupReservation(final long groupReservationId, final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException, InsufficientPermissionException {
 		if ((null == reservationVoSet) || (reservationVoSet.isEmpty())) {
 			throw new IllegalArgumentException("'reservationVoSet' must not be null or empty");
@@ -185,6 +185,19 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		// TODO only admin should be allowed to update group reservation that had already been payed
 		// TODO search for reports covering new date range of group reservation and mark them as stale
 		// TODO revise delete/add logic for reservations
+	}
+
+	@Override
+	@Transactional(rollbackFor = InsufficientPermissionException.class)
+	public void deleteGroupReservation(long groupReservationId) throws InsufficientPermissionException {
+		final GroupReservation groupReservation = groupReservationDao.retrieveByPrimaryKey(groupReservationId);
+
+		assertDeleteGroupReservationAllowed(groupReservationId, groupReservation.getBeneficiary().getUserId());
+
+		groupReservationDao.remove(groupReservation);
+
+		// TODO only admin should be allowed to delete group reservation that had already been payed
+		// TODO search for reports covering new date range of group reservation and mark them as stale
 	}
 
 	@Override
@@ -253,6 +266,13 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		User currentUser = userDao.retrieveCurrentUser();
 		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && (groupReservationBeneficiaryId != currentUser.getUserId())) {
 			throw new InsufficientPermissionException("non admin users are not allowed to update group reservations of other users", currentUser.getUserId(), groupReservationBeneficiaryId, OperationType.UPDATE);
+		}
+	}
+
+	protected void assertDeleteGroupReservationAllowed(final long groupReservationId, final long groupReservationBeneficiaryId) throws InsufficientPermissionException {
+		User currentUser = userDao.retrieveCurrentUser();
+		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && (groupReservationBeneficiaryId != currentUser.getUserId())) {
+			throw new InsufficientPermissionException("non admin users are not allowed to delete group reservations of other users", currentUser.getUserId(), groupReservationBeneficiaryId, OperationType.DELETE);
 		}
 	}
 }
