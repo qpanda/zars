@@ -385,7 +385,8 @@ public abstract class ModifyGroupReservationController implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
 			}
 		} catch (final InsufficientPermissionException insufficientPermissionException) {
-			// TODO
+			final FacesMessage groupReservationConflictFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
 		}
 
 		return null;
@@ -439,7 +440,8 @@ public abstract class ModifyGroupReservationController implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
 			}
 		} catch (final InsufficientPermissionException insufficientPermissionException) {
-			// TODO
+			final FacesMessage groupReservationConflictFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
 		}
 
 		return null;
