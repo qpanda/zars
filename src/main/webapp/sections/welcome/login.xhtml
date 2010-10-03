@@ -10,14 +10,14 @@
 			<div class="loginFormSubtitle">v#{applicationInfoController.applicationInfo['zars.version']}</div>
 			<div class="loginFormItem">
 				<h:outputLabel for="j_username" styleClass="loginFormLabel" value="#{displayMessages.sectionsWelcomeLoginUsernameLabel}" /><br />
-				<h:inputText id="j_username" styleClass="loginFormInput" value="#{loginController.username}" />
+				<h:inputText id="j_username" styleClass="loginFormInput" value="#{loginController.username}" tabindex="1"/>
 			</div>
 			<div class="loginFormItem">
 				<h:outputLabel for="j_password" styleClass="loginFormLabel" value="#{displayMessages.sectionsWelcomeLoginPasswordLabel}" /><br />
-				<h:inputSecret id="j_password" styleClass="loginFormInput" value="#{loginController.password}" />
+				<h:inputSecret id="j_password" styleClass="loginFormInput" value="#{loginController.password}" tabindex="2" />
 			</div>
 			<div class="loginFormItem">
-				<h:commandButton id="login" type="submit" action="#{loginController.login}" styleClass="loginFormButton" value="#{displayMessages.sectionsWelcomeLoginLoginButton}" />
+				<h:commandButton id="login" type="submit" action="#{loginController.login}" styleClass="loginFormButton" value="#{displayMessages.sectionsWelcomeLoginLoginButton}" tabindex="3" />
 			</div>
 			<div class="loginFormHelp"><h:link outcome="help" value="#{displayMessages.sectionsWelcomeLoginHelp}"/> - <h:link outcome="terms" value="#{displayMessages.sectionsWelcomeLoginTerms}"/></div>			
 		</h:form>
