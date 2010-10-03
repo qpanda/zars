@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.TestUtils;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
+import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
@@ -20,9 +21,15 @@ import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -36,6 +43,9 @@ public class GroupReservationServiceTest {
 	private final static Logger logger = Logger.getLogger(GroupReservationServiceTest.class);
 
 	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
 	private UserService userService;
 
 	@Autowired
@@ -47,8 +57,18 @@ public class GroupReservationServiceTest {
 	@Autowired
 	private PersistenceContextManager persistenceContextManager;
 
+	@Before
+	public void login() {
+		doLogin("admin", "admin");
+	}
+
+	@After
+	public void logout() {
+		doLogout();
+	}
+
 	@Test
-	public void createGroupReservation() throws UniqueConstraintException, GroupReservationConflictException {
+	public void createGroupReservation() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -66,7 +86,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test(expected = GroupReservationConflictException.class)
-	public void createGroupReservationConflict() throws UniqueConstraintException, GroupReservationConflictException {
+	public void createGroupReservationConflict() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -75,7 +95,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void createGroupReservationWithoutConflict() throws UniqueConstraintException, GroupReservationConflictException {
+	public void createGroupReservationWithoutConflict() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -84,7 +104,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void verifyGroupReservationRoomSelection() throws UniqueConstraintException, GroupReservationConflictException {
+	public void verifyGroupReservationRoomSelection() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -109,7 +129,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void createGroupReservationWithOneReservation() throws UniqueConstraintException, GroupReservationConflictException {
+	public void createGroupReservationWithOneReservation() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -130,7 +150,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void createGroupReservationWithMultipleReservations() throws UniqueConstraintException, GroupReservationConflictException {
+	public void createGroupReservationWithMultipleReservations() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -164,7 +184,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void updateGroupReservation() throws UniqueConstraintException, GroupReservationConflictException {
+	public void updateGroupReservation() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -194,7 +214,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void updateGroupReservationAddOneReservation() throws UniqueConstraintException, GroupReservationConflictException {
+	public void updateGroupReservationAddOneReservation() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -223,7 +243,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void updateGroupReservationAddMultipleReservation() throws UniqueConstraintException, GroupReservationConflictException {
+	public void updateGroupReservationAddMultipleReservation() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -268,7 +288,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test(expected = GroupReservationConflictException.class)
-	public void updateGroupReservationConflict() throws UniqueConstraintException, GroupReservationConflictException {
+	public void updateGroupReservationConflict() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -278,7 +298,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void updateGroupReservationRemoveOnlyReservation() throws UniqueConstraintException, GroupReservationConflictException {
+	public void updateGroupReservationRemoveOnlyReservation() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -311,7 +331,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void updateGroupReservationRemoveOneReservations() throws UniqueConstraintException, GroupReservationConflictException {
+	public void updateGroupReservationRemoveOneReservations() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -360,7 +380,7 @@ public class GroupReservationServiceTest {
 	}
 
 	@Test
-	public void updateGroupReservationRemoveAllReservations() throws UniqueConstraintException, GroupReservationConflictException {
+	public void updateGroupReservationRemoveAllReservations() throws UniqueConstraintException, GroupReservationConflictException, InsufficientPermissionException {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
@@ -424,5 +444,15 @@ public class GroupReservationServiceTest {
 		}
 
 		return reservationVoSet;
+	}
+
+	protected void doLogin(String username, String password) {
+		Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+		Authentication authentication = authenticationManager.authenticate(authenticationToken);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
+
+	protected void doLogout() {
+		SecurityContextHolder.getContext().setAuthentication(null);
 	}
 }

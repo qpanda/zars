@@ -11,4 +11,6 @@ public interface UserDao extends EntityDao<User> {
 	public List<User> findByRoleId(final long roleId);
 
 	public User retrieveByUsername(final String username);
+
+	public User retrieveCurrentUser();
 }

@@ -22,8 +22,7 @@ public class SecurityController implements Serializable {
 	protected transient UserService userService;
 
 	public UserBean getCurrentUser() {
-		String currentUsername = SecurityUtils.determineUsername();
-		return userService.retrieveUser(currentUsername);
+		return userService.retrieveCurrentUser();
 	}
 
 	public long getCurrentUserId() {

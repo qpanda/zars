@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
+import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.ReservationBean;
@@ -144,14 +145,14 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	}
 
 	@Override
-	protected String modifyGroupReservation() throws GroupReservationConflictException {
+	protected String modifyGroupReservation() throws GroupReservationConflictException, InsufficientPermissionException {
 		logger.debug("updating group reservation with id [" + groupReservationId + "], beneficiaryId [" + selectedBeneficiaryId + "], accountantId [" + selectedAccountantId + "] and arrival/departure [" + arrival + "]-[" + departure + "] for [" + guests + "] guests");
 		savedGroupReservation = groupReservationService.updateGroupReservation(groupReservationId, selectedBeneficiaryId, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
 		return "editGroupReservationConfirmation";
 	}
 
 	@Override
-	protected String modifyGroupReservation(Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException {
+	protected String modifyGroupReservation(Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException, InsufficientPermissionException {
 		logger.debug("updating group reservation with id [" + groupReservationId + "], beneficiaryId [" + selectedBeneficiaryId + "], accountantId [" + selectedAccountantId + "] and [" + determineReservationCount() + "] reservations");
 		savedGroupReservation = groupReservationService.updateGroupReservation(groupReservationId, selectedBeneficiaryId, selectedAccountantId, reservationVoSet, comment);
 		return "editGroupReservationConfirmation";

@@ -13,6 +13,7 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.OperationNotSupportedExcep
 import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
+import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
@@ -81,5 +82,10 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 		} catch (NoResultException noResultException) {
 			throw new EntityNotFoundException("user with username [" + username + "] not found", noResultException);
 		}
+	}
+
+	@Override
+	public User retrieveCurrentUser() {
+		return retrieveByUsername(SecurityUtils.determineUsername());
 	}
 }

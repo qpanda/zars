@@ -5,7 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import net.soomsam.zirmegghuette.zars.enums.OperationType;
+import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
+import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.ReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
@@ -18,6 +21,7 @@ import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.utils.ServiceBeanMapper;
 import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
+import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;
@@ -51,11 +55,12 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	@Transactional(rollbackFor = GroupReservationConflictException.class)
-	public GroupReservationBean createGroupReservation(final long beneficiaryId, final long accountantId, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) throws GroupReservationConflictException {
+	public GroupReservationBean createGroupReservation(final long beneficiaryId, final long accountantId, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) throws GroupReservationConflictException, InsufficientPermissionException {
 		if ((null == arrival) || (null == departure)) {
 			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
 		}
 
+		assertCreateGroupReservationAllowed(beneficiaryId);
 		assertNonConflictingArrivalDepature(arrival, departure);
 
 		final User beneficiary = userDao.retrieveByPrimaryKey(beneficiaryId);
@@ -72,10 +77,12 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	@Transactional(rollbackFor = GroupReservationConflictException.class)
-	public GroupReservationBean createGroupReservation(final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException {
+	public GroupReservationBean createGroupReservation(final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException, InsufficientPermissionException {
 		if ((null == reservationVoSet) || (reservationVoSet.isEmpty())) {
 			throw new IllegalArgumentException("'reservationVoSet' must not be null or empty");
 		}
+
+		assertCreateGroupReservationAllowed(beneficiaryId);
 
 		Set<Reservation> reservationSet = new HashSet<Reservation>();
 		for (ReservationVo reservationVo : reservationVoSet) {
@@ -101,11 +108,12 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	@Transactional(rollbackFor = GroupReservationConflictException.class)
-	public GroupReservationBean updateGroupReservation(final long groupReservationId, final long beneficiaryId, final long accountantId, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) throws GroupReservationConflictException {
+	public GroupReservationBean updateGroupReservation(final long groupReservationId, final long beneficiaryId, final long accountantId, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) throws GroupReservationConflictException, InsufficientPermissionException {
 		if ((null == arrival) || (null == departure)) {
 			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
 		}
 
+		assertUpdateGroupReservationAllowed(groupReservationId, beneficiaryId);
 		assertNonConflictingArrivalDepature(arrival, departure, groupReservationId);
 
 		final User beneficiary = userDao.retrieveByPrimaryKey(beneficiaryId);
@@ -136,10 +144,12 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	@Transactional(rollbackFor = GroupReservationConflictException.class)
-	public GroupReservationBean updateGroupReservation(final long groupReservationId, final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException {
+	public GroupReservationBean updateGroupReservation(final long groupReservationId, final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException, InsufficientPermissionException {
 		if ((null == reservationVoSet) || (reservationVoSet.isEmpty())) {
 			throw new IllegalArgumentException("'reservationVoSet' must not be null or empty");
 		}
+
+		assertUpdateGroupReservationAllowed(groupReservationId, beneficiaryId);
 
 		Set<Reservation> newReservationSet = new HashSet<Reservation>();
 		for (ReservationVo reservationVo : reservationVoSet) {
@@ -229,6 +239,20 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 		if (!conflictingGroupReservationList.isEmpty()) {
 			throw new GroupReservationConflictException("unable to create group reservation with arrival [" + arrival + "] and departure [" + departure + "]. it conflicts with [" + conflictingGroupReservationList.size() + "] existing group reservations", serviceBeanMapper.map(GroupReservationBean.class, conflictingGroupReservationList));
+		}
+	}
+
+	protected void assertCreateGroupReservationAllowed(final long groupReservationBeneficiaryId) throws InsufficientPermissionException {
+		User currentUser = userDao.retrieveCurrentUser();
+		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && (groupReservationBeneficiaryId != currentUser.getUserId())) {
+			throw new InsufficientPermissionException("non admin users are not allowed to create group reservations for other users", currentUser.getUserId(), OperationType.ADD);
+		}
+	}
+
+	protected void assertUpdateGroupReservationAllowed(final long groupReservationId, final long groupReservationBeneficiaryId) throws InsufficientPermissionException {
+		User currentUser = userDao.retrieveCurrentUser();
+		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && (groupReservationBeneficiaryId != currentUser.getUserId())) {
+			throw new InsufficientPermissionException("non admin users are not allowed to update group reservations of other users", currentUser.getUserId(), groupReservationBeneficiaryId, OperationType.UPDATE);
 		}
 	}
 }

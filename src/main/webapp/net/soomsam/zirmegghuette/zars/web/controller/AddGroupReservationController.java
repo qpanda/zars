@@ -6,6 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
+import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
 
 import org.apache.log4j.Logger;
@@ -25,14 +26,14 @@ public class AddGroupReservationController extends ModifyGroupReservationControl
 	}
 
 	@Override
-	protected String modifyGroupReservation() throws GroupReservationConflictException {
+	protected String modifyGroupReservation() throws GroupReservationConflictException, InsufficientPermissionException {
 		logger.debug("creating group reservation with arrival/departure [" + arrival + "]-[" + departure + "], beneficiaryId [" + selectedBeneficiaryId + "], accountantId [" + selectedAccountantId + "] and for [" + guests + "] guests");
 		savedGroupReservation = groupReservationService.createGroupReservation(selectedBeneficiaryId, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
 		return "addGroupReservationConfirmation";
 	}
 
 	@Override
-	protected String modifyGroupReservation(Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException {
+	protected String modifyGroupReservation(Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException, InsufficientPermissionException {
 		logger.debug("creating group reservation with beneficiaryId [" + selectedBeneficiaryId + "], accountantId [" + selectedAccountantId + "] and [" + determineReservationCount() + "] reservations");
 		savedGroupReservation = groupReservationService.createGroupReservation(selectedBeneficiaryId, selectedAccountantId, reservationVoSet, comment);
 		return "addGroupReservationConfirmation";

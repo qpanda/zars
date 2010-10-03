@@ -125,6 +125,11 @@ public class TransactionalUserService implements UserService {
 		return serviceBeanMapper.map(UserBean.class, userDao.retrieveByUsername(username));
 	}
 
+	@Override
+	public UserBean retrieveCurrentUser() {
+		return serviceBeanMapper.map(UserBean.class, userDao.retrieveCurrentUser());
+	}
+
 	protected String encodePassword(String rawPassword) {
 		return passwordEncoder.encodePassword(rawPassword, null);
 	}

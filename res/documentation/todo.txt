@@ -1,6 +1,6 @@
 CURRENT PENDING TASKS 
 	o display current user in menubar
-	o complete add/edit group reservations (all TODOs) 
+	o complete add/edit group reservations (all TODOs)
 	o completed admin group reservation
 	o complete delete group reservation
 	o name formatter

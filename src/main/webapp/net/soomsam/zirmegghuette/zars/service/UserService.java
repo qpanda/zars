@@ -36,4 +36,6 @@ public interface UserService {
 	public List<UserBean> findUsers(final RoleType roleType);
 
 	public UserBean retrieveUser(String username);
+
+	public UserBean retrieveCurrentUser();
 }
