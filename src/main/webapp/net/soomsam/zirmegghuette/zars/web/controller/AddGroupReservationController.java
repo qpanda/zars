@@ -26,16 +26,14 @@ public class AddGroupReservationController extends ModifyGroupReservationControl
 
 	@Override
 	protected String modifyGroupReservation() throws GroupReservationConflictException {
-		// TODO selectAccountantId: actual beneficiary is current user
-		logger.debug("creating group reservation with arrival/departure [" + arrival + "]-[" + departure + "] for [" + guests + "] guests");
+		logger.debug("creating group reservation with arrival/departure [" + arrival + "]-[" + departure + "], beneficiaryId [" + selectedBeneficiaryId + "], accountantId [" + selectedAccountantId + "] and for [" + guests + "] guests");
 		savedGroupReservation = groupReservationService.createGroupReservation(selectedBeneficiaryId, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
 		return "addGroupReservationConfirmation";
 	}
 
 	@Override
 	protected String modifyGroupReservation(Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException {
-		logger.debug("creating group reservation with [" + determineReservationCount() + "] reservations");
-		// TODO selectAccountantId: actual beneficiary is current user
+		logger.debug("creating group reservation with beneficiaryId [" + selectedBeneficiaryId + "], accountantId [" + selectedAccountantId + "] and [" + determineReservationCount() + "] reservations");
 		savedGroupReservation = groupReservationService.createGroupReservation(selectedBeneficiaryId, selectedAccountantId, reservationVoSet, comment);
 		return "addGroupReservationConfirmation";
 	}
