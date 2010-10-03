@@ -8,7 +8,7 @@
 		<h:form id="adminGroupReservation" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAdminGroupReservationDialogLabel}</div>
 			<div class="applicationFormItem">
-				<p:dataTable id="groupReservationTable" var="groupReservation" value="#{adminGroupReservationController.allGroupReservations}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;">  
+				<p:dataTable id="groupReservationTable" var="groupReservation" value="#{adminGroupReservationController.allGroupReservations}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationGroupReservationNoGroupReservationMessage}">  
 					<p:column sortBy="#{groupReservation.groupReservationId}">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationGroupReservationIdLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.groupReservationId}" />
@@ -38,15 +38,18 @@
 						<h:outputText value="#{groupReservation.accountant.username}" />
 					</p:column>
 					<p:column>
-						<!-- TODO display only for own reservations and admin user -->
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationActionLabel}" /></f:facet>
-						<h:link outcome="editGroupReservation" value="#{displayMessages.sectionsApplicationEditGroupReservationLink}" styleClass="applicationLink">
+						<h:link outcome="editGroupReservation" value="#{displayMessages.sectionsApplicationEditGroupReservationLink}" styleClass="applicationLink" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}">
 							<f:param name="groupReservationId" value="#{groupReservation.groupReservationId}"/>
 						</h:link>
-						<h:outputText value="&#160;|&#160;" />
-						<p:commandLink actionListener="#{adminGroupReservationController.setSelectedGroupReservationId}" action="#{adminGroupReservationController.deleteGroupReservation}" value="#{displayMessages.sectionsApplicationDeleteGroupReservationLink}" ajax="false" styleClass="applicationLink">
+						<h:outputText value="&#160;|&#160;" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}" />
+						<p:commandLink actionListener="#{adminGroupReservationController.setSelectedGroupReservationId}" action="#{adminGroupReservationController.deleteGroupReservation}" value="#{displayMessages.sectionsApplicationDeleteGroupReservationLink}" ajax="false" styleClass="applicationLink" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}">
 							<f:attribute name="#{adminGroupReservationController.commandLinkSelectedGroupReservationIdAttributeName}" value="#{groupReservation.groupReservationId}" />
 						</p:commandLink>
+						<h:outputText value="&#160;|&#160;" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}" />
+						<h:link outcome="editGroupReservation" value="#{displayMessages.sectionsApplicationViewGroupReservationLink}" styleClass="applicationLink">
+							<f:param name="groupReservationId" value="#{groupReservation.groupReservationId}"/>
+						</h:link>
 					</p:column>				
 				</p:dataTable>
 			</div>
