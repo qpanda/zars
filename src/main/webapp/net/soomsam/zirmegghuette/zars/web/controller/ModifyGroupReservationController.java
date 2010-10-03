@@ -1,6 +1,7 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +24,7 @@ import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
+import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Length;
@@ -39,6 +41,9 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 	@Inject
 	protected transient LocaleController localeController;
+
+	@Inject
+	protected transient SecurityController securityController;
 
 	@Inject
 	protected transient UserService userService;
@@ -112,7 +117,17 @@ public abstract class ModifyGroupReservationController implements Serializable {
 	}
 
 	public List<UserBean> getAvailableBeneficiaries() {
-		return userService.findUsers(RoleType.ROLE_USER);
+		if (SecurityUtils.hasRole(RoleType.ROLE_ADMIN)) {
+			return userService.findUsers(RoleType.ROLE_USER);
+		} else if (SecurityUtils.hasRole(RoleType.ROLE_USER)) {
+			List<UserBean> currentUserList = new ArrayList<UserBean>();
+			currentUserList.add(securityController.getCurrentUser());
+			return currentUserList;
+		} else if (SecurityUtils.hasRole(RoleType.ROLE_ACCOUNTANT)) {
+			return new ArrayList<UserBean>();
+		}
+
+		throw new IllegalStateException("current user [" + SecurityUtils.determineUsername() + "] has none of the roles [" + RoleType.values() + "]");
 	}
 
 	public Long getSelectedBeneficiaryId() {
@@ -321,6 +336,19 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		return departureDateMidnight.isAfter(arrivalDateMidnight);
 	}
 
+	protected boolean determineBeneficiary() {
+		if (SecurityUtils.hasRole(RoleType.ROLE_ADMIN)) {
+			return (null != selectedBeneficiaryId);
+		} else if (SecurityUtils.hasRole(RoleType.ROLE_USER)) {
+			selectedBeneficiaryId = securityController.getCurrentUserId();
+			return true;
+		} else if (SecurityUtils.hasRole(RoleType.ROLE_ACCOUNTANT)) {
+			return false;
+		}
+
+		throw new IllegalStateException("current user [" + SecurityUtils.determineUsername() + "] has none of the roles [" + RoleType.values() + "]");
+	}
+
 	public String save() {
 		if (0 == determineReservationCount()) {
 			return saveGroupReservation();
@@ -335,6 +363,12 @@ public abstract class ModifyGroupReservationController implements Serializable {
 			String departureValue = localeController.getActiveDateFormat().format(departure);
 			final FacesMessage arrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationArrivalDepartureError", FacesMessage.SEVERITY_ERROR, arrivalValue, departureValue);
 			FacesContext.getCurrentInstance().addMessage(null, arrivalDepatureFacesMessage);
+			return null;
+		}
+
+		if (!determineBeneficiary()) {
+			final FacesMessage beneficiaryFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationBeneficiaryError", FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, beneficiaryFacesMessage);
 			return null;
 		}
 
@@ -382,6 +416,12 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 			ReservationVo reservationVo = new ReservationVo(i, new DateMidnight(reservationArrival), new DateMidnight(reservationDeparture), reservationFirstName, reservationLastName);
 			reservationVoSet.add(reservationVo);
+		}
+
+		if (!determineBeneficiary()) {
+			final FacesMessage beneficiaryFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationBeneficiaryError", FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, beneficiaryFacesMessage);
+			return null;
 		}
 
 		try {

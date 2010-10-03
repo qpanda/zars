@@ -26,6 +26,11 @@ public class SecurityController implements Serializable {
 		return userService.retrieveUser(currentUsername);
 	}
 
+	public long getCurrentUserId() {
+		UserBean currentUser = getCurrentUser();
+		return currentUser.getUserId();
+	}
+
 	public boolean isCurrentUserAdmin() {
 		return SecurityUtils.hasRole(RoleType.ROLE_ADMIN);
 	}

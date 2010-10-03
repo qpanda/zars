@@ -29,7 +29,7 @@
 			</div>
 			<div class="applicationFormItem">		
 				<h:outputLabel for="beneficiary" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}" /><br />
-				<h:selectOneMenu id="beneficiary" styleClass="applicationFormInput" value="#{editGroupReservationController.selectedBeneficiaryId}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationGroupReservationBeneficiaryError}">
+				<h:selectOneMenu id="beneficiary" styleClass="applicationFormInput" value="#{editGroupReservationController.selectedBeneficiaryId}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationGroupReservationBeneficiaryError}" disabled="#{!securityController.currentUserAdmin}">
 					<f:selectItems value="#{editGroupReservationController.availableBeneficiaries}" var="beneficiary" itemLabel="#{beneficiary.username} (#{beneficiary.emailAddress})" itemValue="#{beneficiary.userId}"/>
 				</h:selectOneMenu>
 				<p:message for="beneficiary" />

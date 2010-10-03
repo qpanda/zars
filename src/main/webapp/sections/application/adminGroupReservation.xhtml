@@ -30,11 +30,11 @@
 						<h:outputText value="#{groupReservation.guests}" />
 					</p:column>
 					<p:column sortBy="#{groupReservation.beneficiary.username}">
-						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationAccountantLabel}" /></f:facet>
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.beneficiary.username}" />
 					</p:column>
 					<p:column sortBy="#{groupReservation.accountant.username}">
-						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}" /></f:facet>
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationAccountantLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.accountant.username}" />
 					</p:column>
 					<p:column>
