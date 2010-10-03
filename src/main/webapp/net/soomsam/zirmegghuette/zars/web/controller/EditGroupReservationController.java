@@ -9,11 +9,13 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.ReservationBean;
 import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
+import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
@@ -54,6 +56,12 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 				this.comment = groupReservationBean.getComment();
 				this.selectedAccountantId = groupReservationBean.getAccountant().getUserId();
 				this.selectedBeneficiaryId = groupReservationBean.getBeneficiary().getUserId();
+
+				if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && selectedBeneficiaryId != securityController.getCurrentUserId()) {
+					this.validNavigation = false;
+					final FacesMessage modificationNotAllowedFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR, null);
+					FacesContext.getCurrentInstance().addMessage(null, modificationNotAllowedFacesMessage);
+				}
 
 				List<ReservationBean> reservationBeanList = groupReservationBean.getReservations();
 				if ((null != reservationBeanList) && !reservationBeanList.isEmpty()) {

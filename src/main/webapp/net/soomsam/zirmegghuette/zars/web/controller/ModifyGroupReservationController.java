@@ -366,6 +366,8 @@ public abstract class ModifyGroupReservationController implements Serializable {
 			return null;
 		}
 
+		// TODO we could simply pass selectedBeneficiaryId to the service and perform this check as part of the service
+		// implementation and throw an exception if it is not ok
 		if (!determineBeneficiary()) {
 			final FacesMessage beneficiaryFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationBeneficiaryError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, beneficiaryFacesMessage);
@@ -418,6 +420,8 @@ public abstract class ModifyGroupReservationController implements Serializable {
 			reservationVoSet.add(reservationVo);
 		}
 
+		// TODO we could simply pass selectedBeneficiaryId to the service and perform this check as part of the service
+		// implementation and throw an exception if it is not ok
 		if (!determineBeneficiary()) {
 			final FacesMessage beneficiaryFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationBeneficiaryError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, beneficiaryFacesMessage);
