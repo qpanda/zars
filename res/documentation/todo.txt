@@ -1,5 +1,6 @@
 CURRENT PENDING TASKS
-	o use subview with optional rendering (based on validnavigation) throughout all pages with URL params 
+	o use subview with optional rendering (based on validnavigation) throughout all pages with URL params
+		o see viewGroupReservation.xhtml 
 	o complete add/edit group reservations (all TODOs)
 	o completed admin group reservation
 	o complete delete group reservation
