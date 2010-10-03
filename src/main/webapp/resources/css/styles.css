@@ -350,6 +350,10 @@ textarea:focus, input:focus {
 	float:right;
 }
 
+.ui-menubar-item-label {
+	padding:4px 12px;
+}
+
 .ui-corner-all {
 	-moz-border-radius:0px;
 	-webkit-border-radius:0px;
