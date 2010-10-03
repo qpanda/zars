@@ -47,7 +47,7 @@
 							<f:attribute name="#{adminGroupReservationController.commandLinkSelectedGroupReservationIdAttributeName}" value="#{groupReservation.groupReservationId}" />
 						</p:commandLink>
 						<h:outputText value="&#160;|&#160;" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}" />
-						<h:link outcome="editGroupReservation" value="#{displayMessages.sectionsApplicationViewGroupReservationLink}" styleClass="applicationLink">
+						<h:link outcome="viewGroupReservation" value="#{displayMessages.sectionsApplicationViewGroupReservationLink}" styleClass="applicationLink">
 							<f:param name="groupReservationId" value="#{groupReservation.groupReservationId}"/>
 						</h:link>
 					</p:column>				

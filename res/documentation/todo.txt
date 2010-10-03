@@ -12,6 +12,7 @@ CURRENT PENDING TASKS
 	o allow users to change the password
 
 MUST-HAVE
+	o user settings for locale, timezone, and first days of week
 	o security
 		o to determine permissions (actions, views) of current user
 	o edit group reservation
@@ -31,7 +32,6 @@ NICE-TO-HAVE
 	o consolidate Reservation.firstName and Reservation.lastName into a single field Reservation.guestName
 	o provide autocomplete for Reservation.guestName
 	o review all forms to check length of input strings
-	o user settings for locale, timezone, and first days of week
 	o allow user to change password
 	o recalculate group reservations based on room inuse
 	o delete button next to individual reservations to delete particular/specific one
