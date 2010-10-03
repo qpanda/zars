@@ -336,20 +336,21 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		return departureDateMidnight.isAfter(arrivalDateMidnight);
 	}
 
-	protected boolean determineBeneficiary() {
+	protected Long determineBeneficiaryId() {
 		if (SecurityUtils.hasRole(RoleType.ROLE_ADMIN)) {
-			return (null != selectedBeneficiaryId);
+			return selectedBeneficiaryId;
 		} else if (SecurityUtils.hasRole(RoleType.ROLE_USER)) {
-			selectedBeneficiaryId = securityController.getCurrentUserId();
-			return true;
+			return securityController.getCurrentUserId();
 		} else if (SecurityUtils.hasRole(RoleType.ROLE_ACCOUNTANT)) {
-			return false;
+			return null;
 		}
 
 		throw new IllegalStateException("current user [" + SecurityUtils.determineUsername() + "] has none of the roles [" + RoleType.values() + "]");
 	}
 
 	public String save() {
+		selectedBeneficiaryId = determineBeneficiaryId();
+
 		if (0 == determineReservationCount()) {
 			return saveGroupReservation();
 		}
@@ -366,9 +367,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 			return null;
 		}
 
-		// TODO we could simply pass selectedBeneficiaryId to the service and perform this check as part of the service
-		// implementation and throw an exception if it is not ok
-		if (!determineBeneficiary()) {
+		if (null == selectedBeneficiaryId) {
 			final FacesMessage beneficiaryFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationBeneficiaryError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, beneficiaryFacesMessage);
 			return null;
@@ -420,9 +419,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 			reservationVoSet.add(reservationVo);
 		}
 
-		// TODO we could simply pass selectedBeneficiaryId to the service and perform this check as part of the service
-		// implementation and throw an exception if it is not ok
-		if (!determineBeneficiary()) {
+		if (null == selectedBeneficiaryId) {
 			final FacesMessage beneficiaryFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationBeneficiaryError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, beneficiaryFacesMessage);
 			return null;
