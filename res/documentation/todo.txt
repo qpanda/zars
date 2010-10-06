@@ -1,7 +1,4 @@
 CURRENT PENDING TASKS
-	o use subview with optional rendering (based on validnavigation) throughout all pages with URL params
-		o see viewGroupReservation.xhtml
-		o read about implications (look at source code too) 
 	o complete add/edit group reservations (all TODOs)
 	o completed admin group reservation
 		o provide way to select the date range
