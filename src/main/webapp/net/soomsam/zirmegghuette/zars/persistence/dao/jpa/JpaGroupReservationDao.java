@@ -7,6 +7,7 @@ import javax.persistence.TemporalType;
 
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
+import net.soomsam.zirmegghuette.zars.utils.Pagination;
 
 import org.joda.time.Interval;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,7 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<GroupReservation> findGroupReservationByClosedDateInterval(final Interval closedDateInterval) {
+	public List<GroupReservation> findGroupReservationByClosedDateInterval(final Interval closedDateInterval, final Pagination pagination) {
 		if (null == closedDateInterval) {
 			throw new IllegalArgumentException("'closedDateInterval' must not be null");
 		}
@@ -28,9 +29,15 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 		final Query findGroupReservationByClosedStartEndIntervalQuery = createNamedQuery(GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME);
 		findGroupReservationByClosedStartEndIntervalQuery.setParameter("startDate", closedDateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
 		findGroupReservationByClosedStartEndIntervalQuery.setParameter("endDate", closedDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
+
+		if (null != pagination) {
+			findGroupReservationByClosedStartEndIntervalQuery.setFirstResult(pagination.getFirstResult());
+			findGroupReservationByClosedStartEndIntervalQuery.setMaxResults(pagination.getMaxResults());
+		}
+
 		return findGroupReservationByClosedStartEndIntervalQuery.getResultList();
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<GroupReservation> findGroupReservationByOpenDateInterval(final Interval openDateInterval) {

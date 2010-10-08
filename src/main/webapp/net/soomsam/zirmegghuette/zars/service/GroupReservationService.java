@@ -7,6 +7,7 @@ import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictExceptio
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
+import net.soomsam.zirmegghuette.zars.utils.Pagination;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;
@@ -24,7 +25,7 @@ public interface GroupReservationService {
 
 	public void deleteGroupReservation(long groupReservationId) throws InsufficientPermissionException;
 
-	public List<GroupReservationBean> findGroupReservation(Interval dateInterval);
+	public List<GroupReservationBean> findGroupReservation(Interval dateInterval, Pagination pagination);
 
 	public GroupReservationBean retrieveGroupReservation(long groupReservationId);
 }

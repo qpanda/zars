@@ -21,6 +21,7 @@ import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.utils.ServiceBeanMapper;
 import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
+import net.soomsam.zirmegghuette.zars.utils.Pagination;
 import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
 
 import org.joda.time.DateMidnight;
@@ -189,7 +190,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	@Transactional(rollbackFor = InsufficientPermissionException.class)
-	public void deleteGroupReservation(long groupReservationId) throws InsufficientPermissionException {
+	public void deleteGroupReservation(final long groupReservationId) throws InsufficientPermissionException {
 		final GroupReservation groupReservation = groupReservationDao.retrieveByPrimaryKey(groupReservationId);
 
 		assertDeleteGroupReservationAllowed(groupReservationId, groupReservation.getBeneficiary().getUserId());
@@ -201,8 +202,8 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	@Override
-	public List<GroupReservationBean> findGroupReservation(final Interval dateInterval) {
-		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservationByClosedDateInterval(dateInterval));
+	public List<GroupReservationBean> findGroupReservation(final Interval dateInterval, final Pagination pagination) {
+		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservationByClosedDateInterval(dateInterval, pagination));
 	}
 
 	@Override
