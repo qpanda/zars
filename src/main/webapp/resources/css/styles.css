@@ -359,3 +359,7 @@ textarea:focus, input:focus {
 	-webkit-border-radius:0px;
 	border-radius:0px;
 }
+
+.ui-widget-header {
+	max-height:20px;
+}
