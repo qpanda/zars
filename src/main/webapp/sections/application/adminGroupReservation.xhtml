@@ -7,6 +7,40 @@
 	<div class="applicationDialog">
 		<h:form id="adminGroupReservation" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAdminGroupReservationDialogLabel}</div>
+			<p:panel id="groupReservationFilterPanel" header="#{displayMessages.sectionsApplicationAdminGroupReservationFilterPanelTitle}" toggleable="true" collapsed="true" toggleSpeed="0">
+				<div class="applicationFormItem">
+					<h:outputLabel for="beneficiaryGroupReservationFilter" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAdminGroupReservationBeneficiaryGroupReservationFilter}" /><br />
+					<h:panelGrid columns="1">
+						<h:panelGrid columns="1">
+							<h:selectOneRadio id="beneficiaryGroupReservationFilter" layout="pageDirection">
+								<f:selectItem itemValue="TODO_all" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationAllBeneficiaryGroupReservationFilter}"/>
+								<f:selectItem itemValue="TODO_my" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationCurrentBeneficiaryGroupReservationFilter}"/>
+							</h:selectOneRadio>
+						</h:panelGrid>
+					</h:panelGrid>
+				</div>
+				<div class="applicationFormItem">
+					<h:outputLabel for="dateRangeGroupReservationFilter" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAdminGroupReservationDateRangeGroupReservationFilter}" /><br />
+					<h:panelGrid columns="3">
+						<h:panelGrid columns="1" >
+							<h:selectOneRadio id="dateFilter" layout="pageDirection">
+								<f:selectItem itemValue="TODO_current year" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationCurrentYearGroupReservationFilter}"/>
+								<f:selectItem itemValue="TODO_date range" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationSpecifiedRangeGroupReservationFilter}"/>
+								<f:selectItem itemValue="TODO_all" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationAllGroupReservationFilter}"/>
+							</h:selectOneRadio>
+						</h:panelGrid>
+						<h:panelGrid columns="1">
+							<p:calendar id="startDate" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" readOnlyInputText="true"/>
+						</h:panelGrid>
+						<h:panelGrid columns="1">
+							<p:calendar id="endDate" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" readOnlyInputText="true"/>
+						</h:panelGrid>
+					</h:panelGrid>
+				</div>
+				<div class="applicationFormItem">
+					<h:commandButton id="applyFilterGroupReservationAction" type="submit" action="#{adminGroupReservationController.applyFilter}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAdminGroupReservationApplyFilterButton}"/>
+				</div>
+			</p:panel>
 			<div class="applicationFormItem">
 				<p:dataTable id="groupReservationTable" var="groupReservation" value="#{adminGroupReservationController.lazyGroupReservationDataModel}" dynamic="true" lazy="true" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationGroupReservationNoGroupReservationMessage}">  
 					<p:column sortBy="#{groupReservation.groupReservationId}">

@@ -74,6 +74,10 @@ public class AdminGroupReservationController implements Serializable {
 		return null;
 	}
 
+	public String applyFilter() {
+		return null;
+	}
+
 	private class LazyGroupReservationDataModel extends LazyDataModel<GroupReservationBean> {
 		@Override
 		public int getRowCount() {
