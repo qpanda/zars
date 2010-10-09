@@ -8,7 +8,9 @@ import net.soomsam.zirmegghuette.zars.utils.Pagination;
 import org.joda.time.Interval;
 
 public interface GroupReservationDao extends EntityDao<GroupReservation> {
-	public List<GroupReservation> findGroupReservationByClosedDateInterval(Interval closedDateInterval, Pagination pagination);
+	public long countGroupReservationByClosedDateInterval(final Interval closedDateInterval);
 
-	public List<GroupReservation> findGroupReservationByOpenDateInterval(Interval openDateInterval);
+	public List<GroupReservation> findGroupReservationByClosedDateInterval(final Interval closedDateInterval, final Pagination pagination);
+
+	public List<GroupReservation> findGroupReservationByOpenDateInterval(final Interval openDateInterval);
 }

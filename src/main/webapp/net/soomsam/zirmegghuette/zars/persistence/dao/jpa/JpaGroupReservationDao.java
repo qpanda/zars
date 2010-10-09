@@ -20,6 +20,18 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 	}
 
 	@Override
+	public long countGroupReservationByClosedDateInterval(final Interval closedDateInterval) {
+		if (null == closedDateInterval) {
+			throw new IllegalArgumentException("'closedDateInterval' must not be null");
+		}
+
+		final Query countGroupReservationByClosedStartEndIntervalQuery = createNamedQuery(GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME);
+		countGroupReservationByClosedStartEndIntervalQuery.setParameter("startDate", closedDateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
+		countGroupReservationByClosedStartEndIntervalQuery.setParameter("endDate", closedDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
+		return (Long)countGroupReservationByClosedStartEndIntervalQuery.getSingleResult();
+	}
+
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<GroupReservation> findGroupReservationByClosedDateInterval(final Interval closedDateInterval, final Pagination pagination) {
 		if (null == closedDateInterval) {

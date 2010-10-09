@@ -14,6 +14,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
+import net.soomsam.zirmegghuette.zars.utils.Pagination;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
@@ -76,6 +77,36 @@ public class PersistenceDaoTest {
 		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().plusDays(2), new DateMidnight().plusDays(3)), null).isEmpty());
 		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().plusDays(3), new DateMidnight().plusDays(4)), null).isEmpty());
 		Assert.assertTrue(groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().plusDays(4), new DateMidnight().plusDays(5)), null).isEmpty());
+	}
+
+	@Test
+	public void testFindGroupReservationWithPagination() {
+		final User testUser = createTestUser();
+		final Room testRoom = createTestRoom();
+		final GroupReservation groupReservation01 = createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(3), new DateMidnight());
+		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateMidnight(), new DateMidnight().plusDays(3));
+
+		final List<GroupReservation> allGroupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), null);
+		Assert.assertEquals(2, allGroupReservationList.size());
+
+		final List<GroupReservation> firstPageGroupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), new Pagination(0, 1));
+		Assert.assertEquals(1, firstPageGroupReservationList.size());
+
+		final List<GroupReservation> secondPageGroupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), new Pagination(1, 1));
+		Assert.assertEquals(1, secondPageGroupReservationList.size());
+	}
+
+	@Test
+	public void testCountGroupReservationWithPagination() {
+		final User testUser = createTestUser();
+		final Room testRoom = createTestRoom();
+		final GroupReservation groupReservation01 = createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(3), new DateMidnight());
+		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateMidnight(), new DateMidnight().plusDays(3));
+
+		Interval closedArrivalDepartureDateInterval = new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1));
+		final List<GroupReservation> allGroupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval, null);
+		long allGroupReservationCount = groupReservationDao.countGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval);
+		Assert.assertEquals(allGroupReservationCount, allGroupReservationList.size());
 	}
 
 	@Test

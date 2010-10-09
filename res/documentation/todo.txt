@@ -30,6 +30,7 @@ SHOULD-HAVE
 	o mark Invoice and Report invalid if associated GroupReservation is changed
 
 NICE-TO-HAVE
+	o autocomplete false for disabled fields 
 	o forwarding from login page if already logged in (pretty faces)
 	o consolidate Reservation.firstName and Reservation.lastName into a single field Reservation.guestName
 	o provide autocomplete for Reservation.guestName

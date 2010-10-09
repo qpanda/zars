@@ -55,8 +55,8 @@ public class AdminGroupReservationController implements Serializable {
 
 	public void setSelectedGroupReservationId(final ActionEvent commandLinkActionEvent) {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
-			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
-			final Long commandLinkParameterValue = (Long) commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
+			final CommandLink commandLink = (CommandLink)commandLinkActionEvent.getComponent();
+			final Long commandLinkParameterValue = (Long)commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
 			setSelectedGroupReservationId(commandLinkParameterValue);
 		}
 	}
@@ -75,6 +75,14 @@ public class AdminGroupReservationController implements Serializable {
 	}
 
 	private class LazyGroupReservationDataModel extends LazyDataModel<GroupReservationBean> {
+		@Override
+		public int getRowCount() {
+			// TODO determine date range from form parameters
+			DateMidnight end = new DateMidnight();
+			DateMidnight begin = end.minusYears(1);
+			return (int)groupReservationService.countGroupReservation(new Interval(begin, end));
+		}
+
 		@Override
 		public List<GroupReservationBean> fetchLazyData(final int firstResult, final int maxResults) {
 			// TODO determine date range from form parameters

@@ -25,6 +25,8 @@ public interface GroupReservationService {
 
 	public void deleteGroupReservation(long groupReservationId) throws InsufficientPermissionException;
 
+	public long countGroupReservation(Interval dateInterval);
+
 	public List<GroupReservationBean> findGroupReservation(Interval dateInterval, Pagination pagination);
 
 	public GroupReservationBean retrieveGroupReservation(long groupReservationId);
