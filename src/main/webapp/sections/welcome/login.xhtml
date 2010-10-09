@@ -9,6 +9,7 @@
 			<div class="loginFormTitle">#{displayMessages.sectionsWelcomeLoginDialogLabel}</div>
 			<div class="loginFormSubtitle">v#{applicationInfoController.applicationInfo['zars.version']}</div>
 			<div class="loginFormItem">
+				<p:focus for="j_username"/>
 				<h:outputLabel for="j_username" styleClass="loginFormLabel" value="#{displayMessages.sectionsWelcomeLoginUsernameLabel}" /><br />
 				<h:inputText id="j_username" styleClass="loginFormInput" value="#{loginController.username}" tabindex="1"/>
 			</div>
