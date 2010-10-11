@@ -1,6 +1,7 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -26,16 +27,39 @@ import com.sun.faces.util.MessageFactory;
 @Named
 @Scope("request")
 public class AdminGroupReservationController implements Serializable {
+	private enum BeneficiaryFilterOption {
+		ALL_BENEFICIARY, CURRENT_BENEFICIARY;
+	}
+
+	private enum DateFilterOption {
+		CURRENT_YEAR, SPECIFIED_RANGE, ALL;
+	}
+
 	private final static Logger logger = Logger.getLogger(AdminGroupReservationController.class);
 
 	private final String commandLinkSelectedGroupReservationIdAttributeName = "selectedGroupReservationId";
 
 	private Long selectedGroupReservationId;
 
+	private BeneficiaryFilterOption selectedBeneficiaryFilterOption = BeneficiaryFilterOption.ALL_BENEFICIARY;
+
+	private DateFilterOption selectedDateFilterOption = DateFilterOption.CURRENT_YEAR;
+
+	private Date dateRangeStartDate;
+
+	private Date dateRangeEndDate;
+
 	private final LazyGroupReservationDataModel lazyGroupReservationDataModel = new LazyGroupReservationDataModel();
 
 	@Inject
 	private transient GroupReservationService groupReservationService;
+
+	public AdminGroupReservationController() {
+		if (!FacesContext.getCurrentInstance().isPostback()) {
+			setDefaultDateRangeStartDate();
+			setDefaultDateRangeEndDate();
+		}
+	}
 
 	public String getCommandLinkSelectedGroupReservationIdAttributeName() {
 		return commandLinkSelectedGroupReservationIdAttributeName;
@@ -49,16 +73,56 @@ public class AdminGroupReservationController implements Serializable {
 		this.selectedGroupReservationId = selectedGroupReservationId;
 	}
 
+	public BeneficiaryFilterOption getSelectedBeneficiaryFilterOption() {
+		return selectedBeneficiaryFilterOption;
+	}
+
+	public void setSelectedBeneficiaryFilterOption(final BeneficiaryFilterOption selectedBeneficiaryFilterOption) {
+		this.selectedBeneficiaryFilterOption = selectedBeneficiaryFilterOption;
+	}
+
+	public DateFilterOption getSelectedDateFilterOption() {
+		return selectedDateFilterOption;
+	}
+
+	public void setSelectedDateFilterOption(final DateFilterOption selectedDateFilterOption) {
+		this.selectedDateFilterOption = selectedDateFilterOption;
+	}
+
+	public Date getDateRangeStartDate() {
+		return dateRangeStartDate;
+	}
+
+	public void setDateRangeStartDate(final Date dateRangeStartDate) {
+		this.dateRangeStartDate = dateRangeStartDate;
+	}
+
+	public Date getDateRangeEndDate() {
+		return dateRangeEndDate;
+	}
+
+	public void setDateRangeEndDate(final Date dateRangeEndDate) {
+		this.dateRangeEndDate = dateRangeEndDate;
+	}
+
 	public LazyGroupReservationDataModel getLazyGroupReservationDataModel() {
 		return lazyGroupReservationDataModel;
 	}
 
 	public void setSelectedGroupReservationId(final ActionEvent commandLinkActionEvent) {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
-			final CommandLink commandLink = (CommandLink)commandLinkActionEvent.getComponent();
-			final Long commandLinkParameterValue = (Long)commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
+			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
+			final Long commandLinkParameterValue = (Long) commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
 			setSelectedGroupReservationId(commandLinkParameterValue);
 		}
+	}
+
+	private void setDefaultDateRangeStartDate() {
+		this.dateRangeStartDate = new DateMidnight().toDate();
+	}
+
+	private void setDefaultDateRangeEndDate() {
+		this.dateRangeEndDate = new DateMidnight().plusYears(1).toDate();
 	}
 
 	public String deleteGroupReservation() {
@@ -84,7 +148,7 @@ public class AdminGroupReservationController implements Serializable {
 			// TODO determine date range from form parameters
 			DateMidnight end = new DateMidnight();
 			DateMidnight begin = end.minusYears(1);
-			return (int)groupReservationService.countGroupReservation(new Interval(begin, end));
+			return (int) groupReservationService.countGroupReservation(new Interval(begin, end));
 		}
 
 		@Override
