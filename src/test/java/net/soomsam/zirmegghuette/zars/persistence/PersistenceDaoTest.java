@@ -110,7 +110,7 @@ public class PersistenceDaoTest {
 	}
 
 	@Test
-	public void testCountGroupReservation() {
+	public void testAllCountGroupReservation() {
 		final User testUser = createTestUser();
 		final Room testRoom = createTestRoom();
 		final GroupReservation groupReservation01 = createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(3), new DateMidnight());
@@ -126,6 +126,25 @@ public class PersistenceDaoTest {
 		Assert.assertEquals(0, groupReservationDao.countGroupReservationByBeneficiaryId(3));
 
 		Assert.assertEquals(2, groupReservationDao.countAll());
+	}
+
+	@Test
+	public void testAllFindGroupReservation() {
+		final User testUser = createTestUser();
+		final Room testRoom = createTestRoom();
+		final GroupReservation groupReservation01 = createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(3), new DateMidnight());
+		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateMidnight(), new DateMidnight().plusDays(3));
+
+		Interval closedArrivalDepartureDateInterval = new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1));
+		Assert.assertEquals(2, groupReservationDao.findGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval, null).size());
+
+		Assert.assertEquals(2, groupReservationDao.findGroupReservationByClosedDateIntervalAndBeneficiaryId(testUser.getUserId(), closedArrivalDepartureDateInterval, null).size());
+		Assert.assertEquals(0, groupReservationDao.findGroupReservationByClosedDateIntervalAndBeneficiaryId(3, closedArrivalDepartureDateInterval, null).size());
+
+		Assert.assertEquals(2, groupReservationDao.findGroupReservationByBeneficiaryId(testUser.getUserId(), null).size());
+		Assert.assertEquals(0, groupReservationDao.findGroupReservationByBeneficiaryId(3, null).size());
+
+		Assert.assertEquals(2, groupReservationDao.findAll().size());
 	}
 
 	@Test

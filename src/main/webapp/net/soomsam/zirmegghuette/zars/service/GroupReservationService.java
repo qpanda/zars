@@ -35,5 +35,11 @@ public interface GroupReservationService {
 
 	public List<GroupReservationBean> findGroupReservation(Interval dateInterval, Pagination pagination);
 
+	public List<GroupReservationBean> findGroupReservation(long beneficiaryId, Interval dateInterval, Pagination pagination);
+
+	public List<GroupReservationBean> findGroupReservation(long beneficiaryId, Pagination pagination);
+
+	public List<GroupReservationBean> findGroupReservation(Pagination pagination);
+
 	public GroupReservationBean retrieveGroupReservation(long groupReservationId);
 }

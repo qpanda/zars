@@ -16,5 +16,9 @@ public interface GroupReservationDao extends EntityDao<GroupReservation> {
 
 	public List<GroupReservation> findGroupReservationByClosedDateInterval(final Interval closedDateInterval, final Pagination pagination);
 
+	public List<GroupReservation> findGroupReservationByClosedDateIntervalAndBeneficiaryId(long beneficiaryId, Interval closedDateInterval, Pagination pagination);
+
+	public List<GroupReservation> findGroupReservationByBeneficiaryId(long beneficiaryId, Pagination pagination);
+
 	public List<GroupReservation> findGroupReservationByOpenDateInterval(final Interval openDateInterval);
 }

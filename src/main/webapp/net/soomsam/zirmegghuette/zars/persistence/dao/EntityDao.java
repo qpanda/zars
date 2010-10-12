@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
+import net.soomsam.zirmegghuette.zars.utils.Pagination;
 
 /**
  * common interface for all DAOs
@@ -64,6 +65,16 @@ public interface EntityDao<Entity extends BaseEntity> {
 	 * @return a {@link List} of all persistence entities with the type/class found in the database
 	 */
 	public List<Entity> findAll();
+
+	/**
+	 * retrieves all persistence entities for the specified {@link Pagination} setting with the type/class managed by
+	 * the concrete DAO implementation
+	 * 
+	 * @param pagination
+	 *            the pagination setting to apply to the query
+	 * @return a {@link List} of all persistence entities with the type/class found in the database
+	 */
+	public List<Entity> findAll(Pagination pagination);
 
 	/**
 	 * counts all persistence entities with the type/class managed by the concrete DAO implementation

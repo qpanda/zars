@@ -25,10 +25,10 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 			throw new IllegalArgumentException("'closedDateInterval' must not be null");
 		}
 
-		final Query countGroupReservationByClosedStartEndIntervalQuery = createNamedQuery(GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME);
-		countGroupReservationByClosedStartEndIntervalQuery.setParameter("startDate", closedDateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
-		countGroupReservationByClosedStartEndIntervalQuery.setParameter("endDate", closedDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
-		return (Long) countGroupReservationByClosedStartEndIntervalQuery.getSingleResult();
+		final Query countGroupReservationByClosedDateIntervalQuery = createNamedQuery(GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME);
+		countGroupReservationByClosedDateIntervalQuery.setParameter("startDate", closedDateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
+		countGroupReservationByClosedDateIntervalQuery.setParameter("endDate", closedDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
+		return (Long) countGroupReservationByClosedDateIntervalQuery.getSingleResult();
 	}
 
 	@Override
@@ -58,16 +58,48 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 			throw new IllegalArgumentException("'closedDateInterval' must not be null");
 		}
 
-		final Query findGroupReservationByClosedStartEndIntervalQuery = createNamedQuery(GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME);
-		findGroupReservationByClosedStartEndIntervalQuery.setParameter("startDate", closedDateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
-		findGroupReservationByClosedStartEndIntervalQuery.setParameter("endDate", closedDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
+		final Query findGroupReservationByClosedDateIntervalQuery = createNamedQuery(GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME);
+		findGroupReservationByClosedDateIntervalQuery.setParameter("startDate", closedDateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
+		findGroupReservationByClosedDateIntervalQuery.setParameter("endDate", closedDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
 
 		if (null != pagination) {
-			findGroupReservationByClosedStartEndIntervalQuery.setFirstResult(pagination.getFirstResult());
-			findGroupReservationByClosedStartEndIntervalQuery.setMaxResults(pagination.getMaxResults());
+			findGroupReservationByClosedDateIntervalQuery.setFirstResult(pagination.getFirstResult());
+			findGroupReservationByClosedDateIntervalQuery.setMaxResults(pagination.getMaxResults());
 		}
 
-		return findGroupReservationByClosedStartEndIntervalQuery.getResultList();
+		return findGroupReservationByClosedDateIntervalQuery.getResultList();
+	}
+
+	@Override
+	public List<GroupReservation> findGroupReservationByClosedDateIntervalAndBeneficiaryId(final long beneficiaryId, final Interval closedDateInterval, final Pagination pagination) {
+		if (null == closedDateInterval) {
+			throw new IllegalArgumentException("'closedDateInterval' must not be null");
+		}
+
+		final Query findGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery = createNamedQuery(GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYNAME);
+		findGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery.setParameter("beneficiaryId", beneficiaryId);
+		findGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery.setParameter("startDate", closedDateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
+		findGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery.setParameter("endDate", closedDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
+
+		if (null != pagination) {
+			findGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery.setFirstResult(pagination.getFirstResult());
+			findGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery.setMaxResults(pagination.getMaxResults());
+		}
+
+		return findGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery.getResultList();
+	}
+
+	@Override
+	public List<GroupReservation> findGroupReservationByBeneficiaryId(final long beneficiaryId, final Pagination pagination) {
+		final Query findGroupReservationByBeneficiaryIdQuery = createNamedQuery(GroupReservation.FINDGROUPRESERVATION_BENEFICIARYID_QUERYNAME);
+		findGroupReservationByBeneficiaryIdQuery.setParameter("beneficiaryId", beneficiaryId);
+
+		if (null != pagination) {
+			findGroupReservationByBeneficiaryIdQuery.setFirstResult(pagination.getFirstResult());
+			findGroupReservationByBeneficiaryIdQuery.setMaxResults(pagination.getMaxResults());
+		}
+
+		return findGroupReservationByBeneficiaryIdQuery.getResultList();
 	}
 
 	@Override
@@ -77,9 +109,9 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 			throw new IllegalArgumentException("'openDateInterval' must not be null");
 		}
 
-		final Query findGroupReservationByOpenStartEndIntervalQuery = createNamedQuery(GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYNAME);
-		findGroupReservationByOpenStartEndIntervalQuery.setParameter("startDate", openDateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
-		findGroupReservationByOpenStartEndIntervalQuery.setParameter("endDate", openDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
-		return findGroupReservationByOpenStartEndIntervalQuery.getResultList();
+		final Query findGroupReservationByOpenDateIntervalQuery = createNamedQuery(GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYNAME);
+		findGroupReservationByOpenDateIntervalQuery.setParameter("startDate", openDateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
+		findGroupReservationByOpenDateIntervalQuery.setParameter("endDate", openDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
+		return findGroupReservationByOpenDateIntervalQuery.getResultList();
 	}
 }

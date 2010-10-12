@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
+import net.soomsam.zirmegghuette.zars.utils.Pagination;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -53,6 +54,20 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	@SuppressWarnings("unchecked")
 	public List<Entity> findAll() {
 		final Query findAllQuery = entityManager.createQuery("select x from " + determineEntityClass().getName() + " as x");
+		final List<Entity> allEntityList = Collections.checkedList(findAllQuery.getResultList(), determineEntityClass());
+		return allEntityList;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Entity> findAll(final Pagination pagination) {
+		if (null == pagination) {
+			throw new IllegalArgumentException("'pagination' must not be null");
+		}
+
+		final Query findAllQuery = entityManager.createQuery("select x from " + determineEntityClass().getName() + " as x");
+		findAllQuery.setFirstResult(pagination.getFirstResult());
+		findAllQuery.setMaxResults(pagination.getMaxResults());
 		final List<Entity> allEntityList = Collections.checkedList(findAllQuery.getResultList(), determineEntityClass());
 		return allEntityList;
 	}
@@ -117,7 +132,7 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	 */
 	protected Query createNamedQuery(final String queryName) {
 		if (null == queryName) {
-			throw new IllegalArgumentException("[queryName] must not be null");
+			throw new IllegalArgumentException("'queryName' must not be null");
 		}
 
 		Query namedQuery = entityManager.createNamedQuery(queryName);
@@ -134,7 +149,7 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	 */
 	protected Query createQuery(final String jpQueryString) {
 		if (null == jpQueryString) {
-			throw new IllegalArgumentException("[jpQueryString] must not be null");
+			throw new IllegalArgumentException("'jpQueryString' must not be null");
 		}
 
 		Query query = entityManager.createQuery(jpQueryString);
