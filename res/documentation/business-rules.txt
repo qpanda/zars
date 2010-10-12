@@ -1,2 +1,3 @@
 BR001 - overlapping group reservations are not supported and will be referred to as conflicting group reservations
 BR002 - all users are in the same timezone as the server
+BR003 - current year date range filter uses the current calendar year
