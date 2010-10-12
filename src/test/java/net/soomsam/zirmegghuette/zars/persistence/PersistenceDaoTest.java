@@ -97,7 +97,7 @@ public class PersistenceDaoTest {
 	}
 
 	@Test
-	public void testCountGroupReservationWithPagination() {
+	public void testCompareCountGroupReservationWithFindGroupReservation() {
 		final User testUser = createTestUser();
 		final Room testRoom = createTestRoom();
 		final GroupReservation groupReservation01 = createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(3), new DateMidnight());
@@ -107,6 +107,25 @@ public class PersistenceDaoTest {
 		final List<GroupReservation> allGroupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval, null);
 		long allGroupReservationCount = groupReservationDao.countGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval);
 		Assert.assertEquals(allGroupReservationCount, allGroupReservationList.size());
+	}
+
+	@Test
+	public void testCountGroupReservation() {
+		final User testUser = createTestUser();
+		final Room testRoom = createTestRoom();
+		final GroupReservation groupReservation01 = createGroupReservation(testUser, testRoom, new DateMidnight().minusDays(3), new DateMidnight());
+		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateMidnight(), new DateMidnight().plusDays(3));
+
+		Interval closedArrivalDepartureDateInterval = new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1));
+		Assert.assertEquals(2, groupReservationDao.countGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval));
+
+		Assert.assertEquals(2, groupReservationDao.countGroupReservationByClosedDateIntervalAndBeneficiaryId(testUser.getUserId(), closedArrivalDepartureDateInterval));
+		Assert.assertEquals(0, groupReservationDao.countGroupReservationByClosedDateIntervalAndBeneficiaryId(3, closedArrivalDepartureDateInterval));
+
+		Assert.assertEquals(2, groupReservationDao.countGroupReservationByBeneficiaryId(testUser.getUserId()));
+		Assert.assertEquals(0, groupReservationDao.countGroupReservationByBeneficiaryId(3));
+
+		Assert.assertEquals(2, groupReservationDao.countAll());
 	}
 
 	@Test

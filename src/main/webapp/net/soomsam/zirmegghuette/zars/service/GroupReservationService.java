@@ -27,6 +27,12 @@ public interface GroupReservationService {
 
 	public long countGroupReservation(Interval dateInterval);
 
+	public long countGroupReservation(long beneficiaryId, Interval dateInterval);
+
+	public long countGroupReservation(long beneficiaryId);
+
+	public long countGroupReservation();
+
 	public List<GroupReservationBean> findGroupReservation(Interval dateInterval, Pagination pagination);
 
 	public GroupReservationBean retrieveGroupReservation(long groupReservationId);

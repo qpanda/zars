@@ -28,7 +28,27 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 		final Query countGroupReservationByClosedStartEndIntervalQuery = createNamedQuery(GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME);
 		countGroupReservationByClosedStartEndIntervalQuery.setParameter("startDate", closedDateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
 		countGroupReservationByClosedStartEndIntervalQuery.setParameter("endDate", closedDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
-		return (Long)countGroupReservationByClosedStartEndIntervalQuery.getSingleResult();
+		return (Long) countGroupReservationByClosedStartEndIntervalQuery.getSingleResult();
+	}
+
+	@Override
+	public long countGroupReservationByClosedDateIntervalAndBeneficiaryId(final long beneficiaryId, final Interval closedDateInterval) {
+		if (null == closedDateInterval) {
+			throw new IllegalArgumentException("'closedDateInterval' must not be null");
+		}
+
+		final Query countGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery = createNamedQuery(GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYNAME);
+		countGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery.setParameter("beneficiaryId", beneficiaryId);
+		countGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery.setParameter("startDate", closedDateInterval.getStart().toDateMidnight().toDate(), TemporalType.DATE);
+		countGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery.setParameter("endDate", closedDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.DATE);
+		return (Long) countGroupReservationByClosedDateIntervalAndBeneficiaryIdQuery.getSingleResult();
+	}
+
+	@Override
+	public long countGroupReservationByBeneficiaryId(final long beneficiaryId) {
+		final Query countGroupReservationByBeneficiaryIdQuery = createNamedQuery(GroupReservation.COUNTGROUPRESERVATION_BENEFICIARYID_QUERYNAME);
+		countGroupReservationByBeneficiaryIdQuery.setParameter("beneficiaryId", beneficiaryId);
+		return (Long) countGroupReservationByBeneficiaryIdQuery.getSingleResult();
 	}
 
 	@Override

@@ -58,6 +58,13 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public long countAll() {
+		final Query countAllQuery = entityManager.createQuery("select count(x) from " + determineEntityClass().getName() + " as x");
+		return (Long) countAllQuery.getSingleResult();
+	}
+
+	@Override
 	public Entity findByPrimaryKey(final Serializable primaryKey) {
 		return entityManager.find(determineEntityClass(), primaryKey);
 	}
@@ -83,7 +90,7 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	}
 
 	@Override
-	public void removeAll(Set<Entity> entitySet) {
+	public void removeAll(final Set<Entity> entitySet) {
 		Iterator<Entity> entityIterator = entitySet.iterator();
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
@@ -108,7 +115,7 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	 *            the name of the query to create a query object for
 	 * @return the {@link Query} object created on behalf of the named query
 	 */
-	protected Query createNamedQuery(String queryName) {
+	protected Query createNamedQuery(final String queryName) {
 		if (null == queryName) {
 			throw new IllegalArgumentException("[queryName] must not be null");
 		}
@@ -125,7 +132,7 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	 *            the JPQL string to create the query from
 	 * @return the {@link Query} object created on behalf of the JPQL string
 	 */
-	protected Query createQuery(String jpQueryString) {
+	protected Query createQuery(final String jpQueryString) {
 		if (null == jpQueryString) {
 			throw new IllegalArgumentException("[jpQueryString] must not be null");
 		}

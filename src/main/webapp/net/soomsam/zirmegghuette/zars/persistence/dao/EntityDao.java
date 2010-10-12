@@ -66,6 +66,13 @@ public interface EntityDao<Entity extends BaseEntity> {
 	public List<Entity> findAll();
 
 	/**
+	 * counts all persistence entities with the type/class managed by the concrete DAO implementation
+	 * 
+	 * @return the number of all persistence entities with the type/class found in the database
+	 */
+	public long countAll();
+
+	/**
 	 * refreshes the persistence entity with the data stored in the database (potentially) overwriting any changes made
 	 * to the entity in the persistence context
 	 * 

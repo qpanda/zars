@@ -207,6 +207,21 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	@Override
+	public long countGroupReservation(final long beneficiaryId, final Interval dateInterval) {
+		return groupReservationDao.countGroupReservationByClosedDateIntervalAndBeneficiaryId(beneficiaryId, dateInterval);
+	}
+
+	@Override
+	public long countGroupReservation(final long beneficiaryId) {
+		return groupReservationDao.countGroupReservationByBeneficiaryId(beneficiaryId);
+	}
+
+	@Override
+	public long countGroupReservation() {
+		return groupReservationDao.countAll();
+	}
+
+	@Override
 	public List<GroupReservationBean> findGroupReservation(final Interval dateInterval, final Pagination pagination) {
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservationByClosedDateInterval(dateInterval, pagination));
 	}

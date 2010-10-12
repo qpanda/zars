@@ -39,7 +39,7 @@ import org.joda.time.DateTime;
 
 @Entity
 @Table(name = GroupReservation.TABLENAME_GROUPRESERVATION)
-@NamedQueries( { @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING), @NamedQuery(name = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYSTRING) })
+@NamedQueries( { @NamedQuery(name = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING), @NamedQuery(name = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYNAME, query = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYSTRING), @NamedQuery(name = GroupReservation.COUNTGROUPRESERVATION_BENEFICIARYID_QUERYNAME, query = GroupReservation.COUNTGROUPRESERVATION_BENEFICIARYID_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYSTRING) })
 public class GroupReservation extends BaseEntity {
 	public static final String TABLENAME_GROUPRESERVATION = "zars_group_reservation";
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
@@ -52,11 +52,17 @@ public class GroupReservation extends BaseEntity {
 	public static final String COLUMNNAME_ACCOUNTANT_USERID = "accountant_user_id";
 	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "zars_group_reservation_zars_room";
 
-	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationByClosedStartEndIntervalQuery";
-	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival <= :endDate) or (:startDate <= departure and departure <= :endDate) or (arrival <= :startDate and :endDate <= departure)";
-
 	public static final String COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.countGroupReservationByClosedStartEndIntervalQuery";
 	public static final String COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "select count(groupReservation) from GroupReservation groupReservation where (:startDate <= groupReservation.arrival and groupReservation.arrival <= :endDate) or (:startDate <= groupReservation.departure and groupReservation.departure <= :endDate) or (groupReservation.arrival <= :startDate and :endDate <= groupReservation.departure)";
+
+	public static final String COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYNAME = "GroupReservation.countGroupReservationByClosedStartEndIntervalAndBeneficiaryIdQuery";
+	public static final String COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYSTRING = "select count(groupReservation) from GroupReservation groupReservation where groupReservation.beneficiary.userId = :beneficiaryId and ((:startDate <= groupReservation.arrival and groupReservation.arrival <= :endDate) or (:startDate <= groupReservation.departure and groupReservation.departure <= :endDate) or (groupReservation.arrival <= :startDate and :endDate <= groupReservation.departure))";
+
+	public static final String COUNTGROUPRESERVATION_BENEFICIARYID_QUERYNAME = "GroupReservation.countGroupReservationByBeneficiaryIdQuery";
+	public static final String COUNTGROUPRESERVATION_BENEFICIARYID_QUERYSTRING = "select count(groupReservation) from GroupReservation groupReservation where groupReservation.beneficiary.userId = :beneficiaryId";
+
+	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationByClosedStartEndIntervalQuery";
+	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival <= :endDate) or (:startDate <= departure and departure <= :endDate) or (arrival <= :startDate and :endDate <= departure)";
 
 	public static final String FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationByOpenStartEndIntervalQuery";
 	public static final String FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival < :endDate) or (:startDate < departure and departure <= :endDate) or (arrival <= :startDate and :endDate < departure)";

@@ -145,7 +145,7 @@ public class AdminGroupReservationController implements Serializable {
 	private class LazyGroupReservationDataModel extends LazyDataModel<GroupReservationBean> {
 		@Override
 		public int getRowCount() {
-			// TODO countGroupReservation(Interval)
+			// TODO exists countGroupReservation(Interval)
 			// TODO countGroupReservation(Interval, User)
 			// TODO countGroupReservation(User)
 			// TODO countGroupReservation()
@@ -158,7 +158,7 @@ public class AdminGroupReservationController implements Serializable {
 
 		@Override
 		public List<GroupReservationBean> fetchLazyData(final int firstResult, final int maxResults) {
-			// TODO findGroupReservation(Interval, Pagination)
+			// TODO exists findGroupReservation(Interval, Pagination)
 			// TODO findGroupReservation(Interval, User, Pagination)
 			// TODO findGroupReservation(User, Pagination)
 			// TODO findGroupReservation(Pagination)
