@@ -22,14 +22,16 @@
 				<h:inputText id="guests" styleClass="applicationFormInput" value="#{addGroupReservationController.guests}" binding="#{addGroupReservationController.guestsInputText}" size="3" converterMessage="#{validationMessages.sectionsApplicationGroupReservationGuestsError}" />
 				<p:message for="guests" />
 			</div>
-			<div class="applicationFormItem">		
+			<div class="applicationFormItem">
+				<!-- TODO name formatter -->		
 				<h:outputLabel for="beneficiary" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}" /><br />
 				<h:selectOneMenu id="beneficiary" styleClass="applicationFormInput" value="#{addGroupReservationController.selectedBeneficiaryId}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationGroupReservationBeneficiaryError}" disabled="#{!securityController.currentUserAdmin}">
 					<f:selectItems value="#{addGroupReservationController.availableBeneficiaries}" var="beneficiary" itemLabel="#{beneficiary.username} (#{beneficiary.emailAddress})" itemValue="#{beneficiary.userId}"/>
 				</h:selectOneMenu>
 				<p:message for="beneficiary" />
 			</div>
-			<div class="applicationFormItem">		
+			<div class="applicationFormItem">
+				<!-- TODO name formatter -->
 				<h:outputLabel for="accountant" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationAccountantLabel}" /><br />
 				<h:selectOneMenu id="accountant" styleClass="applicationFormInput" value="#{addGroupReservationController.selectedAccountantId}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationGroupReservationAccountantError}">
 					<f:selectItems value="#{addGroupReservationController.availableAccountants}" var="accountant" itemLabel="#{accountant.username} (#{accountant.emailAddress})" itemValue="#{accountant.userId}"/>
