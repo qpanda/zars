@@ -5,7 +5,7 @@
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd"
 	template="/templates/applicationLayout.xhtml">
-	<ui:define name="windowTitle">#{displayMessages.viewsGroupReservationWindowTitle}</ui:define>
+	<ui:define name="windowTitle">#{displayMessages.viewsGroupReservationScheduleWindowTitle}</ui:define>
 	<ui:define name="header">
 		<ui:include src="/sections/application/header.xhtml"/>
 	</ui:define>
@@ -13,7 +13,7 @@
 		<ui:include src="/sections/application/menu.xhtml"/>
 	</ui:define>
 	<ui:define name="applicationSection">
-		<ui:include src="/sections/application/groupReservation.xhtml"/>
+		<ui:include src="/sections/application/groupReservationSchedule.xhtml"/>
 	</ui:define>
 	<ui:define name="footer">
 		<ui:include src="/sections/application/footer.xhtml"/>

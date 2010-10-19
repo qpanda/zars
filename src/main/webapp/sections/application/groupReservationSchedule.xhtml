@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html-basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf-core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd">
+	<div class="applicationDialog">
+		<h:form id="adminGroupReservation" styleClass="applicationForm">
+			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationGroupReservationScheduleDialogLabel}</div>
+			<div class="applicationFormItem">
+				<p:schedule startWeekday="1" value="#{groupReservationScheduleController.schedule}" />
+			</div>
+			<!-- TODO test links -->
+			<div class="applicationFormItem">
+				<p:commandLink value="#{displayMessages.sectionsApplicationExportCurrentGroupReservationsLink}" styleClass="applicationLink" ajax="false">
+					<p:dataExporter type="xls" target="groupReservationTable" fileName="#{displayMessages.sectionsApplicationExportCurrentGroupReservationsFile}" pageOnly="true" excludeColumns="7"/>
+				</p:commandLink>
+				<h:outputText value="&#160;&#160;&#160;" />
+				<p:commandLink value="#{displayMessages.sectionsApplicationExportAllGroupReservationsLink}" styleClass="applicationLink" ajax="false">
+					<p:dataExporter type="xls" target="userTable" fileName="#{displayMessages.sectionsApplicationExportAllGroupReservationsFile}" excludeColumns="7"/>
+				</p:commandLink>
+			</div>
+		</h:form>
+	</div>
+	<p:messages globalOnly="true"/>
+</ui:composition>

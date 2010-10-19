@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Scope;
 
 @Named
 @Scope("request")
-public class TestGroupReservationController implements Serializable {
+public class GroupReservationScheduleController implements Serializable {
 	private final ScheduleModel schedule;
 
-	public TestGroupReservationController() {
+	public GroupReservationScheduleController() {
 		super();
 		this.schedule = new DefaultScheduleModel();
 		this.schedule.addEvent(new DefaultScheduleEvent("test", new Date(), new Date()));
