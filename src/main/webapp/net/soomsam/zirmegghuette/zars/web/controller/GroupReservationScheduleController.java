@@ -5,8 +5,10 @@ import java.util.Date;
 
 import javax.inject.Named;
 
+import org.primefaces.event.ScheduleEntrySelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import org.springframework.context.annotation.Scope;
 
@@ -23,5 +25,10 @@ public class GroupReservationScheduleController implements Serializable {
 
 	public ScheduleModel getSchedule() {
 		return schedule;
+	}
+
+	public void onEventSelect(final ScheduleEntrySelectEvent scheduleEntrySelectEvent) {
+		ScheduleEvent scheduleEvent = scheduleEntrySelectEvent.getScheduleEvent();
+		System.out.println("###" + scheduleEvent.getTitle());
 	}
 }

@@ -8,7 +8,7 @@
 		<h:form id="adminGroupReservation" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationGroupReservationScheduleDialogLabel}</div>
 			<div class="applicationFormItem">
-				<p:schedule startWeekday="1" value="#{groupReservationScheduleController.schedule}" />
+				<p:schedule startWeekday="1" value="#{groupReservationScheduleController.schedule}" locale="#{localeController.activeLocale}" leftHeaderTemplate="today" rightHeaderTemplate="prev,next" editable="true" draggable="false" resizable="false" eventSelectListener="#{groupReservationScheduleController.onEventSelect}"/>
 			</div>
 			<!-- TODO test links -->
 			<div class="applicationFormItem">
