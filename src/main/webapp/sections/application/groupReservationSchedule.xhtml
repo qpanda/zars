@@ -8,7 +8,18 @@
 		<h:form id="adminGroupReservation" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationGroupReservationScheduleDialogLabel}</div>
 			<div class="applicationFormItem">
-				<p:schedule startWeekday="1" value="#{groupReservationScheduleController.schedule}" locale="#{localeController.activeLocale}" leftHeaderTemplate="today" rightHeaderTemplate="prev,next" editable="true" draggable="false" resizable="false" eventSelectListener="#{groupReservationScheduleController.onEventSelect}"/>
+				<p:schedule value="#{groupReservationScheduleController.groupReservationScheduleModel}" editable="true" draggable="false" resizable="false"  eventSelectListener="#{groupReservationScheduleController.onGroupReservationEventSelect}" locale="#{localeController.activeLocale}" startWeekday="1" leftHeaderTemplate="today" rightHeaderTemplate="prev,next">
+					<p:scheduleEventDialog header="Event Details">
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Title:" />
+							<h:outputText value="#{groupReservationScheduleController.selectedGroupReservationScheduleEvent.title}" />
+							<h:outputText value="xxx" />
+							<h:link outcome="editGroupReservation" value="#{displayMessages.sectionsApplicationEditThisGroupReservationLink}" styleClass="applicationLink">
+								<f:param name="groupReservationId" value="1"/>
+							</h:link>
+						</h:panelGrid>
+					</p:scheduleEventDialog>
+				</p:schedule>
 			</div>
 			<!-- TODO test links -->
 			<div class="applicationFormItem">
