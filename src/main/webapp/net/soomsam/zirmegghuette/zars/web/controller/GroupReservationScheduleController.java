@@ -38,6 +38,11 @@ public class GroupReservationScheduleController implements Serializable {
 
 	public void onGroupReservationEventSelect(final ScheduleEntrySelectEvent scheduleEntrySelectEvent) {
 		selectedGroupReservationScheduleEvent = scheduleEntrySelectEvent.getScheduleEvent();
+
+		// String pagePath="myPage.jsf";
+		// FacesContext context = FacesContext.getCurrentInstance();
+		// context.getExternalContext().redirect(pagePath);
+		// context.responseComplete();
 	}
 
 	private class LazyGroupReservationScheduleModel extends LazyScheduleModel {
