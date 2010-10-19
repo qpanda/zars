@@ -1,5 +1,5 @@
 CURRENT PENDING TASKS
-	o complete add/edit/delete group reservations (all TODOs)
+	o complete add/edit/delete/overview group reservations (all TODOs)
 	o name formatter
 		o custom converter for output
 		o selectitem for dropdowns
