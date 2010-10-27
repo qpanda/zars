@@ -65,6 +65,7 @@ public class GroupReservationScheduleController implements Serializable {
 		}
 
 		protected ScheduleEvent createScheduleEvent(final GroupReservationBean groupReservationBean) {
+			// TODO name formatter
 			return new LazyDefaultScheduleEvent(String.valueOf(groupReservationBean.getGroupReservationId()), groupReservationBean.getBeneficiary().getUsername(), groupReservationBean.getArrival(), groupReservationBean.getDeparture(), groupReservationBean);
 		}
 
