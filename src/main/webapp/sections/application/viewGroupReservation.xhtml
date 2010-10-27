@@ -61,28 +61,33 @@
 							<td class="applicationFormTableData">#{viewGroupReservationController.savedGroupReservation.comment}</td>
 						</tr>
 					</table>
-					<h:dataTable id="reservations" var="reservation" value="#{viewGroupReservationController.savedGroupReservation.reservations}" rendered="#{!empty viewGroupReservationController.savedGroupReservation.reservations}" styleClass="applicationFormDataTable" captionClass="applicationFormDataTableCaption" headerClass="applicationFormDataTableHeader" columnClasses="applicationFormDataTableData, applicationFormDataTableData, applicationFormDataTableData">
-						<f:facet name="caption">
-							<h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationLabel}" />
-						</f:facet>						
-						<h:column>
-							<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationArrivalHeader}" /></f:facet>
-							<h:outputText value="#{reservation.arrival}">
-								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
-							</h:outputText>
-						</h:column>
-						<h:column>
-							<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationDepartureHeader}" /></f:facet>
-							<h:outputText value="#{reservation.departure}">
-								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
-							</h:outputText>
-						</h:column>
-						<h:column>
-							<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationPersonHeader}" /></f:facet>
-							<h:outputText value="#{reservation.firstName} #{reservation.lastName}" />
-						</h:column>
-					</h:dataTable>
 				</div>
+				<f:subview id="viewGroupReservationReservationsView" rendered="#{!empty viewGroupReservationController.savedGroupReservation.reservations}">
+					<div class="applicationFormSeparator"/>
+					<div class="applicationFormItem">						
+						<h:dataTable id="reservations" var="reservation" value="#{viewGroupReservationController.savedGroupReservation.reservations}" rendered="#{!empty viewGroupReservationController.savedGroupReservation.reservations}" styleClass="applicationFormDataTable" captionClass="applicationFormDataTableCaption" headerClass="applicationFormDataTableHeader" columnClasses="applicationFormDataTableData, applicationFormDataTableData, applicationFormDataTableData">
+							<f:facet name="caption">
+								<h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationLabel}" />
+							</f:facet>						
+							<h:column>
+								<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationArrivalHeader}" /></f:facet>
+								<h:outputText value="#{reservation.arrival}">
+									<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+								</h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationDepartureHeader}" /></f:facet>
+								<h:outputText value="#{reservation.departure}">
+									<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+								</h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationPersonHeader}" /></f:facet>
+								<h:outputText value="#{reservation.firstName} #{reservation.lastName}" />
+							</h:column>
+						</h:dataTable>
+					</div>
+				</f:subview>
 				<div class="applicationFormItem">
 					<h:link outcome="editGroupReservation" value="#{displayMessages.sectionsApplicationEditThisGroupReservationLink}" styleClass="applicationLink" rendered="#{securityController.currentUserAdmin or (viewGroupReservationController.savedGroupReservation.beneficiary.userId eq securityController.currentUserId)}">
 						<f:param name="groupReservationId" value="#{viewGroupReservationController.savedGroupReservation.groupReservationId}"/>
