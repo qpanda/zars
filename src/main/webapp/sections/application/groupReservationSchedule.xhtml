@@ -39,14 +39,20 @@
 										</td>
 									</tr>					
 									<tr class="applicationFormTableRow">
-										<!-- TODO name formatter -->
 										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}</th>
-										<td class="applicationFormTableData">#{groupReservationScheduleController.selectedGroupReservation.beneficiary.username}</td>
+										<td class="applicationFormTableData">
+											<h:outputText value="#{groupReservationScheduleController.selectedGroupReservation.beneficiary}">
+												<f:converter converterId="userBeanFormatter"/>
+											</h:outputText>
+										</td>
 									</tr>
 									<tr class="applicationFormTableRow">
-										<!-- TODO name formatter -->
 										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationAccountantLabel}</th>
-										<td class="applicationFormTableData">#{groupReservationScheduleController.selectedGroupReservation.accountant.username}</td>
+										<td class="applicationFormTableData">
+											<h:outputText value="#{groupReservationScheduleController.selectedGroupReservation.accountant}">
+												<f:converter converterId="userBeanFormatter"/>
+											</h:outputText>
+										</td>
 									</tr>
 									<tr class="applicationFormTableRow">
 										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationGuestsLabel}</th>
