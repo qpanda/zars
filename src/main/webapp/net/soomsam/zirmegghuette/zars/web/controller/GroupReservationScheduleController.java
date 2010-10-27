@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Scope;
 @Scope("request")
 public class GroupReservationScheduleController implements Serializable {
 	private final ScheduleModel groupReservationScheduleModel = new LazyGroupReservationScheduleModel();
-	private ScheduleEvent selectedGroupReservationScheduleEvent;
+	private GroupReservationBean selectedGroupReservation;
 
 	@Inject
 	private transient GroupReservationService groupReservationService;
@@ -32,18 +32,13 @@ public class GroupReservationScheduleController implements Serializable {
 		return groupReservationScheduleModel;
 	}
 
-	public ScheduleEvent getSelectedGroupReservationScheduleEvent() {
-		return selectedGroupReservationScheduleEvent;
+	public GroupReservationBean getSelectedGroupReservation() {
+		return selectedGroupReservation;
 	}
 
 	public void onGroupReservationEventSelect(final ScheduleEntrySelectEvent scheduleEntrySelectEvent) {
-		selectedGroupReservationScheduleEvent = scheduleEntrySelectEvent.getScheduleEvent();
-		System.out.println("### [" + selectedGroupReservationScheduleEvent + "]");
-		// TODO redirect or remove if we rely on the dialog
-		// String pagePath="myPage.jsf";
-		// FacesContext context = FacesContext.getCurrentInstance();
-		// context.getExternalContext().redirect(pagePath);
-		// context.responseComplete();
+		ScheduleEvent selectedGroupReservationScheduleEvent = scheduleEntrySelectEvent.getScheduleEvent();
+		selectedGroupReservation = (GroupReservationBean)selectedGroupReservationScheduleEvent.getData();
 	}
 
 	private class LazyGroupReservationScheduleModel extends LazyScheduleModel {

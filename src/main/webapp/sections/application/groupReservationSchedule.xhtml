@@ -8,27 +8,70 @@
 		<h:form id="adminGroupReservation" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationGroupReservationScheduleDialogLabel}</div>
 			<div class="applicationFormItem">
-				<p:schedule value="#{groupReservationScheduleController.groupReservationScheduleModel}" editable="true" draggable="false" resizable="false"  eventSelectListener="#{groupReservationScheduleController.onGroupReservationEventSelect}" locale="#{localeController.activeLocale}" startWeekday="1" leftHeaderTemplate="today" rightHeaderTemplate="prev,next">
-					<p:scheduleEventDialog header="Event Details">
-						<h:panelGrid columns="2">
-							<h:outputLabel value="Title:" />
-							<h:outputText value="#{groupReservationScheduleController.selectedGroupReservationScheduleEvent.title}" />
-							<h:link outcome="editGroupReservation" value="#{displayMessages.sectionsApplicationEditThisGroupReservationLink}" styleClass="applicationLink">
-								<f:param name="groupReservationId" value="1"/>
-							</h:link>
-						</h:panelGrid>
+				<p:schedule id="groupReservationSchedule" value="#{groupReservationScheduleController.groupReservationScheduleModel}" editable="true" draggable="false" resizable="false" eventSelectListener="#{groupReservationScheduleController.onGroupReservationEventSelect}" locale="#{localeController.activeLocale}" startWeekday="1" leftHeaderTemplate="today" rightHeaderTemplate="prev,next">
+					<p:scheduleEventDialog id="groupReservationScheduleEventDialog" header="#{displayMessages.sectionsApplicationViewDisplayedGroupReservationLabel}">
+						<f:subview id="emptyGroupReservationDialog" rendered="#{empty groupReservationScheduleController.selectedGroupReservation}">
+							<div class="applicationFormItem">
+								<h:outputText value="#{validationMessages.sectionsApplicationGroupReservationSelectionInvalidError}"/>
+							</div>
+						</f:subview>
+						<f:subview id="viewGroupReservationDialog" rendered="#{!empty groupReservationScheduleController.selectedGroupReservation}">						
+							<div class="applicationFormItem">
+								<table class="applicationFormTable">
+									<tr class="applicationFormTableRow">
+										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationGroupReservationIdLabel}</th>
+										<td class="applicationFormTableData">#{groupReservationScheduleController.selectedGroupReservation.groupReservationId}</td>
+									</tr>
+									<tr class="applicationFormTableRow">
+										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}</th>
+										<td class="applicationFormTableData">
+											<h:outputText value="#{groupReservationScheduleController.selectedGroupReservation.arrival}">
+												<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+											</h:outputText>
+										</td>
+									</tr>
+									<tr class="applicationFormTableRow">
+										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationDepartureLabel}</th>
+										<td class="applicationFormTableData">
+											<h:outputText value="#{groupReservationScheduleController.selectedGroupReservation.departure}">
+												<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+											</h:outputText>
+										</td>
+									</tr>					
+									<tr class="applicationFormTableRow">
+										<!-- TODO name formatter -->
+										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}</th>
+										<td class="applicationFormTableData">#{groupReservationScheduleController.selectedGroupReservation.beneficiary.username}</td>
+									</tr>
+									<tr class="applicationFormTableRow">
+										<!-- TODO name formatter -->
+										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationAccountantLabel}</th>
+										<td class="applicationFormTableData">#{groupReservationScheduleController.selectedGroupReservation.accountant.username}</td>
+									</tr>
+									<tr class="applicationFormTableRow">
+										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationGuestsLabel}</th>
+										<td class="applicationFormTableData">#{groupReservationScheduleController.selectedGroupReservation.guests}</td>
+									</tr>
+									<tr class="applicationFormTableRow">
+										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationRoomsLabel}</th>										
+										<td class="applicationFormTableData">
+											<ui:repeat var="room" varStatus="roomIterator" value="#{groupReservationScheduleController.selectedGroupReservation.rooms}">#{enumMessages[room.name]}<h:outputText rendered="#{!roomIterator.last}" value=", "/></ui:repeat>
+										</td>						
+									</tr>
+								</table>
+							</div>
+							<div class="applicationFormItem">
+								<h:link outcome="editGroupReservation" value="#{displayMessages.sectionsApplicationEditDisplayedGroupReservationLink}" styleClass="applicationLink" rendered="#{securityController.currentUserAdmin or (groupReservationScheduleController.selectedGroupReservation.beneficiary.userId eq securityController.currentUserId)}">
+									<f:param name="groupReservationId" value="#{groupReservationScheduleController.selectedGroupReservation.groupReservationId}"/>
+								</h:link>
+								<h:outputText value="&#160;&#160;&#160;" rendered="#{securityController.currentUserAdmin or (groupReservationScheduleController.selectedGroupReservation.beneficiary.userId eq securityController.currentUserId)}" />				
+								<h:link outcome="viewGroupReservation" value="#{displayMessages.sectionsApplicationViewDisplayedGroupReservationLink}" styleClass="applicationLink">
+									<f:param name="groupReservationId" value="#{groupReservationScheduleController.selectedGroupReservation.groupReservationId}"/>
+								</h:link>
+							</div>
+						</f:subview>
 					</p:scheduleEventDialog>
 				</p:schedule>
-			</div>
-			<!-- TODO test links -->
-			<div class="applicationFormItem">
-				<p:commandLink value="#{displayMessages.sectionsApplicationExportCurrentGroupReservationsLink}" styleClass="applicationLink" ajax="false">
-					<p:dataExporter type="xls" target="groupReservationTable" fileName="#{displayMessages.sectionsApplicationExportCurrentGroupReservationsFile}" pageOnly="true" excludeColumns="7"/>
-				</p:commandLink>
-				<h:outputText value="&#160;&#160;&#160;" />
-				<p:commandLink value="#{displayMessages.sectionsApplicationExportAllGroupReservationsLink}" styleClass="applicationLink" ajax="false">
-					<p:dataExporter type="xls" target="userTable" fileName="#{displayMessages.sectionsApplicationExportAllGroupReservationsFile}" excludeColumns="7"/>
-				</p:commandLink>
 			</div>
 		</h:form>
 	</div>
