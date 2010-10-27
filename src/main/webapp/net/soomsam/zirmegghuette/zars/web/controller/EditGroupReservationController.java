@@ -64,9 +64,11 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 					FacesContext.getCurrentInstance().addMessage(null, modificationNotAllowedFacesMessage);
 				}
 
-				List<ReservationBean> reservationBeanList = groupReservationBean.getReservations();
-				if ((null != reservationBeanList) && !reservationBeanList.isEmpty()) {
-					populateReservation(reservationBeanList);
+				if (!FacesContext.getCurrentInstance().isPostback()) {
+					List<ReservationBean> reservationBeanList = groupReservationBean.getReservations();
+					if ((null != reservationBeanList) && !reservationBeanList.isEmpty()) {
+						populateReservation(reservationBeanList);
+					}
 				}
 			} catch (final EntityNotFoundException entityNotFoundException) {
 				this.validNavigation = false;
@@ -152,7 +154,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	}
 
 	@Override
-	protected String modifyGroupReservation(Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException, InsufficientPermissionException {
+	protected String modifyGroupReservation(final Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException, InsufficientPermissionException {
 		logger.debug("updating group reservation with id [" + groupReservationId + "], beneficiaryId [" + selectedBeneficiaryId + "], accountantId [" + selectedAccountantId + "] and [" + determineReservationCount() + "] reservations");
 		savedGroupReservation = groupReservationService.updateGroupReservation(groupReservationId, selectedBeneficiaryId, selectedAccountantId, reservationVoSet, comment);
 		return "editGroupReservationConfirmation";
