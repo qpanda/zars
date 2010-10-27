@@ -38,7 +38,8 @@ public class GroupReservationScheduleController implements Serializable {
 
 	public void onGroupReservationEventSelect(final ScheduleEntrySelectEvent scheduleEntrySelectEvent) {
 		selectedGroupReservationScheduleEvent = scheduleEntrySelectEvent.getScheduleEvent();
-
+		System.out.println("### [" + selectedGroupReservationScheduleEvent + "]");
+		// TODO redirect or remove if we rely on the dialog
 		// String pagePath="myPage.jsf";
 		// FacesContext context = FacesContext.getCurrentInstance();
 		// context.getExternalContext().redirect(pagePath);
@@ -47,19 +48,54 @@ public class GroupReservationScheduleController implements Serializable {
 
 	private class LazyGroupReservationScheduleModel extends LazyScheduleModel {
 		@Override
+		public ScheduleEvent getEvent(final String id) {
+			ScheduleEvent scheduleEvent = super.getEvent(id);
+			if (null != scheduleEvent) {
+				return scheduleEvent;
+			}
+
+			long groupReservationId = Long.valueOf(id);
+			GroupReservationBean groupReservationBean = groupReservationService.retrieveGroupReservation(groupReservationId);
+			return createScheduleEvent(groupReservationBean);
+		}
+
+		@Override
 		public void loadEvents(final Date dateRangeStartDate, final Date dateRangeEndDate) {
-			groupReservationScheduleModel.clear();
+			clear();
 			List<GroupReservationBean> groupReservationBeanList = groupReservationService.findGroupReservation(createSelectedDateRangeInterval(dateRangeStartDate, dateRangeEndDate), null);
 			for (GroupReservationBean groupReservationBean : groupReservationBeanList) {
-				ScheduleEvent groupReservationScheduleEvent = new DefaultScheduleEvent(groupReservationBean.getBeneficiary().getUsername(), groupReservationBean.getArrival(), groupReservationBean.getDeparture(), groupReservationBean);
-				groupReservationScheduleModel.addEvent(groupReservationScheduleEvent);
+				ScheduleEvent groupReservationScheduleEvent = createScheduleEvent(groupReservationBean);
+				addEvent(groupReservationScheduleEvent);
 			}
+		}
+
+		protected ScheduleEvent createScheduleEvent(final GroupReservationBean groupReservationBean) {
+			return new LazyDefaultScheduleEvent(String.valueOf(groupReservationBean.getGroupReservationId()), groupReservationBean.getBeneficiary().getUsername(), groupReservationBean.getArrival(), groupReservationBean.getDeparture(), groupReservationBean);
 		}
 
 		protected Interval createSelectedDateRangeInterval(final Date dateRangeStartDate, final Date dateRangeEndDate) {
 			DateMidnight dateRangeStartDateMidnight = new DateMidnight(dateRangeStartDate);
 			DateMidnight dateRangeEndDateMidnight = new DateMidnight(dateRangeEndDate);
 			return new Interval(dateRangeStartDateMidnight, dateRangeEndDateMidnight);
+		}
+	}
+
+	private class LazyDefaultScheduleEvent extends DefaultScheduleEvent {
+		public LazyDefaultScheduleEvent(final String id, final String title, final Date start, final Date end, final Object data) {
+			super(title, start, end, data);
+			super.setId(id);
+		}
+
+		@Override
+		public String getId() {
+			return super.getId();
+		}
+
+		@Override
+		public void setId(final String id) {
+			if (null == super.getId()) {
+				super.setId(id);
+			}
 		}
 	}
 }
