@@ -1,4 +1,5 @@
 CURRENT PENDING TASKS
+	o display link to reservation calendar next to all reservation admin link 
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o display current user in menubar
 	o complete security
