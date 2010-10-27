@@ -47,37 +47,38 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	}
 
 	public void retrieveGroupReservation() {
-		if (null != this.groupReservationId) {
-			try {
-				final GroupReservationBean groupReservationBean = groupReservationService.retrieveGroupReservation(groupReservationId);
-				this.groupReservationId = groupReservationBean.getGroupReservationId();
-				this.arrival = groupReservationBean.getArrival();
-				this.departure = groupReservationBean.getDeparture();
-				this.guests = groupReservationBean.getGuests();
-				this.comment = groupReservationBean.getComment();
-				this.selectedAccountantId = groupReservationBean.getAccountant().getUserId();
-				this.selectedBeneficiaryId = groupReservationBean.getBeneficiary().getUserId();
-
-				if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && selectedBeneficiaryId != securityController.getCurrentUserId()) {
-					this.validNavigation = false;
-					final FacesMessage modificationNotAllowedFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR, null);
-					FacesContext.getCurrentInstance().addMessage(null, modificationNotAllowedFacesMessage);
-				}
-
-				if (!FacesContext.getCurrentInstance().isPostback()) {
-					List<ReservationBean> reservationBeanList = groupReservationBean.getReservations();
-					if ((null != reservationBeanList) && !reservationBeanList.isEmpty()) {
-						populateReservation(reservationBeanList);
-					}
-				}
-			} catch (final EntityNotFoundException entityNotFoundException) {
-				this.validNavigation = false;
-				final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null);
-				FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
-			}
+		if (FacesContext.getCurrentInstance().isPostback()) {
+			return;
 		}
 
-		if (!FacesContext.getCurrentInstance().isPostback() && (null == this.groupReservationId)) {
+		if (null == this.groupReservationId) {
+			this.validNavigation = false;
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null);
+			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
+			return;
+		}
+
+		try {
+			final GroupReservationBean groupReservationBean = groupReservationService.retrieveGroupReservation(groupReservationId);
+			this.groupReservationId = groupReservationBean.getGroupReservationId();
+			this.arrival = groupReservationBean.getArrival();
+			this.departure = groupReservationBean.getDeparture();
+			this.guests = groupReservationBean.getGuests();
+			this.comment = groupReservationBean.getComment();
+			this.selectedAccountantId = groupReservationBean.getAccountant().getUserId();
+			this.selectedBeneficiaryId = groupReservationBean.getBeneficiary().getUserId();
+
+			if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && selectedBeneficiaryId != securityController.getCurrentUserId()) {
+				this.validNavigation = false;
+				final FacesMessage modificationNotAllowedFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR, null);
+				FacesContext.getCurrentInstance().addMessage(null, modificationNotAllowedFacesMessage);
+			}
+
+			List<ReservationBean> reservationBeanList = groupReservationBean.getReservations();
+			if ((null != reservationBeanList) && !reservationBeanList.isEmpty()) {
+				populateReservation(reservationBeanList);
+			}
+		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
 			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);

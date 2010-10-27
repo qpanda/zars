@@ -46,22 +46,25 @@ public class ViewGroupReservationController implements Serializable {
 		return savedGroupReservation;
 	}
 
-	public void setSavedGroupReservation(GroupReservationBean savedGroupReservation) {
+	public void setSavedGroupReservation(final GroupReservationBean savedGroupReservation) {
 		this.savedGroupReservation = savedGroupReservation;
 	}
 
 	public void retrieveGroupReservation() {
-		if (null != this.groupReservationId) {
-			try {
-				savedGroupReservation = groupReservationService.retrieveGroupReservation(groupReservationId);
-			} catch (final EntityNotFoundException entityNotFoundException) {
-				this.validNavigation = false;
-				final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null);
-				FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
-			}
+		if (FacesContext.getCurrentInstance().isPostback()) {
+			return;
 		}
 
-		if (!FacesContext.getCurrentInstance().isPostback() && (null == this.groupReservationId)) {
+		if (null == this.groupReservationId) {
+			this.validNavigation = false;
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null);
+			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
+			return;
+		}
+
+		try {
+			savedGroupReservation = groupReservationService.retrieveGroupReservation(groupReservationId);
+		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
 			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);

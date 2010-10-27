@@ -121,23 +121,26 @@ public class EditUserController implements Serializable {
 	}
 
 	public void retrieveUser() {
-		if (null != this.userId) {
-			try {
-				final UserBean userBean = userService.retrieveUser(this.userId);
-				this.userId = userBean.getUserId();
-				this.username = userBean.getUsername();
-				this.emailAddress = userBean.getEmailAddress();
-				this.firstName = userBean.getFirstName();
-				this.lastName = userBean.getLastName();
-				this.selectedRoleIds = userBean.getRoleIds();
-			} catch (final EntityNotFoundException entityNotFoundException) {
-				this.validNavigation = false;
-				final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
-				FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
-			}
+		if (FacesContext.getCurrentInstance().isPostback()) {
+			return;
 		}
 
-		if (!FacesContext.getCurrentInstance().isPostback() && (null == this.userId)) {
+		if (null == this.userId) {
+			this.validNavigation = false;
+			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
+			FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
+			return;
+		}
+
+		try {
+			final UserBean userBean = userService.retrieveUser(this.userId);
+			this.userId = userBean.getUserId();
+			this.username = userBean.getUsername();
+			this.emailAddress = userBean.getEmailAddress();
+			this.firstName = userBean.getFirstName();
+			this.lastName = userBean.getLastName();
+			this.selectedRoleIds = userBean.getRoleIds();
+		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
 			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);

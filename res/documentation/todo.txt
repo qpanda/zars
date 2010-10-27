@@ -1,8 +1,5 @@
 CURRENT PENDING TASKS
 	o complete add/edit/delete/overview group reservations (all TODOs)
-	o name formatter
-		o custom converter for output
-		o selectitem for dropdowns
 	o display current user in menubar
 	o complete security
 		o annotate all service methods with @Secured
@@ -12,6 +9,7 @@ CURRENT PENDING TASKS
 	o allow users to change the password
 
 MUST-HAVE
+	o review all forms to check length of input strings
 	o user settings for locale, timezone, and first days of week
 	  http://www.tommylacroix.com/2008/02/25/detect-timezone-with-javascript/
 	  http://relation.to/Bloggers/StepRightUpAndSelectYourTimeZone
@@ -31,7 +29,6 @@ NICE-TO-HAVE
 	o forwarding from login page if already logged in (pretty faces)
 	o consolidate Reservation.firstName and Reservation.lastName into a single field Reservation.guestName
 	o provide autocomplete for Reservation.guestName
-	o review all forms to check length of input strings
 	o recalculate group reservations based on room inuse
 	o delete button next to individual reservations to delete particular/specific one
 	o could add/edit group reservation be implemented with a ui:repeat/forall?
