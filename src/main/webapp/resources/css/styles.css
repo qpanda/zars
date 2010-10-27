@@ -79,12 +79,12 @@ textarea:focus, input:focus {
 	margin: 0;
 	padding: 0;
 	float: left;
-	width: 190px;
+	width: 200px;
 	background: #f0f0f0;
 }
 
 .applicationSection {
-	margin: 0 0 0 190px;
+	margin: 0 0 0 200px;
     padding: 25px;
 	font-size: 10pt;
 	min-height: 650px;
