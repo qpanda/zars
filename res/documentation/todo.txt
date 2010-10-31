@@ -1,6 +1,6 @@
 CURRENT PENDING TASKS
-	o provide delete link in calendar popup 
-	 
+	o fix problem with non working delete link in admin reservation and calendar popup
+ 	 
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o complete security
 		o annotate all service methods with @Secured
