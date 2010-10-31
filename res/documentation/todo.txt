@@ -24,6 +24,7 @@ SHOULD-HAVE
 	o check that user assigned to GroupReservation has role accountant
 	o mark Invoice and Report invalid if associated GroupReservation is changed
 	o email notification
+	o pre-calculate approximate amount during reservation
 
 NICE-TO-HAVE
 	o autocomplete false for disabled fields 
