@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;
 import org.primefaces.event.ScheduleEntrySelectEvent;
@@ -19,10 +23,15 @@ import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import org.springframework.context.annotation.Scope;
 
+import com.sun.faces.util.MessageFactory;
+
 @Named
 @Scope("request")
 public class GroupReservationScheduleController implements Serializable {
+	private final static Logger logger = Logger.getLogger(GroupReservationScheduleController.class);
+
 	private final ScheduleModel groupReservationScheduleModel = new LazyGroupReservationScheduleModel();
+
 	private GroupReservationBean selectedGroupReservation;
 
 	@Inject
@@ -39,6 +48,23 @@ public class GroupReservationScheduleController implements Serializable {
 	public void onGroupReservationEventSelect(final ScheduleEntrySelectEvent scheduleEntrySelectEvent) {
 		ScheduleEvent selectedGroupReservationScheduleEvent = scheduleEntrySelectEvent.getScheduleEvent();
 		selectedGroupReservation = (GroupReservationBean)selectedGroupReservationScheduleEvent.getData();
+	}
+
+	public String deleteGroupReservation() {
+		if (null == selectedGroupReservation) {
+			throw new IllegalStateException("no group reservation selected");
+		}
+
+		logger.debug("deleting group reservation with groupReservationId [" + selectedGroupReservation.getGroupReservationId() + "]");
+		try {
+			groupReservationService.deleteGroupReservation(selectedGroupReservation.getGroupReservationId());
+			return "groupReservationSchedule?faces-redirect=true";
+		} catch (InsufficientPermissionException insufficientPermissionException) {
+			final FacesMessage insufficientPermissionFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);
+		}
+
+		return null;
 	}
 
 	private class LazyGroupReservationScheduleModel extends LazyScheduleModel {
