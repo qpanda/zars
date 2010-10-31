@@ -1,5 +1,6 @@
 CURRENT PENDING TASKS
 	o fix problem with non working delete link in admin reservation and calendar popup
+	  (go back revision by revision to see what broke it)
  	 
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o complete security
