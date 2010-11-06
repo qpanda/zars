@@ -150,7 +150,7 @@ public class AdminGroupReservationController implements Serializable {
 		logger.debug("deleting group reservation with groupReservationId [" + selectedGroupReservationId + "]");
 		try {
 			groupReservationService.deleteGroupReservation(selectedGroupReservationId);
-			return "adminGroupReservation?faces-redirect=true";
+			return "adminGroupReservation?faces-redirect=true&includeViewParams=true";
 		} catch (InsufficientPermissionException insufficientPermissionException) {
 			final FacesMessage insufficientPermissionFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);
