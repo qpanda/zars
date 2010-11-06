@@ -1,6 +1,8 @@
 CURRENT PENDING TASKS
 	o fix problem with non working delete link in admin reservation and calendar popup
 	  (looks like a primefaces bug, either switch to 2.2 or avoid the lazy loading data model)
+	 
+	o editUser?userId=a is handled correctly while editGroupReservation?groupReservationId=a is not
  	 
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o complete security

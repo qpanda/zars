@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;
 import org.primefaces.component.commandlink.CommandLink;
-import org.primefaces.model.LazyDataModel;
 import org.springframework.context.annotation.Scope;
 
 import com.sun.faces.util.MessageFactory;
@@ -45,24 +44,15 @@ public class AdminGroupReservationController implements Serializable {
 
 	private DateFilterOption selectedDateFilterOption = DateFilterOption.CURRENT_YEAR;
 
-	private Date dateRangeStartDate;
+	private Date dateRangeStartDate = new DateMidnight().toDate();
 
-	private Date dateRangeEndDate;
-
-	private final LazyGroupReservationDataModel lazyGroupReservationDataModel = new LazyGroupReservationDataModel();
+	private Date dateRangeEndDate = new DateMidnight().plusYears(1).toDate();
 
 	@Inject
 	private transient GroupReservationService groupReservationService;
 
 	@Inject
 	protected transient SecurityController securityController;
-
-	public AdminGroupReservationController() {
-		if (!FacesContext.getCurrentInstance().isPostback()) {
-			setDefaultDateRangeStartDate();
-			setDefaultDateRangeEndDate();
-		}
-	}
 
 	public String getCommandLinkSelectedGroupReservationIdAttributeName() {
 		return commandLinkSelectedGroupReservationIdAttributeName;
@@ -108,24 +98,52 @@ public class AdminGroupReservationController implements Serializable {
 		this.dateRangeEndDate = dateRangeEndDate;
 	}
 
-	public LazyGroupReservationDataModel getLazyGroupReservationDataModel() {
-		return lazyGroupReservationDataModel;
+	public List<GroupReservationBean> getGroupReservations() {
+		return findGroupReservations(null);
+	}
+
+	protected List<GroupReservationBean> findGroupReservations(final Pagination pagination) {
+		if (BeneficiaryFilterOption.ALL_BENEFICIARY.equals(selectedBeneficiaryFilterOption)) {
+			if (DateFilterOption.CURRENT_YEAR.equals(selectedDateFilterOption)) {
+				return groupReservationService.findGroupReservation(createCurrentYearInterval(), pagination);
+			} else if (DateFilterOption.SPECIFIED_RANGE.equals(selectedDateFilterOption)) {
+				return groupReservationService.findGroupReservation(createSpecifiedDateRangeInterval(), pagination);
+			} else if (DateFilterOption.ALL.equals(selectedDateFilterOption)) {
+				return groupReservationService.findGroupReservation(pagination);
+			}
+		} else if (BeneficiaryFilterOption.CURRENT_BENEFICIARY.equals(selectedBeneficiaryFilterOption)) {
+			long currentUserId = securityController.getCurrentUserId();
+			if (DateFilterOption.CURRENT_YEAR.equals(selectedDateFilterOption)) {
+				return groupReservationService.findGroupReservation(currentUserId, createCurrentYearInterval(), pagination);
+			} else if (DateFilterOption.SPECIFIED_RANGE.equals(selectedDateFilterOption)) {
+				return groupReservationService.findGroupReservation(currentUserId, createSpecifiedDateRangeInterval(), pagination);
+			} else if (DateFilterOption.ALL.equals(selectedDateFilterOption)) {
+				return groupReservationService.findGroupReservation(currentUserId, pagination);
+			}
+		}
+
+		throw new IllegalStateException("unsupported filter combination with benificiary filter [" + selectedBeneficiaryFilterOption + "] and date filter [" + selectedDateFilterOption + "]");
+	}
+
+	protected Interval createCurrentYearInterval() {
+		// implements BR003
+		DateMidnight dateRangeStartDateMidnight = new DateMidnight().withDayOfYear(1);
+		DateMidnight dateRangeEndDateMidnight = dateRangeStartDateMidnight.plusYears(1);
+		return new Interval(dateRangeStartDateMidnight, dateRangeEndDateMidnight);
+	}
+
+	protected Interval createSpecifiedDateRangeInterval() {
+		DateMidnight dateRangeStartDateMidnight = new DateMidnight(dateRangeStartDate);
+		DateMidnight dateRangeEndDateMidnight = new DateMidnight(dateRangeEndDate);
+		return new Interval(dateRangeStartDateMidnight, dateRangeEndDateMidnight);
 	}
 
 	public void setSelectedGroupReservationId(final ActionEvent commandLinkActionEvent) {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
-			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
-			final Long commandLinkParameterValue = (Long) commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
+			final CommandLink commandLink = (CommandLink)commandLinkActionEvent.getComponent();
+			final Long commandLinkParameterValue = (Long)commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
 			setSelectedGroupReservationId(commandLinkParameterValue);
 		}
-	}
-
-	private void setDefaultDateRangeStartDate() {
-		this.dateRangeStartDate = new DateMidnight().toDate();
-	}
-
-	private void setDefaultDateRangeEndDate() {
-		this.dateRangeEndDate = new DateMidnight().plusYears(1).toDate();
 	}
 
 	public String deleteGroupReservation() {
@@ -142,69 +160,6 @@ public class AdminGroupReservationController implements Serializable {
 	}
 
 	public String applyFilter() {
-		return null;
-	}
-
-	private class LazyGroupReservationDataModel extends LazyDataModel<GroupReservationBean> {
-		@Override
-		public int getRowCount() {
-			if (BeneficiaryFilterOption.ALL_BENEFICIARY.equals(selectedBeneficiaryFilterOption)) {
-				if (DateFilterOption.CURRENT_YEAR.equals(selectedDateFilterOption)) {
-					return (int) groupReservationService.countGroupReservation(createCurrentYearInterval());
-				} else if (DateFilterOption.SPECIFIED_RANGE.equals(selectedDateFilterOption)) {
-					return (int) groupReservationService.countGroupReservation(createSpecifiedDateRangeInterval());
-				} else if (DateFilterOption.ALL.equals(selectedDateFilterOption)) {
-					return (int) groupReservationService.countGroupReservation();
-				}
-			} else if (BeneficiaryFilterOption.CURRENT_BENEFICIARY.equals(selectedBeneficiaryFilterOption)) {
-				long currentUserId = securityController.getCurrentUserId();
-				if (DateFilterOption.CURRENT_YEAR.equals(selectedDateFilterOption)) {
-					return (int) groupReservationService.countGroupReservation(currentUserId, createCurrentYearInterval());
-				} else if (DateFilterOption.SPECIFIED_RANGE.equals(selectedDateFilterOption)) {
-					return (int) groupReservationService.countGroupReservation(currentUserId, createSpecifiedDateRangeInterval());
-				} else if (DateFilterOption.ALL.equals(selectedDateFilterOption)) {
-					return (int) groupReservationService.countGroupReservation(currentUserId);
-				}
-			}
-
-			throw new IllegalStateException("unsupported filter combination with benificiary filter [" + selectedBeneficiaryFilterOption + "] and date filter [" + selectedDateFilterOption + "]");
-		}
-
-		@Override
-		public List<GroupReservationBean> fetchLazyData(final int firstResult, final int maxResults) {
-			if (BeneficiaryFilterOption.ALL_BENEFICIARY.equals(selectedBeneficiaryFilterOption)) {
-				if (DateFilterOption.CURRENT_YEAR.equals(selectedDateFilterOption)) {
-					return groupReservationService.findGroupReservation(createCurrentYearInterval(), new Pagination(firstResult, maxResults));
-				} else if (DateFilterOption.SPECIFIED_RANGE.equals(selectedDateFilterOption)) {
-					return groupReservationService.findGroupReservation(createSpecifiedDateRangeInterval(), new Pagination(firstResult, maxResults));
-				} else if (DateFilterOption.ALL.equals(selectedDateFilterOption)) {
-					return groupReservationService.findGroupReservation(new Pagination(firstResult, maxResults));
-				}
-			} else if (BeneficiaryFilterOption.CURRENT_BENEFICIARY.equals(selectedBeneficiaryFilterOption)) {
-				long currentUserId = securityController.getCurrentUserId();
-				if (DateFilterOption.CURRENT_YEAR.equals(selectedDateFilterOption)) {
-					return groupReservationService.findGroupReservation(currentUserId, createCurrentYearInterval(), new Pagination(firstResult, maxResults));
-				} else if (DateFilterOption.SPECIFIED_RANGE.equals(selectedDateFilterOption)) {
-					return groupReservationService.findGroupReservation(currentUserId, createSpecifiedDateRangeInterval(), new Pagination(firstResult, maxResults));
-				} else if (DateFilterOption.ALL.equals(selectedDateFilterOption)) {
-					return groupReservationService.findGroupReservation(currentUserId, new Pagination(firstResult, maxResults));
-				}
-			}
-
-			throw new IllegalStateException("unsupported filter combination with benificiary filter [" + selectedBeneficiaryFilterOption + "] and date filter [" + selectedDateFilterOption + "]");
-		}
-
-		protected Interval createCurrentYearInterval() {
-			// implements BR003
-			DateMidnight dateRangeStartDateMidnight = new DateMidnight().withDayOfYear(1);
-			DateMidnight dateRangeEndDateMidnight = dateRangeStartDateMidnight.plusYears(1);
-			return new Interval(dateRangeStartDateMidnight, dateRangeEndDateMidnight);
-		}
-
-		protected Interval createSpecifiedDateRangeInterval() {
-			DateMidnight dateRangeStartDateMidnight = new DateMidnight(dateRangeStartDate);
-			DateMidnight dateRangeEndDateMidnight = new DateMidnight(dateRangeEndDate);
-			return new Interval(dateRangeStartDateMidnight, dateRangeEndDateMidnight);
-		}
+		return "adminGroupReservation?faces-redirect=true&includeViewParams=true";
 	}
 }
