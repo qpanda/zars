@@ -77,7 +77,7 @@
 							<f:param name="groupReservationId" value="#{groupReservation.groupReservationId}"/>
 						</h:link>
 						<h:outputText value="&#160;|&#160;" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}" />
-						<p:commandLink actionListener="#{adminGroupReservationController.setSelectedGroupReservationId}" action="#{adminGroupReservationController.deleteGroupReservation}" value="#{displayMessages.sectionsApplicationDeleteGroupReservationLink}" ajax="false" styleClass="applicationLink" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}">
+						<p:commandLink actionListener="#{adminGroupReservationController.onDeleteGroupReservation}" value="#{displayMessages.sectionsApplicationDeleteGroupReservationLink}" ajax="false" update="groupReservationTable" styleClass="applicationLink" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}">
 							<f:attribute name="#{adminGroupReservationController.commandLinkSelectedGroupReservationIdAttributeName}" value="#{groupReservation.groupReservationId}" />
 						</p:commandLink>
 						<h:outputText value="&#160;|&#160;" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}" />

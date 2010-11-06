@@ -38,8 +38,6 @@ public class AdminGroupReservationController implements Serializable {
 
 	private final String commandLinkSelectedGroupReservationIdAttributeName = "selectedGroupReservationId";
 
-	private Long selectedGroupReservationId;
-
 	private BeneficiaryFilterOption selectedBeneficiaryFilterOption = BeneficiaryFilterOption.ALL_BENEFICIARY;
 
 	private DateFilterOption selectedDateFilterOption = DateFilterOption.CURRENT_YEAR;
@@ -56,14 +54,6 @@ public class AdminGroupReservationController implements Serializable {
 
 	public String getCommandLinkSelectedGroupReservationIdAttributeName() {
 		return commandLinkSelectedGroupReservationIdAttributeName;
-	}
-
-	public Long getSelectedGroupReservationId() {
-		return selectedGroupReservationId;
-	}
-
-	public void setSelectedGroupReservationId(final Long selectedGroupReservationId) {
-		this.selectedGroupReservationId = selectedGroupReservationId;
 	}
 
 	public BeneficiaryFilterOption getSelectedBeneficiaryFilterOption() {
@@ -138,25 +128,19 @@ public class AdminGroupReservationController implements Serializable {
 		return new Interval(dateRangeStartDateMidnight, dateRangeEndDateMidnight);
 	}
 
-	public void setSelectedGroupReservationId(final ActionEvent commandLinkActionEvent) {
+	public void onDeleteGroupReservation(final ActionEvent commandLinkActionEvent) {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
 			final CommandLink commandLink = (CommandLink)commandLinkActionEvent.getComponent();
-			final Long commandLinkParameterValue = (Long)commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
-			setSelectedGroupReservationId(commandLinkParameterValue);
-		}
-	}
+			final Long selectedGroupReservationId = (Long)commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
 
-	public String deleteGroupReservation() {
-		logger.debug("deleting group reservation with groupReservationId [" + selectedGroupReservationId + "]");
-		try {
-			groupReservationService.deleteGroupReservation(selectedGroupReservationId);
-			return "adminGroupReservation?faces-redirect=true&includeViewParams=true";
-		} catch (InsufficientPermissionException insufficientPermissionException) {
-			final FacesMessage insufficientPermissionFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);
-			FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);
+			logger.debug("deleting group reservation with groupReservationId [" + selectedGroupReservationId + "]");
+			try {
+				groupReservationService.deleteGroupReservation(selectedGroupReservationId);
+			} catch (InsufficientPermissionException insufficientPermissionException) {
+				final FacesMessage insufficientPermissionFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);
+				FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);
+			}
 		}
-
-		return null;
 	}
 
 	public String applyFilter() {
