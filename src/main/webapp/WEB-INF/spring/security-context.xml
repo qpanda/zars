@@ -21,6 +21,10 @@
 		<security:intercept-url pattern="/views/login.jsf" access="permitAll"/>
 		<security:intercept-url pattern="/views/help.jsf" access="permitAll"/>
 		<security:intercept-url pattern="/views/terms.jsf" access="permitAll"/>
+		<security:intercept-url pattern="/views/addUser.jsf" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/views/adminUser.jsf" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/views/editUser.jsf" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/views/resetUser.jsf" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/**" access="isAuthenticated()" />
 		
 		<security:form-login login-page="/views/login.jsf" default-target-url="/views/adminGroupReservation.jsf" authentication-failure-url="/views/login.jsf"/>

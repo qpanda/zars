@@ -6,7 +6,7 @@
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd">
 		<h:form>
 			<p:menu effect="NONE" effectDuration="0">
-				<p:submenu label="#{displayMessages.sectionsApplicationAdministrationMenuLabel}">
+				<p:submenu label="#{displayMessages.sectionsApplicationAdministrationMenuLabel}" rendered="#{securityController.currentUserAdmin}">
 					<p:menuitem>
 						<h:link outcome="addUser" value="#{displayMessages.sectionsApplicationAddUserMenuLabel}"/>
 					</p:menuitem>
