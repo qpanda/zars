@@ -46,8 +46,17 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 		this.groupReservationId = groupReservationId;
 	}
 
+	public String getInvalidGroupReservationIdMessage() {
+		return MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null).getSummary();
+	}
+
 	public void retrieveGroupReservation() {
 		if (FacesContext.getCurrentInstance().isPostback()) {
+			return;
+		}
+
+		if (FacesContext.getCurrentInstance().isValidationFailed()) {
+			this.validNavigation = false;
 			return;
 		}
 

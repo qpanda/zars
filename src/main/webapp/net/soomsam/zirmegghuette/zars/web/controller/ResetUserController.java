@@ -80,8 +80,17 @@ public class ResetUserController implements Serializable {
 		return savedUser;
 	}
 
+	public String getInvalidUserIdMessage() {
+		return MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null).getSummary();
+	}
+
 	public void retrieveUser() {
 		if (FacesContext.getCurrentInstance().isPostback()) {
+			return;
+		}
+
+		if (FacesContext.getCurrentInstance().isValidationFailed()) {
+			this.validNavigation = false;
 			return;
 		}
 

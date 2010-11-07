@@ -7,7 +7,7 @@
 	template="/templates/applicationLayout.xhtml">
 	<ui:define name="metadata">
 		<f:metadata>
-			<f:viewParam id="userId" name="userId" value="#{resetUserController.userId}">
+			<f:viewParam id="userId" name="userId" value="#{resetUserController.userId}" converterMessage="#{resetUserController.invalidUserIdMessage}" validatorMessage="#{resetUserController.invalidUserIdMessage}">
 				<f:validateLongRange minimum="1"/>
 			</f:viewParam>
 			<f:event type="preRenderView" listener="#{resetUserController.retrieveUser}"/>
