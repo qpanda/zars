@@ -16,19 +16,12 @@
 			<h:form>
 				<p:menubar effect="NONE" effectDuration="0">
 					<p:submenu>
-						<!-- TODO i18n -->
 						<f:facet name="label">
-							<p:menuitem value="Logout" url="/j_spring_security_logout"/>  
+							<p:menuitem value="#{displayMessages.sectionsApplicationHeaderLogoutMenuLabel}" url="/j_spring_security_logout"/>  
 						</f:facet>
 					</p:submenu>				
-					<p:submenu label="#{displayMessages.sectionsWelcomeHeaderLanguageMenuLabel}">
-						<c:forEach var="selectLocale" items="#{localeController.selectLocales}">
-							<p:menuitem>
-								<p:commandLink actionListener="#{localeController.setSelectedLocale}" action="#{localeController.changeLocale}" value="#{selectLocale.label}" ajax="false">
-									<f:attribute name="#{localeController.commandLinkSelectLocaleAttributeName}" value="#{selectLocale.value}" />
-								</p:commandLink>						
-							</p:menuitem>
-						</c:forEach>
+					<p:submenu label="#{displayMessages.sectionsApplicationHeaderPreferencesMenuLabel}">
+						<p:menuitem value="#{displayMessages.sectionsApplicationHeaderChangePasswordMenuLabel}" url="/views/changePassword.jsf"/>						
 					</p:submenu>
 				</p:menubar>
 			</h:form>			

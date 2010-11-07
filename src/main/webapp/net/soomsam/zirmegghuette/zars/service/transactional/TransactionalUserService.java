@@ -89,6 +89,14 @@ public class TransactionalUserService implements UserService {
 	}
 
 	@Override
+	public UserBean changePassword(final String password) {
+		final User user = userDao.retrieveCurrentUser();
+		user.setPassword(encodePassword(password));
+		userDao.persist(user);
+		return serviceBeanMapper.map(UserBean.class, user);
+	}
+
+	@Override
 	public UserBean retrieveUser(final long userId) {
 		return serviceBeanMapper.map(UserBean.class, userDao.retrieveByPrimaryKey(userId));
 	}
@@ -130,7 +138,7 @@ public class TransactionalUserService implements UserService {
 		return serviceBeanMapper.map(UserBean.class, userDao.retrieveCurrentUser());
 	}
 
-	protected String encodePassword(String rawPassword) {
+	protected String encodePassword(final String rawPassword) {
 		return passwordEncoder.encodePassword(rawPassword, null);
 	}
 }

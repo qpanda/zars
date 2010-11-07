@@ -23,6 +23,8 @@ public interface UserService {
 
 	public UserBean resetUser(long userId, String password, boolean enabled);
 
+	public UserBean changePassword(String password);
+
 	public UserBean retrieveUser(long userId);
 
 	public List<UserBean> findAllUsers();

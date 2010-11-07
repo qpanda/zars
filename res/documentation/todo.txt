@@ -5,7 +5,7 @@ CURRENT PENDING TASKS
 		o do not render admin menu entries for regular users (requires util class)
 	o use abstract controller UserController for AddUserController and EditUserController and others
 	o remove language selector from menu or full resubmit
-	o allow users to change the password and the preferences
+	o allow users to change preferences
 
 PENDING FIXES
 	o non working delete link in calendar popup
