@@ -3,9 +3,8 @@ CURRENT PENDING TASKS
 	o complete security
 		o annotate all service methods with @Secured
 		o do not render admin menu entries for regular users (requires util class)
-	o use abstract controller UserController for AddUserController and EditUserController and others
-	o remove language selector from menu or full resubmit
-	o allow users to change preferences
+		o display error for admin menu entry pages if navigated by url or filter in security-context.xml?
+	o switch disable/enable to single action listener method and update table as with adminGroupReservation
 
 PENDING FIXES
 	o non working delete link in calendar popup
@@ -13,7 +12,7 @@ PENDING FIXES
 
 MUST-HAVE
 	o review all forms to check length of input strings
-	o user settings for locale, timezone, and first days of week
+	o user settings for locale, timezone, and first days of week, allow users to change preferences
 	  http://www.tommylacroix.com/2008/02/25/detect-timezone-with-javascript/
 	  http://relation.to/Bloggers/StepRightUpAndSelectYourTimeZone
 	o generic exception page
@@ -22,6 +21,7 @@ MUST-HAVE
 	  http://weblogs.java.net/blog/edburns/archive/2009/09/03/dealing-gracefully-viewexpiredexception-jsf2
 	  
 SHOULD-HAVE
+	o use abstract controller UserController for AddUserController and EditUserController and others
 	o EL expression in f:view should also default to request context if localeController.activeLocale is null
 	o check that user assigned to GroupReservation has role accountant
 	o mark Invoice and Report invalid if associated GroupReservation is changed

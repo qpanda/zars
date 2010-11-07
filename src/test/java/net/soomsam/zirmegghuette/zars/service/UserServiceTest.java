@@ -16,9 +16,15 @@ import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
 import org.apache.log4j.Logger;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -32,10 +38,23 @@ public class UserServiceTest {
 	private final static Logger logger = Logger.getLogger(UserServiceTest.class);
 
 	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private PersistenceContextManager persistenceContextManager;
+
+	@Before
+	public void login() {
+		doLogin("admin", "admin");
+	}
+
+	@After
+	public void logout() {
+		doLogout();
+	}
 
 	@Test
 	public void findAllRoles() {
@@ -153,5 +172,15 @@ public class UserServiceTest {
 		List<UserBean> userBeanList02 = userService.findUsers(RoleType.ROLE_ADMIN);
 		Assert.assertTrue(TestUtils.containsUser(userBeanList02, userBean01.getUserId()));
 		Assert.assertTrue(TestUtils.containsUser(userBeanList02, userBean02.getUserId()));
+	}
+
+	protected void doLogin(final String username, final String password) {
+		Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+		Authentication authentication = authenticationManager.authenticate(authenticationToken);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
+
+	protected void doLogout() {
+		SecurityContextHolder.getContext().setAuthentication(null);
 	}
 }

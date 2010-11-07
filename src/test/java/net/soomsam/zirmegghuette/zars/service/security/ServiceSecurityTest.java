@@ -65,7 +65,9 @@ public class ServiceSecurityTest {
 
 	@Test
 	public void verifyUserRoles() throws UniqueConstraintException {
+		login("admin", "admin");
 		createUser("abc", "def");
+		logout();
 		login("abc", "def");
 		Assert.assertFalse(SecurityUtils.hasRole(RoleType.ROLE_ADMIN));
 		Assert.assertTrue(SecurityUtils.hasRole(RoleType.ROLE_USER));
@@ -82,7 +84,9 @@ public class ServiceSecurityTest {
 
 	@Test
 	public void verifyDummyUsername() throws UniqueConstraintException {
+		login("admin", "admin");
 		createUser("abc", "def");
+		logout();
 		login("abc", "def");
 		Assert.assertEquals("abc", SecurityUtils.determineUsername());
 		logout();
@@ -107,13 +111,15 @@ public class ServiceSecurityTest {
 
 	@Test(expected = AccessDeniedException.class)
 	public void invokeServiceWithWrongAuthentication() throws UniqueConstraintException {
+		login("admin", "admin");
 		createUser("abc", "def");
+		logout();
 		login("abc", "def");
 		userService.enableUser(0);
 		logout();
 	}
 
-	protected void login(String username, String password) {
+	protected void login(final String username, final String password) {
 		Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 		Authentication authentication = authenticationManager.authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -123,7 +129,7 @@ public class ServiceSecurityTest {
 		SecurityContextHolder.getContext().setAuthentication(null);
 	}
 
-	protected UserBean createUser(String username, String password) throws UniqueConstraintException {
+	protected UserBean createUser(final String username, final String password) throws UniqueConstraintException {
 		List<RoleBean> roleBeanList = userService.findAllRoles();
 		Set<Long> roleIdSet = TestUtils.determineRoleIds(roleBeanList, RoleType.ROLE_USER);
 		return userService.createUser(username, password, "ghi@jkl.mno", "pqr", "stu", roleIdSet);
