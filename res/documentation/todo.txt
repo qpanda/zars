@@ -4,7 +4,6 @@ CURRENT PENDING TASKS
 		o annotate all service methods with @Secured
 		o do not render admin menu entries for regular users (requires util class)
 		o display error for admin menu entry pages if navigated by url or filter in security-context.xml?
-	o switch disable/enable to single action listener method and update table as with adminGroupReservation
 
 PENDING FIXES
 	o non working delete link in calendar popup

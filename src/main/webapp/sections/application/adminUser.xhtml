@@ -47,10 +47,10 @@
 							<f:param name="userId" value="#{user.userId}"/>
 						</h:link>
 						<h:outputText value="&#160;|&#160;" />
-						<p:commandLink actionListener="#{adminUserController.setSelectedUserId}" action="#{adminUserController.disableUser}" value="#{displayMessages.sectionsApplicationDisableUserLink}" ajax="false" styleClass="applicationLink" rendered="#{user.enabled}">
+						<p:commandLink actionListener="#{adminUserController.onDisableUser}" value="#{displayMessages.sectionsApplicationDisableUserLink}" update="userTable" ajax="false" styleClass="applicationLink" rendered="#{user.enabled}">
 							<f:attribute name="#{adminUserController.commandLinkSelectedUserIdAttributeName}" value="#{user.userId}" />
 						</p:commandLink>
-						<p:commandLink actionListener="#{adminUserController.setSelectedUserId}" action="#{adminUserController.enableUser}" value="#{displayMessages.sectionsApplicationEnableUserLink}" ajax="false" styleClass="applicationLink" rendered="#{!user.enabled}">
+						<p:commandLink actionListener="#{adminUserController.onEnableUser}" value="#{displayMessages.sectionsApplicationEnableUserLink}" update="userTable" ajax="false" styleClass="applicationLink" rendered="#{!user.enabled}">
 							<f:attribute name="#{adminUserController.commandLinkSelectedUserIdAttributeName}" value="#{user.userId}" />
 						</p:commandLink>
 					</p:column>				
