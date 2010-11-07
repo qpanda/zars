@@ -88,6 +88,17 @@ public class AdminGroupReservationController implements Serializable {
 		this.dateRangeEndDate = dateRangeEndDate;
 	}
 
+	public void verifyFilterSettings() {
+		if (FacesContext.getCurrentInstance().isPostback()) {
+			return;
+		}
+
+		if (FacesContext.getCurrentInstance().isValidationFailed()) {
+			final FacesMessage invalidFilterSettingsFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationFilterSettingWarning", FacesMessage.SEVERITY_WARN, null);
+			FacesContext.getCurrentInstance().addMessage(null, invalidFilterSettingsFacesMessage);
+		}
+	}
+
 	public List<GroupReservationBean> getGroupReservations() {
 		return findGroupReservations(null);
 	}

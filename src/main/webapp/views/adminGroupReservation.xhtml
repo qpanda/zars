@@ -15,6 +15,7 @@
 			<f:viewParam id="selectedDateRangeEndDate" name="selectedDateRangeEndDate" value="#{adminGroupReservationController.dateRangeEndDate}">
 				<f:convertDateTime pattern="yyyyMMdd" timeZone="#{settingController.defaultTimeZone}"/>
 			</f:viewParam>
+			<f:event type="preRenderView" listener="#{adminGroupReservationController.verifyFilterSettings}"/>
 		</f:metadata>		
 	</ui:define>
 	<ui:define name="windowTitle">#{displayMessages.viewsAdminGroupReservationWindowTitle}</ui:define>
