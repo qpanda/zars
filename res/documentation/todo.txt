@@ -9,7 +9,7 @@ PENDING FIXES/DECISIONS
 
 MUST-HAVE
 	o review all forms to check length of input strings
-	o user settings for locale, timezone, and first days of week, allow users to change preferences
+	o user preferences for locale, timezone, and first days of week, allow users to change preferences
 	  http://www.tommylacroix.com/2008/02/25/detect-timezone-with-javascript/
 	  http://relation.to/Bloggers/StepRightUpAndSelectYourTimeZone
 	o generic exception page
@@ -25,6 +25,7 @@ SHOULD-HAVE
 	o email notification
 	o pre-calculate approximate amount during reservation
 	o display creation/update time and user who added/updated reservation
+	o pricing and other settings and an editor to modify those
 
 NICE-TO-HAVE
 	o autocomplete false for disabled fields 
