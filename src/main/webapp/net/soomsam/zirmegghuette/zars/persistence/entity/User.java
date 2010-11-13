@@ -98,6 +98,9 @@ public class User extends BaseEntity {
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "accountant")
 	private final Set<GroupReservation> accountantGroupReservations = new HashSet<GroupReservation>(0);
 
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
+	private final Set<Preference> preferences = new HashSet<Preference>(0);
+
 	protected User() {
 		super();
 	}
@@ -350,13 +353,95 @@ public class User extends BaseEntity {
 		this.accountantGroupReservations.remove(accountantGroupReservation);
 	}
 
+	public Set<Preference> getPreferences() {
+		return Collections.unmodifiableSet(preferences);
+	}
+
+	public boolean hasPreferences() {
+		return !getPreferences().isEmpty();
+	}
+
+	void addPreference(final Preference preference) {
+		if (null == preference) {
+			throw new IllegalArgumentException("'preference' must not be null");
+		}
+
+		this.preferences.add(preference);
+	}
+
+	void addPreferences(final Set<Preference> preferenceSet) {
+		if (null == preferenceSet) {
+			throw new IllegalArgumentException("'preferenceSet' must not be null");
+		}
+
+		this.preferences.addAll(preferenceSet);
+	}
+
+	void removePreference(final Preference preference) {
+		if (null == preference) {
+			throw new IllegalArgumentException("'preference' must not be null");
+		}
+
+		this.preferences.remove(preference);
+	}
+
+	void removePreferences(final Set<Preference> preferenceSet) {
+		if (null == preferenceSet) {
+			throw new IllegalArgumentException("'preferenceSet' must not be null");
+		}
+
+		this.preferences.removeAll(preferenceSet);
+	}
+
+	public void associatePreference(final Preference preference) {
+		if (null == preference) {
+			throw new IllegalArgumentException("'preference' must not be null");
+		}
+
+		addPreference(preference);
+		preference.setUser(this);
+	}
+
+	public void associatePreferences(final Set<Preference> preferenceSet) {
+		if (null == preferenceSet) {
+			throw new IllegalArgumentException("'preferenceSet' must not be null");
+		}
+
+		for (final Preference preference : preferenceSet) {
+			preference.setUser(this);
+		}
+
+		addPreferences(preferenceSet);
+	}
+
+	public void unassociatePreference(final Preference preference) {
+		if (null == preference) {
+			throw new IllegalArgumentException("'preference' must not be null");
+		}
+
+		removePreference(preference);
+		preference.setUser(null);
+	}
+
+	public void unassociatePreferences(final Set<Preference> preferenceSet) {
+		if (null == preferenceSet) {
+			throw new IllegalArgumentException("'preferenceSet' must not be null");
+		}
+
+		for (final Preference preference : preferenceSet) {
+			preference.setUser(null);
+		}
+
+		removePreferences(preferenceSet);
+	}
+
 	@Override
 	public boolean same(final BaseEntity entity) {
 		if (!(entity instanceof User)) {
 			return false;
 		}
 
-		final User other = (User) entity;
+		final User other = (User)entity;
 		return new EqualsBuilder().append(getUserId(), other.getUserId()).isEquals();
 	}
 
@@ -366,7 +451,7 @@ public class User extends BaseEntity {
 			return false;
 		}
 
-		final User other = (User) entity;
+		final User other = (User)entity;
 		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getUserTimestamp(), other.getUserTimestamp()).isEquals();
 	}
 
@@ -376,7 +461,7 @@ public class User extends BaseEntity {
 			return false;
 		}
 
-		final User other = (User) entity;
+		final User other = (User)entity;
 		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getUsername(), other.getUsername()).append(getPassword(), other.getPassword()).append(getEmailAddress(), other.getEmailAddress()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).append(isEnabled(), other.isEnabled()).isEquals();
 	}
 
@@ -390,7 +475,7 @@ public class User extends BaseEntity {
 			return false;
 		}
 
-		final User other = (User) obj;
+		final User other = (User)obj;
 		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getUserTimestamp(), other.getUserTimestamp()).append(getUsername(), other.getUsername()).append(getPassword(), other.getPassword()).append(getEmailAddress(), other.getEmailAddress()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).append(isEnabled(), other.isEnabled()).isEquals();
 	}
 

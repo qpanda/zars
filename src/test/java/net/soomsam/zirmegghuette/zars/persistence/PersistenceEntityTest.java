@@ -13,10 +13,12 @@ import javax.validation.ConstraintViolationException;
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
 import net.soomsam.zirmegghuette.zars.TestUtils;
+import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.InvoiceDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.OperationNotSupportedException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
+import net.soomsam.zirmegghuette.zars.persistence.dao.PreferenceDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.ReportDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.ReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
@@ -25,6 +27,7 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.SettingDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Invoice;
+import net.soomsam.zirmegghuette.zars.persistence.entity.Preference;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Report;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
@@ -76,6 +79,9 @@ public class PersistenceEntityTest {
 
 	@Autowired
 	private SettingDao settingDao;
+
+	@Autowired
+	private PreferenceDao preferenceDao;
 
 	@Test
 	public void testCreateUserRole() {
@@ -182,14 +188,14 @@ public class PersistenceEntityTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateUserWithoutRole() {
-		final User userWithoutRole = new User("test", "test", "test@test.com", true, (Role) null);
+		final User userWithoutRole = new User("test", "test", "test@test.com", true, (Role)null);
 		userDao.persist(userWithoutRole);
 		persistenceContextManager.flush();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateUserWithNullRoles() {
-		final User userWithoutRoles = new User("test", "test", "test@test.com", true, (Set<Role>) null);
+		final User userWithoutRoles = new User("test", "test", "test@test.com", true, (Set<Role>)null);
 		userDao.persist(userWithoutRoles);
 		persistenceContextManager.flush();
 	}
@@ -243,7 +249,7 @@ public class PersistenceEntityTest {
 		} catch (final PersistenceException persistenceException) {
 			final Throwable persistenceExceptionCause = persistenceException.getCause();
 			Assert.assertTrue(persistenceExceptionCause instanceof org.hibernate.exception.ConstraintViolationException);
-			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
+			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException)persistenceExceptionCause;
 			Assert.assertTrue(StringUtils.containsIgnoreCase(constraintViolationException.getConstraintName(), User.COLUMNNAME_USERNAME));
 			throw constraintViolationException;
 		}
@@ -265,7 +271,7 @@ public class PersistenceEntityTest {
 		} catch (final PersistenceException persistenceException) {
 			final Throwable persistenceExceptionCause = persistenceException.getCause();
 			Assert.assertTrue(persistenceExceptionCause instanceof org.hibernate.exception.ConstraintViolationException);
-			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
+			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException)persistenceExceptionCause;
 			Assert.assertTrue(StringUtils.containsIgnoreCase(constraintViolationException.getConstraintName(), User.COLUMNNAME_EMAILADDRESS));
 			throw constraintViolationException;
 		}
@@ -936,6 +942,48 @@ public class PersistenceEntityTest {
 		logger.debug("persisted user 'test' as [" + testUser + "]");
 
 		testUser.getRoles().remove(userRole);
+	}
+
+	@Test
+	public void testCreatePreference() {
+		final User testUser = createTestUser();
+		final Preference testPreference = new Preference(testUser, PreferenceType.TIMEZONE.getPreferenceName(), "TEST");
+		preferenceDao.persist(testPreference);
+		persistenceContextManager.flush();
+		logger.debug("persisted preference as [" + testPreference + "]");
+
+		persistenceContextManager.clear();
+		final Preference fetchedPreference = preferenceDao.findByPrimaryKey(testPreference.getPreferenceId());
+		Assert.assertNotNull(fetchedPreference);
+		Assert.assertNotNull(fetchedPreference.getUser());
+
+		final Preference verifyPreference = preferenceDao.findPreference(testUser.getUserId(), PreferenceType.TIMEZONE);
+		Assert.assertNotNull(verifyPreference);
+	}
+
+	@Test
+	public void testDeleteOnlyPreference() {
+		final User testUser = createTestUser();
+		final Preference testPreference = new Preference(testUser, PreferenceType.TIMEZONE.getPreferenceName(), "TEST");
+		preferenceDao.persist(testPreference);
+		logger.debug("persisted preference as [" + testPreference + "]");
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+
+		User fetchedUser = userDao.retrieveByPrimaryKey(testUser.getUserId());
+		Preference fetchedPreference = preferenceDao.findPreference(fetchedUser.getUserId(), PreferenceType.TIMEZONE);
+		fetchedUser.unassociatePreference(fetchedPreference);
+		preferenceDao.remove(fetchedPreference);
+		userDao.persist(fetchedUser);
+		persistenceContextManager.flush();
+		persistenceContextManager.clear();
+
+		final Preference verifyPreference01 = preferenceDao.findByPrimaryKey(testPreference.getPreferenceId());
+		Assert.assertNull(verifyPreference01);
+		final Preference verifyPreference02 = preferenceDao.findPreference(fetchedUser.getUserId(), PreferenceType.TIMEZONE);
+		Assert.assertNull(verifyPreference02);
+		final User verifyUser = userDao.findByPrimaryKey(testUser.getUserId());
+		Assert.assertNotNull(verifyUser);
 	}
 
 	private Role createUserRole() {
