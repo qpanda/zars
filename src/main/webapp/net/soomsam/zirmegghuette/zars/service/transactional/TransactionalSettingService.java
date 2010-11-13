@@ -24,7 +24,7 @@ public class TransactionalSettingService implements SettingService {
 	private final BeanWrapper beanWrapper = new BeanWrapperImpl();
 
 	@Override
-	public void createSetting(String name, Object value) {
+	public SettingBean createSetting(final String name, final Object value) {
 		if (null == name) {
 			throw new IllegalArgumentException("'name' must not be null");
 		}
@@ -40,11 +40,12 @@ public class TransactionalSettingService implements SettingService {
 
 		settingDao.persist(setting);
 		logger.debug("persisting setting [" + setting + "]");
+		return convert(setting);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public SettingBean findSetting(String name) {
+	public SettingBean findSetting(final String name) {
 		if (null == name) {
 			throw new IllegalArgumentException("'name' must not be null");
 		}
@@ -56,21 +57,11 @@ public class TransactionalSettingService implements SettingService {
 		}
 
 		logger.debug("retrieved setting [" + setting + "]");
-		if (!setting.hasValue()) {
-			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), name, Object.class);
-		}
-
-		try {
-			Class settingType = Class.forName(setting.getType());
-			Object settingValue = beanWrapper.convertIfNecessary(setting.getValue(), settingType);
-			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), name, settingValue, settingType);
-		} catch (ClassNotFoundException classNotFoundException) {
-			throw new ServiceException("converting value for setting [" + setting + "] failed", classNotFoundException);
-		}
+		return convert(setting);
 	}
 
 	@Override
-	public void updateSetting(String name, Object value) {
+	public SettingBean updateSetting(final String name, final Object value) {
 		if (null == name) {
 			throw new IllegalArgumentException("'name' must not be null");
 		}
@@ -91,5 +82,20 @@ public class TransactionalSettingService implements SettingService {
 		}
 
 		logger.debug("updateding setting [" + setting + "]");
+		return convert(setting);
+	}
+
+	protected SettingBean convert(final Setting setting) {
+		if (!setting.hasValue()) {
+			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), setting.getName(), Object.class);
+		}
+
+		try {
+			Class settingType = Class.forName(setting.getType());
+			Object settingValue = beanWrapper.convertIfNecessary(setting.getValue(), settingType);
+			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), setting.getName(), settingValue, settingType);
+		} catch (ClassNotFoundException classNotFoundException) {
+			throw new ServiceException("converting value for setting [" + setting + "] failed", classNotFoundException);
+		}
 	}
 }

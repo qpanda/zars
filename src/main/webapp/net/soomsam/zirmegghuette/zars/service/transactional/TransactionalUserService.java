@@ -53,6 +53,7 @@ public class TransactionalUserService implements UserService {
 	public void createDefaultUsers() {
 		final Role adminRole = roleDao.retrieveByName(RoleType.ROLE_ADMIN.getRoleName());
 		final User adminUser = new User("admin", encodePassword("admin"), "admin@zars.soomsam.net", true, adminRole);
+
 		userDao.persist(adminUser);
 	}
 

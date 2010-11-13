@@ -27,7 +27,6 @@
 				<h:inputText id="emailAddress" styleClass="applicationFormInput" value="#{addUserController.emailAddress}" size="35" />
 				<p:message for="emailAddress"/>
 			</div>
-			<div class="applicationFormSeparator"/>
 			<div class="applicationFormItem">		
 				<h:outputLabel for="firstName" styleClass="applicationFormLabelOptional" value="#{displayMessages.sectionsApplicationUserFirstNameLabel}" /><br />
 				<h:inputText id="firstName" styleClass="applicationFormInput" value="#{addUserController.firstName}" size="35" />
@@ -47,6 +46,14 @@
 					<f:selectItems value="#{addUserController.availableRoles}" var="role" itemLabel="#{enumMessages[role.name]}" itemValue="#{role.roleId}"/>
 				</h:selectManyCheckbox>			
 			</div>
+			<div class="applicationFormSeparator"/>
+			<div class="applicationFormItem">
+				<h:outputLabel for="timezonePreference" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserTimezonePreferenceLabel}" /><br />
+				<h:selectOneMenu id="timezonePreference" styleClass="applicationFormInput" value="#{addUserController.selectedTimezone}" required="true" requiredMessage="#{validationMessages.sectionsApplicationUserTimezonePreferenceError}">
+					<f:selectItems value="#{addUserController.availableTimezones}" var="timezone" itemLabel="#{timezone.ID}" itemValue="#{timezone.ID}"/>
+				</h:selectOneMenu>
+				<p:message for="timezonePreference" />
+			</div>						
 			<div class="applicationFormItem">
 				<h:commandButton id="addUserAction" type="submit" action="#{addUserController.create}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAddUserCreateButton}"/>
 			</div>

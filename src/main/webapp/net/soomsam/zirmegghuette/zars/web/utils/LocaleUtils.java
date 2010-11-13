@@ -1,11 +1,14 @@
 package net.soomsam.zirmegghuette.zars.web.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.faces.application.Application;
 import javax.faces.component.UIViewRoot;
@@ -55,7 +58,7 @@ public class LocaleUtils {
 		return supportedLocaleDisplayLanguageMap;
 	}
 
-	public static void changeLocale(Locale locale) {
+	public static void changeLocale(final Locale locale) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		if (null != facesContext) {
 			UIViewRoot uiViewRoot = facesContext.getViewRoot();
@@ -63,5 +66,28 @@ public class LocaleUtils {
 				uiViewRoot.setLocale(locale);
 			}
 		}
+	}
+
+	public static TimeZone determineDefaultTimezone() {
+		return TimeZone.getDefault();
+	}
+
+	public static List<TimeZone> determineSupportedTimezoneList() {
+		final String supportedTimezoneIdPrefix = "^(Africa|America|Asia|Atlantic|Australia|Europe|Indian|Pacific)/.*";
+		List<TimeZone> supportedTimezoneList = new ArrayList<TimeZone>();
+
+		for (final String availableTimezoneId : TimeZone.getAvailableIDs()) {
+			if (availableTimezoneId.matches(supportedTimezoneIdPrefix)) {
+				supportedTimezoneList.add(TimeZone.getTimeZone(availableTimezoneId));
+			}
+		}
+
+		Collections.sort(supportedTimezoneList, new Comparator<TimeZone>() {
+			public int compare(final TimeZone timezoneA, final TimeZone timezoneB) {
+				return timezoneA.getID().compareTo(timezoneB.getID());
+			}
+		});
+
+		return supportedTimezoneList;
 	}
 }

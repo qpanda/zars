@@ -49,7 +49,7 @@ public class Preference extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Preference.COLUMNNAME_NAME, nullable = false, unique = true, length = 128)
+	@Column(name = Preference.COLUMNNAME_NAME, nullable = false, length = 128)
 	private String name;
 
 	@Column(name = Preference.COLUMNNAME_VALUE, nullable = true, length = 256)
