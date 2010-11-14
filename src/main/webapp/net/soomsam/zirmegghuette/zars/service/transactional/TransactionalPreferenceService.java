@@ -2,7 +2,9 @@ package net.soomsam.zirmegghuette.zars.service.transactional;
 
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.persistence.dao.PreferenceDao;
+import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Preference;
+import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.PreferenceService;
 import net.soomsam.zirmegghuette.zars.service.ServiceException;
 import net.soomsam.zirmegghuette.zars.service.bean.PreferenceBean;
@@ -23,6 +25,9 @@ public class TransactionalPreferenceService implements PreferenceService {
 
 	@Autowired
 	private PreferenceDao preferenceDao;
+
+	@Autowired
+	private UserDao userDao;
 
 	@Override
 	public PreferenceBean createPreference(final long userId, final PreferenceType preferenceType, final Object value) {
@@ -62,6 +67,13 @@ public class TransactionalPreferenceService implements PreferenceService {
 		Preference preference = preferenceDao.update(userId, preferenceType, value);
 		logger.debug("updating preference [" + preference + "] for user with id [" + userId + "]");
 		return map(preference);
+	}
+
+	@Override
+	public PreferenceBean findCurrentUserPreference(final PreferenceType preferenceType) {
+		User currentUser = userDao.retrieveCurrentUser();
+		Preference currentUserPreference = preferenceDao.findByUserIdAndPreferenceType(currentUser.getUserId(), preferenceType);
+		return map(currentUserPreference);
 	}
 
 	protected PreferenceBean map(final Preference preference) {

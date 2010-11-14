@@ -10,10 +10,10 @@
 			<f:viewParam id="selectedBeneficiaryFilterOption" name="selectedBeneficiaryFilterOption" value="#{adminGroupReservationController.selectedBeneficiaryFilterOption}"/>
 			<f:viewParam id="selectedDateFilterOption" name="selectedDateFilterOption" value="#{adminGroupReservationController.selectedDateFilterOption}"/>
 			<f:viewParam id="selectedDateRangeStartDate" name="selectedDateRangeStartDate" value="#{adminGroupReservationController.dateRangeStartDate}">
-				<f:convertDateTime pattern="yyyyMMdd" timeZone="#{settingController.defaultTimeZone}"/>
+				<f:convertDateTime pattern="yyyyMMdd" timeZone="#{settingController.preferredTimeZone}"/>
 			</f:viewParam>
 			<f:viewParam id="selectedDateRangeEndDate" name="selectedDateRangeEndDate" value="#{adminGroupReservationController.dateRangeEndDate}">
-				<f:convertDateTime pattern="yyyyMMdd" timeZone="#{settingController.defaultTimeZone}"/>
+				<f:convertDateTime pattern="yyyyMMdd" timeZone="#{settingController.preferredTimeZone}"/>
 			</f:viewParam>
 			<f:event type="preRenderView" listener="#{adminGroupReservationController.verifyFilterSettings}"/>
 		</f:metadata>		

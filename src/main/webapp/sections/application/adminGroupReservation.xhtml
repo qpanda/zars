@@ -50,13 +50,13 @@
 					<p:column sortBy="#{groupReservation.arrival}">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.arrival}">
-							<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+							<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
 						</h:outputText>
 					</p:column>
 					<p:column sortBy="#{groupReservation.departure}">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationDepartureLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.departure}">
-							<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+							<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
 						</h:outputText>
 					</p:column>
 					<p:column sortBy="#{groupReservation.guests}">

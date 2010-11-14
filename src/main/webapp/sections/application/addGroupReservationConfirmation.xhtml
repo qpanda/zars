@@ -20,7 +20,7 @@
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}</th>
 						<td class="applicationFormTableData">
 							<h:outputText value="#{addGroupReservationController.savedGroupReservation.arrival}">
-								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
 							</h:outputText>
 						</td>
 					</tr>
@@ -28,7 +28,7 @@
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationDepartureLabel}</th>
 						<td class="applicationFormTableData">
 							<h:outputText value="#{addGroupReservationController.savedGroupReservation.departure}">
-								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
 							</h:outputText>
 						</td>
 					</tr>					
@@ -74,13 +74,13 @@
 						<h:column>
 							<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationArrivalHeader}" /></f:facet>
 							<h:outputText value="#{reservation.arrival}">
-								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
 							</h:outputText>
 						</h:column>
 						<h:column>
 							<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationDepartureHeader}" /></f:facet>
 							<h:outputText value="#{reservation.departure}">
-								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.defaultTimeZone}"/>
+								<f:convertDateTime locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
 							</h:outputText>
 						</h:column>
 						<h:column>

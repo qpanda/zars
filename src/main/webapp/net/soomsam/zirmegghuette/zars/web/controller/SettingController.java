@@ -3,7 +3,13 @@ package net.soomsam.zirmegghuette.zars.web.controller;
 import java.io.Serializable;
 import java.util.TimeZone;
 
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
+import net.soomsam.zirmegghuette.zars.service.PreferenceService;
+import net.soomsam.zirmegghuette.zars.service.bean.PreferenceBean;
+import net.soomsam.zirmegghuette.zars.web.utils.LocaleUtils;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
@@ -13,7 +19,16 @@ import org.springframework.context.annotation.Scope;
 public class SettingController implements Serializable {
 	private final static Logger logger = Logger.getLogger(SettingController.class);
 
-	public TimeZone getDefaultTimeZone() {
-		return TimeZone.getDefault();
+	@Inject
+	private transient PreferenceService preferenceService;
+
+	public TimeZone getPreferredTimeZone() {
+		PreferenceBean currentUserTimezonePreference = preferenceService.findCurrentUserPreference(PreferenceType.TIMEZONE);
+		if (null != currentUserTimezonePreference) {
+			String currentUserTimezoneId = (String)currentUserTimezonePreference.getValue();
+			return TimeZone.getTimeZone(currentUserTimezoneId);
+		}
+
+		return LocaleUtils.determineDefaultTimezone();
 	}
 }

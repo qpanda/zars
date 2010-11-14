@@ -9,4 +9,6 @@ public interface PreferenceService {
 	public PreferenceBean findPreference(long userId, PreferenceType preferenceType);
 
 	public PreferenceBean updatePreference(long userId, PreferenceType preferenceType, Object value);
+
+	public PreferenceBean findCurrentUserPreference(PreferenceType preferenceType);
 }
