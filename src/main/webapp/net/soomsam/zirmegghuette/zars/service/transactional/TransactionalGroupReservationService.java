@@ -183,6 +183,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
 
 		// TODO required capacity fulfilled???
+		// TODO assert no gaps (implementation should be on GroupReservation entity or here?)
 		// TODO only admin should be allowed to update group reservation that had already been payed
 		// TODO search for reports covering new date range of group reservation and mark them as stale
 		// TODO revise delete/add logic for reservations
