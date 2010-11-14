@@ -18,7 +18,6 @@ MUST-HAVE
 	  http://weblogs.java.net/blog/edburns/archive/2009/09/03/dealing-gracefully-viewexpiredexception-jsf2
 	  
 SHOULD-HAVE
-	o use SettingType similar to PreferenceType
 	o use abstract controller UserController for AddUserController and EditUserController and others
 	o EL expression in f:view should also default to request context if localeController.activeLocale is null
 	o check that user assigned to GroupReservation has role accountant
