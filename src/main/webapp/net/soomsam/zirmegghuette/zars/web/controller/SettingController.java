@@ -22,7 +22,17 @@ public class SettingController implements Serializable {
 	@Inject
 	private transient PreferenceService preferenceService;
 
+	private TimeZone preferredTimeZone;
+
 	public TimeZone getPreferredTimeZone() {
+		if (null == preferenceService) {
+			preferredTimeZone = determinePreferredTimeZone();
+		}
+
+		return preferredTimeZone;
+	}
+
+	protected TimeZone determinePreferredTimeZone() {
 		PreferenceBean currentUserTimezonePreference = preferenceService.findCurrentUserPreference(PreferenceType.TIMEZONE);
 		if (null != currentUserTimezonePreference) {
 			String currentUserTimezoneId = (String)currentUserTimezonePreference.getValue();

@@ -72,8 +72,13 @@ public class TransactionalPreferenceService implements PreferenceService {
 	@Override
 	public PreferenceBean findCurrentUserPreference(final PreferenceType preferenceType) {
 		User currentUser = userDao.retrieveCurrentUser();
-		Preference currentUserPreference = preferenceDao.findByUserIdAndPreferenceType(currentUser.getUserId(), preferenceType);
-		return map(currentUserPreference);
+		return findPreference(currentUser.getUserId(), preferenceType);
+	}
+
+	@Override
+	public PreferenceBean updateCurrentUserPreference(final PreferenceType preferenceType, final Object value) {
+		User currentUser = userDao.retrieveCurrentUser();
+		return updatePreference(currentUser.getUserId(), preferenceType, value);
 	}
 
 	protected PreferenceBean map(final Preference preference) {
