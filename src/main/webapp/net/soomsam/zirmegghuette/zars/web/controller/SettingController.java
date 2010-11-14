@@ -24,6 +24,10 @@ public class SettingController implements Serializable {
 
 	private TimeZone preferredTimeZone;
 
+	public void resetPreferredTimeZone() {
+		preferredTimeZone = null;
+	}
+
 	public TimeZone getPreferredTimeZone() {
 		if (null == preferenceService) {
 			preferredTimeZone = determinePreferredTimeZone();

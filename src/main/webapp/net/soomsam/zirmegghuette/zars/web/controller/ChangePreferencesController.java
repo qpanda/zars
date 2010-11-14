@@ -27,6 +27,9 @@ public class ChangePreferencesController implements Serializable {
 	@Inject
 	private transient SecurityController securityController;
 
+	@Inject
+	private transient SettingController settingController;
+
 	private List<TimeZone> availableTimezones;
 
 	private String selectedTimezone;
@@ -59,6 +62,7 @@ public class ChangePreferencesController implements Serializable {
 	public String update() {
 		logger.debug("updating preferences of current user [" + securityController.getCurrentUserId() + "]");
 		preferenceService.updateCurrentUserPreference(PreferenceType.TIMEZONE, selectedTimezone);
+		settingController.resetPreferredTimeZone();
 		return "changePreferencesConfirmation";
 	}
 }
