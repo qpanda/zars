@@ -14,7 +14,6 @@ public class SettingController implements Serializable {
 	private final static Logger logger = Logger.getLogger(SettingController.class);
 
 	public TimeZone getDefaultTimeZone() {
-		// assumes BR002
 		return TimeZone.getDefault();
 	}
 }

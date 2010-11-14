@@ -32,7 +32,7 @@ public class TransactionalPreferenceService implements PreferenceService {
 
 		final Preference preference = preferenceDao.create(userId, preferenceType, value);
 		preferenceDao.persist(preference);
-		logger.debug("persisting preference [" + preference + "]");
+		logger.debug("persisting preference [" + preference + "] for user with id [" + userId + "]");
 		return map(preference);
 	}
 
@@ -45,11 +45,11 @@ public class TransactionalPreferenceService implements PreferenceService {
 
 		Preference preference = preferenceDao.findByUserIdAndPreferenceType(userId, preferenceType);
 		if (null == preference) {
-			logger.debug("preference with name [" + preferenceType + "] does not exist");
+			logger.debug("preference with name [" + preferenceType.getPreferenceName() + "] for user with id [" + userId + "] does not exist");
 			return null;
 		}
 
-		logger.debug("retrieved preference [" + preference + "]");
+		logger.debug("retrieved preference [" + preference + "] for user with id [" + userId + "]");
 		return map(preference);
 	}
 
@@ -60,7 +60,7 @@ public class TransactionalPreferenceService implements PreferenceService {
 		}
 
 		Preference preference = preferenceDao.update(userId, preferenceType, value);
-		logger.debug("updateding preference [" + preference + "]");
+		logger.debug("updating preference [" + preference + "] for user with id [" + userId + "]");
 		return map(preference);
 	}
 

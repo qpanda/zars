@@ -1,5 +1,6 @@
 package net.soomsam.zirmegghuette.zars.service.transactional;
 
+import net.soomsam.zirmegghuette.zars.enums.SettingType;
 import net.soomsam.zirmegghuette.zars.persistence.dao.SettingDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Setting;
 import net.soomsam.zirmegghuette.zars.service.ServiceException;
@@ -24,76 +25,53 @@ public class TransactionalSettingService implements SettingService {
 	private final BeanWrapper beanWrapper = new BeanWrapperImpl();
 
 	@Override
-	public SettingBean createSetting(final String name, final Object value) {
-		if (null == name) {
-			throw new IllegalArgumentException("'name' must not be null");
+	public SettingBean createSetting(final SettingType settingType, final Object value) {
+		if (null == settingType) {
+			throw new IllegalArgumentException("'settingType' must not be null");
 		}
 
-		Setting setting;
-		if (null == value) {
-			setting = new Setting(name, Object.class.getCanonicalName());
-		} else {
-			String settingValue = beanWrapper.convertIfNecessary(value, String.class);
-			String settingType = value.getClass().getCanonicalName();
-			setting = new Setting(name, settingValue, settingType);
-		}
-
+		final Setting setting = settingDao.create(settingType, value);
 		settingDao.persist(setting);
 		logger.debug("persisting setting [" + setting + "]");
-		return convert(setting);
+		return map(setting);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
-	public SettingBean findSetting(final String name) {
-		if (null == name) {
-			throw new IllegalArgumentException("'name' must not be null");
+	public SettingBean findSetting(final SettingType settingType) {
+		if (null == settingType) {
+			throw new IllegalArgumentException("'settingType' must not be null");
 		}
 
-		Setting setting = settingDao.findSetting(name);
+		Setting setting = settingDao.findBySettingType(settingType);
 		if (null == setting) {
-			logger.debug("setting with name [" + name + "] does not exist");
+			logger.debug("setting with name [" + settingType.getSettingName() + "] does not exist");
 			return null;
 		}
 
 		logger.debug("retrieved setting [" + setting + "]");
-		return convert(setting);
+		return map(setting);
 	}
 
 	@Override
-	public SettingBean updateSetting(final String name, final Object value) {
-		if (null == name) {
-			throw new IllegalArgumentException("'name' must not be null");
+	public SettingBean updateSetting(final SettingType settingType, final Object value) {
+		if (null == settingType) {
+			throw new IllegalArgumentException("'settingType' must not be null");
 		}
 
-		Setting setting = settingDao.findSetting(name);
-		if (null == setting) {
-			throw new ServiceException("setting with name [" + name + "] does not exist");
-		}
-
-		if (null == value) {
-			setting.setValue(null);
-			setting.setType(Object.class.getCanonicalName());
-		} else {
-			String settingValue = beanWrapper.convertIfNecessary(value, String.class);
-			String settingType = value.getClass().getCanonicalName();
-			setting.setValue(settingValue);
-			setting.setType(settingType);
-		}
-
-		logger.debug("updateding setting [" + setting + "]");
-		return convert(setting);
+		Setting setting = settingDao.update(settingType, value);
+		logger.debug("updating setting [" + setting + "]");
+		return map(setting);
 	}
 
-	protected SettingBean convert(final Setting setting) {
+	protected SettingBean map(final Setting setting) {
 		if (!setting.hasValue()) {
-			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), setting.getName(), Object.class);
+			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), SettingType.valueOf(setting.getName()), Object.class);
 		}
 
 		try {
-			Class settingType = Class.forName(setting.getType());
-			Object settingValue = beanWrapper.convertIfNecessary(setting.getValue(), settingType);
-			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), setting.getName(), settingValue, settingType);
+			Class settingValueType = Class.forName(setting.getType());
+			Object settingValue = beanWrapper.convertIfNecessary(setting.getValue(), settingValueType);
+			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), SettingType.valueOf(setting.getName()), settingValue, settingValueType);
 		} catch (ClassNotFoundException classNotFoundException) {
 			throw new ServiceException("converting value for setting [" + setting + "] failed", classNotFoundException);
 		}
