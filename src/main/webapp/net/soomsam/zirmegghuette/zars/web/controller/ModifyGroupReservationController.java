@@ -44,6 +44,9 @@ public abstract class ModifyGroupReservationController implements Serializable {
 	protected transient LocaleController localeController;
 
 	@Inject
+	protected transient SettingController settingController;
+
+	@Inject
 	protected transient SecurityController securityController;
 
 	@Inject
@@ -135,7 +138,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		return selectedBeneficiaryId;
 	}
 
-	public void setSelectedBeneficiaryId(Long selectedBeneficiaryId) {
+	public void setSelectedBeneficiaryId(final Long selectedBeneficiaryId) {
 		this.selectedBeneficiaryId = selectedBeneficiaryId;
 	}
 
@@ -151,7 +154,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		return reservationPanelGrid;
 	}
 
-	public void setReservationPanelGrid(HtmlPanelGrid reservationPanelGrid) {
+	public void setReservationPanelGrid(final HtmlPanelGrid reservationPanelGrid) {
 		this.reservationPanelGrid = reservationPanelGrid;
 	}
 
@@ -230,7 +233,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 	}
 
 	protected void addReservationArrivalCalendarComponent(final int reservationPanelRow) {
-		Calendar templateArrivalCalendar = (Calendar) determineReservationComponent(determineReservationComponentId(RESERVATIONARRIVAL_CALENDARCOMPONENT_IDPREFIX, reservationPanelRow - 1));
+		Calendar templateArrivalCalendar = (Calendar)determineReservationComponent(determineReservationComponentId(RESERVATIONARRIVAL_CALENDARCOMPONENT_IDPREFIX, reservationPanelRow - 1));
 		if (null == templateArrivalCalendar) {
 			templateArrivalCalendar = arrivalCalendar;
 		}
@@ -241,7 +244,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 	}
 
 	protected void addReservationDepartureCalendarComponent(final int reservationPanelRow) {
-		Calendar templateDepartureCalendar = (Calendar) determineReservationComponent(determineReservationComponentId(RESERVATIONDEPARTURE_CALENDARCOMPONENT_IDPREFIX, reservationPanelRow - 1));
+		Calendar templateDepartureCalendar = (Calendar)determineReservationComponent(determineReservationComponentId(RESERVATIONDEPARTURE_CALENDARCOMPONENT_IDPREFIX, reservationPanelRow - 1));
 		if (null == templateDepartureCalendar) {
 			templateDepartureCalendar = departureCalendar;
 		}
@@ -276,11 +279,12 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		reservationCalendarComponent.setReadOnlyInputText(true);
 		reservationCalendarComponent.setLocale(localeController.getActiveLocale());
 		reservationCalendarComponent.setPattern(localeController.getActiveDateFormatPattern());
+		reservationCalendarComponent.setTimeZone(settingController.getPreferredTimeZone());
 		reservationCalendarComponent.setRequired(true);
 		reservationCalendarComponent.setInputStyleClass("applicationFormInput");
 
 		if (null != templateCalendar) {
-			String templateCalendarSubmittedValue = (String) templateCalendar.getSubmittedValue();
+			String templateCalendarSubmittedValue = (String)templateCalendar.getSubmittedValue();
 			if (!StringUtils.isEmpty(templateCalendarSubmittedValue)) {
 				reservationCalendarComponent.setValue(templateCalendar.getValue());
 				reservationCalendarComponent.setSubmittedValue(templateCalendar.getSubmittedValue());
@@ -396,12 +400,12 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		Set<ReservationVo> reservationVoSet = new HashSet<ReservationVo>();
 		for (int i = 1; i <= determineReservationCount(); ++i) {
 			String reservationArrivalCalendarComponentId = determineReservationComponentId(RESERVATIONARRIVAL_CALENDARCOMPONENT_IDPREFIX, i);
-			Calendar reservationArrivalCalendarComponent = (Calendar) determineReservationComponent(reservationArrivalCalendarComponentId);
-			Date reservationArrival = (Date) reservationArrivalCalendarComponent.getValue();
+			Calendar reservationArrivalCalendarComponent = (Calendar)determineReservationComponent(reservationArrivalCalendarComponentId);
+			Date reservationArrival = (Date)reservationArrivalCalendarComponent.getValue();
 
 			String reservationDepartureCalendarComponentId = determineReservationComponentId(RESERVATIONDEPARTURE_CALENDARCOMPONENT_IDPREFIX, i);
-			Calendar reservationDepartureCalendarComponent = (Calendar) determineReservationComponent(reservationDepartureCalendarComponentId);
-			Date reservationDeparture = (Date) reservationDepartureCalendarComponent.getValue();
+			Calendar reservationDepartureCalendarComponent = (Calendar)determineReservationComponent(reservationDepartureCalendarComponentId);
+			Date reservationDeparture = (Date)reservationDepartureCalendarComponent.getValue();
 
 			if (!validArrivalDepartureDateRange(reservationArrival, reservationDeparture)) {
 				String reservationArrivalValue = localeController.getActiveDateFormat().format(reservationArrival);
@@ -412,12 +416,12 @@ public abstract class ModifyGroupReservationController implements Serializable {
 			}
 
 			String reservationFirstNameInputTextComponentId = determineReservationComponentId(RESERVATIONFIRSTNAME_INPUTTEXTCOMPONENT_IDPREFIX, i);
-			HtmlInputText reservationFirstNameInputTextComponent = (HtmlInputText) determineReservationComponent(reservationFirstNameInputTextComponentId);
-			String reservationFirstName = (String) reservationFirstNameInputTextComponent.getValue();
+			HtmlInputText reservationFirstNameInputTextComponent = (HtmlInputText)determineReservationComponent(reservationFirstNameInputTextComponentId);
+			String reservationFirstName = (String)reservationFirstNameInputTextComponent.getValue();
 
 			String reservationLastNameInputTextComponentId = determineReservationComponentId(RESERVATIONLASTNAME_INPUTTEXTCOMPONENT_IDPREFIX, i);
-			HtmlInputText reservationLastNameInputTextComponent = (HtmlInputText) determineReservationComponent(reservationLastNameInputTextComponentId);
-			String reservationLastName = (String) reservationLastNameInputTextComponent.getValue();
+			HtmlInputText reservationLastNameInputTextComponent = (HtmlInputText)determineReservationComponent(reservationLastNameInputTextComponentId);
+			String reservationLastName = (String)reservationLastNameInputTextComponent.getValue();
 
 			ReservationVo reservationVo = new ReservationVo(i, new DateMidnight(reservationArrival), new DateMidnight(reservationDeparture), reservationFirstName, reservationLastName);
 			reservationVoSet.add(reservationVo);
