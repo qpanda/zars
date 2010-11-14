@@ -30,10 +30,10 @@
 							</h:selectOneRadio>
 						</h:panelGrid>
 						<h:panelGrid columns="1">
-							<p:calendar id="dateRangeStartDate" value="#{adminGroupReservationController.dateRangeStartDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" readOnlyInputText="true"/>
+							<p:calendar id="dateRangeStartDate" value="#{adminGroupReservationController.dateRangeStartDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
 						</h:panelGrid>
 						<h:panelGrid columns="1">
-							<p:calendar id="dateRangeEndDate" value="#{adminGroupReservationController.dateRangeEndDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" readOnlyInputText="true"/>
+							<p:calendar id="dateRangeEndDate" value="#{adminGroupReservationController.dateRangeEndDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{localeController.activeLocale}" pattern="#{localeController.activeDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
 						</h:panelGrid>
 					</h:panelGrid>
 				</div>

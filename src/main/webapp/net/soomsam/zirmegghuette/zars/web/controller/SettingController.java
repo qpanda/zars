@@ -29,8 +29,9 @@ public class SettingController implements Serializable {
 	}
 
 	public TimeZone getPreferredTimeZone() {
-		if (null == preferenceService) {
+		if (null == preferredTimeZone) {
 			preferredTimeZone = determinePreferredTimeZone();
+			logger.debug("using preferred timezone [" + preferredTimeZone.getID() + "] rather than default timezone [" + TimeZone.getDefault().getID() + "]");
 		}
 
 		return preferredTimeZone;

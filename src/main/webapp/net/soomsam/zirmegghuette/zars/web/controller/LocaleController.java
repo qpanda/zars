@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.soomsam.zirmegghuette.zars.web.utils.LocaleUtils;
@@ -23,6 +24,9 @@ import org.springframework.context.annotation.Scope;
 @Scope("session")
 public class LocaleController implements Serializable {
 	private final static Logger logger = Logger.getLogger(LocaleController.class);
+
+	@Inject
+	private transient SettingController settingController;
 
 	private final String commandLinkSelectLocaleAttributeName = "selectLocale";
 
@@ -47,8 +51,8 @@ public class LocaleController implements Serializable {
 
 	public void setSelectedLocale(final ActionEvent commandLinkActionEvent) {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
-			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
-			final String commandLinkParameterValue = (String) commandLink.getAttributes().get(commandLinkSelectLocaleAttributeName);
+			final CommandLink commandLink = (CommandLink)commandLinkActionEvent.getComponent();
+			final String commandLinkParameterValue = (String)commandLink.getAttributes().get(commandLinkSelectLocaleAttributeName);
 			setSelectedLocale(commandLinkParameterValue);
 		}
 	}
@@ -75,25 +79,33 @@ public class LocaleController implements Serializable {
 
 		return LocaleUtils.determineCurrentLocale();
 	}
-	
+
 	public SimpleDateFormat getActiveDateFormat() {
 		// TODO we should pre-create SimpleDataFormat objects
-		return (SimpleDateFormat) SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getActiveLocale());
+		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getActiveLocale());
+		simpleDateFormat.setTimeZone(settingController.getPreferredTimeZone());
+		return simpleDateFormat;
 	}
-	
+
 	public String getActiveDateFormatPattern() {
 		// TODO we should pre-create patterns
-		return ((SimpleDateFormat)SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getActiveLocale())).toPattern();
+		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getActiveLocale());
+		simpleDateFormat.setTimeZone(settingController.getPreferredTimeZone());
+		return simpleDateFormat.toPattern();
 	}
-	
+
 	public SimpleDateFormat getActiveDateTimeFormat() {
 		// TODO we should pre-create SimpleDataFormat objects
-		return (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, getActiveLocale());
+		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, getActiveLocale());
+		simpleDateFormat.setTimeZone(settingController.getPreferredTimeZone());
+		return simpleDateFormat;
 	}
-	
+
 	public String getActiveDateTimeFormatPattern() {
 		// TODO we should pre-create patterns
-		return ((SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, getActiveLocale())).toPattern();
+		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, getActiveLocale());
+		simpleDateFormat.setTimeZone(settingController.getPreferredTimeZone());
+		return simpleDateFormat.toPattern();
 	}
 
 	public String changeLocale() {
