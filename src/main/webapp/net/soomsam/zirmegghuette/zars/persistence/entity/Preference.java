@@ -15,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
@@ -24,7 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = Preference.TABLENAME_PREFERENCE)
+@Table(name = Preference.TABLENAME_PREFERENCE, uniqueConstraints = { @UniqueConstraint(columnNames = { User.COLUMNNAME_USERID, Preference.COLUMNNAME_NAME }) })
 @NamedQueries( { @NamedQuery(name = Preference.FINDPREFERENCE_QUERYNAME, query = Preference.FINDPREFERENCE_QUERYSTRING) })
 public class Preference extends BaseEntity {
 	public static final String TABLENAME_PREFERENCE = "zars_preference";

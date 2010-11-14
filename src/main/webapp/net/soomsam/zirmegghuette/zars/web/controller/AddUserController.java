@@ -143,7 +143,7 @@ public class AddUserController implements Serializable {
 	}
 
 	protected void setDefaultSelectedTimezone() {
-		selectedTimezone = LocaleUtils.determineDefaultTimezone().getID();
+		selectedTimezone = (String)PreferenceType.TIMEZONE.getPreferenceDefaultValue();
 	}
 
 	public List<TimeZone> getAvailableTimezones() {

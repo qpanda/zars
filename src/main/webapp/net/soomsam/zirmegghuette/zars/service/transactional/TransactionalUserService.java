@@ -4,10 +4,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
+import net.soomsam.zirmegghuette.zars.persistence.dao.PreferenceDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
+import net.soomsam.zirmegghuette.zars.persistence.entity.Preference;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.UserService;
@@ -33,6 +36,9 @@ public class TransactionalUserService implements UserService {
 	private UserDao userDao;
 
 	@Autowired
+	private PreferenceDao preferenceDao;
+
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Override
@@ -53,8 +59,10 @@ public class TransactionalUserService implements UserService {
 	public void createDefaultUsers() {
 		final Role adminRole = roleDao.retrieveByName(RoleType.ROLE_ADMIN.getRoleName());
 		final User adminUser = new User("admin", encodePassword("admin"), "admin@zars.soomsam.net", true, adminRole);
-
 		userDao.persist(adminUser);
+
+		final Preference adminTimezonePreference = preferenceDao.create(adminUser.getUserId(), PreferenceType.TIMEZONE, PreferenceType.TIMEZONE.getPreferenceDefaultValue());
+		preferenceDao.persist(adminTimezonePreference);
 	}
 
 	@Override

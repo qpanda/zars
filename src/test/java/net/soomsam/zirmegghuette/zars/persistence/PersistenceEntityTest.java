@@ -957,8 +957,35 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(fetchedPreference);
 		Assert.assertNotNull(fetchedPreference.getUser());
 
-		final Preference verifyPreference = preferenceDao.findPreference(testUser.getUserId(), PreferenceType.TIMEZONE);
+		final Preference verifyPreference = preferenceDao.findByUserIdAndPreferenceType(testUser.getUserId(), PreferenceType.TIMEZONE);
 		Assert.assertNotNull(verifyPreference);
+	}
+
+	@Test(expected = PersistenceException.class)
+	public void testCreatePreferenceDuplicate() {
+		final User testUser = createTestUser();
+		final Preference testPreference01 = new Preference(testUser, PreferenceType.TIMEZONE.getPreferenceName(), "VALUE01");
+		final Preference testPreference02 = new Preference(testUser, PreferenceType.TIMEZONE.getPreferenceName(), "VALUE02");
+		preferenceDao.persist(testPreference01);
+		preferenceDao.persist(testPreference02);
+	}
+
+	@Test
+	public void testCreatePreferenceMultipleUsers() {
+		final Role userRole = createUserRole();
+		final Role adminRole = createAdminRole();
+		final Set<Role> testUserRoles = new HashSet<Role>();
+		testUserRoles.add(userRole);
+		testUserRoles.add(adminRole);
+		final User testUser01 = new User("test01", String.valueOf(new Random().nextLong()), "test01@test.com", true, testUserRoles);
+		final User testUser02 = new User("test02", String.valueOf(new Random().nextLong()), "test02@test.com", true, testUserRoles);
+		userDao.persist(testUser01);
+		userDao.persist(testUser02);
+
+		final Preference testPreference01 = new Preference(testUser01, PreferenceType.TIMEZONE.getPreferenceName(), "VALUE");
+		final Preference testPreference02 = new Preference(testUser02, PreferenceType.TIMEZONE.getPreferenceName(), "VALUE");
+		preferenceDao.persist(testPreference01);
+		preferenceDao.persist(testPreference02);
 	}
 
 	@Test
@@ -971,7 +998,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.clear();
 
 		User fetchedUser = userDao.retrieveByPrimaryKey(testUser.getUserId());
-		Preference fetchedPreference = preferenceDao.findPreference(fetchedUser.getUserId(), PreferenceType.TIMEZONE);
+		Preference fetchedPreference = preferenceDao.findByUserIdAndPreferenceType(fetchedUser.getUserId(), PreferenceType.TIMEZONE);
 		fetchedUser.unassociatePreference(fetchedPreference);
 		preferenceDao.remove(fetchedPreference);
 		userDao.persist(fetchedUser);
@@ -980,7 +1007,7 @@ public class PersistenceEntityTest {
 
 		final Preference verifyPreference01 = preferenceDao.findByPrimaryKey(testPreference.getPreferenceId());
 		Assert.assertNull(verifyPreference01);
-		final Preference verifyPreference02 = preferenceDao.findPreference(fetchedUser.getUserId(), PreferenceType.TIMEZONE);
+		final Preference verifyPreference02 = preferenceDao.findByUserIdAndPreferenceType(fetchedUser.getUserId(), PreferenceType.TIMEZONE);
 		Assert.assertNull(verifyPreference02);
 		final User verifyUser = userDao.findByPrimaryKey(testUser.getUserId());
 		Assert.assertNotNull(verifyUser);

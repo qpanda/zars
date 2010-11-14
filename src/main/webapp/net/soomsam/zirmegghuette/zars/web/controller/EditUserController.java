@@ -184,7 +184,6 @@ public class EditUserController implements Serializable {
 			this.lastName = userBean.getLastName();
 			this.selectedRoleIds = userBean.getRoleIds();
 
-			// TODO use retrieve instead of find here, requires adding preference to default user generator
 			final PreferenceBean timezonePreferenceBean = preferenceService.findPreference(userId, PreferenceType.TIMEZONE);
 			this.selectedTimezone = (String)timezonePreferenceBean.getValue();
 		} catch (final EntityNotFoundException entityNotFoundException) {
