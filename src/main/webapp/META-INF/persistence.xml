@@ -8,11 +8,7 @@
       <property name="hibernate.archive.autodetection" value="class, hbm"/>
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.format_sql" value="true"/>
-      <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
-      <property name="hibernate.connection.url" value="jdbc:hsqldb:file:target/db/test.db;shutdown=true"/>
       <property name="hibernate.dialect" value="net.soomsam.zirmegghuette.zars.persistence.utils.HibernateHsqlDialect"/>
-      <property name="hibernate.connection.username" value="sa"/>
-      <property name="hibernate.connection.password" value=""/>
     </properties>
   </persistence-unit>
   <persistence-unit name="DevelopmentMySqlPersistenceUnit" transaction-type="RESOURCE_LOCAL">
@@ -20,11 +16,7 @@
       <property name="hibernate.archive.autodetection" value="class, hbm"/>
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.format_sql" value="true"/>
-      <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-      <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/zars"/>
       <property name="hibernate.dialect" value="net.soomsam.zirmegghuette.zars.persistence.utils.HibernateMySqlDialect"/>
-      <property name="hibernate.connection.username" value="zars"/>
-      <property name="hibernate.connection.password" value="zars"/>
     </properties>
   </persistence-unit>
   <persistence-unit name="DevelopmentPgSqlPersistenceUnit" transaction-type="RESOURCE_LOCAL">
@@ -32,11 +24,7 @@
       <property name="hibernate.archive.autodetection" value="class, hbm"/>
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.format_sql" value="true"/>
-      <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-      <property name="hibernate.connection.url" value="jdbc:postgresql://localhost/zars"/>
       <property name="hibernate.dialect" value="net.soomsam.zirmegghuette.zars.persistence.utils.HibernatePgSqlDialect"/>
-      <property name="hibernate.connection.username" value="zars"/>
-      <property name="hibernate.connection.password" value=""/>
     </properties>
   </persistence-unit>
 </persistence>
