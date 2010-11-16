@@ -1,6 +1,7 @@
 CURRENT PENDING TASKS	 
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o annotate all service methods with @Secured
+	o creation|update time/date of reservations
 
 PENDING FIXES/DECISIONS
 	o non working delete link in calendar popup
@@ -9,6 +10,14 @@ PENDING FIXES/DECISIONS
 
 MUST-HAVE
 	o review all forms to check length of input strings
+	o JVM options for Tomcat/AS
+		<jvmarg value="-Xms${effective.platform.jvm.Xms}"/>
+		<jvmarg value="-Xmx${effective.platform.jvm.Xmx}"/>
+		<jvmarg value="-Xloggc:${platform.logs.dir}/gc.log"/>
+		<jvmarg value="-XX:MaxPermSize=${effective.platform.jvm.XXMaxPermSize}"/>
+		<jvmarg value="-XX:ErrorFile=${platform.logs.dir}/hs_err_pid_%p.log"/>
+		<jvmarg value="-XX:+HeapDumpOnOutOfMemoryError"/>			
+		<jvmarg value="-XX:HeapDumpPath=${platform.logs.dir}"/>	
 	o user preferences for locale, timezone, and first days of week, allow users to change preferences
 	  http://www.tommylacroix.com/2008/02/25/detect-timezone-with-javascript/
 	  http://relation.to/Bloggers/StepRightUpAndSelectYourTimeZone
