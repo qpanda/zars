@@ -29,7 +29,7 @@
 	</context-param>
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
-		<param-value>log4j.xml</param-value>
+		<param-value>classpath:/WEB-INF/log4j.xml</param-value>
 	</context-param>
 
 	<listener>
