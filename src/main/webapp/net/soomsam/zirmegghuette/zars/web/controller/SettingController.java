@@ -1,6 +1,9 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.inject.Inject;
@@ -24,6 +27,8 @@ public class SettingController implements Serializable {
 
 	private TimeZone preferredTimeZone;
 
+	private Locale preferredLocale;
+
 	public void resetPreferredTimeZone() {
 		preferredTimeZone = null;
 	}
@@ -45,5 +50,56 @@ public class SettingController implements Serializable {
 		}
 
 		return LocaleUtils.determineDefaultTimezone();
+	}
+
+	public void resetPreferredLocale() {
+		preferredLocale = null;
+	}
+
+	public Locale getPreferredLocale() {
+		if (null == preferredLocale) {
+			preferredLocale = determinePreferredLocale();
+			logger.debug("using preferred locale [" + preferredLocale.getDisplayName() + "]");
+		}
+
+		return preferredLocale;
+	}
+
+	protected Locale determinePreferredLocale() {
+		PreferenceBean currentUserLocalePreference = preferenceService.findCurrentUserPreference(PreferenceType.LOCALE);
+		if (null != currentUserLocalePreference) {
+			String currentUserLocaleDisplayName = (String)currentUserLocalePreference.getValue();
+			return LocaleUtils.determineSupportedLocale(currentUserLocaleDisplayName);
+		}
+
+		return LocaleUtils.determineCurrentLocale();
+	}
+
+	public SimpleDateFormat getPreferredDateFormat() {
+		// TODO we should pre-create SimpleDataFormat objects
+		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getPreferredLocale());
+		simpleDateFormat.setTimeZone(getPreferredTimeZone());
+		return simpleDateFormat;
+	}
+
+	public String getPreferredDateFormatPattern() {
+		// TODO we should pre-create patterns
+		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getPreferredLocale());
+		simpleDateFormat.setTimeZone(getPreferredTimeZone());
+		return simpleDateFormat.toPattern();
+	}
+
+	public SimpleDateFormat getPreferredDateTimeFormat() {
+		// TODO we should pre-create SimpleDataFormat objects
+		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, getPreferredLocale());
+		simpleDateFormat.setTimeZone(getPreferredTimeZone());
+		return simpleDateFormat;
+	}
+
+	public String getPreferredDateTimeFormatPattern() {
+		// TODO we should pre-create patterns
+		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, getPreferredLocale());
+		simpleDateFormat.setTimeZone(getPreferredTimeZone());
+		return simpleDateFormat.toPattern();
 	}
 }

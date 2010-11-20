@@ -1,10 +1,13 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -30,24 +33,54 @@ public class ChangePreferencesController implements Serializable {
 	@Inject
 	private transient SettingController settingController;
 
-	private List<TimeZone> availableTimezones;
+	private List<SelectItem> availableTimezones;
 
-	private String selectedTimezone;
+	private String selectedTimezoneId;
 
-	public List<TimeZone> getAvailableTimezones() {
+	private List<SelectItem> supportedLocales;
+
+	private String selectedLocaleDisplayName;
+
+	public List<SelectItem> getAvailableTimezones() {
 		if (null == availableTimezones) {
-			availableTimezones = LocaleUtils.determineSupportedTimezoneList();
+			Locale preferredLocale = settingController.getPreferredLocale();
+			final List<TimeZone> availableTimezoneList = LocaleUtils.determineSupportedTimezoneList();
+			availableTimezones = new ArrayList<SelectItem>();
+			for (final TimeZone availableTimezone : availableTimezoneList) {
+				availableTimezones.add(new SelectItem(availableTimezone.getID(), availableTimezone.getID() + " - " + availableTimezone.getDisplayName(preferredLocale)));
+			}
 		}
 
 		return availableTimezones;
 	}
 
-	public String getSelectedTimezone() {
-		return selectedTimezone;
+	public String getSelectedTimezoneId() {
+		return selectedTimezoneId;
 	}
 
-	public void setSelectedTimezone(final String selectedTimezone) {
-		this.selectedTimezone = selectedTimezone;
+	public void setSelectedTimezoneId(final String selectedTimezoneId) {
+		this.selectedTimezoneId = selectedTimezoneId;
+	}
+
+	public List<SelectItem> getSupportedLocales() {
+		if (null == supportedLocales) {
+			Locale preferredLocale = settingController.getPreferredLocale();
+			final List<Locale> supportedLocaleList = LocaleUtils.determineSupportedLocaleList();
+			supportedLocales = new ArrayList<SelectItem>();
+			for (final Locale supportedLocale : supportedLocaleList) {
+				supportedLocales.add(new SelectItem(supportedLocale.getDisplayName(), supportedLocale.getDisplayName(preferredLocale)));
+			}
+		}
+
+		return supportedLocales;
+	}
+
+	public String getSelectedLocaleDisplayName() {
+		return selectedLocaleDisplayName;
+	}
+
+	public void setSelectedLocaleDisplayName(final String selectedLocaleDisplayName) {
+		this.selectedLocaleDisplayName = selectedLocaleDisplayName;
 	}
 
 	public void retrievePreferences() {
@@ -56,13 +89,19 @@ public class ChangePreferencesController implements Serializable {
 		}
 
 		final PreferenceBean timezonePreferenceBean = preferenceService.findCurrentUserPreference(PreferenceType.TIMEZONE);
-		this.selectedTimezone = (String)timezonePreferenceBean.getValue();
+		this.selectedTimezoneId = (String)timezonePreferenceBean.getValue();
+
+		final PreferenceBean localePreferenceBean = preferenceService.findCurrentUserPreference(PreferenceType.LOCALE);
+		this.selectedLocaleDisplayName = (String)localePreferenceBean.getValue();
 	}
 
 	public String update() {
 		logger.debug("updating preferences of current user [" + securityController.getCurrentUserId() + "]");
-		preferenceService.updateCurrentUserPreference(PreferenceType.TIMEZONE, selectedTimezone);
+		preferenceService.updateCurrentUserPreference(PreferenceType.TIMEZONE, selectedTimezoneId);
+		preferenceService.updateCurrentUserPreference(PreferenceType.LOCALE, selectedLocaleDisplayName);
 		settingController.resetPreferredTimeZone();
+		settingController.resetPreferredLocale();
+		LocaleUtils.changeLocale(selectedLocaleDisplayName);
 		return "changePreferencesConfirmation";
 	}
 }

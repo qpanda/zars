@@ -63,6 +63,9 @@ public class TransactionalUserService implements UserService {
 
 		final Preference adminTimezonePreference = preferenceDao.create(adminUser.getUserId(), PreferenceType.TIMEZONE, PreferenceType.TIMEZONE.getPreferenceDefaultValue());
 		preferenceDao.persist(adminTimezonePreference);
+
+		final Preference adminLocalePreference = preferenceDao.create(adminUser.getUserId(), PreferenceType.LOCALE, PreferenceType.LOCALE.getPreferenceDefaultValue());
+		preferenceDao.persist(adminLocalePreference);
 	}
 
 	@Override

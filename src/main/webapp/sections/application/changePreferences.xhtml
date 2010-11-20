@@ -8,12 +8,19 @@
 		<h:form id="changePasswordForm" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationChangePreferencesDialogLabel}</div>
 			<div class="applicationFormItem">
+				<h:outputLabel for="localePreference" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserLocalePreferenceLabel}" /><br />
+				<h:selectOneMenu id="localePreference" styleClass="applicationFormInput" value="#{changePreferencesController.selectedLocaleDisplayName}" required="true" requiredMessage="#{validationMessages.sectionsApplicationUserLocalePreferenceError}">
+					<f:selectItems value="#{changePreferencesController.supportedLocales}" var="locale" itemLabel="#{locale.label}" itemValue="#{locale.value}"/>
+				</h:selectOneMenu>
+				<p:message for="localePreference" />
+			</div>						
+			<div class="applicationFormItem">
 				<h:outputLabel for="timezonePreference" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserTimezonePreferenceLabel}" /><br />
-				<h:selectOneMenu id="timezonePreference" styleClass="applicationFormInput" value="#{changePreferencesController.selectedTimezone}" required="true" requiredMessage="#{validationMessages.sectionsApplicationUserTimezonePreferenceError}">
-					<f:selectItems value="#{changePreferencesController.availableTimezones}" var="timezone" itemLabel="#{timezone.ID}" itemValue="#{timezone.ID}"/>
+				<h:selectOneMenu id="timezonePreference" styleClass="applicationFormInput" value="#{changePreferencesController.selectedTimezoneId}" required="true" requiredMessage="#{validationMessages.sectionsApplicationUserTimezonePreferenceError}">
+					<f:selectItems value="#{changePreferencesController.availableTimezones}" var="timezone" itemLabel="#{timezone.label}" itemValue="#{timezone.value}"/>
 				</h:selectOneMenu>
 				<p:message for="timezonePreference" />
-			</div>						
+			</div>									
 			<div class="applicationFormItem">
 				<h:commandButton id="changePreferencesAction" type="submit" action="#{changePreferencesController.update}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationChangePreferencesUpdateButton}"/>
 			</div>

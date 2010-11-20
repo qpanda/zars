@@ -1,13 +1,16 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TimeZone;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -39,6 +42,9 @@ public class EditUserController implements Serializable {
 	@Inject
 	private transient PreferenceService preferenceService;
 
+	@Inject
+	private transient SettingController settingController;
+
 	private boolean validNavigation = true;
 
 	private Long userId;
@@ -58,13 +64,19 @@ public class EditUserController implements Serializable {
 
 	private List<Long> selectedRoleIds;
 
-	private List<TimeZone> availableTimezones;
+	private List<SelectItem> availableTimezones;
 
-	private String selectedTimezone;
+	private String selectedTimezoneId;
+
+	private List<SelectItem> supportedLocales;
+
+	private String selectedLocaleDisplayName;
 
 	private UserBean savedUser;
 
 	private PreferenceBean savedTimezonePreference;
+
+	private PreferenceBean savedLocalePreference;
 
 	public boolean isValidNavigation() {
 		return validNavigation;
@@ -130,20 +142,46 @@ public class EditUserController implements Serializable {
 		return new HashSet<Long>(selectedRoleIds);
 	}
 
-	public List<TimeZone> getAvailableTimezones() {
+	public List<SelectItem> getAvailableTimezones() {
 		if (null == availableTimezones) {
-			availableTimezones = LocaleUtils.determineSupportedTimezoneList();
+			Locale preferredLocale = settingController.getPreferredLocale();
+			final List<TimeZone> availableTimezoneList = LocaleUtils.determineSupportedTimezoneList();
+			availableTimezones = new ArrayList<SelectItem>();
+			for (final TimeZone availableTimezone : availableTimezoneList) {
+				availableTimezones.add(new SelectItem(availableTimezone.getID(), availableTimezone.getID() + " - " + availableTimezone.getDisplayName(preferredLocale)));
+			}
 		}
 
 		return availableTimezones;
 	}
 
-	public String getSelectedTimezone() {
-		return selectedTimezone;
+	public String getSelectedTimezoneId() {
+		return selectedTimezoneId;
 	}
 
-	public void setSelectedTimezone(final String selectedTimezone) {
-		this.selectedTimezone = selectedTimezone;
+	public void setSelectedTimezoneId(final String selectedTimezoneId) {
+		this.selectedTimezoneId = selectedTimezoneId;
+	}
+
+	public List<SelectItem> getSupportedLocales() {
+		if (null == supportedLocales) {
+			Locale preferredLocale = settingController.getPreferredLocale();
+			final List<Locale> supportedLocaleList = LocaleUtils.determineSupportedLocaleList();
+			supportedLocales = new ArrayList<SelectItem>();
+			for (final Locale supportedLocale : supportedLocaleList) {
+				supportedLocales.add(new SelectItem(supportedLocale.getDisplayName(), supportedLocale.getDisplayName(preferredLocale)));
+			}
+		}
+
+		return supportedLocales;
+	}
+
+	public String getSelectedLocaleDisplayName() {
+		return selectedLocaleDisplayName;
+	}
+
+	public void setSelectedLocaleDisplayName(final String selectedLocaleDisplayName) {
+		this.selectedLocaleDisplayName = selectedLocaleDisplayName;
 	}
 
 	public UserBean getSavedUser() {
@@ -152,6 +190,10 @@ public class EditUserController implements Serializable {
 
 	public PreferenceBean getSavedTimezonePreference() {
 		return savedTimezonePreference;
+	}
+
+	public PreferenceBean getSavedLocalePreference() {
+		return savedLocalePreference;
 	}
 
 	public String getInvalidUserIdMessage() {
@@ -185,7 +227,10 @@ public class EditUserController implements Serializable {
 			this.selectedRoleIds = userBean.getRoleIds();
 
 			final PreferenceBean timezonePreferenceBean = preferenceService.findPreference(userId, PreferenceType.TIMEZONE);
-			this.selectedTimezone = (String)timezonePreferenceBean.getValue();
+			this.selectedTimezoneId = (String)timezonePreferenceBean.getValue();
+
+			final PreferenceBean localePreferenceBean = preferenceService.findPreference(userId, PreferenceType.LOCALE);
+			this.selectedLocaleDisplayName = (String)localePreferenceBean.getValue();
 		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
 			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null);
@@ -197,7 +242,8 @@ public class EditUserController implements Serializable {
 		logger.debug("updating user with id [" + userId + "] and roles [" + determineSelectedRoleIds() + "]");
 		try {
 			savedUser = userService.updateUser(userId, username, emailAddress, firstName, lastName, determineSelectedRoleIds());
-			savedTimezonePreference = preferenceService.updatePreference(savedUser.getUserId(), PreferenceType.TIMEZONE, selectedTimezone);
+			savedTimezonePreference = preferenceService.updatePreference(savedUser.getUserId(), PreferenceType.TIMEZONE, selectedTimezoneId);
+			savedLocalePreference = preferenceService.updatePreference(savedUser.getUserId(), PreferenceType.LOCALE, selectedLocaleDisplayName);
 			return "editUserConfirmation";
 		} catch (final UniqueConstraintException uniqueConstraintException) {
 			final String uniqueConstraintMessageId = "sectionsApplicationUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";

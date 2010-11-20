@@ -58,6 +58,22 @@ public class LocaleUtils {
 		return supportedLocaleDisplayLanguageMap;
 	}
 
+	public static Locale determineSupportedLocale(final String localeDisplayName) {
+		List<Locale> supportedLocaleList = determineSupportedLocaleList();
+		for (Locale supportedLocale : supportedLocaleList) {
+			if (supportedLocale.getDisplayName().equals(localeDisplayName)) {
+				return supportedLocale;
+			}
+		}
+
+		return determineCurrentLocale();
+	}
+
+	public static void changeLocale(final String localeDisplayName) {
+		Locale locale = determineSupportedLocale(localeDisplayName);
+		changeLocale(locale);
+	}
+
 	public static void changeLocale(final Locale locale) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		if (null != facesContext) {

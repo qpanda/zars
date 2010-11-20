@@ -41,9 +41,6 @@ public abstract class ModifyGroupReservationController implements Serializable {
 	protected final static String RESERVATIONLASTNAME_INPUTTEXTCOMPONENT_IDPREFIX = "reservationLastName";
 
 	@Inject
-	protected transient LocaleController localeController;
-
-	@Inject
 	protected transient SettingController settingController;
 
 	@Inject
@@ -277,8 +274,8 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		reservationCalendarComponent.setShowOn("button");
 		reservationCalendarComponent.setPopupIconOnly(true);
 		reservationCalendarComponent.setReadOnlyInputText(true);
-		reservationCalendarComponent.setLocale(localeController.getActiveLocale());
-		reservationCalendarComponent.setPattern(localeController.getActiveDateFormatPattern());
+		reservationCalendarComponent.setLocale(settingController.getPreferredLocale());
+		reservationCalendarComponent.setPattern(settingController.getPreferredDateFormatPattern());
 		reservationCalendarComponent.setTimeZone(settingController.getPreferredTimeZone());
 		reservationCalendarComponent.setRequired(true);
 		reservationCalendarComponent.setInputStyleClass("applicationFormInput");
@@ -365,8 +362,8 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 	protected String saveGroupReservation() {
 		if (!validArrivalDepartureDateRange(arrival, departure)) {
-			String arrivalValue = localeController.getActiveDateFormat().format(arrival);
-			String departureValue = localeController.getActiveDateFormat().format(departure);
+			String arrivalValue = settingController.getPreferredDateFormat().format(arrival);
+			String departureValue = settingController.getPreferredDateFormat().format(departure);
 			final FacesMessage arrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationArrivalDepartureError", FacesMessage.SEVERITY_ERROR, arrivalValue, departureValue);
 			FacesContext.getCurrentInstance().addMessage(null, arrivalDepatureFacesMessage);
 			return null;
@@ -383,8 +380,8 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		} catch (final GroupReservationConflictException groupReservationConflictException) {
 			List<GroupReservationBean> conflictingGroupReservationList = groupReservationConflictException.getConflictingGroupReservations();
 			for (GroupReservationBean conflictingGroupReservation : conflictingGroupReservationList) {
-				String arrivalValue = localeController.getActiveDateFormat().format(conflictingGroupReservation.getArrival());
-				String departureValue = localeController.getActiveDateFormat().format(conflictingGroupReservation.getDeparture());
+				String arrivalValue = settingController.getPreferredDateFormat().format(conflictingGroupReservation.getArrival());
+				String departureValue = settingController.getPreferredDateFormat().format(conflictingGroupReservation.getDeparture());
 				final FacesMessage groupReservationConflictFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationConflictError", FacesMessage.SEVERITY_ERROR, conflictingGroupReservation.getGroupReservationId(), arrivalValue, departureValue, conflictingGroupReservation.getBeneficiary().getUsername());
 				FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
 			}
@@ -408,8 +405,8 @@ public abstract class ModifyGroupReservationController implements Serializable {
 			Date reservationDeparture = (Date)reservationDepartureCalendarComponent.getValue();
 
 			if (!validArrivalDepartureDateRange(reservationArrival, reservationDeparture)) {
-				String reservationArrivalValue = localeController.getActiveDateFormat().format(reservationArrival);
-				String reservationDepatureValue = localeController.getActiveDateFormat().format(reservationDeparture);
+				String reservationArrivalValue = settingController.getPreferredDateFormat().format(reservationArrival);
+				String reservationDepatureValue = settingController.getPreferredDateFormat().format(reservationDeparture);
 				final FacesMessage reservationArrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationReservationArrivalDepartureError", FacesMessage.SEVERITY_ERROR, reservationArrivalValue, reservationDepatureValue, i);
 				FacesContext.getCurrentInstance().addMessage(null, reservationArrivalDepatureFacesMessage);
 				return null;
@@ -438,8 +435,8 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		} catch (final GroupReservationConflictException groupReservationConflictException) {
 			List<GroupReservationBean> conflictingGroupReservationList = groupReservationConflictException.getConflictingGroupReservations();
 			for (GroupReservationBean conflictingGroupReservation : conflictingGroupReservationList) {
-				String arrivalValue = localeController.getActiveDateFormat().format(conflictingGroupReservation.getArrival());
-				String departureValue = localeController.getActiveDateFormat().format(conflictingGroupReservation.getDeparture());
+				String arrivalValue = settingController.getPreferredDateFormat().format(conflictingGroupReservation.getArrival());
+				String departureValue = settingController.getPreferredDateFormat().format(conflictingGroupReservation.getDeparture());
 				final FacesMessage groupReservationConflictFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationConflictError", FacesMessage.SEVERITY_ERROR, conflictingGroupReservation.getGroupReservationId(), arrivalValue, departureValue, conflictingGroupReservation.getBeneficiary().getUsername());
 				FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
 			}

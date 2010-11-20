@@ -9,7 +9,11 @@ PENDING FIXES/DECISIONS
 	o is security:intercept-url the correct approach to deny acess to admin pages for regular users?
 
 MUST-HAVE
+	o revise logging and use SessionUtils.determineSessionId() consitently
 	o review all forms to check length of input strings
+	o session id logging
+		http://www.icefaces.org/JForum/posts/list/7267.page
+		http://techscouting.wordpress.com/2010/11/09/logging-additional-information-like-sessionid-in-every-log4j-message/
 	o JVM options for Tomcat/AS
 		<jvmarg value="-Xms${effective.platform.jvm.Xms}"/>
 		<jvmarg value="-Xmx${effective.platform.jvm.Xmx}"/>
