@@ -9,6 +9,7 @@ PENDING FIXES/DECISIONS
 	o is security:intercept-url the correct approach to deny acess to admin pages for regular users?
 
 MUST-HAVE
+	o display error when user without appropriate permissions accesses addReservation
 	o review all forms to check length of input strings
 	o session id logging
 		http://www.icefaces.org/JForum/posts/list/7267.page
