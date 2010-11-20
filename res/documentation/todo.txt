@@ -14,6 +14,8 @@ MUST-HAVE
 	o session id logging
 		http://www.icefaces.org/JForum/posts/list/7267.page
 		http://techscouting.wordpress.com/2010/11/09/logging-additional-information-like-sessionid-in-every-log4j-message/
+		http://www.hiteshagrawal.com/java/tracking-user-session-in-apache-log4j
+		http://veerasundar.com/blog/2009/11/log4j-mdc-mapped-diagnostic-context-example-code/
 	o JVM options for Tomcat/AS
 		<jvmarg value="-Xms${effective.platform.jvm.Xms}"/>
 		<jvmarg value="-Xmx${effective.platform.jvm.Xmx}"/>
