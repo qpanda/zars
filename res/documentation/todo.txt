@@ -9,7 +9,6 @@ PENDING FIXES/DECISIONS
 	o is security:intercept-url the correct approach to deny acess to admin pages for regular users?
 
 MUST-HAVE
-	o revise logging and use SessionUtils.determineSessionId() consitently
 	o review all forms to check length of input strings
 	o session id logging
 		http://www.icefaces.org/JForum/posts/list/7267.page
@@ -22,9 +21,6 @@ MUST-HAVE
 		<jvmarg value="-XX:ErrorFile=${platform.logs.dir}/hs_err_pid_%p.log"/>
 		<jvmarg value="-XX:+HeapDumpOnOutOfMemoryError"/>			
 		<jvmarg value="-XX:HeapDumpPath=${platform.logs.dir}"/>	
-	o user preferences for locale, timezone, and first days of week, allow users to change preferences
-	  http://www.tommylacroix.com/2008/02/25/detect-timezone-with-javascript/
-	  http://relation.to/Bloggers/StepRightUpAndSelectYourTimeZone
 	o generic exception page
 	  http://www.laliluna.de/articles/jsf-2-evaluation-test.html
 	  http://santhoshjohn78.blogspot.com/2009/02/catch-all-exception-page-for-jsf-web.html
