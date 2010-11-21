@@ -91,14 +91,14 @@ public class SettingController implements Serializable {
 
 	public SimpleDateFormat getPreferredDateTimeFormat() {
 		// TODO we should pre-create SimpleDataFormat objects
-		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, getPreferredLocale());
+		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, getPreferredLocale());
 		simpleDateFormat.setTimeZone(getPreferredTimeZone());
 		return simpleDateFormat;
 	}
 
 	public String getPreferredDateTimeFormatPattern() {
 		// TODO we should pre-create patterns
-		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, getPreferredLocale());
+		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, getPreferredLocale());
 		simpleDateFormat.setTimeZone(getPreferredTimeZone());
 		return simpleDateFormat.toPattern();
 	}

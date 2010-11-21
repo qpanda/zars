@@ -23,6 +23,14 @@
 										<td class="applicationFormTableData">#{groupReservationScheduleController.selectedGroupReservation.groupReservationId}</td>
 									</tr>
 									<tr class="applicationFormTableRow">
+										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationBookedLabel}</th>
+										<td class="applicationFormTableData">
+											<h:outputText value="#{groupReservationScheduleController.selectedGroupReservation.booked}">
+												<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateTimeFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
+											</h:outputText>
+										</td>
+									</tr>									
+									<tr class="applicationFormTableRow">
 										<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}</th>
 										<td class="applicationFormTableData">
 											<h:outputText value="#{groupReservationScheduleController.selectedGroupReservation.arrival}">

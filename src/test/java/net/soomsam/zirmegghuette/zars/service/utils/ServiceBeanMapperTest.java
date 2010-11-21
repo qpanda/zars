@@ -1,21 +1,17 @@
 package net.soomsam.zirmegghuette.zars.service.utils;
 
-import java.util.Date;
-
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
-import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
-import net.soomsam.zirmegghuette.zars.service.bean.RoomBean;
-import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +44,11 @@ public class ServiceBeanMapperTest {
 		User accountant = PersistenceEntityGenerator.createUserTest("accountant", "accountant@test.com", userRole, adminRole);
 		Room testRoom = PersistenceEntityGenerator.createTestRoom();
 		Room anotherTestRoom = PersistenceEntityGenerator.createAnotherTestRoom();
+		DateTime booked = new DateTime();
 		DateMidnight arrival = new DateMidnight();
 		DateMidnight departure = arrival.plusDays(1);
 		long guests = 3;
-		GroupReservation groupReservation = new GroupReservation(beneficiary, accountant, arrival, departure, guests);
+		GroupReservation groupReservation = new GroupReservation(beneficiary, accountant, booked, arrival, departure, guests);
 		groupReservation.associateRoom(testRoom);
 		groupReservation.associateRoom(anotherTestRoom);
 
@@ -59,6 +56,7 @@ public class ServiceBeanMapperTest {
 		Assert.assertEquals(groupReservationBean.getGroupReservationId(), groupReservation.getGroupReservationId());
 		Assert.assertEquals(groupReservationBean.getGroupReservationTimestamp(), groupReservation.getGroupReservationTimestamp());
 
+		Assert.assertEquals(groupReservationBean.getBooked(), groupReservation.getBooked().toDate());
 		Assert.assertEquals(groupReservationBean.getArrival(), groupReservation.getArrival().toDate());
 		Assert.assertEquals(groupReservationBean.getDeparture(), groupReservation.getDeparture().toDate());
 
@@ -82,7 +80,7 @@ public class ServiceBeanMapperTest {
 		Assert.assertEquals(groupReservationBean.getAccountant().getFirstName(), groupReservation.getAccountant().getFirstName());
 		Assert.assertEquals(groupReservationBean.getAccountant().getLastName(), groupReservation.getAccountant().getLastName());
 		Assert.assertEquals(groupReservationBean.getAccountant().getRoles().size(), groupReservation.getAccountant().getRoles().size());
-		
+
 		Assert.assertEquals(groupReservationBean.getRooms().size(), groupReservation.getRooms().size());
 	}
 }

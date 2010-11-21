@@ -44,6 +44,7 @@ public class GroupReservation extends BaseEntity {
 	public static final String TABLENAME_GROUPRESERVATION = "zars_group_reservation";
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
 	public static final String COLUMNNAME_GROUPRESERVATIONTIMESTAMP = "group_reservation_timestamp";
+	public static final String COLUMNNAME_BOOKED = "booked";
 	public static final String COLUMNNAME_ARRIVAL = "arrival";
 	public static final String COLUMNNAME_DEPARTURE = "departure";
 	public static final String COLUMNNAME_COMMENT = "comment";
@@ -82,6 +83,11 @@ public class GroupReservation extends BaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONTIMESTAMP)
 	private Date groupReservationTimestamp;
+
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = GroupReservation.COLUMNNAME_BOOKED, nullable = false)
+	private Date booked;
 
 	@NotNull
 	@Temporal(TemporalType.DATE)
@@ -129,17 +135,18 @@ public class GroupReservation extends BaseEntity {
 		super();
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final DateMidnight arrival, final DateMidnight departure, final long guests) {
+	public GroupReservation(final User beneficiary, final User accountant, final DateTime booked, final DateMidnight arrival, final DateMidnight departure, final long guests) {
 		super();
 
-		if ((null == arrival) || (null == departure)) {
-			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
+		if ((null == booked) || (null == arrival) || (null == departure)) {
+			throw new IllegalArgumentException("'booked', 'arrival', and 'departure' must not be null");
 		}
 
 		if (new DateTime(arrival).isAfter(new DateTime(departure))) {
 			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
 		}
 
+		this.booked = DateUtils.convertDateTime(booked);
 		this.arrival = DateUtils.convertDateMidnight(arrival);
 		this.departure = DateUtils.convertDateMidnight(departure);
 		this.guests = guests;
@@ -148,17 +155,18 @@ public class GroupReservation extends BaseEntity {
 		associateAccountant(accountant);
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) {
+	public GroupReservation(final User beneficiary, final User accountant, final DateTime booked, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) {
 		super();
 
-		if ((null == arrival) || (null == departure)) {
-			throw new IllegalArgumentException("'arrival' and 'departure' must not be null");
+		if ((null == booked) || (null == arrival) || (null == departure)) {
+			throw new IllegalArgumentException("'booked', 'arrival', and 'departure' must not be null");
 		}
 
 		if (new DateTime(arrival).isAfter(new DateTime(departure))) {
 			throw new IllegalArgumentException("'arrival' has to be before 'departure'");
 		}
 
+		this.booked = DateUtils.convertDateTime(booked);
 		this.arrival = DateUtils.convertDateMidnight(arrival);
 		this.departure = DateUtils.convertDateMidnight(departure);
 		this.guests = guests;
@@ -168,43 +176,58 @@ public class GroupReservation extends BaseEntity {
 		associateAccountant(accountant);
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final Reservation reservation) {
+	public GroupReservation(final DateTime booked, final User beneficiary, final User accountant, final Reservation reservation) {
 		super();
 
-		if (null == reservation) {
-			throw new IllegalArgumentException("'reservation' must not be null");
+		if ((null == booked) || (null == reservation)) {
+			throw new IllegalArgumentException("'booked' and 'reservation' must not be null");
 		}
+
+		this.booked = DateUtils.convertDateTime(booked);
 
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 		associateReservation(reservation);
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final Set<Reservation> reservations) {
+	public GroupReservation(final DateTime booked, final User beneficiary, final User accountant, final Set<Reservation> reservations) {
 		super();
+
+		if (null == booked) {
+			throw new IllegalArgumentException("'booked' must not be null");
+		}
+
+		this.booked = DateUtils.convertDateTime(booked);
 
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 		associateReservations(reservations);
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final Reservation reservation, final String comment) {
+	public GroupReservation(final DateTime booked, final User beneficiary, final User accountant, final Reservation reservation, final String comment) {
 		super();
 
-		if (null == reservation) {
-			throw new IllegalArgumentException("'reservation' must not be null");
+		if ((null == booked) || (null == reservation)) {
+			throw new IllegalArgumentException("'booked' and 'reservation' must not be null");
 		}
 
 		this.comment = comment;
+		this.booked = DateUtils.convertDateTime(booked);
 
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 		associateReservation(reservation);
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final Set<Reservation> reservations, final String comment) {
+	public GroupReservation(final DateTime booked, final User beneficiary, final User accountant, final Set<Reservation> reservations, final String comment) {
 		super();
+
+		if (null == booked) {
+			throw new IllegalArgumentException("'booked' must not be null");
+		}
+
 		this.comment = comment;
+		this.booked = DateUtils.convertDateTime(booked);
 
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
@@ -244,6 +267,14 @@ public class GroupReservation extends BaseEntity {
 
 	void setGroupReservationTimestamp(final Date groupReservationTimestamp) {
 		this.groupReservationTimestamp = groupReservationTimestamp;
+	}
+
+	public DateTime getBooked() {
+		return DateUtils.convertDateTime(booked);
+	}
+
+	public void setBooked(final DateTime booked) {
+		this.booked = DateUtils.convertDateTime(booked);
 	}
 
 	public DateMidnight getArrival() {
@@ -614,7 +645,7 @@ public class GroupReservation extends BaseEntity {
 			return false;
 		}
 
-		final GroupReservation other = (GroupReservation) entity;
+		final GroupReservation other = (GroupReservation)entity;
 		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).isEquals();
 	}
 
@@ -624,7 +655,7 @@ public class GroupReservation extends BaseEntity {
 			return false;
 		}
 
-		final GroupReservation other = (GroupReservation) entity;
+		final GroupReservation other = (GroupReservation)entity;
 		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getGroupReservationTimestamp(), other.getGroupReservationTimestamp()).isEquals();
 	}
 
@@ -634,8 +665,8 @@ public class GroupReservation extends BaseEntity {
 			return false;
 		}
 
-		final GroupReservation other = (GroupReservation) entity;
-		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
+		final GroupReservation other = (GroupReservation)entity;
+		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getBooked(), other.getBooked()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
 	}
 
 	@Override
@@ -648,17 +679,17 @@ public class GroupReservation extends BaseEntity {
 			return false;
 		}
 
-		final GroupReservation other = (GroupReservation) obj;
-		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getGroupReservationTimestamp(), other.getGroupReservationTimestamp()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
+		final GroupReservation other = (GroupReservation)obj;
+		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getGroupReservationTimestamp(), other.getGroupReservationTimestamp()).append(getBooked(), other.getBooked()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getGroupReservationId()).append(getGroupReservationTimestamp()).append(getArrival()).append(getDeparture()).append(getGuests()).append(getComment()).toHashCode();
+		return new HashCodeBuilder().append(getGroupReservationId()).append(getGroupReservationTimestamp()).append(getBooked()).append(getArrival()).append(getDeparture()).append(getGuests()).append(getComment()).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(getGroupReservationId()).append(getGroupReservationTimestamp()).append(getArrival()).append(getDeparture()).append(getGuests()).append(getComment()).toString();
+		return new ToStringBuilder(this).append(getGroupReservationId()).append(getGroupReservationTimestamp()).append(getBooked()).append(getArrival()).append(getDeparture()).append(getGuests()).append(getComment()).toString();
 	}
 }

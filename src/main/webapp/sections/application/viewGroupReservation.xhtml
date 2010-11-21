@@ -15,6 +15,14 @@
 							<td class="applicationFormTableData">#{viewGroupReservationController.savedGroupReservation.groupReservationId}</td>
 						</tr>
 						<tr class="applicationFormTableRow">
+							<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationBookedLabel}</th>
+							<td class="applicationFormTableData">
+								<h:outputText value="#{viewGroupReservationController.savedGroupReservation.booked}">
+									<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateTimeFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
+								</h:outputText>
+							</td>
+						</tr>
+						<tr class="applicationFormTableRow">
 							<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}</th>
 							<td class="applicationFormTableData">
 								<h:outputText value="#{viewGroupReservationController.savedGroupReservation.arrival}">

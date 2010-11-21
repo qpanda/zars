@@ -12,6 +12,8 @@ public class GroupReservationBean extends BaseBean {
 
 	private Date groupReservationTimestamp;
 
+	private Date booked;
+
 	private Date arrival;
 
 	private Date departure;
@@ -46,6 +48,14 @@ public class GroupReservationBean extends BaseBean {
 
 	public void setGroupReservationId(final long groupReservationId) {
 		this.groupReservationId = groupReservationId;
+	}
+
+	public Date getBooked() {
+		return booked;
+	}
+
+	public void setBooked(final Date booked) {
+		this.booked = booked;
 	}
 
 	public Date getArrival() {
