@@ -1,7 +1,5 @@
 CURRENT PENDING TASKS	 
-	o complete add/edit/delete/overview group reservations (all TODOs)
-	o annotate all service methods with @Secured
-	o creation|update time/date of reservations
+	o min-width
 
 PENDING FIXES/DECISIONS
 	o non working delete link in calendar popup
@@ -9,6 +7,8 @@ PENDING FIXES/DECISIONS
 	o is security:intercept-url the correct approach to deny acess to admin pages for regular users?
 
 MUST-HAVE
+	o complete add/edit/delete/overview group reservations (all TODOs)
+	o annotate all service methods with @Secured
 	o display error when user without appropriate permissions accesses addReservation
 	o review all forms to check length of input strings
 	o session id logging
