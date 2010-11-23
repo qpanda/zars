@@ -25,8 +25,9 @@ MUST-HAVE
 		<jvmarg value="-XX:ErrorFile=${platform.logs.dir}/hs_err_pid_%p.log"/>
 		<jvmarg value="-XX:+HeapDumpOnOutOfMemoryError"/>			
 		<jvmarg value="-XX:HeapDumpPath=${platform.logs.dir}"/>	
-	o generic exception page
+	o generic exception page	  
 	  http://www.summa-tech.com/blog/2009/10/05/handling-jsf-and-facelets-exceptions/
+	  http://josephmarques.wordpress.com/2009/04/27/custom-jsf-exception-handling/
 	  http://stackoverflow.com/questions/2453340/display-exceptions-in-jsf-jsp-page
 	  http://www.coderanch.com/t/497382/JSF/java/JSF-exception-handling-it-necessary
 	  http://www.summa-tech.com/blog/2009/10/05/handling-jsf-and-facelets-exceptions/
