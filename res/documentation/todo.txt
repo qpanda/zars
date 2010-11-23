@@ -41,6 +41,8 @@ SHOULD-HAVE
 	o pricing and other settings and an editor to modify those
 
 NICE-TO-HAVE
+	o generics based settings and preferences services and Dtos
+	o rename *Bean to *Dto
 	o autocomplete false for disabled fields 
 	o forwarding from login page if already logged in (pretty faces)
 	o consolidate Reservation.firstName and Reservation.lastName into a single field Reservation.guestName
