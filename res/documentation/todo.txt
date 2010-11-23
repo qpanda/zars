@@ -1,5 +1,6 @@
 CURRENT PENDING TASKS	 
 	o min-width
+	o define development and prod persistence units
 
 PENDING FIXES/DECISIONS
 	o non working delete link in calendar popup
