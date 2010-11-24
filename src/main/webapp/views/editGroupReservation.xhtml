@@ -10,8 +10,8 @@
 			<f:viewParam id="groupReservationId" name="groupReservationId" value="#{editGroupReservationController.groupReservationId}" converterMessage="#{editGroupReservationController.invalidGroupReservationIdMessage}" validatorMessage="#{editGroupReservationController.invalidGroupReservationIdMessage}">
 				<f:validateLongRange minimum="1"/>
 			</f:viewParam>
-			<f:event type="preRenderView" listener="#{editGroupReservationController.retrieveGroupReservation}"/>
 		</f:metadata>		
+		<f:event type="preRenderView" listener="#{editGroupReservationController.retrieveGroupReservation}"/>
 	</ui:define>
 	<ui:define name="windowTitle">#{displayMessages.viewsEditGroupReservationWindowTitle}</ui:define>	
 	<ui:define name="header">

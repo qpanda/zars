@@ -6,9 +6,7 @@
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd"
 	template="/templates/applicationLayout.xhtml">
 	<ui:define name="metadata">
-		<f:metadata>
-			<f:event type="preRenderView" listener="#{changePreferencesController.retrievePreferences}"/>
-		</f:metadata>		
+		<f:event type="preRenderView" listener="#{changePreferencesController.retrievePreferences}"/>		
 	</ui:define>
 	<ui:define name="windowTitle">#{displayMessages.viewsChangePreferencesWindowTitle}</ui:define>	
 	<ui:define name="header">

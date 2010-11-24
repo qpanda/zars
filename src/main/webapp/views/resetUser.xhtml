@@ -10,8 +10,8 @@
 			<f:viewParam id="userId" name="userId" value="#{resetUserController.userId}" converterMessage="#{resetUserController.invalidUserIdMessage}" validatorMessage="#{resetUserController.invalidUserIdMessage}">
 				<f:validateLongRange minimum="1"/>
 			</f:viewParam>
-			<f:event type="preRenderView" listener="#{resetUserController.retrieveUser}"/>
 		</f:metadata>		
+		<f:event type="preRenderView" listener="#{resetUserController.retrieveUser}"/>
 	</ui:define>
 	<ui:define name="windowTitle">#{displayMessages.viewsResetUserWindowTitle}</ui:define>	
 	<ui:define name="header">
