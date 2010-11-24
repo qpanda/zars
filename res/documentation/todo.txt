@@ -4,10 +4,6 @@ PENDING FIXES/DECISIONS
 	o is security:intercept-url the correct approach to deny acess to admin pages for regular users?
 
 MUST-HAVE
-	X display error when user without inappropriate permissions accesses addReservation
-	X fix incorrect location of f:event tag
-	o use locale parameter for f:viewParam message getters
-	o fix xsd references (- instaed of _, ...)
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o review all forms to check length of input strings
 	o username should not allow special characters

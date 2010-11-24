@@ -197,7 +197,8 @@ public class EditUserController implements Serializable {
 	}
 
 	public String getInvalidUserIdMessage() {
-		return MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null).getSummary();
+		Locale preferredLocale = settingController.getPreferredLocale();
+		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null).getSummary();
 	}
 
 	public void retrieveUser() {

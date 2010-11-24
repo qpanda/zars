@@ -1,6 +1,7 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -23,6 +24,9 @@ public class ViewGroupReservationController implements Serializable {
 
 	@Inject
 	protected transient GroupReservationService groupReservationService;
+
+	@Inject
+	protected transient SettingController settingController;
 
 	private boolean validNavigation = true;
 
@@ -51,7 +55,8 @@ public class ViewGroupReservationController implements Serializable {
 	}
 
 	public String getInvalidGroupReservationIdMessage() {
-		return MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null).getSummary();
+		Locale preferredLocale = settingController.getPreferredLocale();
+		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null).getSummary();
 	}
 
 	public void retrieveGroupReservation() {

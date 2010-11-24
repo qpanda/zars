@@ -2,6 +2,7 @@ package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.faces.application.FacesMessage;
@@ -47,7 +48,8 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	}
 
 	public String getInvalidGroupReservationIdMessage() {
-		return MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null).getSummary();
+		Locale preferredLocale = settingController.getPreferredLocale();
+		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null).getSummary();
 	}
 
 	public void retrieveGroupReservation() {

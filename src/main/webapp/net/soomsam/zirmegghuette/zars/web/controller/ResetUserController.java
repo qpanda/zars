@@ -1,6 +1,7 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -25,6 +26,9 @@ public class ResetUserController implements Serializable {
 
 	@Inject
 	private transient UserService userService;
+
+	@Inject
+	private transient SettingController settingController;
 
 	private boolean validNavigation = true;
 
@@ -81,7 +85,8 @@ public class ResetUserController implements Serializable {
 	}
 
 	public String getInvalidUserIdMessage() {
-		return MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null).getSummary();
+		Locale preferredLocale = settingController.getPreferredLocale();
+		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, null).getSummary();
 	}
 
 	public void retrieveUser() {
