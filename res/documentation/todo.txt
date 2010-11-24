@@ -1,5 +1,4 @@
 CURRENT PENDING TASKS	 
-	o min-width
 	o define development and prod persistence units
 
 PENDING FIXES/DECISIONS
