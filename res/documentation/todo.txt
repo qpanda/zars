@@ -1,13 +1,9 @@
-CURRENT PENDING TASKS	 
-	o define development and prod persistence units
-
 PENDING FIXES/DECISIONS
 	o non working delete link in calendar popup
 	o fix issue with export current table content and then export all table content fails
 	o is security:intercept-url the correct approach to deny acess to admin pages for regular users?
 
 MUST-HAVE
-	o use SSL for j_spring_security_check
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o annotate all service methods with @Secured
 	o display error when user without appropriate permissions accesses addReservation
@@ -17,14 +13,6 @@ MUST-HAVE
 		http://techscouting.wordpress.com/2010/11/09/logging-additional-information-like-sessionid-in-every-log4j-message/
 		http://www.hiteshagrawal.com/java/tracking-user-session-in-apache-log4j
 		http://veerasundar.com/blog/2009/11/log4j-mdc-mapped-diagnostic-context-example-code/
-	o JVM options for Tomcat/AS
-		<jvmarg value="-Xms${effective.platform.jvm.Xms}"/>
-		<jvmarg value="-Xmx${effective.platform.jvm.Xmx}"/>
-		<jvmarg value="-Xloggc:${platform.logs.dir}/gc.log"/>
-		<jvmarg value="-XX:MaxPermSize=${effective.platform.jvm.XXMaxPermSize}"/>
-		<jvmarg value="-XX:ErrorFile=${platform.logs.dir}/hs_err_pid_%p.log"/>
-		<jvmarg value="-XX:+HeapDumpOnOutOfMemoryError"/>			
-		<jvmarg value="-XX:HeapDumpPath=${platform.logs.dir}"/>	
 	o generic exception page	  
 	  http://www.summa-tech.com/blog/2009/10/05/handling-jsf-and-facelets-exceptions/
 	  http://josephmarques.wordpress.com/2009/04/27/custom-jsf-exception-handling/
@@ -34,8 +22,17 @@ MUST-HAVE
 	  http://www.laliluna.de/articles/jsf-2-evaluation-test.html
 	  http://santhoshjohn78.blogspot.com/2009/02/catch-all-exception-page-for-jsf-web.html
 	  http://weblogs.java.net/blog/edburns/archive/2009/09/03/dealing-gracefully-viewexpiredexception-jsf2
+	o JVM options for Tomcat/AS
+		<jvmarg value="-Xms${effective.platform.jvm.Xms}"/>
+		<jvmarg value="-Xmx${effective.platform.jvm.Xmx}"/>
+		<jvmarg value="-Xloggc:${platform.logs.dir}/gc.log"/>
+		<jvmarg value="-XX:MaxPermSize=${effective.platform.jvm.XXMaxPermSize}"/>
+		<jvmarg value="-XX:ErrorFile=${platform.logs.dir}/hs_err_pid_%p.log"/>
+		<jvmarg value="-XX:+HeapDumpOnOutOfMemoryError"/>			
+		<jvmarg value="-XX:HeapDumpPath=${platform.logs.dir}"/>	
 	  
 SHOULD-HAVE
+	o use SSL for j_spring_security_check
 	o use abstract controller UserController for AddUserController and EditUserController and others
 	o EL expression in f:view should also default to request context if localeController.activeLocale is null
 	o check that user assigned to GroupReservation has role accountant

@@ -11,6 +11,14 @@
       <property name="hibernate.dialect" value="net.soomsam.zirmegghuette.zars.persistence.utils.HibernateHsqlDialect"/>
     </properties>
   </persistence-unit>
+  <persistence-unit name="DevelopmentPgSqlPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+    <properties>
+      <property name="hibernate.archive.autodetection" value="class, hbm"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.dialect" value="net.soomsam.zirmegghuette.zars.persistence.utils.HibernatePgSqlDialect"/>
+    </properties>
+  </persistence-unit>
   <persistence-unit name="DevelopmentMySqlPersistenceUnit" transaction-type="RESOURCE_LOCAL">
     <properties>
       <property name="hibernate.archive.autodetection" value="class, hbm"/>
@@ -19,12 +27,20 @@
       <property name="hibernate.dialect" value="net.soomsam.zirmegghuette.zars.persistence.utils.HibernateMySqlDialect"/>
     </properties>
   </persistence-unit>
-  <persistence-unit name="DevelopmentPgSqlPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+  <persistence-unit name="TestMySqlPersistenceUnit" transaction-type="RESOURCE_LOCAL">
     <properties>
       <property name="hibernate.archive.autodetection" value="class, hbm"/>
       <property name="hibernate.show_sql" value="true"/>
-      <property name="hibernate.format_sql" value="true"/>
-      <property name="hibernate.dialect" value="net.soomsam.zirmegghuette.zars.persistence.utils.HibernatePgSqlDialect"/>
+      <property name="hibernate.format_sql" value="false"/>
+      <property name="hibernate.dialect" value="net.soomsam.zirmegghuette.zars.persistence.utils.HibernateMySqlDialect"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="ProductionMySqlPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+    <properties>
+      <property name="hibernate.archive.autodetection" value="class, hbm"/>
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.format_sql" value="false"/>
+      <property name="hibernate.dialect" value="net.soomsam.zirmegghuette.zars.persistence.utils.HibernateMySqlDialect"/>
     </properties>
   </persistence-unit>
 </persistence>
