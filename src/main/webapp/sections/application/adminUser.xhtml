@@ -21,14 +21,6 @@
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserEmailAddressLabel}" /></f:facet>
 						<h:outputText value="#{user.emailAddress}" />
 					</p:column>
-					<p:column sortBy="#{user.firstName}">
-						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserFirstNameLabel}" /></f:facet>
-						<h:outputText value="#{user.firstName}" />
-					</p:column>
-					<p:column sortBy="#{user.lastName}">
-						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserLastNameLabel}" /></f:facet>
-						<h:outputText value="#{user.lastName}" />
-					</p:column>
 					<p:column sortBy="#{user.enabled}">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserStateLabel}" /></f:facet>
 						<h:outputText value="#{user.enabled ? displayMessages.sectionsApplicationUserStateEnabledLabel : displayMessages.sectionsApplicationUserStateDisabledLabel}" />
@@ -58,11 +50,11 @@
 			</div>
 			<div class="applicationFormItem">
 				<p:commandLink value="#{displayMessages.sectionsApplicationExportCurrentUsersLink}" styleClass="applicationLink" ajax="false">
-					<p:dataExporter type="xls" target="userTable" fileName="#{displayMessages.sectionsApplicationExportCurrentUsersFile}" pageOnly="true" excludeColumns="5,6,7"/>
+					<p:dataExporter type="xls" target="userTable" fileName="#{displayMessages.sectionsApplicationExportCurrentUsersFile}" pageOnly="true" excludeColumns="3,4,5"/>
 				</p:commandLink>
 				<h:outputText value="&#160;&#160;&#160;" />
 				<p:commandLink value="#{displayMessages.sectionsApplicationExportAllUsersLink}" styleClass="applicationLink" ajax="false">
-					<p:dataExporter type="xls" target="userTable" fileName="#{displayMessages.sectionsApplicationExportAllUsersFile}" excludeColumns="5,6,7"/>
+					<p:dataExporter type="xls" target="userTable" fileName="#{displayMessages.sectionsApplicationExportAllUsersFile}" excludeColumns="3,4,5"/>
 				</p:commandLink>
 			</div>
 		</h:form>

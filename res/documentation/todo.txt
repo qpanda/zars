@@ -8,6 +8,7 @@ PENDING FIXES/DECISIONS
 	o is security:intercept-url the correct approach to deny acess to admin pages for regular users?
 
 MUST-HAVE
+	o use SSL for j_spring_security_check
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o annotate all service methods with @Secured
 	o display error when user without appropriate permissions accesses addReservation

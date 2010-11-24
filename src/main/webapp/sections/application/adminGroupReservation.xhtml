@@ -73,10 +73,6 @@
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.beneficiary.username}" />
 					</p:column>
-					<p:column sortBy="#{groupReservation.accountant.username}">
-						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationAccountantLabel}" /></f:facet>
-						<h:outputText value="#{groupReservation.accountant.username}" />
-					</p:column>
 					<p:column>
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationActionLabel}" /></f:facet>
 						<h:link outcome="editGroupReservation" value="#{displayMessages.sectionsApplicationEditGroupReservationLink}" styleClass="applicationLink" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}">
@@ -95,11 +91,11 @@
 			</div>
 			<div class="applicationFormItem">
 				<p:commandLink value="#{displayMessages.sectionsApplicationExportCurrentGroupReservationsLink}" styleClass="applicationLink" ajax="false">
-					<p:dataExporter type="xls" target="groupReservationTable" fileName="#{displayMessages.sectionsApplicationExportCurrentGroupReservationsFile}" pageOnly="true" excludeColumns="7"/>
+					<p:dataExporter type="xls" target="groupReservationTable" fileName="#{displayMessages.sectionsApplicationExportCurrentGroupReservationsFile}" pageOnly="true" excludeColumns="6"/>
 				</p:commandLink>
 				<h:outputText value="&#160;&#160;&#160;" />
 				<p:commandLink value="#{displayMessages.sectionsApplicationExportAllGroupReservationsLink}" styleClass="applicationLink" ajax="false">
-					<p:dataExporter type="xls" target="groupReservationTable" fileName="#{displayMessages.sectionsApplicationExportAllGroupReservationsFile}" excludeColumns="7"/>
+					<p:dataExporter type="xls" target="groupReservationTable" fileName="#{displayMessages.sectionsApplicationExportAllGroupReservationsFile}" excludeColumns="6"/>
 				</p:commandLink>
 			</div>
 		</h:form>
