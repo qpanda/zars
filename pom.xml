@@ -99,7 +99,7 @@
 							<autocommit>true</autocommit>
 							<sqlCommand>DROP SCHEMA public CASCADE</sqlCommand>
 							<srcFiles>
-								<srcFile>target/generated-sources/schema/schema-hsql.ddl</srcFile>
+								<srcFile>${project.build.directory}/generated-sources/schema/schema-hsql.ddl</srcFile>
 							</srcFiles>
 						</configuration>
 					</execution>
@@ -115,7 +115,7 @@
 					<driver>org.hsqldb.jdbcDriver</driver>
 					<username>sa</username>
 					<password></password>
-					<url>jdbc:hsqldb:file:target/db/zars_test.db;shutdown=true</url>
+					<url>jdbc:hsqldb:file:${project.build.directory}/db/zars_test.db;shutdown=true</url>
 					<autocommit>true</autocommit>
 					<skip>${maven.test.skip}</skip>
 				</configuration>
