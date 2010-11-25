@@ -141,7 +141,7 @@
 				</executions>
 				<configuration>
 					<keystore>${project.build.directory}/generated-resources/ssl/dev.keystore</keystore>
-					<dname>cn=zars.soomsam.net</dname>
+					<dname>cn=localhost</dname>
 					<keypass>devkeypass</keypass>
 					<storepass>devstorepass</storepass>
 					<alias>zars</alias>
