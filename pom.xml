@@ -119,6 +119,34 @@
 					<autocommit>true</autocommit>
 					<skip>${maven.test.skip}</skip>
 				</configuration>
+			</plugin>			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>keytool-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<id>clean</id>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+					<execution>
+						<phase>generate-resources</phase>
+						<id>genkey</id>
+						<goals>
+							<goal>genkey</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<keystore>${project.build.directory}/generated-resources/ssl/dev.keystore</keystore>
+					<dname>cn=zars.soomsam.net</dname>
+					<keypass>devkeypass</keypass>
+					<storepass>devstorepass</storepass>
+					<alias>zars</alias>
+					<keyalg>RSA</keyalg>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
@@ -129,6 +157,19 @@
 						<contextPath>/</contextPath>
 						<tempDirectory>${project.build.directory}/work</tempDirectory>
 					</webAppConfig>
+					<connectors>
+						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+							<port>8080</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+						<connector implementation="org.mortbay.jetty.security.SslSocketConnector">
+							<port>8443</port>
+							<maxIdleTime>60000</maxIdleTime>
+							<keystore>${project.build.directory}/generated-resources/ssl/dev.keystore</keystore>
+							<password>devstorepass</password>
+							<keyPassword>devkeypass</keyPassword>
+						</connector>
+					</connectors>					
 				</configuration>
 			</plugin>
 			<plugin>
