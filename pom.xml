@@ -115,7 +115,7 @@
 					<driver>org.hsqldb.jdbcDriver</driver>
 					<username>sa</username>
 					<password></password>
-					<url>jdbc:hsqldb:file:${project.build.directory}/db/zars_test.db;shutdown=true</url>
+					<url>jdbc:hsqldb:file:${project.build.directory}/db/zars_dev.db;shutdown=true</url>
 					<autocommit>true</autocommit>
 					<skip>${maven.test.skip}</skip>
 				</configuration>
