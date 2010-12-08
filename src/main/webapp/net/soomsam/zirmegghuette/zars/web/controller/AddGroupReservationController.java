@@ -46,7 +46,6 @@ public class AddGroupReservationController extends ModifyGroupReservationControl
 			return;
 		}
 
-		System.out.println("xxx");
 		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && !SecurityUtils.hasRole(RoleType.ROLE_USER)) {
 			this.validNavigation = false;
 			final FacesMessage addNotAllowedFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationAddNotAllowedError", FacesMessage.SEVERITY_ERROR, null);
