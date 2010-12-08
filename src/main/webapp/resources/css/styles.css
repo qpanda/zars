@@ -6,7 +6,7 @@ body {
 	text-align: left;
 	margin: 0;
 	padding: 0;
-	min-width:1000px; 
+	min-width: 950px; 
 }
 
 * html body {
@@ -27,12 +27,12 @@ h1, h2, h3, h4 {
 
 h1 {
 	font-size: 15pt;
-	padding-top:15px;
+	padding-top: 15px;
 }
 
 h2 {
 	font-size: 10pt;
-	padding-top:15px;
+	padding-top: 15px;
 }
 
 textarea:focus, input:focus {
@@ -71,7 +71,7 @@ textarea:focus, input:focus {
 	padding-top: 2px;
 	padding-right: 5px;
 	padding-bottom: 2px;
-	font-size:9pt;
+	font-size: 9pt;
 	font-weight: bold;
 	text-align: right;
 	color: #FFFFFF;	
@@ -101,7 +101,7 @@ textarea:focus, input:focus {
     padding: 15px;
 	font-size: 10pt;
 	min-height: 650px;
-	height:auto !important; height: 650px;
+	height: auto !important; height: 650px;
 	background: white;
 }
 
@@ -123,14 +123,14 @@ textarea:focus, input:focus {
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 150px;
-	align:center;
-	width:375px;
+	align: center;
+	width: 375px;
 }
 
 .loginForm {
 	padding: 10px;
-	border:3px solid #3C78B5;
-	background:#FAFAFA;
+	border: 3px solid #3C78B5;
+	background: #FAFAFA;
 }
 
 .loginFormTitle {
@@ -190,13 +190,13 @@ textarea:focus, input:focus {
 }
 
 .applicationDialog {
-	width:100%;
+	width: 100%;
 }
 
 .applicationForm {
 	padding: 0px;
-	border:3px solid #3C78B5;
-	background:#FAFAFA;
+	border: 3px solid #3C78B5;
+	background: #FAFAFA;
 }
 
 .applicationFormTitle {
@@ -270,7 +270,7 @@ textarea:focus, input:focus {
 	margin-right: 12px;
 	margin-top: 4px;
 	margin-bottom: 4px;
-	border-bottom:1px solid #3C78B5;
+	border-bottom: 1px solid #3C78B5;
 }
 
 .applicationFormTable {
@@ -290,11 +290,11 @@ textarea:focus, input:focus {
 }
 
 .applicationFormDataTable {
-	border:1px solid #ccc;
-	border-top:0px;
-	border-spacing:0px;
-	padding:0px;
-	border-collapse:collapse;
+	border: 1px solid #ccc;
+	border-top: 0px;
+	border-spacing: 0px;
+	padding: 0px;
+	border-collapse: collapse;
 	text-align: left;
 	margin-top: 8px;
 }
@@ -302,24 +302,24 @@ textarea:focus, input:focus {
 .applicationFormDataTableCaption {
 	text-align: left;
 	font-weight: bold;
-	padding-bottom:2px;
+	padding-bottom: 2px;
 }
 		
 .applicationFormDataTableHeader {
-	background:#efefef;
-	border-top:#ccc solid 1px;
-	padding-left:4px;
-	padding-right:4px;
-	padding-top:2px;
-	vertical-align:top;
+	background: #efefef;
+	border-top: #ccc solid 1px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 2px;
+	vertical-align: top;
 }
 
 .applicationFormDataTableData {
-	border-top:#ccc solid 1px;
-	padding-left:4px;
-	padding-right:4px;
-	padding-top:2px;
-	vertical-align:top;
+	border-top: #ccc solid 1px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 2px;
+	vertical-align: top;
 	min-width: 150px;
 }
 
@@ -337,9 +337,9 @@ textarea:focus, input:focus {
 	margin: 0;
 	width: 100%;
 	clear: both;
-	font-size:9pt;
-	padding-top:3px;
-	padding-bottom:3px;
+	font-size: 9pt;
+	padding-top: 3px;
+	padding-bottom: 3px;
 }
 
 .footerText {
@@ -347,7 +347,7 @@ textarea:focus, input:focus {
 	padding: 0;
 	padding-right: 12px;
 	text-align: right;
-	color:#fff;
+	color: #fff;
 }
 
 .ui-widget, .ui-widget .ui-widget {
@@ -356,33 +356,33 @@ textarea:focus, input:focus {
 
 .ui-menu {
 	background: #f0f0f0;
-	border:none;
+	border: none;
 }
 
 .ui-menubar-item {
-	float:right;
+	float: right;
 }
 
 .ui-menubar-item-label {
-	padding:4px 12px;
+	padding: 4px 12px;
 }
 
 .ui-corner-all {
-	-moz-border-radius:0px;
-	-webkit-border-radius:0px;
-	border-radius:0px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
 }
 
 .ui-widget-header {
-	max-height:20px;
+	max-height: 20px;
 }
 
 .ui-menu .ui-menu-item .ui-menu-item-label {
-	padding:.2em 1em;
+	padding: .2em 1em;
 }
 
 .ui-datatable-liner {
-	margin:0;
-	padding:0;
-	padding:3px 6px 3px 6px;
+	margin: 0;
+	padding: 0;
+	padding: 2px 4px 2px 4px;
 }
