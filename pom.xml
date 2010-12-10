@@ -211,13 +211,35 @@
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
 				</configuration>
-			</plugin>
+			</plugin>	
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-2</version>
+				<executions>
+					<execution>
+						<id>write-instance-properties</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>write-active-profile-properties</goal>
+						</goals>
+						<configuration>
+							<outputFile>${project.build.directory}/${project.build.finalName}/build.properties</outputFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<classifier>${environment}</classifier>					
 					<warSourceExcludes>net/**</warSourceExcludes>
+					<webResources>
+						<resource>
+							<directory>${basedir}/src/config/webapp/${environment}</directory>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -241,7 +263,7 @@
 		<profile>
 			<id>test-pgsql</id>
 			<properties>
-				<environment>test-mysql</environment>
+				<environment>test-pgsql</environment>
 			</properties>
 		</profile>
 		<profile>
