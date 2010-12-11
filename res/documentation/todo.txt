@@ -4,7 +4,6 @@ PENDING FIXES/DECISIONS
 	o is security:intercept-url the correct approach to deny acess to admin pages for regular users?
 
 MUST-HAVE
-	o dev/test/uat/production builds
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o review all forms to check length of input strings
 	o username should not allow special characters
