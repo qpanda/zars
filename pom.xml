@@ -234,10 +234,11 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<classifier>${zars.env}</classifier>					
-					<warSourceExcludes>net/**</warSourceExcludes>
+					<warSourceExcludes>net/**,META-INF/**,*Messages*.properties,log4j.xml</warSourceExcludes>
 					<webResources>
 						<resource>
 							<directory>${basedir}/src/config/webapp/${zars.env}</directory>
+							<targetPath>WEB-INF/classes</targetPath>
 						</resource>
 					</webResources>
 				</configuration>
