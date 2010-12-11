@@ -76,4 +76,13 @@
 		<error-code>403</error-code>
 		<location>/views/accessDenied.jsf</location>
 	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/views/internalError.jsf</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/views/internalError.jsf</location>
+	</error-page>
+	
 </web-app>

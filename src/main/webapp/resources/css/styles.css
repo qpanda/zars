@@ -193,6 +193,32 @@ textarea:focus, input:focus {
 	width: 100%;
 }
 
+.applicationError {
+	padding: 0px;
+	border: 3px solid #990000;
+	background: #FAFAFA;
+}
+
+.applicationErrorTitle {
+	font-size: 12pt;
+	font-weight: bold;
+	color: #fff;
+	background: #990000;
+	margin: 0px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+.applicationErrorItem {
+	margin-left: 12px;
+	margin-right: 12px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	text-align: left;
+}
+
 .applicationForm {
 	padding: 0px;
 	border: 3px solid #3C78B5;

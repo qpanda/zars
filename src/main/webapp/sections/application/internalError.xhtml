@@ -6,9 +6,9 @@
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd">
 	<div class="applicationDialog">
 		<div class="applicationError">
-			<div class="applicationErrorTitle">#{displayMessages.sectionsApplicationAccessDeniedDialogLabel}</div>
+			<div class="applicationErrorTitle">#{displayMessages.sectionsApplicationInternalErrorDialogLabel}</div>
 			<div class="applicationErrorItem">
-				#{displayMessages.sectionsApplicationAccessDeniedErrorMessage}
+				#{displayMessages.sectionsApplicationAccessDeniedErrorMessage} #{requestScope['javax.servlet.error.message']}
 			</div>
 		</div>
 	</div>
