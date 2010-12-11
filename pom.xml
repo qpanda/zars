@@ -227,7 +227,7 @@
 							<goal>write-project-properties</goal>
 						</goals>
 						<configuration>
-							<outputFile>${project.build.directory}/${project.build.finalName}/build.properties</outputFile>
+							<outputFile>${project.build.directory}/${project.build.finalName}/app.properties</outputFile>
 						</configuration>
 					</execution>
 					<execution>
