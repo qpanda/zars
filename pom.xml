@@ -233,7 +233,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<classifier>${zars.env}</classifier>					
+					<classifier>${zars.env}-${version}</classifier>					
 					<warSourceExcludes>net/**,META-INF/**,*Messages*.properties,log4j.xml</warSourceExcludes>
 					<webResources>
 						<resource>
@@ -241,6 +241,9 @@
 							<targetPath>WEB-INF/classes</targetPath>
 						</resource>
 					</webResources>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
