@@ -71,4 +71,9 @@
 		<servlet-name>Resource Servlet</servlet-name>
 		<url-pattern>/primefaces_resource/*</url-pattern>
 	</servlet-mapping>
+	
+	<error-page>
+		<error-code>403</error-code>
+		<location>/views/accessDenied.jsf</location>
+	</error-page>
 </web-app>
