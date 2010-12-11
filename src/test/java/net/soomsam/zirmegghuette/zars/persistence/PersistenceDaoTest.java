@@ -29,7 +29,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/WEB-INF/spring/core-context.xml" })
+@ContextConfiguration(locations = { "classpath:/META-INF/spring/core-context.xml" })
 @Transactional
 @TransactionConfiguration(transactionManager = "jpaTransactionManager")
 public class PersistenceDaoTest {

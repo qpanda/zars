@@ -19,7 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/WEB-INF/spring/core-context.xml" })
+@ContextConfiguration(locations = { "classpath:/META-INF/spring/core-context.xml" })
 public class ServiceBeanMapperTest {
 	private final static Logger logger = Logger.getLogger(ServiceBeanMapperTest.class);
 

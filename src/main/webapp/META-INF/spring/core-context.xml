@@ -11,21 +11,21 @@
 						http://www.springframework.org/schema/jee		http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
 						http://www.springframework.org/schema/security	http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
-	<import resource="classpath:/WEB-INF/spring/persistence-context.xml" />
-	<import resource="classpath:/WEB-INF/spring/security-context.xml" />
+	<import resource="classpath:/META-INF/spring/persistence-context.xml" />
+	<import resource="classpath:/META-INF/spring/security-context.xml" />
  	
  	<context:annotation-config />
  	<context:component-scan base-package="net.soomsam.zirmegghuette.zars" />
-	<context:property-placeholder location="classpath:/WEB-INF/spring/context.properties" />
+	<context:property-placeholder location="classpath:/META-INF/spring/context.properties" />
 	
 	<bean id="applicationInfoHolder" class="net.soomsam.zirmegghuette.zars.service.bean.ApplicationInfoHolder">
 		<property name="applicationInfoProperties">
-			<util:properties location="classpath:/WEB-INF/spring/zars.properties"/>
+			<util:properties location="classpath:/META-INF/spring/zars.properties"/>
 		</property>
 	</bean>
 	
 	<bean id="dozerBeanMapper" class="org.dozer.spring.DozerBeanMapperFactoryBean">
-		<property name="mappingFiles" value="classpath:/WEB-INF/dozer/beanmapping.xml"/>
+		<property name="mappingFiles" value="classpath:/META-INF/dozer/beanmapping.xml"/>
 	</bean>
 	
 	<bean id="databaseService" class="net.soomsam.zirmegghuette.zars.service.stateless.StatelessDatabaseService" init-method="createInitialDataSet"/>
