@@ -8,11 +8,6 @@ MUST-HAVE
 	o review all forms to check length of input strings
 	o username should not allow special characters
 	o annotate all service methods with @Secured
-	o session id logging
-		http://www.icefaces.org/JForum/posts/list/7267.page
-		http://techscouting.wordpress.com/2010/11/09/logging-additional-information-like-sessionid-in-every-log4j-message/
-		http://www.hiteshagrawal.com/java/tracking-user-session-in-apache-log4j
-		http://veerasundar.com/blog/2009/11/log4j-mdc-mapped-diagnostic-context-example-code/
 	o generic exception page	  
 	  http://www.summa-tech.com/blog/2009/10/05/handling-jsf-and-facelets-exceptions/
 	  http://josephmarques.wordpress.com/2009/04/27/custom-jsf-exception-handling/

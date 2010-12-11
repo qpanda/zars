@@ -5,7 +5,7 @@
 	<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{ISO8601} [%t] %-5p %c - %m%n" />
+			<param name="ConversionPattern" value="%d{ISO8601} [%t][%X{SESSION_ID}/%X{USERNAME}] %-5p %c - %m%n" />
 		</layout>
 	</appender>
 
@@ -14,7 +14,7 @@
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<param name="Append" value="true" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{ISO8601} [%t] %-5p %c - %m%n" />
+			<param name="ConversionPattern" value="%d{ISO8601} [%t][%X{SESSION_ID}/%X{USERNAME}] %-5p %c - %m%n" />
 		</layout>
 	</appender>
 

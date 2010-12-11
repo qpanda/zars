@@ -18,4 +18,7 @@
 		<converter-id>userBeanFormatter</converter-id>
 		<converter-class>net.soomsam.zirmegghuette.zars.web.converter.UserBeanFormatter</converter-class>
 	</converter>
+	<lifecycle>
+		<phase-listener>net.soomsam.zirmegghuette.zars.web.listener.LogMdcPhaseListener</phase-listener>
+	</lifecycle>
 </faces-config>

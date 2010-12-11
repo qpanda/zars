@@ -7,6 +7,10 @@ import javax.servlet.http.HttpSession;
 public class SessionUtils {
 	public static String determineSessionId() {
 		final FacesContext facesContext = FacesContext.getCurrentInstance();
+		return determineSessionId(facesContext);
+	}
+
+	public static String determineSessionId(final FacesContext facesContext) {
 		if (null == facesContext) {
 			return null;
 		}
@@ -18,7 +22,7 @@ public class SessionUtils {
 
 		final Object session = externalContext.getSession(false);
 		if (session instanceof HttpSession) {
-			final HttpSession httpSession = (HttpSession) session;
+			final HttpSession httpSession = (HttpSession)session;
 			return httpSession.getId();
 		}
 
