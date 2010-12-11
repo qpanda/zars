@@ -5,6 +5,9 @@
 	<packaging>war</packaging>
 	<name>zars</name>
 	<version>0.0.1</version>
+	<properties>
+		<zars.version>${version}</zars.version>
+	</properties>
 	<build>
 		<finalName>zars</finalName>
 		<plugins>
@@ -218,13 +221,23 @@
 				<version>1.0-alpha-2</version>
 				<executions>
 					<execution>
-						<id>write-instance-properties</id>
+						<id>write-build-properties</id>
 						<phase>prepare-package</phase>
 						<goals>
-							<goal>write-active-profile-properties</goal>
+							<goal>write-project-properties</goal>
 						</goals>
 						<configuration>
 							<outputFile>${project.build.directory}/${project.build.finalName}/build.properties</outputFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>write-zars-properties</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>write-project-properties</goal>
+						</goals>
+						<configuration>
+							<outputFile>${project.build.directory}/${project.build.finalName}/WEB-INF/classes/META-INF/spring/zars.properties</outputFile>
 						</configuration>
 					</execution>
 				</executions>
@@ -233,7 +246,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<classifier>${zars.env}-${version}</classifier>					
+					<classifier>${zars.env}-${zars.version}</classifier>					
 					<warSourceExcludes>net/**,META-INF/**,*Messages*.properties,log4j.xml</warSourceExcludes>
 					<webResources>
 						<resource>
