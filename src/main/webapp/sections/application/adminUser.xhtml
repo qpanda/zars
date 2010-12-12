@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html_basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf_core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd">
+	<div class="applicationDialog">
+		<h:form id="adminUser" styleClass="applicationForm">
+			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAdminUserDialogLabel}</div>
+			<div class="applicationFormItem">
+				<p:dataTable id="userTable" var="user" value="#{adminUserController.allUsers}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationUserNoUserMessage}">
+					<p:column sortBy="#{user.userId}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserUserIdLabel}" /></f:facet>
+						<h:outputText value="#{user.userId}" />
+					</p:column>
+					<p:column sortBy="#{user.username}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserUsernameLabel}" /></f:facet>
+						<h:outputText value="#{user.username}" />
+					</p:column>
+					<p:column sortBy="#{user.emailAddress}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserEmailAddressLabel}" /></f:facet>
+						<h:outputText value="#{user.emailAddress}" />
+					</p:column>
+					<p:column sortBy="#{user.enabled}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserStateLabel}" /></f:facet>
+						<h:outputText value="#{user.enabled ? displayMessages.sectionsApplicationUserStateEnabledLabel : displayMessages.sectionsApplicationUserStateDisabledLabel}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserRolesLabel}" /></f:facet>
+						<ui:repeat var="role" varStatus="roleIterator" value="#{user.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
+					</p:column>
+					<p:column>
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationActionLabel}" /></f:facet>
+						<h:link outcome="editUser" value="#{displayMessages.sectionsApplicationEditUserLink}" styleClass="applicationLink">
+							<f:param name="userId" value="#{user.userId}"/>
+						</h:link>
+						<h:outputText value="&#160;|&#160;" />
+						<h:link outcome="resetUser" value="#{displayMessages.sectionsApplicationResetUserLink}" styleClass="applicationLink">
+							<f:param name="userId" value="#{user.userId}"/>
+						</h:link>
+						<h:outputText value="&#160;|&#160;" />
+						<p:commandLink actionListener="#{adminUserController.onDisableUser}" value="#{displayMessages.sectionsApplicationDisableUserLink}" update="userTable" ajax="false" styleClass="applicationLink" rendered="#{user.enabled}">
+							<f:attribute name="#{adminUserController.commandLinkSelectedUserIdAttributeName}" value="#{user.userId}" />
+						</p:commandLink>
+						<p:commandLink actionListener="#{adminUserController.onEnableUser}" value="#{displayMessages.sectionsApplicationEnableUserLink}" update="userTable" ajax="false" styleClass="applicationLink" rendered="#{!user.enabled}">
+							<f:attribute name="#{adminUserController.commandLinkSelectedUserIdAttributeName}" value="#{user.userId}" />
+						</p:commandLink>
+					</p:column>				
+				</p:dataTable>
+			</div>
+			<div class="applicationFormItem">
+				<p:commandLink value="#{displayMessages.sectionsApplicationExportCurrentUsersLink}" styleClass="applicationLink" ajax="false">
+					<p:dataExporter type="xls" target="userTable" fileName="#{displayMessages.sectionsApplicationExportCurrentUsersFile}" pageOnly="true" excludeColumns="3,4,5"/>
+				</p:commandLink>
+				<h:outputText value="&#160;&#160;&#160;" />
+				<p:commandLink value="#{displayMessages.sectionsApplicationExportAllUsersLink}" styleClass="applicationLink" ajax="false">
+					<p:dataExporter type="xls" target="userTable" fileName="#{displayMessages.sectionsApplicationExportAllUsersFile}" excludeColumns="3,4,5"/>
+				</p:commandLink>
+			</div>
+		</h:form>
+	</div>  
+</ui:composition>

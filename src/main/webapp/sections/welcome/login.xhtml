@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html_basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf_core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd">
+	<div class="loginDialog">
+		<h:form id="loginForm" prependId="false" styleClass="loginForm">
+			<div class="loginFormTitle">#{displayMessages.sectionsWelcomeLoginDialogLabel}</div>
+			<div class="loginFormSubtitle">#{applicationInfoController.applicationInfo['zars.version']}</div>
+			<div class="loginFormItem">
+				<p:focus for="j_username"/>
+				<h:outputLabel for="j_username" styleClass="loginFormLabel" value="#{displayMessages.sectionsWelcomeLoginUsernameLabel}" /><br />
+				<h:inputText id="j_username" styleClass="loginFormInput" value="#{loginController.username}" tabindex="1"/>
+			</div>
+			<div class="loginFormItem">
+				<h:outputLabel for="j_password" styleClass="loginFormLabel" value="#{displayMessages.sectionsWelcomeLoginPasswordLabel}" /><br />
+				<h:inputSecret id="j_password" styleClass="loginFormInput" value="#{loginController.password}" tabindex="2" />
+			</div>
+			<div class="loginFormItem">
+				<h:commandButton id="login" type="submit" action="#{loginController.login}" styleClass="loginFormButton" value="#{displayMessages.sectionsWelcomeLoginLoginButton}" tabindex="3" />
+			</div>
+			<div class="loginFormHelp"><h:link outcome="help" value="#{displayMessages.sectionsWelcomeLoginHelp}"/> - <h:link outcome="terms" value="#{displayMessages.sectionsWelcomeLoginTerms}"/></div>			
+		</h:form>
+		<div class="loginFormMessage">
+			<p:messages />
+		</div>
+	</div>
+</ui:composition>

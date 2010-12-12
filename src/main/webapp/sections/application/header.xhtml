@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html_basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf_core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd
+						http://java.sun.com/jsp/jstl/core	../../WEB-INF/schema/jstl_c-1.2.xsd">
+	<div class="headerSection">
+		<div class="headerTitle">#{displayMessages.sectionsHeaderTitle}</div>
+		<div class="headerSubTitle">
+			<h:outputText value="#{securityController.currentUser}">
+				<f:converter converterId="userBeanFormatter"/>
+			</h:outputText>
+		</div>
+		<div class="headerMenu">
+			<h:form>
+				<p:menubar effect="NONE" effectDuration="0">
+					<p:submenu>
+						<f:facet name="label">
+							<p:menuitem value="#{displayMessages.sectionsApplicationHeaderLogoutMenuLabel}" url="/j_spring_security_logout"/>  
+						</f:facet>
+					</p:submenu>				
+					<p:submenu label="#{displayMessages.sectionsApplicationHeaderPreferencesMenuLabel}">
+						<p:menuitem value="#{displayMessages.sectionsApplicationHeaderChangePasswordMenuLabel}" url="/views/changePassword.jsf"/>
+						<p:menuitem value="#{displayMessages.sectionsApplicationHeaderChangePreferencesMenuLabel}" url="/views/changePreferences.jsf"/>
+					</p:submenu>
+				</p:menubar>
+			</h:form>			
+		</div>
+	</div>
+</ui:composition>

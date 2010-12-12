@@ -1,0 +1,415 @@
+body {
+	font-size: 10pt;
+	font-family: Helvetica, Arial, Verdana, Sans-Serif;
+	background-color: #fff;
+	color: #333;
+	text-align: left;
+	margin: 0;
+	padding: 0;
+	min-width: 950px; 
+}
+
+* html body {
+	border: 400px solid #fff;
+	border-width: 0 400px;
+}
+
+*html body .view {
+	margin: 0 -400px;
+	position: relative;
+	float: left;
+}
+
+h1, h2, h3, h4 {
+	font-family: Helvetica, Arial, Verdana, Sans-Serif;
+	font-weight: bold;
+}
+
+h1 {
+	font-size: 15pt;
+	padding-top: 15px;
+}
+
+h2 {
+	font-size: 10pt;
+	padding-top: 15px;
+}
+
+textarea:focus, input:focus {
+	background-color: #ffffcc;
+}
+
+.header {
+	padding: 0px;
+	margin: 0px;
+	width: 100%;
+	background-color: #fff;
+	position: relative;
+}
+
+.headerSection {
+	padding: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	background-color: #114070;
+}
+
+.headerTitle {
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-right: 10px;
+	padding-bottom: 2px;
+	font-weight: bold;
+	font-size: 18pt;
+	text-align: left;
+	letter-spacing: 1px;
+	color: #FFFFFF;
+}
+
+.headerSubTitle {
+	padding-left: 5px;
+	padding-top: 2px;
+	padding-right: 5px;
+	padding-bottom: 2px;
+	font-size: 9pt;
+	font-weight: bold;
+	text-align: right;
+	color: #FFFFFF;	
+	background-color: #3C78B5;
+}
+
+.headerMenu {
+	width: 100%;
+}
+
+.applicationPage {
+	background: #f0f0f0;
+	margin: 0;
+	padding: 0;
+}
+
+.applicationMenu {
+	margin: 0;
+	padding: 0;
+	float: left;
+	width: 200px;
+	background: #f0f0f0;
+}
+
+.applicationSection {
+	margin: 0 0 0 200px;
+    padding: 15px;
+	font-size: 10pt;
+	min-height: 650px;
+	height: auto !important; height: 650px;
+	background: white;
+}
+
+/* Hide from IE5-mac. Only IE-win sees this. \*/
+* html .applicationMenu {
+	margin-right: -3px;
+}
+* html .applicationSection {
+	margin-left: 187px;
+}
+/* End hide from IE5/mac */
+
+.content {
+	margin: 15px;
+}
+
+.loginDialog {
+	margin: 0 auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 150px;
+	align: center;
+	width: 375px;
+}
+
+.loginForm {
+	padding: 10px;
+	border: 3px solid #3C78B5;
+	background: #FAFAFA;
+}
+
+.loginFormTitle {
+	font-size: 14pt;
+	font-weight: bold;
+	color: #114070;
+	margin: 0px;
+	padding: 0px;
+	text-align: right;
+}
+
+.loginFormSubtitle {
+	font-size: 7pt;
+	color: #114070;
+	margin: 0px;
+	padding: 0px;
+	text-align: right;
+}
+
+.loginFormItem {
+	margin: 15px;
+	text-align: left;
+}
+
+.loginFormLabel {
+	margin: 2px;
+	color: #114070;
+	text-align: left;
+	font-weight: bold;
+}
+
+.loginFormInput {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #114070;
+	width: 95%;
+}
+
+.loginFormButton {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #114070;
+}
+
+.loginFormHelp {
+	font-size: 8pt;
+	margin: 0px;
+	padding: 0px;
+	text-align: right;
+	color: #114070;
+}
+
+.loginFormMessage {
+	margin: 15px 15px 15px 15px;
+	text-align: left;
+	color: red;
+}
+
+.applicationDialog {
+	width: 100%;
+}
+
+.applicationError {
+	padding: 0px;
+	border: 3px solid #990000;
+	background: #FAFAFA;
+}
+
+.applicationErrorTitle {
+	font-size: 12pt;
+	font-weight: bold;
+	color: #fff;
+	background: #990000;
+	margin: 0px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+.applicationErrorItem {
+	margin-left: 12px;
+	margin-right: 12px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	text-align: left;
+}
+
+.applicationForm {
+	padding: 0px;
+	border: 3px solid #3C78B5;
+	background: #FAFAFA;
+}
+
+.applicationFormTitle {
+	font-size: 12pt;
+	font-weight: bold;
+	color: #fff;
+	background: #3C78B5;
+	margin: 0px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+.applicationFormItem {
+	margin-left: 12px;
+	margin-right: 12px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	text-align: left;
+	overflow: hidden;
+}
+
+.applicationFormMessage {
+	font-weight: bold;
+	color: #86C533;
+}
+
+.applicationFormLabel {
+	margin: 2px;
+	color: #000000;
+	text-align: left;
+	font-weight: bold;
+}
+
+.applicationFormLabelOptional {
+	margin: 2px;
+	color: #000000;
+	text-align: left;
+}
+
+.applicationFormInput {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #000000;
+}
+
+.applicationFormValue {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #000000;
+	background-color: #D4D0C8;
+}
+
+.applicationFormValue:focus {
+	background-color: #D4D0C8;
+}
+
+.applicationFormSelection {
+	margin: 2px;
+	padding: 2px;
+}
+
+.applicationFormButton {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #000000;
+}
+
+.applicationFormSeparator {
+	margin-left: 12px;
+	margin-right: 12px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	border-bottom: 1px solid #3C78B5;
+}
+
+.applicationFormTable {
+}
+
+.applicationFormTableRow {
+}
+
+.applicationFormTableHeader {
+	text-align: right;
+	vertical-align: top;
+	white-space: nowrap;
+}
+
+.applicationFormTableData {
+	text-align: left;
+}
+
+.applicationFormDataTable {
+	border: 1px solid #ccc;
+	border-top: 0px;
+	border-spacing: 0px;
+	padding: 0px;
+	border-collapse: collapse;
+	text-align: left;
+	margin-top: 8px;
+}
+
+.applicationFormDataTableCaption {
+	text-align: left;
+	font-weight: bold;
+	padding-bottom: 2px;
+}
+		
+.applicationFormDataTableHeader {
+	background: #efefef;
+	border-top: #ccc solid 1px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 2px;
+	vertical-align: top;
+}
+
+.applicationFormDataTableData {
+	border-top: #ccc solid 1px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 2px;
+	vertical-align: top;
+	min-width: 150px;
+}
+
+.applicationLink:link {
+	color: #3C78B5;
+}
+
+.applicationLink:visited {
+	color: #3C78B5;
+}
+
+.footer {
+	background-color: #114070;
+	padding: 0px;
+	margin: 0;
+	width: 100%;
+	clear: both;
+	font-size: 9pt;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.footerText {
+	margin: 0;
+	padding: 0;
+	padding-right: 12px;
+	text-align: right;
+	color: #fff;
+}
+
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 11px !important;
+}
+
+.ui-menu {
+	background: #f0f0f0;
+	border: none;
+}
+
+.ui-menubar-item {
+	float: right;
+}
+
+.ui-menubar-item-label {
+	padding: 4px 12px;
+}
+
+.ui-corner-all {
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+}
+
+.ui-widget-header {
+	max-height: 20px;
+}
+
+.ui-menu .ui-menu-item .ui-menu-item-label {
+	padding: .2em 1em;
+}
+
+.ui-datatable-liner {
+	margin: 0;
+	padding: 0;
+	padding: 2px 4px 2px 4px;
+}

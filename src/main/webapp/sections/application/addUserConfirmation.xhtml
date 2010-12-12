@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html_basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf_core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd">
+	<div class="applicationDialog">
+		<div id="addUserConfirmation" class="applicationForm">
+			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAddUserConfirmationDialogLabel}</div>
+			<div class="applicationFormItem">
+				<div class="applicationFormMessage">#{displayMessages.sectionsApplicationAddUserConfirmationMessage}</div>
+			</div>
+			<div class="applicationFormItem">
+				<table class="applicationFormTable">
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserUserIdLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.savedUser.userId}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserUsernameLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.savedUser.username}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserEmailAddressLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.savedUser.emailAddress}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserFirstNameLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.savedUser.firstName}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserLastNameLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.savedUser.lastName}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserStateLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.savedUser.enabled ? displayMessages.sectionsApplicationUserStateEnabledLabel : displayMessages.sectionsApplicationUserStateDisabledLabel}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserRolesLabel}</th>
+						<td class="applicationFormTableData">
+							<ui:repeat var="role" varStatus="roleIterator" value="#{addUserController.savedUser.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="applicationFormSeparator"/>
+			<div class="applicationFormItem">						
+				<table class="applicationFormTable">
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserTimezonePreferenceLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.savedTimezonePreference.value}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserLocalePreferenceLabel}</th>
+						<td class="applicationFormTableData">#{addUserController.savedLocalePreference.value}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="applicationFormItem">
+				<h:link outcome="addUser" styleClass="applicationLink" value="#{displayMessages.sectionsApplicationAddAnotherUserLink}"/>
+				<h:outputText value="&#160;&#160;&#160;" />
+				<h:link outcome="adminUser" styleClass="applicationLink" value="#{displayMessages.sectionsApplicationAdminUserLink}"/>
+			</div>
+		</div>
+	</div>
+</ui:composition>

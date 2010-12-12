@@ -1,0 +1,1 @@
+<% response.sendRedirect("views/adminGroupReservation.jsf"); %>
