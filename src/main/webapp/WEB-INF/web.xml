@@ -50,6 +50,8 @@
 		<url-pattern>/*</url-pattern>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
 
 	<servlet>
@@ -72,10 +74,6 @@
 		<url-pattern>/primefaces_resource/*</url-pattern>
 	</servlet-mapping>
 	
-	<error-page>
-		<error-code>403</error-code>
-		<location>/views/accessDenied.jsf</location>
-	</error-page>
 	<error-page>
 		<error-code>500</error-code>
 		<location>/views/internalError.jsf</location>
