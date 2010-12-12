@@ -27,6 +27,8 @@
 		<security:intercept-url pattern="/views/resetUser.jsf" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/**" access="isAuthenticated()" />
 		
+		<security:access-denied-handler error-page="/views/accessDenied.jsf"/>
+		
 		<security:form-login login-page="/views/login.jsf" default-target-url="/views/adminGroupReservation.jsf" authentication-failure-url="/views/login.jsf"/>
 		<security:logout logout-success-url="/views/login.jsf"/>		
 	</security:http>
