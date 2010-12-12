@@ -4,7 +4,7 @@
 	<artifactId>zars</artifactId>
 	<packaging>war</packaging>
 	<name>zars</name>
-	<version>0.0.1</version>
+	<version>0.1.0</version>
 	<properties>
 		<zars.version>${version}</zars.version>
 	</properties>
