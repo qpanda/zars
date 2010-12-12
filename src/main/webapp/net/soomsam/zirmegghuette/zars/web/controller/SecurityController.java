@@ -33,4 +33,8 @@ public class SecurityController implements Serializable {
 	public boolean isCurrentUserAdmin() {
 		return SecurityUtils.hasRole(RoleType.ROLE_ADMIN);
 	}
+
+	public boolean isFullyAuthenticated() {
+		return SecurityUtils.isFullyAuthenticated();
+	}
 }
