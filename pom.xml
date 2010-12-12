@@ -221,7 +221,7 @@
 				<version>1.0-alpha-2</version>
 				<executions>
 					<execution>
-						<id>write-build-properties</id>
+						<id>write-app-properties</id>
 						<phase>prepare-package</phase>
 						<goals>
 							<goal>write-project-properties</goal>
