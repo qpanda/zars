@@ -8,18 +8,18 @@
 	<c:choose>
 		<c:when test="#{!securityController.fullyAuthenticated}">
 			<ui:decorate template="/templates/welcomeLayout.xhtml">
-				<ui:define name="windowTitle">#{displayMessages.viewsInternalErrorWindowTitle}</ui:define>
+				<ui:define name="windowTitle">#{displayMessages.viewsViewExpiredWindowTitle}</ui:define>
 				<ui:define name="header">
 					<ui:include src="/sections/welcome/header.xhtml"/>
 				</ui:define>
 				<ui:define name="content">
-					<ui:include src="/sections/welcome/internalError.xhtml"/>
+					<ui:include src="/sections/welcome/viewExpired.xhtml"/>
 				</ui:define>
 			</ui:decorate>
 		</c:when>
 		<c:otherwise>
 			<ui:decorate template="/templates/applicationLayout.xhtml">
-				<ui:define name="windowTitle">#{displayMessages.viewsInternalErrorWindowTitle}</ui:define>
+				<ui:define name="windowTitle">#{displayMessages.viewsViewExpiredWindowTitle}</ui:define>
 				<ui:define name="header">
 					<ui:include src="/sections/application/header.xhtml"/>
 				</ui:define>
@@ -27,7 +27,7 @@
 					<ui:include src="/sections/application/menu.xhtml"/>
 				</ui:define>
 				<ui:define name="applicationSection">
-					<ui:include src="/sections/application/internalError.xhtml"/>
+					<ui:include src="/sections/application/viewExpired.xhtml"/>
 				</ui:define>
 				<ui:define name="footer">
 					<ui:include src="/sections/application/footer.xhtml"/>

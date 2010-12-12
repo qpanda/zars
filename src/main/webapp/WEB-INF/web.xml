@@ -79,6 +79,10 @@
 		<location>/views/internalError.jsf</location>
 	</error-page>
 	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/views/viewExpired.jsf</location>	
+	</error-page>
+	<error-page>
 		<exception-type>java.lang.Throwable</exception-type>
 		<location>/views/internalError.jsf</location>
 	</error-page>
