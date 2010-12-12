@@ -243,6 +243,7 @@ textarea:focus, input:focus {
 	margin-top: 8px;
 	margin-bottom: 8px;
 	text-align: left;
+	overflow: hidden;
 }
 
 .applicationFormMessage {
