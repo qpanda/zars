@@ -4,20 +4,21 @@ PENDING FIXES/DECISIONS
 	o is security:intercept-url the correct approach to deny acess to admin pages for regular users?
 
 MUST-HAVE
+	o PDF export in addition to Excel export
+	o test multiple users/sessions
+		o test same user logged in multiple times
+		o test login with user a, do not logoff, login with user b
+		o test multiple users at the same time (same browser, different browser, different host)
+	o rename Leistungsberechtiger to Benutzer
+	o sorting of reservation table does not work
+	o error-page not working in tomcat
+	o mysql constraing parsing most likely broken with version on hyperion	
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o review all forms to check length of input strings
 	o username should not allow special characters
-	I annotate all service methods with @Secured
-	I scrollbar for oversized forms
-	I footer
-	o JVM options for Tomcat/AS
-		<jvmarg value="-Xms${effective.platform.jvm.Xms}"/>
-		<jvmarg value="-Xmx${effective.platform.jvm.Xmx}"/>
-		<jvmarg value="-Xloggc:${platform.logs.dir}/gc.log"/>
-		<jvmarg value="-XX:MaxPermSize=${effective.platform.jvm.XXMaxPermSize}"/>
-		<jvmarg value="-XX:ErrorFile=${platform.logs.dir}/hs_err_pid_%p.log"/>
-		<jvmarg value="-XX:+HeapDumpOnOutOfMemoryError"/>			
-		<jvmarg value="-XX:HeapDumpPath=${platform.logs.dir}"/>	
+	o annotate all service methods with @Secured
+	o scrollbar for oversized forms
+	o footer	
 	  
 SHOULD-HAVE
 	o use SSL for j_spring_security_check
