@@ -6,7 +6,7 @@
 	<name>zars</name>
 	<version>0.1.0</version>
 	<properties>
-		<zars.version>${version}</zars.version>
+		<zars.version>${project.version}</zars.version>
 	</properties>
 	<build>
 		<finalName>zars</finalName>
