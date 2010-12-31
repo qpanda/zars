@@ -253,7 +253,6 @@
 				<version>2.1.1</version>
 				<configuration>
 					<classifier>${zars.env}-${zars.version}</classifier>					
-					<warSourceExcludes>net/**,META-INF/**,*Messages*.properties,log4j.xml</warSourceExcludes>
 					<webResources>
 						<resource>
 							<directory>${basedir}/src/config/webapp/${zars.env}</directory>
