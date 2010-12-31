@@ -119,11 +119,11 @@ public class GroupReservationServiceTest {
 			Room room = allRoomIterator.next();
 			totalCapacity += room.getCapacity();
 
-			GroupReservationBean createdGroupReservationWithLessThanTotalCapacity = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().minusDays(3).plusMonths(i), new DateMidnight().minusDays(1).plusMonths(i), totalCapacity - 1, null);
+			GroupReservationBean createdGroupReservationWithLessThanTotalCapacity = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusMonths(i).minusDays(4), new DateMidnight().plusMonths(i).minusDays(1), totalCapacity - 1, null);
 			Assert.assertEquals(i, createdGroupReservationWithLessThanTotalCapacity.getRooms().size());
-			GroupReservationBean createdGroupReservationWithTotalCapacity = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().minusDays(1).plusMonths(i), new DateMidnight().plusDays(1).plusMonths(i), totalCapacity, null);
+			GroupReservationBean createdGroupReservationWithTotalCapacity = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusMonths(i).minusDays(1), new DateMidnight().plusMonths(i).plusDays(1), totalCapacity, null);
 			Assert.assertEquals(i, createdGroupReservationWithTotalCapacity.getRooms().size());
-			GroupReservationBean createdGroupReservationWithMoreThanTotalCapacity = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusDays(1).plusMonths(i), new DateMidnight().plusDays(3).plusMonths(i), totalCapacity + 1, null);
+			GroupReservationBean createdGroupReservationWithMoreThanTotalCapacity = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusMonths(i).plusDays(1), new DateMidnight().plusMonths(i).plusDays(4), totalCapacity + 1, null);
 			Assert.assertEquals(allRoomIterator.hasNext() ? (i + 1) : i, createdGroupReservationWithMoreThanTotalCapacity.getRooms().size());
 		}
 	}
