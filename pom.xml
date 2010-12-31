@@ -159,6 +159,7 @@
 				<version>6.1.26</version>
 				<configuration>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<classesDirectory>${basedir}/eclipse</classesDirectory>					
 					<webAppConfig>
 						<contextPath>/</contextPath>
 						<tempDirectory>${project.build.directory}/work</tempDirectory>
