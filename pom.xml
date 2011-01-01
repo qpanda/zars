@@ -25,7 +25,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.5</version>				
 				<configuration>
-					<junitArtifactName>org.junit:com.springsource.org.junit</junitArtifactName>
 					<includes>
 						<include>**/*Test.java</include>
 						<include>**/*TestCase.java</include>
@@ -78,13 +77,13 @@
 					</dependency>
 					<dependency>
 						<groupId>org.slf4j</groupId>
-						<artifactId>com.springsource.slf4j.log4j</artifactId>
+						<artifactId>slf4j-log4j12</artifactId>
 						<version>1.5.6</version>
 					</dependency>
 					<dependency>
-						<groupId>org.apache.commons</groupId>
-						<artifactId>com.springsource.org.apache.commons.logging</artifactId>
-						<version>1.0.4</version>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+						<version>1.1.1</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -111,8 +110,8 @@
 				<dependencies>
 					<dependency>
 						<groupId>org.hsqldb</groupId>
-						<artifactId>com.springsource.org.hsqldb</artifactId>
-						<version>1.8.0.9</version>
+						<artifactId>hsqldb</artifactId>
+						<version>1.8.0.10</version>
 					</dependency>
 				</dependencies>
 				<configuration>
@@ -324,16 +323,6 @@
 	</profiles>
 	<pluginRepositories>
 		<pluginRepository>
-			<id>com.springsource.repository.bundles.release</id>
-			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
-			<url>http://repository.springsource.com/maven/bundles/release</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>com.springsource.repository.bundles.external</id>
-			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
-			<url>http://repository.springsource.com/maven/bundles/external</url>
-		</pluginRepository>
-		<pluginRepository>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Maven Repository Group</name>
 			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
@@ -341,27 +330,6 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<repositories>
-		<repository>
-			<id>com.springsource.repository.bundles.release</id>
-			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
-			<url>http://repository.springsource.com/maven/bundles/release</url>
-		</repository>
-		<repository>
-			<id>com.springsource.repository.bundles.external</id>
-			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
-			<url>http://repository.springsource.com/maven/bundles/external</url>
-		</repository>
-		<repository>
-			<id>com.springsource.repository.libraries.release</id>
-			<name>SpringSource Enterprise Bundle Repository - SpringSource Library Releases</name>
-			<url>http://repository.springsource.com/maven/libraries/release</url>
-		</repository>
-		<repository>
-			<id>com.springsource.repository.libraries.external</id>
-			<name>SpringSource Enterprise Bundle Repository - External Library Releases</name>
-			<url>http://repository.springsource.com/maven/libraries/external
-			</url>
-		</repository>
 		<repository>
 			<id>maven2-repository.dev.java.net</id>
 			<name>Java.net Repository for Maven</name>
@@ -372,6 +340,12 @@
 			<id>prime-repo</id>
 			<name>Prime Technology Maven Repository</name>
 			<url>http://repository.prime.com.tr/</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
 			<layout>default</layout>
 		</repository>
 		<repository>
@@ -389,49 +363,102 @@
 				<checksumPolicy>fail</checksumPolicy>
 			</releases>
 		</repository>
-		<repository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Maven Repository Group</name>
-			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
-			<layout>default</layout>
-		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>com.springsource.slf4j.log4j</artifactId>
+			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.5.6</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>com.springsource.org.apache.commons.logging</artifactId>
-			<version>1.0.4</version>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>com.springsource.org.apache.commons.lang</artifactId>
-			<version>2.4.0</version>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.spring-library</artifactId>
-			<type>libd</type>
-			<version>3.0.1.RELEASE</version>
+			<artifactId>spring-core</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-asm</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>3.0.5.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>org.springframework.security.core</artifactId>
-			<version>3.0.3.RELEASE</version>
+			<artifactId>spring-security-core</artifactId>
+			<version>3.0.5.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>org.springframework.security.web</artifactId>
-			<version>3.0.3.RELEASE</version>
+			<artifactId>spring-security-web</artifactId>
+			<version>3.0.5.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>org.springframework.security.config</artifactId>
-			<version>3.0.3.RELEASE</version>
+			<artifactId>spring-security-config</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>3.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-aspects</artifactId>
+			<version>3.0.5.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -455,19 +482,19 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
-			<artifactId>com.springsource.org.hsqldb</artifactId>
-			<version>1.8.0.9</version>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.10</version>
 		</dependency>
 		<dependency>
-			<groupId>org.junit</groupId>
-			<artifactId>com.springsource.org.junit</artifactId>
-			<version>4.7.0</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.test</artifactId>
-			<version>3.0.1.RELEASE</version>
+			<artifactId>spring-test</artifactId>
+			<version>3.0.5.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -493,8 +520,13 @@
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>com.springsource.javax.servlet.jsp.jstl</artifactId>
-			<version>1.2.0</version>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -502,9 +534,9 @@
 			<version>1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.joda</groupId>
-			<artifactId>com.springsource.org.joda.time</artifactId>
-			<version>1.6.0</version>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>1.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.el</groupId>
