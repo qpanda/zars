@@ -1,0 +1,1 @@
+486		fixed problem with error-page not working in Tomcat by removing weld
