@@ -42,7 +42,7 @@
 				</div>
 			</p:panel>
 			<div class="applicationFormItem">
-				<p:dataTable id="groupReservationTable" var="groupReservation" value="#{adminGroupReservationController.groupReservations}" dynamic="true" lazy="true" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationGroupReservationNoGroupReservationMessage}">  
+				<p:dataTable id="groupReservationTable" var="groupReservation" value="#{adminGroupReservationController.groupReservations}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationGroupReservationNoGroupReservationMessage}">  
 					<p:column sortBy="#{groupReservation.groupReservationId}">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationGroupReservationIdLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.groupReservationId}" />

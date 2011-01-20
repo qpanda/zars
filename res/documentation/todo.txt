@@ -10,7 +10,6 @@ MUST-HAVE
 		o test login with user a, do not logoff, login with user b
 		o test multiple users at the same time (same browser, different browser, different host)
 	o rename Leistungsberechtiger to Benutzer
-	o sorting of reservation table does not work
 	o mysql constraing parsing most likely broken with version on hyperion	
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o review all forms to check length of input strings
