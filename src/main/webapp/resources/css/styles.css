@@ -385,3 +385,7 @@ textarea:focus, input:focus {
 .ui-widget-header {
 	overflow: hidden;	
 }
+
+.ui-menubar-item-label {
+	padding: 4px 12px;
+}
