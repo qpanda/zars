@@ -9,17 +9,6 @@ body {
 	min-width: 950px; 
 }
 
-* html body {
-	border: 400px solid #fff;
-	border-width: 0 400px;
-}
-
-*html body .view {
-	margin: 0 -400px;
-	position: relative;
-	float: left;
-}
-
 h1, h2, h3, h4 {
 	font-family: Helvetica, Arial, Verdana, Sans-Serif;
 	font-weight: bold;
@@ -104,15 +93,6 @@ textarea:focus, input:focus {
 	height: auto !important; height: 650px;
 	background: white;
 }
-
-/* Hide from IE5-mac. Only IE-win sees this. \*/
-* html .applicationMenu {
-	margin-right: -3px;
-}
-* html .applicationSection {
-	margin-left: 187px;
-}
-/* End hide from IE5/mac */
 
 .content {
 	margin: 15px;
@@ -390,22 +370,10 @@ textarea:focus, input:focus {
 	float: right;
 }
 
-.ui-menubar-item-label {
-	padding: 4px 12px;
-}
-
 .ui-corner-all {
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
 	border-radius: 0px;
-}
-
-.ui-widget-header {
-	max-height: 20px;
-}
-
-.ui-menu .ui-menu-item .ui-menu-item-label {
-	padding: .2em 1em;
 }
 
 .ui-datatable-liner {
