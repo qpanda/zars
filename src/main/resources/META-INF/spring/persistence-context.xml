@@ -16,6 +16,10 @@
 		<property name="jdbcUrl" value="${persistence.jdbc.url}"/>
 		<property name="user" value="${persistence.jdbc.username}"/>
 		<property name="password" value="${persistence.jdbc.password}"/>
+		<property name="idleConnectionTestPeriod" value="${persistence.c3p0.idleConnectionTestPeriod}"/>
+		<property name="maxConnectionAge" value="${persistence.c3p0.maxConnectionAge}"/>
+		<property name="maxIdleTimeExcessConnections" value="${persistence.c3p0.maxIdleTimeExcessConnections}"/>
+		<property name="testConnectionOnCheckin" value="${persistence.c3p0.testConnectionOnCheckin}"/>
 	</bean>
 	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
