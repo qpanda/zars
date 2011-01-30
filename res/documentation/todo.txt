@@ -7,13 +7,14 @@ MUST-HAVE
 		o test same user logged in multiple times
 		o test login with user a, do not logoff, login with user b
 		o test multiple users at the same time (same browser, different browser, different host)
-	o rename Leistungsberechtiger to Benutzer
 	o mysql constraing parsing most likely broken with version on hyperion	
+	o rename Leistungsberechtiger to Benutzer
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o review all forms to check length of input strings
 	o username should not allow special characters
 	o annotate all service methods with @Secured
 	o scrollbar for oversized forms
+	o jumping table in ie on admingroupreservation
 	o footer
 	o highlight calendar text as non-editable?	
 	  
