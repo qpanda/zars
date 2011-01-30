@@ -8,7 +8,7 @@
 		<h:form id="adminGroupReservation" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationGroupReservationScheduleDialogLabel}</div>
 			<div class="applicationFormItem">
-				<p:schedule id="groupReservationSchedule" value="#{groupReservationScheduleController.groupReservationScheduleModel}" editable="true" draggable="false" resizable="false" eventSelectListener="#{groupReservationScheduleController.onGroupReservationEventSelect}" locale="#{settingController.preferredLocale}" startWeekday="1" leftHeaderTemplate="today" rightHeaderTemplate="prev,next">
+				<p:schedule id="groupReservationSchedule" value="#{groupReservationScheduleController.groupReservationScheduleModel}" editable="true" draggable="false" resizable="false" eventSelectListener="#{groupReservationScheduleController.onGroupReservationEventSelect}" locale="#{settingController.preferredLocale}" startWeekday="1" styleClass="applicationFormSchedule" leftHeaderTemplate="today" rightHeaderTemplate="prev,next">
 					<p:scheduleEventDialog id="groupReservationScheduleEventDialog" header="#{displayMessages.sectionsApplicationViewDisplayedGroupReservationLabel}">
 						<f:subview id="emptyGroupReservationDialog" rendered="#{empty groupReservationScheduleController.selectedGroupReservation}">
 							<div class="applicationFormItem">

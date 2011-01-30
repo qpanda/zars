@@ -330,6 +330,10 @@ textarea:focus, input:focus {
 	min-width: 150px;
 }
 
+.applicationFormSchedule {
+	width: 500px;
+}
+
 .applicationLink:link {
 	color: #3C78B5;
 }
