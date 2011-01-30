@@ -3,7 +3,6 @@ PENDING FIXES/DECISIONS
 	o fix issue with export current table content and then export all table content fails
 
 MUST-HAVE
-	o PDF export in addition to Excel export
 	o test multiple users/sessions
 		o test same user logged in multiple times
 		o test login with user a, do not logoff, login with user b
