@@ -16,6 +16,7 @@ import javax.inject.Named;
 
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
+import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.PreferenceService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.PreferenceBean;
@@ -26,6 +27,7 @@ import net.soomsam.zirmegghuette.zars.web.utils.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
 
@@ -45,21 +47,27 @@ public class AddUserController implements Serializable {
 	@Inject
 	private transient SettingController settingController;
 
-	@NotEmpty(message = "{sectionsApplicationUserUsernameError}")
+	@NotEmpty(message = "{sectionsApplicationUserUsernameEmptyError}")
+	@Length(max = User.COLUMNLENGTH_USERNAME, message = "{sectionsApplicationUserUsernameLengthError}")
 	private String username;
 
-	@NotEmpty(message = "{sectionsApplicationUserPasswordError}")
+	@NotEmpty(message = "{sectionsApplicationUserPasswordEmptyError}")
+	@Length(max = User.COLUMNLENGTH_PASSWORD, message = "{sectionsApplicationUserPasswordLengthError}")
 	private String password;
 
-	@NotEmpty(message = "{sectionsApplicationUserPasswordError}")
+	@NotEmpty(message = "{sectionsApplicationUserPasswordEmptyError}")
+	@Length(max = User.COLUMNLENGTH_PASSWORD, message = "{sectionsApplicationUserPasswordLengthError}")
 	private String confirmPassword;
 
-	@NotEmpty(message = "{sectionsApplicationUserEmailAddressError}")
-	@Email(message = "{sectionsApplicationUserEmailAddressError}")
+	@NotEmpty(message = "{sectionsApplicationUserEmailAddressEmptyError}")
+	@Email(message = "{sectionsApplicationUserEmailAddressInvalidError}")
+	@Length(max = User.COLUMNLENGTH_EMAILADDRESS, message = "{sectionsApplicationUserEmailAddressLengthError}")
 	private String emailAddress;
 
+	@Length(max = User.COLUMNLENGTH_FIRSTNAME, message = "{sectionsApplicationUserFirstNameLengthError}")
 	private String firstName;
 
+	@Length(max = User.COLUMNLENGTH_LASTNAME, message = "{sectionsApplicationUserLastNameLengthError}")
 	private String lastName;
 
 	private List<RoleBean> availableRoles;
@@ -219,7 +227,7 @@ public class AddUserController implements Serializable {
 
 	public String create() {
 		if (!StringUtils.equals(password, confirmPassword)) {
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordError", FacesMessage.SEVERITY_ERROR, null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 			return null;
 		}

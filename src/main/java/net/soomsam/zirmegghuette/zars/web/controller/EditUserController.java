@@ -17,6 +17,7 @@ import javax.inject.Named;
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
+import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.PreferenceService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.PreferenceBean;
@@ -26,6 +27,7 @@ import net.soomsam.zirmegghuette.zars.web.utils.LocaleUtils;
 
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
 
@@ -49,15 +51,19 @@ public class EditUserController implements Serializable {
 
 	private Long userId;
 
-	@NotEmpty(message = "{sectionsApplicationUserUsernameError}")
+	@NotEmpty(message = "{sectionsApplicationUserUsernameEmptyError}")
+	@Length(max = User.COLUMNLENGTH_USERNAME, message = "{sectionsApplicationUserUsernameLengthError}")
 	private String username;
 
-	@NotEmpty(message = "{sectionsApplicationUserEmailAddressError}")
-	@Email(message = "{sectionsApplicationUserEmailAddressError}")
+	@NotEmpty(message = "{sectionsApplicationUserEmailAddressEmptyError}")
+	@Email(message = "{sectionsApplicationUserEmailAddressInvalidError}")
+	@Length(max = User.COLUMNLENGTH_EMAILADDRESS, message = "{sectionsApplicationUserEmailAddressLengthError}")
 	private String emailAddress;
 
+	@Length(max = User.COLUMNLENGTH_FIRSTNAME, message = "{sectionsApplicationUserFirstNameLengthError}")
 	private String firstName;
 
+	@Length(max = User.COLUMNLENGTH_LASTNAME, message = "{sectionsApplicationUserLastNameLengthError}")
 	private String lastName;
 
 	private List<RoleBean> availableRoles;

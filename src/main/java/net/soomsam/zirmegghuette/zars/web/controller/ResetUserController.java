@@ -9,11 +9,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
+import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
 
@@ -36,10 +38,12 @@ public class ResetUserController implements Serializable {
 
 	private String username;
 
-	@NotEmpty(message = "{sectionsApplicationUserPasswordError}")
+	@NotEmpty(message = "{sectionsApplicationUserPasswordEmptyError}")
+	@Length(max = User.COLUMNLENGTH_PASSWORD, message = "{sectionsApplicationUserPasswordLengthError}")
 	private String password;
 
-	@NotEmpty(message = "{sectionsApplicationUserPasswordError}")
+	@NotEmpty(message = "{sectionsApplicationUserPasswordEmptyError}")
+	@Length(max = User.COLUMNLENGTH_PASSWORD, message = "{sectionsApplicationUserPasswordLengthError}")
 	private String confirmPassword;
 
 	private UserBean savedUser;
@@ -119,7 +123,7 @@ public class ResetUserController implements Serializable {
 
 	public String reset() {
 		if (!StringUtils.equals(password, confirmPassword)) {
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordError", FacesMessage.SEVERITY_ERROR, null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 			return null;
 		}

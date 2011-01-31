@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
+import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
@@ -64,7 +65,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 	protected Long selectedBeneficiaryId;
 
-	@Length(min = 0, max = 512, message = "{sectionsApplicationGroupReservationCommentError}")
+	@Length(max = GroupReservation.COLUMNLENGTH_COMMENT, message = "{sectionsApplicationGroupReservationCommentLengthError}")
 	protected String comment;
 
 	protected Calendar arrivalCalendar;

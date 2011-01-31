@@ -7,10 +7,12 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
 
@@ -27,10 +29,12 @@ public class ChangePasswordController implements Serializable {
 	@Inject
 	private transient UserService userService;
 
-	@NotEmpty(message = "{sectionsApplicationUserPasswordError}")
+	@NotEmpty(message = "{sectionsApplicationUserPasswordEmptyError}")
+	@Length(max = User.COLUMNLENGTH_PASSWORD, message = "{sectionsApplicationUserPasswordLengthError}")
 	private String password;
 
-	@NotEmpty(message = "{sectionsApplicationUserPasswordError}")
+	@NotEmpty(message = "{sectionsApplicationUserPasswordEmptyError}")
+	@Length(max = User.COLUMNLENGTH_PASSWORD, message = "{sectionsApplicationUserPasswordLengthError}")
 	private String confirmPassword;
 
 	public String getPassword() {
@@ -51,7 +55,7 @@ public class ChangePasswordController implements Serializable {
 
 	public String update() {
 		if (!StringUtils.equals(password, confirmPassword)) {
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordError", FacesMessage.SEVERITY_ERROR, null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR, null);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 			return null;
 		}

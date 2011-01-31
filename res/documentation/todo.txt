@@ -10,7 +10,6 @@ MUST-HAVE
 	o mysql constraing parsing most likely broken with version on hyperion	
 	o rename Leistungsberechtiger to Benutzer
 	o complete add/edit/delete/overview group reservations (all TODOs)
-	o review all forms to check length of input strings
 	o username should not allow special characters
 	o annotate all service methods with @Secured
 	o scrollbar for oversized forms
