@@ -58,7 +58,7 @@ public class Room extends BaseEntity {
 	private String name;
 
 	@Min(value = 1)
-	@Column(name = Room.COLUMNNAME_CAPACITY, nullable = false, length = 256)
+	@Column(name = Room.COLUMNNAME_CAPACITY, nullable = false)
 	private long capacity;
 
 	@Min(value = 1)
