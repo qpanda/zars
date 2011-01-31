@@ -3,17 +3,17 @@ PENDING FIXES/DECISIONS
 	o fix issue with export current table content and then export all table content fails
 
 MUST-HAVE
+	o mysql constraing parsing most likely broken with version on hyperion	
 	o test multiple users/sessions
 		o test same user logged in multiple times
 		o test login with user a, do not logoff, login with user b
 		o test multiple users at the same time (same browser, different browser, different host)
-	o mysql constraing parsing most likely broken with version on hyperion	
-	o rename Leistungsberechtiger to Benutzer
 	o complete add/edit/delete/overview group reservations (all TODOs)
-	o username should not allow special characters
-	o annotate all service methods with @Secured
 	o footer
+	o rename Leistungsberechtiger to Benutzer
 	o help/about pages
+	o annotate all service methods with @Secured
+	o username should not allow special characters
 	  
 SHOULD-HAVE
 	o revise floating layout (use clearfix?)
