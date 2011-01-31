@@ -361,6 +361,14 @@ textarea:focus, input:focus {
 	color: #fff;
 }
 
+.footerLink:link {
+	color: white;
+}
+
+.footerLink:visited {
+	color: white;
+}
+
 .ui-widget, .ui-widget .ui-widget {
 	font-size: 11px !important;
 }

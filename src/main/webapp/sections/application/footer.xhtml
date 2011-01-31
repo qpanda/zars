@@ -4,5 +4,7 @@
 						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf_core-2.0.2.xsd
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd">
-	<div class="footerText">footer text</div>
+	<div class="footerText">
+		<h:outputText escape="false" value="#{displayMessages.sectionsApplicationFooterText}"/>
+	</div>
 </ui:composition>
