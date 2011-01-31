@@ -34,6 +34,10 @@ public class Preference extends BaseEntity {
 	public static final String COLUMNNAME_NAME = "name";
 	public static final String COLUMNNAME_VALUE = "value";
 	public static final String COLUMNNAME_TYPE = "type";
+	
+	public static final int COLUMNLENGTH_NAME = 128;
+	public static final int COLUMNLENGTH_VALUE = 256;
+	public static final int COLUMNLENGTH_TYPE = 256;
 
 	public static final String FINDPREFERENCE_QUERYNAME = "Preference.findPreference";
 	public static final String FINDPREFERENCE_QUERYSTRING = "from Preference preference where preference.user.userId = :userId and preference.name = :name";
@@ -50,15 +54,15 @@ public class Preference extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Preference.COLUMNNAME_NAME, nullable = false, length = 128)
+	@Column(name = Preference.COLUMNNAME_NAME, nullable = false, length = Preference.COLUMNLENGTH_NAME)
 	private String name;
 
-	@Column(name = Preference.COLUMNNAME_VALUE, nullable = true, length = 256)
+	@Column(name = Preference.COLUMNNAME_VALUE, nullable = true, length = Preference.COLUMNLENGTH_VALUE)
 	private String value;
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Preference.COLUMNNAME_TYPE, nullable = false, length = 256)
+	@Column(name = Preference.COLUMNNAME_TYPE, nullable = false, length = Preference.COLUMNLENGTH_TYPE)
 	private String type;
 
 	@NotNull

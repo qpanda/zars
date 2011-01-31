@@ -39,6 +39,8 @@ public class Room extends BaseEntity {
 	public static final String COLUMNNAME_PRECEDENCE = "precedence";
 	public static final String COLUMNNAME_INUSE = "in_use";
 
+	public static final int COLUMNLENGTH_NAME = 128;
+	
 	public static final String FINDROOM_INUSE_BYPRECEDENCE_QUERYNAME = "Room.findRoomInUseByPrecedence";
 	public static final String FINDROOM_INUSE_BYPRECEDENCE_QUERYSTRING = "from Room where inUse = :inUse order by precedence asc";
 
@@ -54,7 +56,7 @@ public class Room extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Room.COLUMNNAME_NAME, unique = true, nullable = false, length = 128)
+	@Column(name = Room.COLUMNNAME_NAME, unique = true, nullable = false, length = Room.COLUMNLENGTH_NAME)
 	private String name;
 
 	@Min(value = 1)

@@ -36,6 +36,8 @@ public class Invoice extends BaseEntity {
 	public static final String COLUMNNAME_STALE = "stale";
 	public static final String COLUMNNAME_PAYED = "payed";
 	public static final String COLUMNNAME_DOCUMENT = "document";
+	
+	public static final int COLUMNLENGTH_CURRENCY = 3;
 
 	@Id
 	@GeneratedValue
@@ -54,7 +56,7 @@ public class Invoice extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Invoice.COLUMNNAME_CURRENCY, nullable = false, length = 3)
+	@Column(name = Invoice.COLUMNNAME_CURRENCY, nullable = false, length = Invoice.COLUMNLENGTH_CURRENCY)
 	private String currency;
 
 	@Min(value = 0)

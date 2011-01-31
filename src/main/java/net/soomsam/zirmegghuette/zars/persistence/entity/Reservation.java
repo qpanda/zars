@@ -38,6 +38,9 @@ public class Reservation extends BaseEntity {
 	public static final String COLUMNNAME_GUESTFIRSTNAME = "guest_first_name";
 	public static final String COLUMNNAME_GUESTLASTNAME = "guest_last_name";
 
+	public static final int COLUMNLENGTH_GUESTFIRSTNAME = 256;
+	public static final int COLUMNLENGTH_GUESTLASTNAME = 256;
+	
 	@Id
 	@GeneratedValue
 	@Column(name = Reservation.COLUMNNAME_RESERVATIONID, unique = true, nullable = false)
@@ -64,12 +67,12 @@ public class Reservation extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Reservation.COLUMNNAME_GUESTFIRSTNAME, nullable = false, length = 256)
+	@Column(name = Reservation.COLUMNNAME_GUESTFIRSTNAME, nullable = false, length = Reservation.COLUMNLENGTH_GUESTFIRSTNAME)
 	private String firstName;
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Reservation.COLUMNNAME_GUESTLASTNAME, nullable = false, length = 256)
+	@Column(name = Reservation.COLUMNNAME_GUESTLASTNAME, nullable = false, length = Reservation.COLUMNLENGTH_GUESTLASTNAME)
 	private String lastName;
 
 	@NotNull

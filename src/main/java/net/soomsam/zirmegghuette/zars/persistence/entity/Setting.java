@@ -29,6 +29,10 @@ public class Setting extends BaseEntity {
 	public static final String COLUMNNAME_NAME = "name";
 	public static final String COLUMNNAME_VALUE = "value";
 	public static final String COLUMNNAME_TYPE = "type";
+	
+	public static final int COLUMNLENGTH_NAME = 128;
+	public static final int COLUMNLENGTH_VALUE = 256;
+	public static final int COLUMNLENGTH_TYPE = 256;
 
 	public static final String FINDSETTING_QUERYNAME = "Setting.findSetting";
 	public static final String FINDSETTING_QUERYSTRING = "from Setting where name = :name";
@@ -45,15 +49,15 @@ public class Setting extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Setting.COLUMNNAME_NAME, nullable = false, unique = true, length = 128)
+	@Column(name = Setting.COLUMNNAME_NAME, nullable = false, unique = true, length = Setting.COLUMNLENGTH_NAME)
 	private String name;
 
-	@Column(name = Setting.COLUMNNAME_VALUE, nullable = true, length = 256)
+	@Column(name = Setting.COLUMNNAME_VALUE, nullable = true, length = Setting.COLUMNLENGTH_VALUE)
 	private String value;
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Setting.COLUMNNAME_TYPE, nullable = false, length = 256)
+	@Column(name = Setting.COLUMNNAME_TYPE, nullable = false, length = Setting.COLUMNLENGTH_TYPE)
 	private String type;
 
 	protected Setting() {

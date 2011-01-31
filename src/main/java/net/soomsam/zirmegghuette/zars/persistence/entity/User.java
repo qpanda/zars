@@ -44,6 +44,12 @@ public class User extends BaseEntity {
 	public static final String COLUMNNAME_PASSWORD = "password";
 	public static final String COLUMNNAME_ENABLED = "active";
 	public static final String JOINTABLENAME_USER_ROLE = "zars_user_zars_role";
+	
+	public static final int COLUMNLENGTH_USERNAME = 128;
+	public static final int COLUMNLENGTH_PASSWORD = 256;
+	public static final int COLUMNLENGTH_EMAILADDRESS = 128;
+	public static final int COLUMNLENGTH_FIRSTNAME = 256;
+	public static final int COLUMNLENGTH_LASTNAME = 256;
 
 	public static final String FINDUSER_ROLEID_QUERYNAME = "User.findUserByRoleId";
 	public static final String FINDUSER_ROLEID_QUERYSTRING = "select user from User as user inner join user.roles as role where role.roleId = :roleId";
@@ -63,24 +69,24 @@ public class User extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = User.COLUMNNAME_USERNAME, unique = true, nullable = false, length = 128)
+	@Column(name = User.COLUMNNAME_USERNAME, unique = true, nullable = false, length = User.COLUMNLENGTH_USERNAME)
 	private String username;
 
 	@NotNull
 	@NotEmpty
-	@Column(name = User.COLUMNNAME_PASSWORD, nullable = false, length = 256)
+	@Column(name = User.COLUMNNAME_PASSWORD, nullable = false, length = User.COLUMNLENGTH_PASSWORD)
 	private String password;
 
 	@NotNull
 	@NotEmpty
 	@Email
-	@Column(name = User.COLUMNNAME_EMAILADDRESS, unique = true, nullable = false, length = 128)
+	@Column(name = User.COLUMNNAME_EMAILADDRESS, unique = true, nullable = false, length = User.COLUMNLENGTH_EMAILADDRESS)
 	private String emailAddress;
 
-	@Column(name = User.COLUMNNAME_FIRSTNAME, nullable = true, length = 256)
+	@Column(name = User.COLUMNNAME_FIRSTNAME, nullable = true, length = User.COLUMNLENGTH_FIRSTNAME)
 	private String firstName;
 
-	@Column(name = User.COLUMNNAME_LASTNAME, nullable = true, length = 256)
+	@Column(name = User.COLUMNNAME_LASTNAME, nullable = true, length = User.COLUMNLENGTH_LASTNAME)
 	private String lastName;
 
 	@Column(name = User.COLUMNNAME_ENABLED, nullable = false)

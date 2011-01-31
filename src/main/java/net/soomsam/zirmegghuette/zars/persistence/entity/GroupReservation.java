@@ -52,6 +52,8 @@ public class GroupReservation extends BaseEntity {
 	public static final String COLUMNNAME_BENEFICIARY_USERID = "beneficiary_user_id";
 	public static final String COLUMNNAME_ACCOUNTANT_USERID = "accountant_user_id";
 	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "zars_group_reservation_zars_room";
+	
+	public static final int COLUMNLENGTH_COMMENT = 512;
 
 	public static final String COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.countGroupReservationByClosedStartEndIntervalQuery";
 	public static final String COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "select count(groupReservation) from GroupReservation groupReservation where (:startDate <= groupReservation.arrival and groupReservation.arrival <= :endDate) or (:startDate <= groupReservation.departure and groupReservation.departure <= :endDate) or (groupReservation.arrival <= :startDate and :endDate <= groupReservation.departure)";
@@ -102,7 +104,7 @@ public class GroupReservation extends BaseEntity {
 	@Column(name = GroupReservation.COLUMNNAME_GUESTS, nullable = false)
 	private long guests;
 
-	@Column(name = GroupReservation.COLUMNNAME_COMMENT, nullable = true, length = 512)
+	@Column(name = GroupReservation.COLUMNNAME_COMMENT, nullable = true, length = GroupReservation.COLUMNLENGTH_COMMENT)
 	private String comment;
 
 	@NotNull

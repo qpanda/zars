@@ -33,6 +33,8 @@ public class Role extends BaseEntity {
 	public static final String COLUMNNAME_ROLEID = "role_id";
 	public static final String COLUMNNAME_ROLETIMESTAMP = "role_timestamp";
 	public static final String COLUMNNAME_NAME = "name";
+	
+	public static final int COLUMNLENGTH_NAME = 128;
 
 	public static final String FINDROLE_ID_QUERYNAME = "Role.findRoleById";
 	public static final String FINDROLE_ID_QUERYSTRING = "from Role where roleId in (:roleIdSet)";
@@ -52,7 +54,7 @@ public class Role extends BaseEntity {
 
 	@NotNull
 	@NotEmpty
-	@Column(name = Role.COLUMNNAME_NAME, unique = true, nullable = false, length = 128)
+	@Column(name = Role.COLUMNNAME_NAME, unique = true, nullable = false, length = Role.COLUMNLENGTH_NAME)
 	private String name;
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "roles")
