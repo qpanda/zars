@@ -17,6 +17,7 @@ MUST-HAVE
 	o jumping table in ie on admingroupreservation
 	o revise floating layout (use clearfix?)
 	o footer
+	o help/about pages
 	o highlight calendar text as non-editable?	
 	  
 SHOULD-HAVE
