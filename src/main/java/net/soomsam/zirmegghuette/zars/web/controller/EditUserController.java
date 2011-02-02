@@ -52,7 +52,7 @@ public class EditUserController implements Serializable {
 	private Long userId;
 
 	@NotEmpty(message = "{sectionsApplicationUserUsernameEmptyError}")
-	@Length(max = User.COLUMNLENGTH_USERNAME, message = "{sectionsApplicationUserUsernameLengthError}")
+	@Length(min = 3, max = User.COLUMNLENGTH_USERNAME, message = "{sectionsApplicationUserUsernameLengthError}")
 	private String username;
 
 	@NotEmpty(message = "{sectionsApplicationUserEmailAddressEmptyError}")

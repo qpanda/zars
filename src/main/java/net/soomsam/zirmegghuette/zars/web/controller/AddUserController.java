@@ -48,7 +48,7 @@ public class AddUserController implements Serializable {
 	private transient SettingController settingController;
 
 	@NotEmpty(message = "{sectionsApplicationUserUsernameEmptyError}")
-	@Length(max = User.COLUMNLENGTH_USERNAME, message = "{sectionsApplicationUserUsernameLengthError}")
+	@Length(min = 3, max = User.COLUMNLENGTH_USERNAME, message = "{sectionsApplicationUserUsernameLengthError}")
 	private String username;
 
 	@NotEmpty(message = "{sectionsApplicationUserPasswordEmptyError}")
