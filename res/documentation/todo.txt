@@ -6,7 +6,6 @@ MUST-HAVE
 	o mysql constraing parsing most likely broken with version on hyperion	
 	o test multiple users/sessions
 		o test same user logged in multiple times
-		o test login with user a, do not logoff, login with user b
 		o test multiple users at the same time (same browser, different browser, different host)
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o rename Leistungsberechtiger to Benutzer
