@@ -14,6 +14,10 @@ MUST-HAVE
 	o annotate all service methods with @Secured
 	  
 SHOULD-HAVE
+	o email notification
+	o display creation/update time and user who added/updated reservation
+	o pricing and other settings and an editor to modify those
+	o pre-calculate approximate amount during reservation
 	o revise floating layout (use clearfix?)
 	o highlight calendar text as non-editable?	
 	o scrollbar for oversized forms
@@ -23,10 +27,6 @@ SHOULD-HAVE
 	o EL expression in f:view should also default to request context if localeController.activeLocale is null
 	o check that user assigned to GroupReservation has role accountant
 	o mark Invoice and Report invalid if associated GroupReservation is changed
-	o email notification
-	o pre-calculate approximate amount during reservation
-	o display creation/update time and user who added/updated reservation
-	o pricing and other settings and an editor to modify those
 
 NICE-TO-HAVE
 	o generics based settings and preferences services and Dtos
