@@ -15,6 +15,7 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.persistence.entity.BaseEntity;
 import net.soomsam.zirmegghuette.zars.utils.Pagination;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityDao<Entity> {
@@ -32,7 +33,7 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	/**
 	 * the JDBC template used for all JDBC based database access
 	 */
-	// TODO @Autowired
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	/**
