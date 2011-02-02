@@ -20,9 +20,15 @@ public class SecurityController implements Serializable {
 
 	@Inject
 	protected transient UserService userService;
+	
+	private UserBean cachedUserBean;
 
-	public UserBean getCurrentUser() {
-		return userService.retrieveCurrentUser();
+	public synchronized UserBean getCurrentUser() {
+		if (null == cachedUserBean) {
+			cachedUserBean = userService.retrieveCurrentUser(); 
+		}
+		
+		return cachedUserBean; 
 	}
 
 	public long getCurrentUserId() {

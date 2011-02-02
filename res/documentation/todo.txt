@@ -13,7 +13,6 @@ MUST-HAVE
 	o help/about pages
 	o annotate all service methods with @Secured
 	o comment regarding individual bookings
-	o bug renaming own user
 	  
 SHOULD-HAVE
 	o revise floating layout (use clearfix?)
