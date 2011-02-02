@@ -54,7 +54,7 @@ public class LoginController implements Serializable {
 		this.password = password;
 	}
 	
-	public void checkAlreadyAuthenticated() throws ServletException, IOException {
+	public void checkAlreadyAuthenticated() throws IOException {
 		if (securityController.isFullyAuthenticated()) {
 			logger.debug("fully authenticated user detected, redirecting to default target URL");
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
