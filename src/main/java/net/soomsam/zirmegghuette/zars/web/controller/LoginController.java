@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,6 +28,9 @@ import com.sun.faces.util.MessageFactory;
 @Scope("request")
 public class LoginController implements Serializable {
 	private final static Logger logger = Logger.getLogger(LoginController.class);
+	
+	@Inject
+	private transient SecurityController securityController;
 
 	@NotEmpty(message = "{sectionsWelcomeLoginUsernameError}")
 	private String username;
@@ -48,6 +52,14 @@ public class LoginController implements Serializable {
 
 	public void setPassword(final String password) {
 		this.password = password;
+	}
+	
+	public void checkAlreadyAuthenticated() throws ServletException, IOException {
+		if (securityController.isFullyAuthenticated()) {
+			logger.debug("fully authenticated user detected, redirecting to default target URL");
+			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+			externalContext.redirect("/views/adminGroupReservation.jsf");
+		}
 	}
 
 	public String login() throws IOException, ServletException {
