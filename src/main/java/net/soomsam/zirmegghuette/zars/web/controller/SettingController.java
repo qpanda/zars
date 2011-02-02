@@ -28,12 +28,18 @@ public class SettingController implements Serializable {
 	private TimeZone preferredTimeZone;
 
 	private Locale preferredLocale;
+	
+	private ThreadLocal<SimpleDateFormat> preferredDateFormat;
+	
+	private ThreadLocal<SimpleDateFormat> preferredDateFormatTime;
 
 	public void resetPreferredTimeZone() {
 		preferredTimeZone = null;
+		preferredDateFormat = null;
+		preferredDateFormatTime = null;
 	}
 
-	public TimeZone getPreferredTimeZone() {
+	public synchronized TimeZone getPreferredTimeZone() {
 		if (null == preferredTimeZone) {
 			preferredTimeZone = determinePreferredTimeZone();
 			logger.debug("using preferred timezone [" + preferredTimeZone.getID() + "] rather than default timezone [" + TimeZone.getDefault().getID() + "]");
@@ -54,9 +60,11 @@ public class SettingController implements Serializable {
 
 	public void resetPreferredLocale() {
 		preferredLocale = null;
+		preferredDateFormat = null;
+		preferredDateFormatTime = null;
 	}
 
-	public Locale getPreferredLocale() {
+	public synchronized Locale getPreferredLocale() {
 		if (null == preferredLocale) {
 			preferredLocale = determinePreferredLocale();
 			logger.debug("using preferred locale [" + preferredLocale.getDisplayName() + "]");
@@ -75,31 +83,41 @@ public class SettingController implements Serializable {
 		return LocaleUtils.determineCurrentLocale();
 	}
 
-	public SimpleDateFormat getPreferredDateFormat() {
-		// TODO we should pre-create SimpleDataFormat objects
-		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getPreferredLocale());
-		simpleDateFormat.setTimeZone(getPreferredTimeZone());
-		return simpleDateFormat;
+	public synchronized SimpleDateFormat getPreferredDateFormat() {
+		if (null == preferredDateFormat) {
+			preferredDateFormat = new ThreadLocal<SimpleDateFormat>() {
+				@Override
+				protected synchronized SimpleDateFormat initialValue() {
+					SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getPreferredLocale());
+					simpleDateFormat.setTimeZone(getPreferredTimeZone());
+					return simpleDateFormat;
+				}				
+			};
+		}
+		
+		return preferredDateFormat.get();
 	}
 
 	public String getPreferredDateFormatPattern() {
-		// TODO we should pre-create patterns
-		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getPreferredLocale());
-		simpleDateFormat.setTimeZone(getPreferredTimeZone());
-		return simpleDateFormat.toPattern();
+		return getPreferredDateFormat().toPattern();
 	}
 
-	public SimpleDateFormat getPreferredDateTimeFormat() {
-		// TODO we should pre-create SimpleDataFormat objects
-		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, getPreferredLocale());
-		simpleDateFormat.setTimeZone(getPreferredTimeZone());
-		return simpleDateFormat;
+	public synchronized SimpleDateFormat getPreferredDateTimeFormat() {
+		if (null == preferredDateFormatTime) {
+			preferredDateFormatTime = new ThreadLocal<SimpleDateFormat>() {
+				@Override
+				protected synchronized SimpleDateFormat initialValue() {
+					SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, getPreferredLocale());
+					simpleDateFormat.setTimeZone(getPreferredTimeZone());
+					return simpleDateFormat;
+				}
+			};
+		}
+
+		return preferredDateFormatTime.get();
 	}
 
 	public String getPreferredDateTimeFormatPattern() {
-		// TODO we should pre-create patterns
-		SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, getPreferredLocale());
-		simpleDateFormat.setTimeZone(getPreferredTimeZone());
-		return simpleDateFormat.toPattern();
+		return getPreferredDateTimeFormat().toPattern();
 	}
 }
