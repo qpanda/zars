@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.Pattern;
 
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
@@ -53,6 +54,7 @@ public class EditUserController implements Serializable {
 
 	@NotEmpty(message = "{sectionsApplicationUserUsernameEmptyError}")
 	@Length(min = 3, max = User.COLUMNLENGTH_USERNAME, message = "{sectionsApplicationUserUsernameLengthError}")
+	@Pattern(regexp = "[\\p{L}\\p{N}]+[\\p{L}\\p{N}._-]*[\\p{L}\\p{N}]+", message = "{sectionsApplicationUserUsernameInvalidError}")
 	private String username;
 
 	@NotEmpty(message = "{sectionsApplicationUserEmailAddressEmptyError}")
