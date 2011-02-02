@@ -12,7 +12,6 @@ MUST-HAVE
 	o rename Leistungsberechtiger to Benutzer
 	o help/about pages
 	o annotate all service methods with @Secured
-	o comment regarding individual bookings
 	  
 SHOULD-HAVE
 	o revise floating layout (use clearfix?)

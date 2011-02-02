@@ -238,6 +238,15 @@ textarea:focus, input:focus {
 	font-weight: bold;
 }
 
+.applicationFormDescription {
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom: 2px;
+	color: #000000;
+	text-align: left;
+	font-style: italic;
+}
+
 .applicationFormLabelOptional {
 	margin: 2px;
 	color: #000000;
