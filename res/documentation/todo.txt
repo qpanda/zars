@@ -16,6 +16,7 @@ SHOULD-HAVE
 	o email notification
 	o display creation/update time and user who added/updated reservation
 	o pricing and other settings and an editor to modify those
+	o change menubar to menubutton(s) and commandbutton(s)?
 	o pre-calculate approximate amount during reservation
 	o revise floating layout (use clearfix?)
 	o highlight calendar text as non-editable?	
