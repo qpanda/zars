@@ -74,7 +74,6 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public long countAll() {
 		final Query countAllQuery = entityManager.createQuery("select count(x) from " + determineEntityClass().getName() + " as x");
 		return (Long) countAllQuery.getSingleResult();
