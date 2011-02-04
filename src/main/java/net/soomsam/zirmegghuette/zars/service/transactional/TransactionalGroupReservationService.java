@@ -8,6 +8,7 @@ import java.util.Set;
 import net.soomsam.zirmegghuette.zars.enums.OperationType;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
+import net.soomsam.zirmegghuette.zars.exception.GroupReservationNonconsecutiveException;
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.ReservationDao;
@@ -79,8 +80,8 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	@Override
-	@Transactional(rollbackFor = { GroupReservationConflictException.class, InsufficientPermissionException.class })
-	public GroupReservationBean createGroupReservation(final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException, InsufficientPermissionException {
+	@Transactional(rollbackFor = { GroupReservationConflictException.class, InsufficientPermissionException.class, GroupReservationNonconsecutiveException.class })
+	public GroupReservationBean createGroupReservation(final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException, InsufficientPermissionException, GroupReservationNonconsecutiveException {
 		if ((null == reservationVoSet) || (reservationVoSet.isEmpty())) {
 			throw new IllegalArgumentException("'reservationVoSet' must not be null or empty");
 		}
@@ -102,10 +103,13 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		final Set<Room> requiredRooms = determineRequiredRooms(guests);
 		final GroupReservation groupReservation = new GroupReservation(booked, beneficiary, accountant, reservationSet, comment);
 		groupReservation.associateRooms(requiredRooms);
+		groupReservation.autoSetArrivalDeparture();
+		groupReservation.autoSetGuests();
+		
+		assertConsecutiveArrivalDeparture(groupReservation);
 		groupReservationDao.persist(groupReservation);
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
 
-		// TODO assert no gaps (implementation should be on GroupReservation entity or here?)
 		// TODO required capacity fulfilled???
 		// TODO search for reports covering date range of newly added group reservation and mark them as stale
 	}
@@ -149,14 +153,14 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	@Override
-	@Transactional(rollbackFor = { GroupReservationConflictException.class, InsufficientPermissionException.class })
-	public GroupReservationBean updateGroupReservation(final long groupReservationId, final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException, InsufficientPermissionException {
+	@Transactional(rollbackFor = { GroupReservationConflictException.class, InsufficientPermissionException.class, GroupReservationNonconsecutiveException.class })
+	public GroupReservationBean updateGroupReservation(final long groupReservationId, final long beneficiaryId, final long accountantId, final Set<ReservationVo> reservationVoSet, final String comment) throws GroupReservationConflictException, InsufficientPermissionException, GroupReservationNonconsecutiveException {
 		if ((null == reservationVoSet) || (reservationVoSet.isEmpty())) {
 			throw new IllegalArgumentException("'reservationVoSet' must not be null or empty");
 		}
 
 		assertUpdateGroupReservationAllowed(groupReservationId, beneficiaryId);
-
+		
 		Set<Reservation> newReservationSet = new HashSet<Reservation>();
 		for (ReservationVo reservationVo : reservationVoSet) {
 			assertNonConflictingArrivalDepature(reservationVo.getArrival(), reservationVo.getDeparture(), groupReservationId);
@@ -183,14 +187,14 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		groupReservation.unassociateReservations(oldReservations);
 		reservationDao.removeAll(oldReservations);
 		groupReservation.associateReservations(newReservationSet);
-
 		groupReservation.autoSetArrivalDeparture();
 		groupReservation.autoSetGuests();
+		
+		assertConsecutiveArrivalDeparture(groupReservation);
 		groupReservationDao.persist(groupReservation);
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
 
 		// TODO required capacity fulfilled???
-		// TODO assert no gaps (implementation should be on GroupReservation entity or here?)
 		// TODO only admin should be allowed to update group reservation that had already been payed
 		// TODO search for reports covering new date range of group reservation and mark them as stale
 	}
@@ -321,5 +325,35 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && (groupReservationBeneficiaryId != currentUser.getUserId())) {
 			throw new InsufficientPermissionException("non admin users are not allowed to delete group reservations of other users", currentUser.getUserId(), groupReservationBeneficiaryId, OperationType.DELETE);
 		}
+	}
+	
+	protected void assertConsecutiveArrivalDeparture(GroupReservation groupReservation) throws GroupReservationNonconsecutiveException {
+		final DateMidnight groupReservationArrival = groupReservation.getArrival();
+		final DateMidnight groupReservationDeparture = groupReservation.getDeparture();
+		
+		final Set<Interval> reservationArrivalDepartureIntervalSet = new HashSet<Interval>();
+		for (Reservation reservation : groupReservation.getReservations()) {	
+			final Interval arrivalDepatureInterval = new Interval(reservation.getArrival(), reservation.getDeparture());
+			reservationArrivalDepartureIntervalSet.add(arrivalDepatureInterval);
+		}
+
+		DateMidnight currentDay = groupReservationArrival;
+		while (currentDay.isBefore(groupReservationDeparture)) {
+			if (!matchesWithArrivalDepatureIntervals(currentDay, reservationArrivalDepartureIntervalSet)) {
+				throw new GroupReservationNonconsecutiveException("the individual arrival and departure dates do not form a consecutive date range");
+			}
+			
+			currentDay = currentDay.plusDays(1);
+		}
+	}
+	
+	protected boolean matchesWithArrivalDepatureIntervals(final DateMidnight referenceDay, final Set<Interval> arrivalDepartureIntervalSet) {
+		for (Interval arrivalDepartureInterval : arrivalDepartureIntervalSet) {
+			if (arrivalDepartureInterval.contains(referenceDay)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
+import net.soomsam.zirmegghuette.zars.exception.GroupReservationNonconsecutiveException;
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
@@ -166,7 +167,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	}
 
 	@Override
-	protected String modifyGroupReservation(final Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException, InsufficientPermissionException {
+	protected String modifyGroupReservation(final Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException, InsufficientPermissionException, GroupReservationNonconsecutiveException {
 		logger.debug("updating group reservation with id [" + groupReservationId + "], beneficiaryId [" + selectedBeneficiaryId + "], accountantId [" + selectedAccountantId + "] and [" + determineReservationCount() + "] reservations");
 		savedGroupReservation = groupReservationService.updateGroupReservation(groupReservationId, selectedBeneficiaryId, selectedAccountantId, reservationVoSet, comment);
 		return "editGroupReservationConfirmation";

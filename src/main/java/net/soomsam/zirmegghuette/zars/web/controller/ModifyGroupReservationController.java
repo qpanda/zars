@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
+import net.soomsam.zirmegghuette.zars.exception.GroupReservationNonconsecutiveException;
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
@@ -441,6 +442,9 @@ public abstract class ModifyGroupReservationController implements Serializable {
 				final FacesMessage groupReservationConflictFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationConflictError", FacesMessage.SEVERITY_ERROR, conflictingGroupReservation.getGroupReservationId(), arrivalValue, departureValue, conflictingGroupReservation.getBeneficiary().getUsername());
 				FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
 			}
+		} catch (final GroupReservationNonconsecutiveException groupReservationNonconsecutiveException) {
+			final FacesMessage groupReservationNonconsecutiveFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationNonconsecutiveError", FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, groupReservationNonconsecutiveFacesMessage);
 		} catch (final InsufficientPermissionException insufficientPermissionException) {
 			final FacesMessage insufficientPermissionFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);
@@ -451,5 +455,5 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 	protected abstract String modifyGroupReservation() throws GroupReservationConflictException, InsufficientPermissionException;
 
-	protected abstract String modifyGroupReservation(Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException, InsufficientPermissionException;
+	protected abstract String modifyGroupReservation(Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException, InsufficientPermissionException, GroupReservationNonconsecutiveException;
 }

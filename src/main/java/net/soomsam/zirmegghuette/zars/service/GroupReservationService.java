@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
+import net.soomsam.zirmegghuette.zars.exception.GroupReservationNonconsecutiveException;
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
@@ -20,13 +21,13 @@ public interface GroupReservationService {
 	public GroupReservationBean createGroupReservation(long beneficiaryId, long accountantId, DateMidnight arrival, DateMidnight departure, long guests, String comment) throws GroupReservationConflictException, InsufficientPermissionException;
 
 	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-	public GroupReservationBean createGroupReservation(long beneficiaryId, long accountantId, Set<ReservationVo> reservationVoSet, String comment) throws GroupReservationConflictException, InsufficientPermissionException;
+	public GroupReservationBean createGroupReservation(long beneficiaryId, long accountantId, Set<ReservationVo> reservationVoSet, String comment) throws GroupReservationConflictException, InsufficientPermissionException, GroupReservationNonconsecutiveException;
 
 	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
 	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, DateMidnight arrival, DateMidnight departure, long guests, String comment) throws GroupReservationConflictException, InsufficientPermissionException;
 
 	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, Set<ReservationVo> reservationVoSet, String comment) throws GroupReservationConflictException, InsufficientPermissionException;
+	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, Set<ReservationVo> reservationVoSet, String comment) throws GroupReservationConflictException, InsufficientPermissionException, GroupReservationNonconsecutiveException;
 
 	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
 	public void deleteGroupReservation(long groupReservationId) throws InsufficientPermissionException;

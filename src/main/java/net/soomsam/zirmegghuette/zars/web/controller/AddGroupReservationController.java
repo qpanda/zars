@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
+import net.soomsam.zirmegghuette.zars.exception.GroupReservationNonconsecutiveException;
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
 import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
@@ -61,7 +62,7 @@ public class AddGroupReservationController extends ModifyGroupReservationControl
 	}
 
 	@Override
-	protected String modifyGroupReservation(final Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException, InsufficientPermissionException {
+	protected String modifyGroupReservation(final Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException, InsufficientPermissionException, GroupReservationNonconsecutiveException {
 		logger.debug("creating group reservation with beneficiaryId [" + selectedBeneficiaryId + "], accountantId [" + selectedAccountantId + "] and [" + determineReservationCount() + "] reservations");
 		savedGroupReservation = groupReservationService.createGroupReservation(selectedBeneficiaryId, selectedAccountantId, reservationVoSet, comment);
 		return "addGroupReservationConfirmation";
