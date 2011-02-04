@@ -1,8 +1,7 @@
 PENDING FIXES/DECISIONS
 	o non working delete link in calendar popup
 
-MUST-HAVE
-	o mysql constraing parsing most likely broken with version on hyperion	
+MUST-HAVE	
 	o test multiple users/sessions
 		o test multiple users at the same time (same browser, different browser, different host)
 	o complete add/edit/delete/overview group reservations (all TODOs)
