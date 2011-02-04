@@ -1,6 +1,5 @@
 PENDING FIXES/DECISIONS
 	o non working delete link in calendar popup
-	o fix issue with export current table content and then export all table content fails
 
 MUST-HAVE
 	o change individual reservation description (different start/end dates)
