@@ -49,10 +49,6 @@
 				</p:dataTable>
 			</div>
 			<div class="applicationFormItem">
-				<p:commandLink value="#{displayMessages.sectionsApplicationExportCurrentUsersLink}" styleClass="applicationLink" ajax="false">
-					<p:dataExporter type="xls" target="userTable" fileName="#{displayMessages.sectionsApplicationExportCurrentUsersFile}" pageOnly="true" excludeColumns="3,4,5"/>
-				</p:commandLink>
-				<h:outputText value="&#160;&#160;&#160;" />
 				<p:commandLink value="#{displayMessages.sectionsApplicationExportAllUsersLink}" styleClass="applicationLink" ajax="false">
 					<p:dataExporter type="xls" target="userTable" fileName="#{displayMessages.sectionsApplicationExportAllUsersFile}" excludeColumns="3,4,5"/>
 				</p:commandLink>
