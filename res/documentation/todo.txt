@@ -1,5 +1,6 @@
 PENDING FIXES/DECISIONS
 	o non working delete link in calendar popup
+	o google issues
 
 MUST-HAVE	
 	o test multiple users/sessions
