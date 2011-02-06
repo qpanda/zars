@@ -87,7 +87,7 @@ public class TransactionalPreferenceService implements PreferenceService {
 		}
 
 		try {
-			Class preferenceValueType = Class.forName(preference.getType());
+			Class<?> preferenceValueType = Class.forName(preference.getType());
 			Object preferenceValue = beanWrapper.convertIfNecessary(preference.getValue(), preferenceValueType);
 			return new PreferenceBean(preference.getPreferenceId(), preference.getPreferenceTimestamp(), PreferenceType.valueOf(preference.getName()), preferenceValue, preferenceValueType);
 		} catch (ClassNotFoundException classNotFoundException) {

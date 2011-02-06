@@ -23,6 +23,7 @@ import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
+@SuppressWarnings("serial")
 public class ResetUserController implements Serializable {
 	private final static Logger logger = Logger.getLogger(ResetUserController.class);
 

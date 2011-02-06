@@ -17,9 +17,9 @@ public class PreferenceBean extends BaseBean {
 
 	private final Object value;
 
-	private final Class type;
+	private final Class<?> type;
 
-	public PreferenceBean(final long preferenceId, final Date preferenceTimestamp, final PreferenceType preferenceType, final Class type) {
+	public PreferenceBean(final long preferenceId, final Date preferenceTimestamp, final PreferenceType preferenceType, final Class<?> type) {
 		super();
 		this.preferenceId = preferenceId;
 		this.preferenceTimestamp = preferenceTimestamp;
@@ -28,7 +28,7 @@ public class PreferenceBean extends BaseBean {
 		this.type = type;
 	}
 
-	public PreferenceBean(final long preferenceId, final Date preferenceTimestamp, final PreferenceType preferenceType, final Object value, final Class type) {
+	public PreferenceBean(final long preferenceId, final Date preferenceTimestamp, final PreferenceType preferenceType, final Object value, final Class<?> type) {
 		super();
 		this.preferenceId = preferenceId;
 		this.preferenceTimestamp = preferenceTimestamp;
@@ -53,7 +53,7 @@ public class PreferenceBean extends BaseBean {
 		return value;
 	}
 
-	public Class getType() {
+	public Class<?> getType() {
 		return type;
 	}
 

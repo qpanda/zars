@@ -25,6 +25,7 @@ import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
+@SuppressWarnings("serial")
 public class AdminGroupReservationController implements Serializable {
 	private enum BeneficiaryFilterOption {
 		ALL_BENEFICIARY, CURRENT_BENEFICIARY;

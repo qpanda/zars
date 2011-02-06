@@ -27,6 +27,7 @@ import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
+@SuppressWarnings("serial")
 public class GroupReservationScheduleController implements Serializable {
 	private final static Logger logger = Logger.getLogger(GroupReservationScheduleController.class);
 

@@ -36,6 +36,7 @@ import org.primefaces.component.calendar.Calendar;
 
 import com.sun.faces.util.MessageFactory;
 
+@SuppressWarnings("serial")
 public abstract class ModifyGroupReservationController implements Serializable {
 	protected final static String RESERVATIONARRIVAL_CALENDARCOMPONENT_IDPREFIX = "reservationArrival";
 	protected final static String RESERVATIONDEPARTURE_CALENDARCOMPONENT_IDPREFIX = "reservationDepature";

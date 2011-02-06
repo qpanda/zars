@@ -29,6 +29,7 @@ import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
+@SuppressWarnings("serial")
 public class EditGroupReservationController extends ModifyGroupReservationController {
 	private final static Logger logger = Logger.getLogger(EditGroupReservationController.class);
 

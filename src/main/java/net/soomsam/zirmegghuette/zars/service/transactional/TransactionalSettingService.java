@@ -69,7 +69,7 @@ public class TransactionalSettingService implements SettingService {
 		}
 
 		try {
-			Class settingValueType = Class.forName(setting.getType());
+			Class<?> settingValueType = Class.forName(setting.getType());
 			Object settingValue = beanWrapper.convertIfNecessary(setting.getValue(), settingValueType);
 			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), SettingType.valueOf(setting.getName()), settingValue, settingValueType);
 		} catch (ClassNotFoundException classNotFoundException) {

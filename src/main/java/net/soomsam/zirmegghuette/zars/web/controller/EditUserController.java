@@ -36,6 +36,7 @@ import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
+@SuppressWarnings("serial")
 public class EditUserController implements Serializable {
 	private final static Logger logger = Logger.getLogger(EditUserController.class);
 

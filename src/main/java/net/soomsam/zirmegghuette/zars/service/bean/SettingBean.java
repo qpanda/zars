@@ -17,9 +17,9 @@ public class SettingBean extends BaseBean {
 
 	private final Object value;
 
-	private final Class type;
+	private final Class<?> type;
 
-	public SettingBean(final long settingId, final Date settingTimestamp, final SettingType settingType, final Class type) {
+	public SettingBean(final long settingId, final Date settingTimestamp, final SettingType settingType, final Class<?> type) {
 		super();
 		this.settingId = settingId;
 		this.settingTimestamp = settingTimestamp;
@@ -28,7 +28,7 @@ public class SettingBean extends BaseBean {
 		this.type = type;
 	}
 
-	public SettingBean(final long settingId, final Date settingTimestamp, final SettingType settingType, final Object value, final Class type) {
+	public SettingBean(final long settingId, final Date settingTimestamp, final SettingType settingType, final Object value, final Class<?> type) {
 		super();
 		this.settingId = settingId;
 		this.settingTimestamp = settingTimestamp;
@@ -53,7 +53,7 @@ public class SettingBean extends BaseBean {
 		return value;
 	}
 
-	public Class getType() {
+	public Class<?> getType() {
 		return type;
 	}
 

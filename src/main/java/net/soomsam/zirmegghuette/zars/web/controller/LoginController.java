@@ -26,6 +26,7 @@ import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
+@SuppressWarnings("serial")
 public class LoginController implements Serializable {
 	private final static Logger logger = Logger.getLogger(LoginController.class);
 	

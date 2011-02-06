@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Scope;
 
 @Named
 @Scope("request")
+@SuppressWarnings("serial")
 public class ChangePreferencesController implements Serializable {
 	private final static Logger logger = Logger.getLogger(ChangePreferencesController.class);
 

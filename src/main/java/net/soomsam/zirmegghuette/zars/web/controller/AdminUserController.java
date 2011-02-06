@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Scope;
 
 @Named
 @Scope("request")
+@SuppressWarnings("serial")
 public class AdminUserController implements Serializable {
 	private final static Logger logger = Logger.getLogger(AdminUserController.class);
 

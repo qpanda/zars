@@ -2,6 +2,7 @@ package net.soomsam.zirmegghuette.zars.exception;
 
 import net.soomsam.zirmegghuette.zars.enums.OperationType;
 
+@SuppressWarnings("serial")
 public class InsufficientPermissionException extends BusinessException {
 	private final long userId;
 	private final Long objectId;

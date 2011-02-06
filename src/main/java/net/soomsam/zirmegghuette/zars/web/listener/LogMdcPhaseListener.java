@@ -11,6 +11,7 @@ import net.soomsam.zirmegghuette.zars.web.utils.SessionUtils;
 
 import org.apache.log4j.MDC;
 
+@SuppressWarnings("serial")
 public class LogMdcPhaseListener implements PhaseListener {
 	public static final String MDC_SESSION_ID = "SESSION_ID";
 	public static final String MDC_USERNAME = "USERNAME";

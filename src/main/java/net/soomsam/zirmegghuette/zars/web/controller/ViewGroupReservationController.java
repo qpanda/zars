@@ -18,6 +18,7 @@ import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
+@SuppressWarnings("serial")
 public class ViewGroupReservationController implements Serializable {
 	@Inject
 	protected transient GroupReservationService groupReservationService;

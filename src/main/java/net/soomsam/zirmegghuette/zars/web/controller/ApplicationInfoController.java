@@ -9,6 +9,7 @@ import javax.inject.Named;
 import net.soomsam.zirmegghuette.zars.service.bean.ApplicationInfoHolder;
 
 @Named
+@SuppressWarnings("serial")
 public class ApplicationInfoController implements Serializable {
 	@Inject
 	private transient ApplicationInfoHolder applicationInfoHolder;

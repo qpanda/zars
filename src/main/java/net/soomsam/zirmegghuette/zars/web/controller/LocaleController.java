@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Scope;
 
 @Named
 @Scope("session")
+@SuppressWarnings("serial")
 public class LocaleController implements Serializable {
 	private final static Logger logger = Logger.getLogger(LocaleController.class);
 

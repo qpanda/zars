@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Scope;
 
 @Named
 @Scope("session")
+@SuppressWarnings("serial")
 public class SecurityController implements Serializable {
 	@Inject
 	protected transient UserService userService;
