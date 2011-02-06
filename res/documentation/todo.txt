@@ -8,12 +8,12 @@ MUST-HAVE
 	o complete add/edit/delete/overview group reservations (all TODOs)
 	o rename Leistungsberechtiger to Benutzer
 	o help/about pages
-	o annotate all service methods with @Secured
 	  
 SHOULD-HAVE
 	o email notification
 	o display creation/update time and user who added/updated reservation
 	o pricing and other settings and an editor to modify those
+	o improve DB creation/startup check to allow securing all methods, move service implementations to DAO layer!
 	o change menubar to menubutton(s) and commandbutton(s)?
 	o pre-calculate approximate amount during reservation
 	o revise floating layout (use clearfix?)
