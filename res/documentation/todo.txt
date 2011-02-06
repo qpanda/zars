@@ -1,16 +1,16 @@
 PENDING FIXES/DECISIONS
 	o non working delete link in calendar popup
-	o google chrome issues
 
 MUST-HAVE
-	o test multiple users/sessions
-		o test multiple users at the same time (same browser, different browser, different host)
-	o complete add/edit/delete/overview group reservations (all TODOs)
+	o test multiple users at the same time (same browser, different browser, different host)
 	o rename Leistungsberechtiger to Benutzer
 	o help/about pages
 	  
 SHOULD-HAVE
+	o unit tests not correctly re-compiled in eclipse, requires maven run
+	o target/zars/WEB-INF/classes/META-INF/spring/zars.properties not overwritten
 	o email notification
+	o ie and google chrome issues
 	o display creation/update time and user who added/updated reservation
 	o pricing and other settings and an editor to modify those
 	o improve DB creation/startup check to allow securing all methods, move service implementations to DAO layer!
