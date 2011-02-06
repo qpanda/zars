@@ -9,7 +9,6 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -21,8 +20,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring/core-context.xml" })
 public class ServiceBeanMapperTest {
-	private final static Logger logger = Logger.getLogger(ServiceBeanMapperTest.class);
-
 	@Autowired
 	private ServiceBeanMapper serviceBeanMapper;
 

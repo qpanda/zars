@@ -20,7 +20,6 @@ import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
 import org.junit.After;
 import org.junit.Before;
@@ -41,8 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @TransactionConfiguration(transactionManager = "jpaTransactionManager")
 public class GroupReservationServiceTest {
-	private final static Logger logger = Logger.getLogger(GroupReservationServiceTest.class);
-
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -91,8 +88,8 @@ public class GroupReservationServiceTest {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
-		GroupReservationBean createdExistingGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight(), new DateMidnight().plusDays(3), 3, null);
-		GroupReservationBean createdConflictingGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusDays(1), new DateMidnight().plusDays(5), 3, null);
+		groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight(), new DateMidnight().plusDays(3), 3, null);
+		groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusDays(1), new DateMidnight().plusDays(5), 3, null);
 	}
 
 	@Test
@@ -100,8 +97,8 @@ public class GroupReservationServiceTest {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
-		GroupReservationBean createdGroupReservation01 = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight(), new DateMidnight().plusDays(3), 3, null);
-		GroupReservationBean createdGroupReservation02 = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusDays(3), new DateMidnight().plusDays(5), 3, null);
+		groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight(), new DateMidnight().plusDays(3), 3, null);
+		groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusDays(3), new DateMidnight().plusDays(5), 3, null);
 	}
 
 	@Test
@@ -207,7 +204,7 @@ public class GroupReservationServiceTest {
 		departureSet.add(departure02);
 
 		Set<ReservationVo> reservationVoSet = createReservationVoSet(arrivalSet, departureSet);
-		GroupReservationBean createdGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), reservationVoSet, null);
+		groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), reservationVoSet, null);
 	}
 	
 	@Test(expected = GroupReservationNonconsecutiveException.class)
@@ -233,8 +230,7 @@ public class GroupReservationServiceTest {
 		departureSet.add(departure02);
 
 		Set<ReservationVo> reservationVoSet = createReservationVoSet(arrivalSet, departureSet);
-		String comment = null;
-		GroupReservationBean createdGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), reservationVoSet, comment);
+		groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), reservationVoSet, null);
 	}
 
 	@Test
@@ -326,7 +322,7 @@ public class GroupReservationServiceTest {
 		departureSet.add(departure01);
 		
 		Set<ReservationVo> reservationVoSet = createReservationVoSet(arrivalSet, departureSet);
-		GroupReservationBean updatedGroupReservation = groupReservationService.updateGroupReservation(createdGroupReservation.getGroupReservationId(), createdUser.getUserId(), createdUser.getUserId(), reservationVoSet, null);
+		groupReservationService.updateGroupReservation(createdGroupReservation.getGroupReservationId(), createdUser.getUserId(), createdUser.getUserId(), reservationVoSet, null);
 	}
 
 	@Test
@@ -379,9 +375,10 @@ public class GroupReservationServiceTest {
 		List<RoleBean> allRoles = userService.findAllRoles();
 		Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
-		GroupReservationBean createdFirstGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight(), new DateMidnight().plusDays(3), 3, null);
+		
+		groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight(), new DateMidnight().plusDays(3), 3, null);
 		GroupReservationBean createdSecondGroupReservation = groupReservationService.createGroupReservation(createdUser.getUserId(), createdUser.getUserId(), new DateMidnight().plusDays(4), new DateMidnight().plusDays(6), 3, null);
-		GroupReservationBean updatedGroupReservation = groupReservationService.updateGroupReservation(createdSecondGroupReservation.getGroupReservationId(), createdUser.getUserId(), createdUser.getUserId(), new DateMidnight(), new DateMidnight().plusDays(3), 3, null);
+		groupReservationService.updateGroupReservation(createdSecondGroupReservation.getGroupReservationId(), createdUser.getUserId(), createdUser.getUserId(), new DateMidnight(), new DateMidnight().plusDays(3), 3, null);
 	}
 
 	@Test

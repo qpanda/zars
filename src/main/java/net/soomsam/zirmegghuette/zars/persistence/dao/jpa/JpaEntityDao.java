@@ -1,7 +1,6 @@
 package net.soomsam.zirmegghuette.zars.persistence.dao.jpa;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +8,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
@@ -52,25 +52,21 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public List<Entity> findAll() {
-		final Query findAllQuery = entityManager.createQuery("select x from " + determineEntityClass().getName() + " as x");
-		final List<Entity> allEntityList = Collections.checkedList(findAllQuery.getResultList(), determineEntityClass());
-		return allEntityList;
+		final TypedQuery<Entity> findAllTypedQuery = entityManager.createQuery("select x from " + determineEntityClass().getName() + " as x", determineEntityClass());
+		return findAllTypedQuery.getResultList();
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public List<Entity> findAll(final Pagination pagination) {
 		if (null == pagination) {
 			throw new IllegalArgumentException("'pagination' must not be null");
 		}
 
-		final Query findAllQuery = entityManager.createQuery("select x from " + determineEntityClass().getName() + " as x");
-		findAllQuery.setFirstResult(pagination.getFirstResult());
-		findAllQuery.setMaxResults(pagination.getMaxResults());
-		final List<Entity> allEntityList = Collections.checkedList(findAllQuery.getResultList(), determineEntityClass());
-		return allEntityList;
+		final TypedQuery<Entity> findAllTypedQuery = entityManager.createQuery("select x from " + determineEntityClass().getName() + " as x", determineEntityClass());
+		findAllTypedQuery.setFirstResult(pagination.getFirstResult());
+		findAllTypedQuery.setMaxResults(pagination.getMaxResults());
+		return findAllTypedQuery.getResultList();
 	}
 
 	@Override
@@ -139,6 +135,23 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 		namedQuery.setMaxResults(QUERY_MAXRESULTS);
 		return namedQuery;
 	}
+	
+	/**
+	 * creates a {@link TypedQuery} object for the named query
+	 * 
+	 * @param queryName
+	 *            the name of the query to create a query object for
+	 * @return the {@link TypedQuery} object created on behalf of the named query
+	 */
+	protected TypedQuery<Entity> createNamedTypedQuery(final String queryName) {
+		if (null == queryName) {
+			throw new IllegalArgumentException("'queryName' must not be null");
+		}
+
+		TypedQuery<Entity> namedTypedQuery = entityManager.createNamedQuery(queryName, determineEntityClass());
+		namedTypedQuery.setMaxResults(QUERY_MAXRESULTS);
+		return namedTypedQuery;
+	}
 
 	/**
 	 * dynamically creates a query from the JPQL string provided
@@ -155,5 +168,22 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 		Query query = entityManager.createQuery(jpQueryString);
 		query.setMaxResults(QUERY_MAXRESULTS);
 		return query;
+	}
+	
+	/**
+	 * dynamically creates a typed query from the JPQL string provided
+	 * 
+	 * @param jpQueryString
+	 *            the JPQL string to create the query from
+	 * @return the {@link TypedQuery} object created on behalf of the JPQL string
+	 */
+	protected TypedQuery<Entity> createTypedQuery(final String jpQueryString) {
+		if (null == jpQueryString) {
+			throw new IllegalArgumentException("'jpQueryString' must not be null");
+		}
+
+		TypedQuery<Entity> typedQuery = entityManager.createQuery(jpQueryString, determineEntityClass());
+		typedQuery.setMaxResults(QUERY_MAXRESULTS);
+		return typedQuery;
 	}
 }

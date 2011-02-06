@@ -1,7 +1,7 @@
 package net.soomsam.zirmegghuette.zars.persistence.dao.jpa;
 
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import net.soomsam.zirmegghuette.zars.enums.SettingType;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
@@ -27,11 +27,11 @@ public class JpaSettingDao extends JpaEntityDao<Setting> implements SettingDao {
 			throw new IllegalArgumentException("'settingType' must not be null");
 		}
 
-		final Query findSettingQuery = createNamedQuery(Setting.FINDSETTING_QUERYNAME);
-		findSettingQuery.setParameter("name", settingType.getSettingName());
+		final TypedQuery<Setting> findSettingTypedQuery = createNamedTypedQuery(Setting.FINDSETTING_QUERYNAME);
+		findSettingTypedQuery.setParameter("name", settingType.getSettingName());
 
 		try {
-			return (Setting)findSettingQuery.getSingleResult();
+			return findSettingTypedQuery.getSingleResult();
 		} catch (NoResultException noResultException) {
 			return null;
 		}

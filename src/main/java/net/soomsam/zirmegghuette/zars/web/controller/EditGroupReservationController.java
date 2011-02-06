@@ -50,7 +50,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 
 	public String getInvalidGroupReservationIdMessage() {
 		Locale preferredLocale = settingController.getPreferredLocale();
-		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null).getSummary();
+		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[])null).getSummary();
 	}
 
 	public void retrieveGroupReservation() {
@@ -65,7 +65,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 
 		if (null == this.groupReservationId) {
 			this.validNavigation = false;
-			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null);
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[])null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
 			return;
 		}
@@ -82,7 +82,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 
 			if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && selectedBeneficiaryId != securityController.getCurrentUserId()) {
 				this.validNavigation = false;
-				final FacesMessage modificationNotAllowedFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR, null);
+				final FacesMessage modificationNotAllowedFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR, (Object[])null);
 				FacesContext.getCurrentInstance().addMessage(null, modificationNotAllowedFacesMessage);
 			}
 
@@ -92,7 +92,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 			}
 		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
-			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, null);
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[])null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
 		}
 	}

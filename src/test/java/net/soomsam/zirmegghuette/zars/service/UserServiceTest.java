@@ -15,7 +15,6 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,8 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @TransactionConfiguration(transactionManager = "jpaTransactionManager")
 public class UserServiceTest {
-	private final static Logger logger = Logger.getLogger(UserServiceTest.class);
-
 	@Autowired
 	private AuthenticationManager authenticationManager;
 

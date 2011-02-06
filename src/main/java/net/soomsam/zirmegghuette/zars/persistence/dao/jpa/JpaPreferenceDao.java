@@ -1,7 +1,7 @@
 package net.soomsam.zirmegghuette.zars.persistence.dao.jpa;
 
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
@@ -33,12 +33,12 @@ public class JpaPreferenceDao extends JpaEntityDao<Preference> implements Prefer
 			throw new IllegalArgumentException("'preferenceType' must not be null");
 		}
 
-		final Query findPreferenceQuery = createNamedQuery(Preference.FINDPREFERENCE_QUERYNAME);
-		findPreferenceQuery.setParameter("userId", userId);
-		findPreferenceQuery.setParameter("name", preferenceType.getPreferenceName());
+		final TypedQuery<Preference> findPreferenceTypedQuery = createNamedTypedQuery(Preference.FINDPREFERENCE_QUERYNAME);
+		findPreferenceTypedQuery.setParameter("userId", userId);
+		findPreferenceTypedQuery.setParameter("name", preferenceType.getPreferenceName());
 
 		try {
-			return (Preference)findPreferenceQuery.getSingleResult();
+			return findPreferenceTypedQuery.getSingleResult();
 		} catch (NoResultException noResultException) {
 			return null;
 		}

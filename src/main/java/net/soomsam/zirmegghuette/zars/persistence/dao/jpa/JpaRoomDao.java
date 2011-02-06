@@ -3,7 +3,7 @@ package net.soomsam.zirmegghuette.zars.persistence.dao.jpa;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import net.soomsam.zirmegghuette.zars.persistence.dao.OperationNotSupportedException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
@@ -30,8 +30,8 @@ public class JpaRoomDao extends JpaEntityDao<Room> implements RoomDao {
 
 	@Override
 	public List<Room> findByPrecedence(boolean inUse) {
-		final Query findRoomInUseByPrecedenceQuery = createNamedQuery(Room.FINDROOM_INUSE_BYPRECEDENCE_QUERYNAME);
-		findRoomInUseByPrecedenceQuery.setParameter("inUse", inUse);
-		return findRoomInUseByPrecedenceQuery.getResultList();
+		final TypedQuery<Room> findRoomInUseByPrecedenceTypedQuery = createNamedTypedQuery(Room.FINDROOM_INUSE_BYPRECEDENCE_QUERYNAME);
+		findRoomInUseByPrecedenceTypedQuery.setParameter("inUse", inUse);
+		return findRoomInUseByPrecedenceTypedQuery.getResultList();
 	}
 }

@@ -12,7 +12,6 @@ import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.utils.NoAuthenticationException;
 import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
 
-import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,8 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @TransactionConfiguration(transactionManager = "jpaTransactionManager")
 public class ServiceSecurityTest {
-	private final static Logger logger = Logger.getLogger(ServiceSecurityTest.class);
-
 	@Autowired
 	private AuthenticationManager authenticationManager;
 

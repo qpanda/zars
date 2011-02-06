@@ -4,7 +4,6 @@ import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.enums.SettingType;
 import net.soomsam.zirmegghuette.zars.service.bean.SettingBean;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @TransactionConfiguration(transactionManager = "jpaTransactionManager")
 public class SettingServiceTest {
-	private final static Logger logger = Logger.getLogger(SettingServiceTest.class);
-
 	@Autowired
 	private SettingService settingService;
 

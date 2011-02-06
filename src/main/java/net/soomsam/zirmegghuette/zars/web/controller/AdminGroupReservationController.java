@@ -94,7 +94,7 @@ public class AdminGroupReservationController implements Serializable {
 		}
 
 		if (FacesContext.getCurrentInstance().isValidationFailed()) {
-			final FacesMessage invalidFilterSettingsFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationFilterSettingWarning", FacesMessage.SEVERITY_WARN, null);
+			final FacesMessage invalidFilterSettingsFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationFilterSettingWarning", FacesMessage.SEVERITY_WARN, (Object[])null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidFilterSettingsFacesMessage);
 		}
 	}

@@ -5,7 +5,7 @@ import java.util.Set;
 
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
@@ -63,9 +63,9 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 
 	@Override
 	public List<User> findByRoleId(final long roleId) {
-		final Query findUserByRoleIdQuery = createNamedQuery(User.FINDUSER_ROLEID_QUERYNAME);
-		findUserByRoleIdQuery.setParameter("roleId", roleId);
-		return findUserByRoleIdQuery.getResultList();
+		final TypedQuery<User> findUserByRoleIdTypedQuery = createNamedTypedQuery(User.FINDUSER_ROLEID_QUERYNAME);
+		findUserByRoleIdTypedQuery.setParameter("roleId", roleId);
+		return findUserByRoleIdTypedQuery.getResultList();
 	}
 
 	@Override
@@ -74,11 +74,11 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 			throw new IllegalArgumentException("'username' must not be null");
 		}
 
-		final Query findUserByUsernameQuery = createNamedQuery(User.FINDUSER_USERNAME_QUERYNAME);
-		findUserByUsernameQuery.setParameter("username", username);
+		final TypedQuery<User> findUserByUsernameTypedQuery = createNamedTypedQuery(User.FINDUSER_USERNAME_QUERYNAME);
+		findUserByUsernameTypedQuery.setParameter("username", username);
 
 		try {
-			return (User) findUserByUsernameQuery.getSingleResult();
+			return findUserByUsernameTypedQuery.getSingleResult();
 		} catch (NoResultException noResultException) {
 			throw new EntityNotFoundException("user with username [" + username + "] not found", noResultException);
 		}

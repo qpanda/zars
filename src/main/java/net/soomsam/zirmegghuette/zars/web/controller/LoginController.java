@@ -87,7 +87,7 @@ public class LoginController implements Serializable {
 			}
 
 			sessionMap.remove(WebAttributes.AUTHENTICATION_EXCEPTION);
-			final FacesMessage authenticationFailedFacesMessage = MessageFactory.getMessage("sectionsWelcomeLoginAuthenticationError", FacesMessage.SEVERITY_ERROR, null);
+			final FacesMessage authenticationFailedFacesMessage = MessageFactory.getMessage("sectionsWelcomeLoginAuthenticationError", FacesMessage.SEVERITY_ERROR, (Object[])null);
 			FacesContext.getCurrentInstance().addMessage(null, authenticationFailedFacesMessage);
 		}
 	}

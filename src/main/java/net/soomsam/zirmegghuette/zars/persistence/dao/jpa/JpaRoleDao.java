@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
@@ -25,9 +25,9 @@ public class JpaRoleDao extends JpaEntityDao<Role> implements RoleDao {
 			throw new IllegalArgumentException("'roleIdSet' must not be null or empty");
 		}
 
-		final Query findRoleByPrimaryKeyQuery = createNamedQuery(Role.FINDROLE_ID_QUERYNAME);
-		findRoleByPrimaryKeyQuery.setParameter("roleIdSet", roleIdSet);
-		return findRoleByPrimaryKeyQuery.getResultList();
+		final TypedQuery<Role> findRoleByPrimaryKeyTypedQuery = createNamedTypedQuery(Role.FINDROLE_ID_QUERYNAME);
+		findRoleByPrimaryKeyTypedQuery.setParameter("roleIdSet", roleIdSet);
+		return findRoleByPrimaryKeyTypedQuery.getResultList();
 	}
 
 	@Override
@@ -36,11 +36,11 @@ public class JpaRoleDao extends JpaEntityDao<Role> implements RoleDao {
 			throw new IllegalArgumentException("'name' must not be null");
 		}
 
-		final Query findRoleByNameQuery = createNamedQuery(Role.FINDROLE_NAME_QUERYNAME);
-		findRoleByNameQuery.setParameter("name", name);
+		final TypedQuery<Role> findRoleByNameTypedQuery = createNamedTypedQuery(Role.FINDROLE_NAME_QUERYNAME);
+		findRoleByNameTypedQuery.setParameter("name", name);
 
 		try {
-			return (Role) findRoleByNameQuery.getSingleResult();
+			return findRoleByNameTypedQuery.getSingleResult();
 		} catch (NoResultException noResultException) {
 			throw new EntityNotFoundException("role with name [" + name + "] not found", noResultException);
 		}

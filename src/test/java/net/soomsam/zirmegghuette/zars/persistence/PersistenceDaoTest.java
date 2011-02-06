@@ -5,7 +5,6 @@ import java.util.List;
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
-import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
@@ -16,7 +15,6 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.utils.Pagination;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -33,11 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @TransactionConfiguration(transactionManager = "jpaTransactionManager")
 public class PersistenceDaoTest {
-	private final static Logger logger = Logger.getLogger(PersistenceDaoTest.class);
-
-	@Autowired
-	private PersistenceContextManager persistenceContextManager;
-
 	@Autowired
 	private RoleDao roleDao;
 
@@ -84,8 +77,8 @@ public class PersistenceDaoTest {
 	public void testFindGroupReservationWithPagination() {
 		final User testUser = createTestUser();
 		final Room testRoom = createTestRoom();
-		final GroupReservation groupReservation01 = createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight());
-		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
+		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight());
+		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
 
 		final List<GroupReservation> allGroupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), null);
 		Assert.assertEquals(2, allGroupReservationList.size());
@@ -101,8 +94,8 @@ public class PersistenceDaoTest {
 	public void testCompareCountGroupReservationWithFindGroupReservation() {
 		final User testUser = createTestUser();
 		final Room testRoom = createTestRoom();
-		final GroupReservation groupReservation01 = createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight());
-		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
+		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight());
+		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
 
 		Interval closedArrivalDepartureDateInterval = new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1));
 		final List<GroupReservation> allGroupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval, null);
@@ -114,8 +107,8 @@ public class PersistenceDaoTest {
 	public void testAllCountGroupReservation() {
 		final User testUser = createTestUser();
 		final Room testRoom = createTestRoom();
-		final GroupReservation groupReservation01 = createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight());
-		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
+		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight());
+		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
 
 		Interval closedArrivalDepartureDateInterval = new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1));
 		Assert.assertEquals(2, groupReservationDao.countGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval));
@@ -133,8 +126,8 @@ public class PersistenceDaoTest {
 	public void testAllFindGroupReservation() {
 		final User testUser = createTestUser();
 		final Room testRoom = createTestRoom();
-		final GroupReservation groupReservation01 = createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight());
-		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
+		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight());
+		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
 
 		Interval closedArrivalDepartureDateInterval = new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1));
 		Assert.assertEquals(2, groupReservationDao.findGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval, null).size());
