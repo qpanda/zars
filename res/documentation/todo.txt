@@ -1,7 +1,6 @@
 PENDING FIXES/DECISIONS
 	o non working delete link in calendar popup
 	o google chrome issues
-	o error with special characters and length displayed at bottom of screen
 	o go thru all warnings	
 
 MUST-HAVE
