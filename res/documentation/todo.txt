@@ -8,7 +8,6 @@ MUST-HAVE
 	  
 SHOULD-HAVE
 	o unit tests not correctly re-compiled in eclipse, requires maven run
-	o target/zars/WEB-INF/classes/META-INF/spring/zars.properties not overwritten
 	o email notification
 	o ie and google chrome issues
 	o display creation/update time and user who added/updated reservation

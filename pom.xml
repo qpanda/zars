@@ -242,7 +242,7 @@
 							<goal>write-project-properties</goal>
 						</goals>
 						<configuration>
-							<outputFile>${project.build.directory}/${project.build.finalName}/WEB-INF/classes/META-INF/spring/zars.properties</outputFile>
+							<outputFile>${project.build.directory}/generated-sources/properties/zars.properties</outputFile>
 						</configuration>
 					</execution>
 				</executions>
@@ -257,6 +257,10 @@
 						<resource>
 							<directory>${basedir}/src/config/webapp/${zars.env}</directory>
 							<targetPath>WEB-INF/classes</targetPath>
+						</resource>
+						<resource>
+							<directory>${project.build.directory}/generated-sources/properties/</directory>
+							<targetPath>WEB-INF/classes/META-INF/spring</targetPath>
 						</resource>
 					</webResources>
 					<archive>
