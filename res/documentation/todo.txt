@@ -5,12 +5,12 @@ MUST-HAVE
 	o test multiple users at the same time (same browser, different browser, different host)
 	o rename Leistungsberechtiger to Benutzer
 	o help/about pages
+	o display creation/update time and user who added/updated reservation
+	o unit tests not correctly re-compiled in eclipse, requires maven run
 	  
 SHOULD-HAVE
-	o unit tests not correctly re-compiled in eclipse, requires maven run
 	o email notification
 	o ie and google chrome issues
-	o display creation/update time and user who added/updated reservation
 	o pricing and other settings and an editor to modify those
 	o improve DB creation/startup check to allow securing all methods, move service implementations to DAO layer!
 	o change menubar to menubutton(s) and commandbutton(s)?
@@ -19,7 +19,7 @@ SHOULD-HAVE
 	o highlight calendar text as non-editable?	
 	o scrollbar for oversized forms
 	o jumping table in ie on admingroupreservation
-	o use SSL for j_spring_security_check
+	o use SSL
 	o use abstract controller UserController for AddUserController and EditUserController and others
 	o EL expression in f:view should also default to request context if localeController.activeLocale is null
 	o check that user assigned to GroupReservation has role accountant
