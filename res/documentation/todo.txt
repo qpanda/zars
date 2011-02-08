@@ -6,8 +6,6 @@ MUST-HAVE
 	o rename Leistungsberechtiger to Benutzer
 	o help/about pages
 	o display creation/update time and user who added/updated reservation
-	o unit tests not correctly re-compiled in eclipse, requires maven run
-	o build encoding
 	o audit table/log
 	  
 SHOULD-HAVE
