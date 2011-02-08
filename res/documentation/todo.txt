@@ -7,6 +7,7 @@ MUST-HAVE
 	o help/about pages
 	o display creation/update time and user who added/updated reservation
 	o unit tests not correctly re-compiled in eclipse, requires maven run
+	o build encoding
 	  
 SHOULD-HAVE
 	o email notification
