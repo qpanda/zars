@@ -8,9 +8,12 @@
 	<version>0.2.0</version>
 	<properties>
 		<zars.version>${project.version}</zars.version>
+		<zars.build.directory>target</zars.build.directory>
 	</properties>
 	<build>
 		<finalName>zars</finalName>
+		<outputDirectory>${basedir}/${zars.build.directory}/classes</outputDirectory>
+		<testOutputDirectory>${basedir}/${zars.build.directory}/test-classes</testOutputDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -161,7 +164,7 @@
 				<version>6.1.26</version>
 				<configuration>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<classesDirectory>${basedir}/eclipse</classesDirectory>
+					<classesDirectory>${basedir}/${zars.build.directory}/classes</classesDirectory>
 					<webAppConfig>
 						<contextPath>/</contextPath>
 						<tempDirectory>${project.build.directory}/work</tempDirectory>
@@ -275,6 +278,12 @@
 		</plugins>
 	</build>
 	<profiles>
+		<profile>
+			<id>eclipse-target-folders</id>
+			<properties>
+				<zars.build.directory>target-eclipse</zars.build.directory>
+			</properties>
+		</profile>
 		<profile>
 			<id>dev</id>
 			<activation>
