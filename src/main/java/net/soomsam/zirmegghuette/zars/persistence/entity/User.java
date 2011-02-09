@@ -98,6 +98,9 @@ public class User extends BaseEntity {
 	@JoinTable(name = User.JOINTABLENAME_USER_ROLE, joinColumns = @JoinColumn(name = User.COLUMNNAME_USERID), inverseJoinColumns = @JoinColumn(name = Role.COLUMNNAME_ROLEID))
 	private final Set<Role> roles = new HashSet<Role>(0);
 
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "booker")
+	private final Set<GroupReservation> bookerGroupReservations = new HashSet<GroupReservation>(0);
+	
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "beneficiary")
 	private final Set<GroupReservation> beneficiaryGroupReservations = new HashSet<GroupReservation>(0);
 
@@ -317,6 +320,26 @@ public class User extends BaseEntity {
 
 		unassociateRoles(removedRoleSet);
 		associateRoles(addedRoleSet);
+	}
+	
+	public Set<GroupReservation> getBookerGroupReservations() {
+		return Collections.unmodifiableSet(bookerGroupReservations);
+	}
+
+	void addBookerGroupReservation(final GroupReservation bookerGroupReservation) {
+		if (null == bookerGroupReservation) {
+			throw new IllegalArgumentException("'bookerGroupReservation' must not be null");
+		}
+
+		this.bookerGroupReservations.add(bookerGroupReservation);
+	}
+
+	void removeBookerGroupReservation(final GroupReservation bookerGroupReservation) {
+		if (null == bookerGroupReservation) {
+			throw new IllegalArgumentException("'bookerGroupReservation' must not be null");
+		}
+
+		this.bookerGroupReservations.remove(bookerGroupReservation);
 	}
 
 	public Set<GroupReservation> getBeneficiaryGroupReservations() {

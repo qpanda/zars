@@ -49,6 +49,7 @@ public class GroupReservation extends BaseEntity {
 	public static final String COLUMNNAME_DEPARTURE = "departure";
 	public static final String COLUMNNAME_COMMENT = "comment";
 	public static final String COLUMNNAME_GUESTS = "guests";
+	public static final String COLUMNNAME_BOOKER_USERID = "booker_user_id";
 	public static final String COLUMNNAME_BENEFICIARY_USERID = "beneficiary_user_id";
 	public static final String COLUMNNAME_ACCOUNTANT_USERID = "accountant_user_id";
 	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "zars_group_reservation_zars_room";
@@ -106,6 +107,11 @@ public class GroupReservation extends BaseEntity {
 
 	@Column(name = GroupReservation.COLUMNNAME_COMMENT, nullable = true, length = GroupReservation.COLUMNLENGTH_COMMENT)
 	private String comment;
+	
+	@NotNull
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = GroupReservation.COLUMNNAME_BOOKER_USERID, nullable = false)
+	private User booker;
 
 	@NotNull
 	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER, optional = false)
@@ -137,7 +143,7 @@ public class GroupReservation extends BaseEntity {
 		super();
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final DateTime booked, final DateMidnight arrival, final DateMidnight departure, final long guests) {
+	public GroupReservation(final User booker, final User beneficiary, final User accountant, final DateTime booked, final DateMidnight arrival, final DateMidnight departure, final long guests) {
 		super();
 
 		if ((null == booked) || (null == arrival) || (null == departure)) {
@@ -153,11 +159,12 @@ public class GroupReservation extends BaseEntity {
 		this.departure = DateUtils.convertDateMidnight(departure);
 		this.guests = guests;
 
+		associateBooker(booker);
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 	}
 
-	public GroupReservation(final User beneficiary, final User accountant, final DateTime booked, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) {
+	public GroupReservation(final User booker, final User beneficiary, final User accountant, final DateTime booked, final DateMidnight arrival, final DateMidnight departure, final long guests, final String comment) {
 		super();
 
 		if ((null == booked) || (null == arrival) || (null == departure)) {
@@ -174,11 +181,12 @@ public class GroupReservation extends BaseEntity {
 		this.guests = guests;
 		this.comment = comment;
 
+		associateBooker(booker);
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 	}
 
-	public GroupReservation(final DateTime booked, final User beneficiary, final User accountant, final Reservation reservation) {
+	public GroupReservation(final DateTime booked, final User booker, final User beneficiary, final User accountant, final Reservation reservation) {
 		super();
 
 		if ((null == booked) || (null == reservation)) {
@@ -187,12 +195,13 @@ public class GroupReservation extends BaseEntity {
 
 		this.booked = DateUtils.convertDateTime(booked);
 
+		associateBooker(booker);
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 		associateReservation(reservation);
 	}
 
-	public GroupReservation(final DateTime booked, final User beneficiary, final User accountant, final Set<Reservation> reservations) {
+	public GroupReservation(final DateTime booked, final User booker, final User beneficiary, final User accountant, final Set<Reservation> reservations) {
 		super();
 
 		if (null == booked) {
@@ -201,12 +210,13 @@ public class GroupReservation extends BaseEntity {
 
 		this.booked = DateUtils.convertDateTime(booked);
 
+		associateBooker(booker);
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 		associateReservations(reservations);
 	}
 
-	public GroupReservation(final DateTime booked, final User beneficiary, final User accountant, final Reservation reservation, final String comment) {
+	public GroupReservation(final DateTime booked, final User booker, final User beneficiary, final User accountant, final Reservation reservation, final String comment) {
 		super();
 
 		if ((null == booked) || (null == reservation)) {
@@ -216,12 +226,13 @@ public class GroupReservation extends BaseEntity {
 		this.comment = comment;
 		this.booked = DateUtils.convertDateTime(booked);
 
+		associateBooker(booker);
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 		associateReservation(reservation);
 	}
 
-	public GroupReservation(final DateTime booked, final User beneficiary, final User accountant, final Set<Reservation> reservations, final String comment) {
+	public GroupReservation(final DateTime booked, final User booker, final User beneficiary, final User accountant, final Set<Reservation> reservations, final String comment) {
 		super();
 
 		if (null == booked) {
@@ -231,6 +242,7 @@ public class GroupReservation extends BaseEntity {
 		this.comment = comment;
 		this.booked = DateUtils.convertDateTime(booked);
 
+		associateBooker(booker);
 		associateBeneficiary(beneficiary);
 		associateAccountant(accountant);
 		associateReservations(reservations);
@@ -309,6 +321,31 @@ public class GroupReservation extends BaseEntity {
 
 	public void setComment(final String comment) {
 		this.comment = comment;
+	}
+	
+	public User getBooker() {
+		return booker;
+	}
+
+	void setBooker(final User booker) {
+		this.booker = booker;
+	}
+	
+	public boolean hasBooker() {
+		return null != getBooker();
+	}
+
+	public void associateBooker(final User booker) {
+		if (null == booker) {
+			throw new IllegalArgumentException("'booker' must not be null");
+		}
+
+		if (hasBooker()) {
+			getBooker().removeBookerGroupReservation(this);
+		}
+
+		setBooker(booker);
+		booker.addBookerGroupReservation(this);
 	}
 
 	public User getBeneficiary() {

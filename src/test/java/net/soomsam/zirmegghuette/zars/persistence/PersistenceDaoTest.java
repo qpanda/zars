@@ -176,7 +176,7 @@ public class PersistenceDaoTest {
 
 	private GroupReservation createGroupReservation(final User user, final Room room, final DateTime booked, final DateMidnight arrival, final DateMidnight departure) {
 		final Reservation testReservation = new Reservation(1, arrival, departure, "a", "b");
-		final GroupReservation testGroupReservation = new GroupReservation(user, user, booked, arrival, departure, 1);
+		final GroupReservation testGroupReservation = new GroupReservation(user, user, user, booked, arrival, departure, 1);
 		testGroupReservation.associateReservation(testReservation);
 		testGroupReservation.associateRoom(room);
 		groupReservationDao.persist(testGroupReservation);

@@ -22,6 +22,8 @@ public class GroupReservationBean extends BaseBean {
 
 	private String comment;
 
+	private UserBean booker;
+
 	private UserBean beneficiary;
 
 	private UserBean accountant;
@@ -88,6 +90,14 @@ public class GroupReservationBean extends BaseBean {
 
 	public void setComment(final String comment) {
 		this.comment = comment;
+	}
+
+	public UserBean getBooker() {
+		return booker;
+	}
+
+	public void setBooker(final UserBean booker) {
+		this.booker = booker;
 	}
 
 	public UserBean getBeneficiary() {

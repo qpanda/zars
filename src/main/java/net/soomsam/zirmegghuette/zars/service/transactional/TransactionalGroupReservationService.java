@@ -67,10 +67,11 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		assertNonConflictingArrivalDepature(arrival, departure);
 
 		final DateTime booked = new DateTime();
+		final User booker = userDao.retrieveCurrentUser();
 		final User beneficiary = userDao.retrieveByPrimaryKey(beneficiaryId);
 		final User accountant = userDao.retrieveByPrimaryKey(accountantId);
 		final Set<Room> requiredRooms = determineRequiredRooms(guests);
-		final GroupReservation groupReservation = new GroupReservation(beneficiary, accountant, booked, arrival, departure, guests, comment);
+		final GroupReservation groupReservation = new GroupReservation(booker, beneficiary, accountant, booked, arrival, departure, guests, comment);
 		groupReservation.associateRooms(requiredRooms);
 		groupReservationDao.persist(groupReservation);
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
@@ -98,10 +99,11 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 		final int guests = reservationVoSet.size();
 		final DateTime booked = new DateTime();
+		final User booker = userDao.retrieveCurrentUser();
 		final User beneficiary = userDao.retrieveByPrimaryKey(beneficiaryId);
 		final User accountant = userDao.retrieveByPrimaryKey(accountantId);
 		final Set<Room> requiredRooms = determineRequiredRooms(guests);
-		final GroupReservation groupReservation = new GroupReservation(booked, beneficiary, accountant, reservationSet, comment);
+		final GroupReservation groupReservation = new GroupReservation(booked, booker, beneficiary, accountant, reservationSet, comment);
 		groupReservation.associateRooms(requiredRooms);
 		groupReservation.autoSetArrivalDeparture();
 		groupReservation.autoSetGuests();

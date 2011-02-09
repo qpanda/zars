@@ -37,6 +37,7 @@ public class ServiceBeanMapperTest {
 	public void mapGroupReservation() {
 		Role userRole = PersistenceEntityGenerator.createUserRole();
 		Role adminRole = PersistenceEntityGenerator.createAdminRole();
+		User booker = PersistenceEntityGenerator.createUserTest("booker", "booker@test.com", userRole, adminRole);
 		User beneficiary = PersistenceEntityGenerator.createUserTest("beneficiary", "beneficiary@test.com", userRole, adminRole);
 		User accountant = PersistenceEntityGenerator.createUserTest("accountant", "accountant@test.com", userRole, adminRole);
 		Room testRoom = PersistenceEntityGenerator.createTestRoom();
@@ -45,7 +46,7 @@ public class ServiceBeanMapperTest {
 		DateMidnight arrival = new DateMidnight();
 		DateMidnight departure = arrival.plusDays(1);
 		long guests = 3;
-		GroupReservation groupReservation = new GroupReservation(beneficiary, accountant, booked, arrival, departure, guests);
+		GroupReservation groupReservation = new GroupReservation(booker, beneficiary, accountant, booked, arrival, departure, guests);
 		groupReservation.associateRoom(testRoom);
 		groupReservation.associateRoom(anotherTestRoom);
 
@@ -60,6 +61,15 @@ public class ServiceBeanMapperTest {
 		Assert.assertEquals(groupReservationBean.getGuests(), groupReservation.getGuests());
 		Assert.assertEquals(groupReservationBean.getComment(), groupReservation.getComment());
 
+		Assert.assertEquals(groupReservationBean.getBooker().getUserId(), groupReservation.getBooker().getUserId());
+		Assert.assertEquals(groupReservationBean.getBooker().getUserTimestamp(), groupReservation.getBooker().getUserTimestamp());
+		Assert.assertEquals(groupReservationBean.getBooker().getUsername(), groupReservation.getBooker().getUsername());
+		Assert.assertEquals(groupReservationBean.getBooker().getPassword(), groupReservation.getBooker().getPassword());
+		Assert.assertEquals(groupReservationBean.getBooker().getEmailAddress(), groupReservation.getBooker().getEmailAddress());
+		Assert.assertEquals(groupReservationBean.getBooker().getFirstName(), groupReservation.getBooker().getFirstName());
+		Assert.assertEquals(groupReservationBean.getBooker().getLastName(), groupReservation.getBooker().getLastName());
+		Assert.assertEquals(groupReservationBean.getBooker().getRoles().size(), groupReservation.getBooker().getRoles().size());
+		
 		Assert.assertEquals(groupReservationBean.getBeneficiary().getUserId(), groupReservation.getBeneficiary().getUserId());
 		Assert.assertEquals(groupReservationBean.getBeneficiary().getUserTimestamp(), groupReservation.getBeneficiary().getUserTimestamp());
 		Assert.assertEquals(groupReservationBean.getBeneficiary().getUsername(), groupReservation.getBeneficiary().getUsername());
