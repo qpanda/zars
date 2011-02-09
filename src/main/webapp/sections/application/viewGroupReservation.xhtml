@@ -23,6 +23,14 @@
 							</td>
 						</tr>
 						<tr class="applicationFormTableRow">
+							<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationBookerLabel}</th>
+							<td class="applicationFormTableData">
+								<h:outputText value="#{viewGroupReservationController.savedGroupReservation.booker}">
+									<f:converter converterId="userBeanFormatter"/>
+								</h:outputText>
+							</td>
+						</tr>						
+						<tr class="applicationFormTableRow">
 							<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}</th>
 							<td class="applicationFormTableData">
 								<h:outputText value="#{viewGroupReservationController.savedGroupReservation.arrival}">

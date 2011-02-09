@@ -23,7 +23,15 @@
 								<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateTimeFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
 							</h:outputText>
 						</td>
-					</tr>					
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationBookerLabel}</th>
+						<td class="applicationFormTableData">
+							<h:outputText value="#{editGroupReservationController.savedGroupReservation.booker}">
+								<f:converter converterId="userBeanFormatter"/>
+							</h:outputText>
+						</td>
+					</tr>										
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}</th>
 						<td class="applicationFormTableData">

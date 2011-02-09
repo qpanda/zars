@@ -5,7 +5,6 @@ MUST-HAVE
 	o test multiple users at the same time (same browser, different browser, different host)
 	o rename Leistungsberechtiger to Benutzer
 	o help/about pages
-	o display creation/update time and user who added/updated reservation
 	o audit table/log
 	o email notification
 	  
