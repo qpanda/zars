@@ -7,13 +7,15 @@ MUST-HAVE
 	o help/about pages
 	o audit table/log
 	o email notification
+		o created/modified/locked account
+		o admin reservations added/updated/deleted
 	o change email address/first name/last name dialog
-	  
-SHOULD-HAVE
 	o ie and google chrome issues
 		o revise floating layout (use clearfix?)
 		o change menubar to menubutton(s) and commandbutton(s)?
 		o jumping table in ie on admingroupreservation
+	
+SHOULD-HAVE
 	o pricing and other settings and an editor to modify those
 	o improve DB creation/startup check to allow securing all methods, move service implementations to DAO layer!
 	o pre-calculate approximate amount during reservation
