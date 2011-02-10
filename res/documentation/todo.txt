@@ -7,6 +7,7 @@ MUST-HAVE
 	o help/about pages
 	o audit table/log
 	o email notification
+	o change email address/first name/last name dialog
 	  
 SHOULD-HAVE
 	o ie and google chrome issues
