@@ -109,12 +109,13 @@ public class TransactionalUserService implements UserService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = UniqueConstraintException.class)
 	public UserBean changeUser(final String emailAddress, final String firstName, final String lastName) throws UniqueConstraintException {
 		final User user = userDao.retrieveCurrentUser();
 		user.setEmailAddress(emailAddress);
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
-		userDao.persist(user);
+		userDao.persistUser(user);
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
 
