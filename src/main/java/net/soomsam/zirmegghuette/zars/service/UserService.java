@@ -29,6 +29,9 @@ public interface UserService {
 
 	@PreAuthorize("isAuthenticated()")
 	public UserBean changePassword(String password);
+	
+	@PreAuthorize("isAuthenticated()")
+	public UserBean changeUser(String emailAddress, String firstName, String lastName) throws UniqueConstraintException;
 
 	@PreAuthorize("isAuthenticated()")
 	public UserBean retrieveUser(long userId);

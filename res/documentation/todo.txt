@@ -9,7 +9,6 @@ MUST-HAVE
 	o email notification
 		o created/modified/locked account
 		o admin reservations added/updated/deleted
-	o change email address/first name/last name dialog
 	o ie and google chrome issues
 		o revise floating layout (use clearfix?)
 		o change menubar to menubutton(s) and commandbutton(s)?
