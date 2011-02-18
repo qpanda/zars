@@ -49,7 +49,7 @@ public class Preference extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = Preference.COLUMNNAME_PREFERENCETIMESTAMP)
+	@Column(name = Preference.COLUMNNAME_PREFERENCETIMESTAMP, nullable = false)
 	private Date preferenceTimestamp;
 
 	@NotNull
@@ -98,7 +98,7 @@ public class Preference extends BaseEntity {
 		return preferenceId;
 	}
 
-	public void setPreferenceId(final long preferenceId) {
+	void setPreferenceId(final long preferenceId) {
 		this.preferenceId = preferenceId;
 	}
 
@@ -106,7 +106,7 @@ public class Preference extends BaseEntity {
 		return preferenceTimestamp;
 	}
 
-	public void setPreferenceTimestamp(final Date preferenceTimestamp) {
+	void setPreferenceTimestamp(final Date preferenceTimestamp) {
 		this.preferenceTimestamp = preferenceTimestamp;
 	}
 

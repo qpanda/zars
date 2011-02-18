@@ -48,7 +48,7 @@ public class Reservation extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = Reservation.COLUMNNAME_RESERVATIONTIMESTAMP)
+	@Column(name = Reservation.COLUMNNAME_RESERVATIONTIMESTAMP, nullable = false)
 	private Date reservationTimestamp;
 
 	@Min(value = 1)
@@ -126,7 +126,7 @@ public class Reservation extends BaseEntity {
 		return reservationId;
 	}
 
-	public void setReservationId(final long reservationId) {
+	void setReservationId(final long reservationId) {
 		this.reservationId = reservationId;
 	}
 

@@ -51,7 +51,7 @@ public class Room extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = Room.COLUMNNAME_ROOMTIMESTAMP)
+	@Column(name = Room.COLUMNNAME_ROOMTIMESTAMP, nullable = false)
 	private Date roomTimestamp;
 
 	@NotNull
@@ -89,7 +89,7 @@ public class Room extends BaseEntity {
 		return roomId;
 	}
 
-	public void setRoomId(final long roomId) {
+	void setRoomId(final long roomId) {
 		this.roomId = roomId;
 	}
 

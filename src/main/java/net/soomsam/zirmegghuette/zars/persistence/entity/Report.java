@@ -50,7 +50,7 @@ public class Report extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = Report.COLUMNNAME_REPORTTIMESTAMP)
+	@Column(name = Report.COLUMNNAME_REPORTTIMESTAMP, nullable = false)
 	private Date reportTimestamp;
 
 	@NotNull
@@ -115,7 +115,7 @@ public class Report extends BaseEntity {
 		return reportId;
 	}
 
-	public void setReportId(final long reportId) {
+	void setReportId(final long reportId) {
 		this.reportId = reportId;
 	}
 
@@ -123,7 +123,7 @@ public class Report extends BaseEntity {
 		return reportTimestamp;
 	}
 
-	public void setReportTimestamp(final Date reportTimestamp) {
+	void setReportTimestamp(final Date reportTimestamp) {
 		this.reportTimestamp = reportTimestamp;
 	}
 

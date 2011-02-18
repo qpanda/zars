@@ -46,7 +46,7 @@ public class Invoice extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = Invoice.COLUMNNAME_INVOICETIMESTAMP)
+	@Column(name = Invoice.COLUMNNAME_INVOICETIMESTAMP, nullable = false)
 	private Date invoiceTimestamp;
 
 	@NotNull
@@ -101,7 +101,7 @@ public class Invoice extends BaseEntity {
 		return invoiceId;
 	}
 
-	public void setInvoiceId(final long invoiceId) {
+	void setInvoiceId(final long invoiceId) {
 		this.invoiceId = invoiceId;
 	}
 

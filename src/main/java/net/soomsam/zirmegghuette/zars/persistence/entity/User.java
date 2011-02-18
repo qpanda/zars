@@ -64,7 +64,7 @@ public class User extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = User.COLUMNNAME_USERTIMESTAMP)
+	@Column(name = User.COLUMNNAME_USERTIMESTAMP, nullable = false)
 	private Date userTimestamp;
 
 	@NotNull
@@ -167,7 +167,7 @@ public class User extends BaseEntity {
 		return userId;
 	}
 
-	public void setUserId(final long userId) {
+	void setUserId(final long userId) {
 		this.userId = userId;
 	}
 

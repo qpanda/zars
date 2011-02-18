@@ -49,7 +49,7 @@ public class Role extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = Role.COLUMNNAME_ROLETIMESTAMP)
+	@Column(name = Role.COLUMNNAME_ROLETIMESTAMP, nullable = false)
 	private Date roleTimestamp;
 
 	@NotNull
@@ -73,7 +73,7 @@ public class Role extends BaseEntity {
 		return roleId;
 	}
 
-	public void setRoleId(final long roleId) {
+	void setRoleId(final long roleId) {
 		this.roleId = roleId;
 	}
 

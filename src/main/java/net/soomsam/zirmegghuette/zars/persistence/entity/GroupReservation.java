@@ -84,7 +84,7 @@ public class GroupReservation extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONTIMESTAMP)
+	@Column(name = GroupReservation.COLUMNNAME_GROUPRESERVATIONTIMESTAMP, nullable = false)
 	private Date groupReservationTimestamp;
 
 	@NotNull
@@ -271,7 +271,7 @@ public class GroupReservation extends BaseEntity {
 		return groupReservationId;
 	}
 
-	public void setGroupReservationId(final long groupReservationId) {
+	void setGroupReservationId(final long groupReservationId) {
 		this.groupReservationId = groupReservationId;
 	}
 

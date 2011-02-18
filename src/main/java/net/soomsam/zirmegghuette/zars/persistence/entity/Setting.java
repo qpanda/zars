@@ -44,7 +44,7 @@ public class Setting extends BaseEntity {
 
 	@Version
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = Setting.COLUMNNAME_SETTINGTIMESTAMP)
+	@Column(name = Setting.COLUMNNAME_SETTINGTIMESTAMP, nullable = false)
 	private Date settingTimestamp;
 
 	@NotNull
@@ -82,7 +82,7 @@ public class Setting extends BaseEntity {
 		return settingId;
 	}
 
-	public void setSettingId(final long settingId) {
+	void setSettingId(final long settingId) {
 		this.settingId = settingId;
 	}
 
@@ -90,7 +90,7 @@ public class Setting extends BaseEntity {
 		return settingTimestamp;
 	}
 
-	public void setSettingTimestamp(final Date settingTimestamp) {
+	void setSettingTimestamp(final Date settingTimestamp) {
 		this.settingTimestamp = settingTimestamp;
 	}
 
