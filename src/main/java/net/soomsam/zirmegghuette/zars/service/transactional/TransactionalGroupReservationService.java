@@ -89,11 +89,11 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 		assertCreateGroupReservationAllowed(beneficiaryId);
 
-		Set<Reservation> reservationSet = new HashSet<Reservation>();
-		for (ReservationVo reservationVo : reservationVoSet) {
+		final Set<Reservation> reservationSet = new HashSet<Reservation>();
+		for (final ReservationVo reservationVo : reservationVoSet) {
 			assertNonConflictingArrivalDepature(reservationVo.getArrival(), reservationVo.getDeparture());
 
-			Reservation reservation = new Reservation(reservationVo.getPrecedence(), reservationVo.getArrival(), reservationVo.getDeparture(), reservationVo.getFirstName(), reservationVo.getLastName());
+			final Reservation reservation = new Reservation(reservationVo.getPrecedence(), reservationVo.getArrival(), reservationVo.getDeparture(), reservationVo.getFirstName(), reservationVo.getLastName());
 			reservationSet.add(reservation);
 		}
 
@@ -107,7 +107,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		groupReservation.associateRooms(requiredRooms);
 		groupReservation.autoSetArrivalDeparture();
 		groupReservation.autoSetGuests();
-		
+
 		assertConsecutiveArrivalDeparture(groupReservation);
 		groupReservationDao.persist(groupReservation);
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
@@ -127,6 +127,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		assertNonConflictingArrivalDepature(arrival, departure, groupReservationId);
 
 		final DateTime booked = new DateTime();
+		final User booker = userDao.retrieveCurrentUser();
 		final User beneficiary = userDao.retrieveByPrimaryKey(beneficiaryId);
 		final User accountant = userDao.retrieveByPrimaryKey(accountantId);
 		final Set<Room> requiredRooms = determineRequiredRooms(guests);
@@ -136,13 +137,14 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		groupReservation.setDeparture(departure);
 		groupReservation.setGuests(guests);
 		groupReservation.setComment(comment);
+		groupReservation.associateBooker(booker);
 		groupReservation.associateBeneficiary(beneficiary);
 		groupReservation.associateAccountant(accountant);
 		groupReservation.updateRooms(requiredRooms);
 		groupReservation.markInvoiceStale();
 		groupReservation.markReportsStale();
 
-		Set<Reservation> oldReservations = groupReservation.getReservations();
+		final Set<Reservation> oldReservations = groupReservation.getReservations();
 		groupReservation.unassociateReservations(oldReservations);
 		reservationDao.removeAll(oldReservations);
 
@@ -162,36 +164,38 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		}
 
 		assertUpdateGroupReservationAllowed(groupReservationId, beneficiaryId);
-		
-		Set<Reservation> newReservationSet = new HashSet<Reservation>();
-		for (ReservationVo reservationVo : reservationVoSet) {
+
+		final Set<Reservation> newReservationSet = new HashSet<Reservation>();
+		for (final ReservationVo reservationVo : reservationVoSet) {
 			assertNonConflictingArrivalDepature(reservationVo.getArrival(), reservationVo.getDeparture(), groupReservationId);
 
-			Reservation newReservation = new Reservation(reservationVo.getPrecedence(), reservationVo.getArrival(), reservationVo.getDeparture(), reservationVo.getFirstName(), reservationVo.getLastName());
+			final Reservation newReservation = new Reservation(reservationVo.getPrecedence(), reservationVo.getArrival(), reservationVo.getDeparture(), reservationVo.getFirstName(), reservationVo.getLastName());
 			newReservationSet.add(newReservation);
 		}
 
 		final int guests = reservationVoSet.size();
 		final DateTime booked = new DateTime();
+		final User booker = userDao.retrieveCurrentUser();
 		final User beneficiary = userDao.retrieveByPrimaryKey(beneficiaryId);
 		final User accountant = userDao.retrieveByPrimaryKey(accountantId);
 		final Set<Room> requiredRooms = determineRequiredRooms(guests);
 		final GroupReservation groupReservation = groupReservationDao.retrieveByPrimaryKey(groupReservationId);
 		groupReservation.setBooked(booked);
 		groupReservation.setComment(comment);
+		groupReservation.associateBooker(booker);
 		groupReservation.associateBeneficiary(beneficiary);
 		groupReservation.associateAccountant(accountant);
 		groupReservation.updateRooms(requiredRooms);
 		groupReservation.markInvoiceStale();
 		groupReservation.markReportsStale();
 
-		Set<Reservation> oldReservations = groupReservation.getReservations();
+		final Set<Reservation> oldReservations = groupReservation.getReservations();
 		groupReservation.unassociateReservations(oldReservations);
 		reservationDao.removeAll(oldReservations);
 		groupReservation.associateReservations(newReservationSet);
 		groupReservation.autoSetArrivalDeparture();
 		groupReservation.autoSetGuests();
-		
+
 		assertConsecutiveArrivalDeparture(groupReservation);
 		groupReservationDao.persist(groupReservation);
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
@@ -266,10 +270,10 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	protected Set<Room> determineRequiredRooms(final long requiredCapacity) {
 		// assumes BR001
 		long availableCapacity = 0;
-		Set<Room> requiredRoomList = new HashSet<Room>();
+		final Set<Room> requiredRoomList = new HashSet<Room>();
 
-		List<Room> availableRoomList = roomDao.findByPrecedence(true);
-		for (Room availableRoom : availableRoomList) {
+		final List<Room> availableRoomList = roomDao.findByPrecedence(true);
+		for (final Room availableRoom : availableRoomList) {
 			requiredRoomList.add(availableRoom);
 			availableCapacity += availableRoom.getCapacity();
 
@@ -284,8 +288,8 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	protected void assertNonConflictingArrivalDepature(final DateMidnight arrival, final DateMidnight departure) throws GroupReservationConflictException {
 		// implements BR001
-		Interval openArrivalDepartureInterval = new Interval(arrival, departure);
-		List<GroupReservation> conflictingGroupReservations = groupReservationDao.findGroupReservationByOpenDateInterval(openArrivalDepartureInterval);
+		final Interval openArrivalDepartureInterval = new Interval(arrival, departure);
+		final List<GroupReservation> conflictingGroupReservations = groupReservationDao.findGroupReservationByOpenDateInterval(openArrivalDepartureInterval);
 		if (!conflictingGroupReservations.isEmpty()) {
 			throw new GroupReservationConflictException("unable to create group reservation with arrival [" + arrival + "] and departure [" + departure + "]. it conflicts with [" + conflictingGroupReservations.size() + "] existing group reservations", serviceBeanMapper.map(GroupReservationBean.class, conflictingGroupReservations));
 		}
@@ -293,11 +297,11 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	protected void assertNonConflictingArrivalDepature(final DateMidnight arrival, final DateMidnight departure, final long excludeGroupReservationId) throws GroupReservationConflictException {
 		// implements BR001
-		Interval openArrivalDepartureInterval = new Interval(arrival, departure);
-		List<GroupReservation> conflictingGroupReservationList = groupReservationDao.findGroupReservationByOpenDateInterval(openArrivalDepartureInterval);
-		Iterator<GroupReservation> conflictingGroupReservationIterator = conflictingGroupReservationList.iterator();
+		final Interval openArrivalDepartureInterval = new Interval(arrival, departure);
+		final List<GroupReservation> conflictingGroupReservationList = groupReservationDao.findGroupReservationByOpenDateInterval(openArrivalDepartureInterval);
+		final Iterator<GroupReservation> conflictingGroupReservationIterator = conflictingGroupReservationList.iterator();
 		while (conflictingGroupReservationIterator.hasNext()) {
-			GroupReservation conflictingGroupReservation = conflictingGroupReservationIterator.next();
+			final GroupReservation conflictingGroupReservation = conflictingGroupReservationIterator.next();
 			if (excludeGroupReservationId == conflictingGroupReservation.getGroupReservationId()) {
 				conflictingGroupReservationIterator.remove();
 			}
@@ -309,32 +313,32 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	}
 
 	protected void assertCreateGroupReservationAllowed(final long groupReservationBeneficiaryId) throws InsufficientPermissionException {
-		User currentUser = userDao.retrieveCurrentUser();
+		final User currentUser = userDao.retrieveCurrentUser();
 		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && (groupReservationBeneficiaryId != currentUser.getUserId())) {
 			throw new InsufficientPermissionException("non admin users are not allowed to create group reservations for other users", currentUser.getUserId(), OperationType.ADD);
 		}
 	}
 
 	protected void assertUpdateGroupReservationAllowed(final long groupReservationId, final long groupReservationBeneficiaryId) throws InsufficientPermissionException {
-		User currentUser = userDao.retrieveCurrentUser();
+		final User currentUser = userDao.retrieveCurrentUser();
 		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && (groupReservationBeneficiaryId != currentUser.getUserId())) {
 			throw new InsufficientPermissionException("non admin users are not allowed to update group reservations of other users", currentUser.getUserId(), groupReservationBeneficiaryId, OperationType.UPDATE);
 		}
 	}
 
 	protected void assertDeleteGroupReservationAllowed(final long groupReservationId, final long groupReservationBeneficiaryId) throws InsufficientPermissionException {
-		User currentUser = userDao.retrieveCurrentUser();
+		final User currentUser = userDao.retrieveCurrentUser();
 		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && (groupReservationBeneficiaryId != currentUser.getUserId())) {
 			throw new InsufficientPermissionException("non admin users are not allowed to delete group reservations of other users", currentUser.getUserId(), groupReservationBeneficiaryId, OperationType.DELETE);
 		}
 	}
-	
-	protected void assertConsecutiveArrivalDeparture(GroupReservation groupReservation) throws GroupReservationNonconsecutiveException {
+
+	protected void assertConsecutiveArrivalDeparture(final GroupReservation groupReservation) throws GroupReservationNonconsecutiveException {
 		final DateMidnight groupReservationArrival = groupReservation.getArrival();
 		final DateMidnight groupReservationDeparture = groupReservation.getDeparture();
-		
+
 		final Set<Interval> reservationArrivalDepartureIntervalSet = new HashSet<Interval>();
-		for (Reservation reservation : groupReservation.getReservations()) {	
+		for (final Reservation reservation : groupReservation.getReservations()) {
 			final Interval arrivalDepatureInterval = new Interval(reservation.getArrival(), reservation.getDeparture());
 			reservationArrivalDepartureIntervalSet.add(arrivalDepatureInterval);
 		}
@@ -344,18 +348,18 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 			if (!matchesWithArrivalDepatureIntervals(currentDay, reservationArrivalDepartureIntervalSet)) {
 				throw new GroupReservationNonconsecutiveException("the individual arrival and departure dates do not form a consecutive date range");
 			}
-			
+
 			currentDay = currentDay.plusDays(1);
 		}
 	}
-	
+
 	protected boolean matchesWithArrivalDepatureIntervals(final DateMidnight referenceDay, final Set<Interval> arrivalDepartureIntervalSet) {
-		for (Interval arrivalDepartureInterval : arrivalDepartureIntervalSet) {
+		for (final Interval arrivalDepartureInterval : arrivalDepartureIntervalSet) {
 			if (arrivalDepartureInterval.contains(referenceDay)) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 }
