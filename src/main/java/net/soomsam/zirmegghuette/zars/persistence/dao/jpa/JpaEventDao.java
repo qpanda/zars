@@ -50,33 +50,45 @@ public class JpaEventDao extends JpaEntityDao<Event> implements EventDao {
 	}
 
 	@Override
-	public List<Event> findEventByOpenDateInterval(final Interval openDateInterval, final Pagination pagination) {
+	public List<Event> findLatest(final Pagination pagination) {
+		final TypedQuery<Event> findEventTypedQuery = createNamedTypedQuery(Event.FINDEVENT_QUERYNAME);
+
+		if (null != pagination) {
+			findEventTypedQuery.setFirstResult(pagination.getFirstResult());
+			findEventTypedQuery.setMaxResults(pagination.getMaxResults());
+		}
+
+		return findEventTypedQuery.getResultList();
+	}
+
+	@Override
+	public List<Event> findByOpenDateInterval(final Interval openDateInterval, final Pagination pagination) {
 		if (null == openDateInterval) {
 			throw new IllegalArgumentException("'openDateInterval' must not be null");
 		}
 
-		final TypedQuery<Event> findEventByOpenDateIntervalQuery = createNamedTypedQuery(Event.FINDEVENTOPENINTERVAL_STARTTIMESTAMP_ENDTIMESTAMP_QUERYNAME);
-		findEventByOpenDateIntervalQuery.setParameter("startTimestamp", openDateInterval.getStart().toDateMidnight().toDate(), TemporalType.TIMESTAMP);
-		findEventByOpenDateIntervalQuery.setParameter("endTimestamp", openDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.TIMESTAMP);
+		final TypedQuery<Event> findEventByOpenDateIntervalTypedQuery = createNamedTypedQuery(Event.FINDEVENTOPENINTERVAL_STARTTIMESTAMP_ENDTIMESTAMP_QUERYNAME);
+		findEventByOpenDateIntervalTypedQuery.setParameter("startTimestamp", openDateInterval.getStart().toDateMidnight().toDate(), TemporalType.TIMESTAMP);
+		findEventByOpenDateIntervalTypedQuery.setParameter("endTimestamp", openDateInterval.getEnd().toDateMidnight().toDate(), TemporalType.TIMESTAMP);
 
 		if (null != pagination) {
-			findEventByOpenDateIntervalQuery.setFirstResult(pagination.getFirstResult());
-			findEventByOpenDateIntervalQuery.setMaxResults(pagination.getMaxResults());
+			findEventByOpenDateIntervalTypedQuery.setFirstResult(pagination.getFirstResult());
+			findEventByOpenDateIntervalTypedQuery.setMaxResults(pagination.getMaxResults());
 		}
 
-		return findEventByOpenDateIntervalQuery.getResultList();
+		return findEventByOpenDateIntervalTypedQuery.getResultList();
 	}
 
 	@Override
-	public List<Event> findEventByUserId(final long userId, final Pagination pagination) {
-		final TypedQuery<Event> findEventByUserIdQuery = createNamedTypedQuery(Event.FINDEVENT_USERID_QUERYNAME);
-		findEventByUserIdQuery.setParameter("userId", userId);
+	public List<Event> findByUserId(final long userId, final Pagination pagination) {
+		final TypedQuery<Event> findEventByUserIdTypedQuery = createNamedTypedQuery(Event.FINDEVENT_USERID_QUERYNAME);
+		findEventByUserIdTypedQuery.setParameter("userId", userId);
 
 		if (null != pagination) {
-			findEventByUserIdQuery.setFirstResult(pagination.getFirstResult());
-			findEventByUserIdQuery.setMaxResults(pagination.getMaxResults());
+			findEventByUserIdTypedQuery.setFirstResult(pagination.getFirstResult());
+			findEventByUserIdTypedQuery.setMaxResults(pagination.getMaxResults());
 		}
 
-		return findEventByUserIdQuery.getResultList();
+		return findEventByUserIdTypedQuery.getResultList();
 	}
 }

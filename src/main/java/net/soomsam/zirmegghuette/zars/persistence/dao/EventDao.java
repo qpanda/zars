@@ -16,7 +16,9 @@ public interface EventDao extends EntityDao<Event> {
 
 	public Event create(final User user, final long entityId, final Class<? extends BaseEntity> entityType, final OperationType entityOperation, final String message);
 
-	public List<Event> findEventByOpenDateInterval(final Interval openDateInterval, final Pagination pagination);
+	public List<Event> findLatest(final Pagination pagination);
 
-	public List<Event> findEventByUserId(final long userId, final Pagination pagination);
+	public List<Event> findByOpenDateInterval(final Interval openDateInterval, final Pagination pagination);
+
+	public List<Event> findByUserId(final long userId, final Pagination pagination);
 }

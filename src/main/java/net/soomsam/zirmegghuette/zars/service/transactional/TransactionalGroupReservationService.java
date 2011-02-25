@@ -220,17 +220,17 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	public long countGroupReservation(final Interval dateInterval) {
-		return groupReservationDao.countGroupReservationByClosedDateInterval(dateInterval);
+		return groupReservationDao.countByClosedDateInterval(dateInterval);
 	}
 
 	@Override
 	public long countGroupReservation(final long beneficiaryId, final Interval dateInterval) {
-		return groupReservationDao.countGroupReservationByClosedDateIntervalAndBeneficiaryId(beneficiaryId, dateInterval);
+		return groupReservationDao.countByClosedDateIntervalAndBeneficiaryId(beneficiaryId, dateInterval);
 	}
 
 	@Override
 	public long countGroupReservation(final long beneficiaryId) {
-		return groupReservationDao.countGroupReservationByBeneficiaryId(beneficiaryId);
+		return groupReservationDao.countByBeneficiaryId(beneficiaryId);
 	}
 
 	@Override
@@ -240,17 +240,17 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	public List<GroupReservationBean> findGroupReservation(final Interval dateInterval, final Pagination pagination) {
-		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservationByClosedDateInterval(dateInterval, pagination));
+		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findByClosedDateInterval(dateInterval, pagination));
 	}
 
 	@Override
 	public List<GroupReservationBean> findGroupReservation(final long beneficiaryId, final Interval dateInterval, final Pagination pagination) {
-		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservationByClosedDateIntervalAndBeneficiaryId(beneficiaryId, dateInterval, pagination));
+		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findByClosedDateIntervalAndBeneficiaryId(beneficiaryId, dateInterval, pagination));
 	}
 
 	@Override
 	public List<GroupReservationBean> findGroupReservation(final long beneficiaryId, final Pagination pagination) {
-		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findGroupReservationByBeneficiaryId(beneficiaryId, pagination));
+		return serviceBeanMapper.map(GroupReservationBean.class, groupReservationDao.findByBeneficiaryId(beneficiaryId, pagination));
 	}
 
 	@Override
@@ -272,7 +272,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		long availableCapacity = 0;
 		final Set<Room> requiredRoomList = new HashSet<Room>();
 
-		final List<Room> availableRoomList = roomDao.findByPrecedence(true);
+		final List<Room> availableRoomList = roomDao.findByInUse(true);
 		for (final Room availableRoom : availableRoomList) {
 			requiredRoomList.add(availableRoom);
 			availableCapacity += availableRoom.getCapacity();
@@ -289,7 +289,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	protected void assertNonConflictingArrivalDepature(final DateMidnight arrival, final DateMidnight departure) throws GroupReservationConflictException {
 		// implements BR001
 		final Interval openArrivalDepartureInterval = new Interval(arrival, departure);
-		final List<GroupReservation> conflictingGroupReservations = groupReservationDao.findGroupReservationByOpenDateInterval(openArrivalDepartureInterval);
+		final List<GroupReservation> conflictingGroupReservations = groupReservationDao.findByOpenDateInterval(openArrivalDepartureInterval);
 		if (!conflictingGroupReservations.isEmpty()) {
 			throw new GroupReservationConflictException("unable to create group reservation with arrival [" + arrival + "] and departure [" + departure + "]. it conflicts with [" + conflictingGroupReservations.size() + "] existing group reservations", serviceBeanMapper.map(GroupReservationBean.class, conflictingGroupReservations));
 		}
@@ -298,7 +298,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	protected void assertNonConflictingArrivalDepature(final DateMidnight arrival, final DateMidnight departure, final long excludeGroupReservationId) throws GroupReservationConflictException {
 		// implements BR001
 		final Interval openArrivalDepartureInterval = new Interval(arrival, departure);
-		final List<GroupReservation> conflictingGroupReservationList = groupReservationDao.findGroupReservationByOpenDateInterval(openArrivalDepartureInterval);
+		final List<GroupReservation> conflictingGroupReservationList = groupReservationDao.findByOpenDateInterval(openArrivalDepartureInterval);
 		final Iterator<GroupReservation> conflictingGroupReservationIterator = conflictingGroupReservationList.iterator();
 		while (conflictingGroupReservationIterator.hasNext()) {
 			final GroupReservation conflictingGroupReservation = conflictingGroupReservationIterator.next();

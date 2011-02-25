@@ -107,7 +107,7 @@ public class GroupReservationServiceTest {
 		final Set<Long> createUserRoleIds = TestUtils.determineRoleIds(allRoles, RoleType.ROLE_USER);
 		final UserBean createdUser = userService.createUser("abc", "def", "ghi@jkl.mno", "pqr", "stu", createUserRoleIds);
 
-		final List<Room> allRooms = roomDao.findByPrecedence(true);
+		final List<Room> allRooms = roomDao.findByInUse(true);
 
 		int i = 0;
 		int totalCapacity = 0;

@@ -21,7 +21,7 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 	}
 
 	@Override
-	public long countGroupReservationByClosedDateInterval(final Interval closedDateInterval) {
+	public long countByClosedDateInterval(final Interval closedDateInterval) {
 		if (null == closedDateInterval) {
 			throw new IllegalArgumentException("'closedDateInterval' must not be null");
 		}
@@ -33,7 +33,7 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 	}
 
 	@Override
-	public long countGroupReservationByClosedDateIntervalAndBeneficiaryId(final long beneficiaryId, final Interval closedDateInterval) {
+	public long countByClosedDateIntervalAndBeneficiaryId(final long beneficiaryId, final Interval closedDateInterval) {
 		if (null == closedDateInterval) {
 			throw new IllegalArgumentException("'closedDateInterval' must not be null");
 		}
@@ -46,14 +46,14 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 	}
 
 	@Override
-	public long countGroupReservationByBeneficiaryId(final long beneficiaryId) {
+	public long countByBeneficiaryId(final long beneficiaryId) {
 		final Query countGroupReservationByBeneficiaryIdQuery = createNamedQuery(GroupReservation.COUNTGROUPRESERVATION_BENEFICIARYID_QUERYNAME);
 		countGroupReservationByBeneficiaryIdQuery.setParameter("beneficiaryId", beneficiaryId);
 		return (Long) countGroupReservationByBeneficiaryIdQuery.getSingleResult();
 	}
 
 	@Override
-	public List<GroupReservation> findGroupReservationByClosedDateInterval(final Interval closedDateInterval, final Pagination pagination) {
+	public List<GroupReservation> findByClosedDateInterval(final Interval closedDateInterval, final Pagination pagination) {
 		if (null == closedDateInterval) {
 			throw new IllegalArgumentException("'closedDateInterval' must not be null");
 		}
@@ -71,7 +71,7 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 	}
 
 	@Override
-	public List<GroupReservation> findGroupReservationByClosedDateIntervalAndBeneficiaryId(final long beneficiaryId, final Interval closedDateInterval, final Pagination pagination) {
+	public List<GroupReservation> findByClosedDateIntervalAndBeneficiaryId(final long beneficiaryId, final Interval closedDateInterval, final Pagination pagination) {
 		if (null == closedDateInterval) {
 			throw new IllegalArgumentException("'closedDateInterval' must not be null");
 		}
@@ -90,7 +90,7 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 	}
 
 	@Override
-	public List<GroupReservation> findGroupReservationByBeneficiaryId(final long beneficiaryId, final Pagination pagination) {
+	public List<GroupReservation> findByBeneficiaryId(final long beneficiaryId, final Pagination pagination) {
 		final TypedQuery<GroupReservation> findGroupReservationByBeneficiaryIdTypedTypedQuery = createNamedTypedQuery(GroupReservation.FINDGROUPRESERVATION_BENEFICIARYID_QUERYNAME);
 		findGroupReservationByBeneficiaryIdTypedTypedQuery.setParameter("beneficiaryId", beneficiaryId);
 
@@ -103,7 +103,7 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 	}
 
 	@Override
-	public List<GroupReservation> findGroupReservationByOpenDateInterval(final Interval openDateInterval) {
+	public List<GroupReservation> findByOpenDateInterval(final Interval openDateInterval) {
 		if (null == openDateInterval) {
 			throw new IllegalArgumentException("'openDateInterval' must not be null");
 		}

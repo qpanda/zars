@@ -6,6 +6,7 @@ PENDING FIXES/DECISIONS
 		o jumping table in ie on admingroupreservation
 
 MUST-HAVE
+	o order by in queries
 	o test multiple users at the same time (same browser, different browser, different host)
 	o rename Leistungsberechtiger to Benutzer
 	o help/about pages

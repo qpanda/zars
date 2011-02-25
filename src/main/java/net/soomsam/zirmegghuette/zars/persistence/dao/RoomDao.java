@@ -5,5 +5,5 @@ import java.util.List;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
 
 public interface RoomDao extends EntityDao<Room> {
-	public List<Room> findByPrecedence(boolean inUse);
+	public List<Room> findByInUse(boolean inUse);
 }

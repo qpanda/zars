@@ -58,7 +58,7 @@ public class PersistenceDaoTest {
 		final GroupReservation groupReservation02 = createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight());
 		final GroupReservation groupReservation03 = createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
 
-		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), null);
+		final List<GroupReservation> groupReservationList = groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), null);
 		Assert.assertNotNull(groupReservationList);
 		Assert.assertFalse(groupReservationList.contains(groupReservation01));
 		Assert.assertTrue(groupReservationList.contains(groupReservation02));
@@ -71,13 +71,13 @@ public class PersistenceDaoTest {
 		final Room testRoom = createTestRoom();
 		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight().plusDays(3));
 
-		Assert.assertTrue(groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(5), new DateMidnight().minusDays(4)), null).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(4), new DateMidnight().minusDays(3)), null).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(3), new DateMidnight().minusDays(2)), null).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1)), null).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().plusDays(2), new DateMidnight().plusDays(3)), null).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().plusDays(3), new DateMidnight().plusDays(4)), null).isEmpty());
-		Assert.assertTrue(groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().plusDays(4), new DateMidnight().plusDays(5)), null).isEmpty());
+		Assert.assertTrue(groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().minusDays(5), new DateMidnight().minusDays(4)), null).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().minusDays(4), new DateMidnight().minusDays(3)), null).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().minusDays(3), new DateMidnight().minusDays(2)), null).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1)), null).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().plusDays(2), new DateMidnight().plusDays(3)), null).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().plusDays(3), new DateMidnight().plusDays(4)), null).isEmpty());
+		Assert.assertTrue(groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().plusDays(4), new DateMidnight().plusDays(5)), null).isEmpty());
 	}
 
 	@Test
@@ -87,13 +87,13 @@ public class PersistenceDaoTest {
 		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight());
 		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
 
-		final List<GroupReservation> allGroupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), null);
+		final List<GroupReservation> allGroupReservationList = groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), null);
 		Assert.assertEquals(2, allGroupReservationList.size());
 
-		final List<GroupReservation> firstPageGroupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), new Pagination(0, 1));
+		final List<GroupReservation> firstPageGroupReservationList = groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), new Pagination(0, 1));
 		Assert.assertEquals(1, firstPageGroupReservationList.size());
 
-		final List<GroupReservation> secondPageGroupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), new Pagination(1, 1));
+		final List<GroupReservation> secondPageGroupReservationList = groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), new Pagination(1, 1));
 		Assert.assertEquals(1, secondPageGroupReservationList.size());
 	}
 
@@ -105,8 +105,8 @@ public class PersistenceDaoTest {
 		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
 
 		final Interval closedArrivalDepartureDateInterval = new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1));
-		final List<GroupReservation> allGroupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval, null);
-		final long allGroupReservationCount = groupReservationDao.countGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval);
+		final List<GroupReservation> allGroupReservationList = groupReservationDao.findByClosedDateInterval(closedArrivalDepartureDateInterval, null);
+		final long allGroupReservationCount = groupReservationDao.countByClosedDateInterval(closedArrivalDepartureDateInterval);
 		Assert.assertEquals(allGroupReservationCount, allGroupReservationList.size());
 	}
 
@@ -118,13 +118,13 @@ public class PersistenceDaoTest {
 		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
 
 		final Interval closedArrivalDepartureDateInterval = new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1));
-		Assert.assertEquals(2, groupReservationDao.countGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval));
+		Assert.assertEquals(2, groupReservationDao.countByClosedDateInterval(closedArrivalDepartureDateInterval));
 
-		Assert.assertEquals(2, groupReservationDao.countGroupReservationByClosedDateIntervalAndBeneficiaryId(testUser.getUserId(), closedArrivalDepartureDateInterval));
-		Assert.assertEquals(0, groupReservationDao.countGroupReservationByClosedDateIntervalAndBeneficiaryId(3, closedArrivalDepartureDateInterval));
+		Assert.assertEquals(2, groupReservationDao.countByClosedDateIntervalAndBeneficiaryId(testUser.getUserId(), closedArrivalDepartureDateInterval));
+		Assert.assertEquals(0, groupReservationDao.countByClosedDateIntervalAndBeneficiaryId(3, closedArrivalDepartureDateInterval));
 
-		Assert.assertEquals(2, groupReservationDao.countGroupReservationByBeneficiaryId(testUser.getUserId()));
-		Assert.assertEquals(0, groupReservationDao.countGroupReservationByBeneficiaryId(3));
+		Assert.assertEquals(2, groupReservationDao.countByBeneficiaryId(testUser.getUserId()));
+		Assert.assertEquals(0, groupReservationDao.countByBeneficiaryId(3));
 
 		Assert.assertEquals(2, groupReservationDao.countAll());
 	}
@@ -137,13 +137,13 @@ public class PersistenceDaoTest {
 		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight(), new DateMidnight().plusDays(3));
 
 		final Interval closedArrivalDepartureDateInterval = new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1));
-		Assert.assertEquals(2, groupReservationDao.findGroupReservationByClosedDateInterval(closedArrivalDepartureDateInterval, null).size());
+		Assert.assertEquals(2, groupReservationDao.findByClosedDateInterval(closedArrivalDepartureDateInterval, null).size());
 
-		Assert.assertEquals(2, groupReservationDao.findGroupReservationByClosedDateIntervalAndBeneficiaryId(testUser.getUserId(), closedArrivalDepartureDateInterval, null).size());
-		Assert.assertEquals(0, groupReservationDao.findGroupReservationByClosedDateIntervalAndBeneficiaryId(3, closedArrivalDepartureDateInterval, null).size());
+		Assert.assertEquals(2, groupReservationDao.findByClosedDateIntervalAndBeneficiaryId(testUser.getUserId(), closedArrivalDepartureDateInterval, null).size());
+		Assert.assertEquals(0, groupReservationDao.findByClosedDateIntervalAndBeneficiaryId(3, closedArrivalDepartureDateInterval, null).size());
 
-		Assert.assertEquals(2, groupReservationDao.findGroupReservationByBeneficiaryId(testUser.getUserId(), null).size());
-		Assert.assertEquals(0, groupReservationDao.findGroupReservationByBeneficiaryId(3, null).size());
+		Assert.assertEquals(2, groupReservationDao.findByBeneficiaryId(testUser.getUserId(), null).size());
+		Assert.assertEquals(0, groupReservationDao.findByBeneficiaryId(3, null).size());
 
 		Assert.assertEquals(2, groupReservationDao.findAll().size());
 	}
@@ -154,28 +154,28 @@ public class PersistenceDaoTest {
 		final Room testRoom = createTestRoom();
 		createGroupReservation(testUser, testRoom, new DateTime(), new DateMidnight().minusDays(3), new DateMidnight().plusDays(3));
 
-		Assert.assertTrue(groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().minusDays(5), new DateMidnight().minusDays(4))).isEmpty());
-		Assert.assertTrue(groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().minusDays(4), new DateMidnight().minusDays(3))).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().minusDays(3), new DateMidnight().minusDays(2))).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1))).isEmpty());
-		Assert.assertTrue(!groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().plusDays(2), new DateMidnight().plusDays(3))).isEmpty());
-		Assert.assertTrue(groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().plusDays(3), new DateMidnight().plusDays(4))).isEmpty());
-		Assert.assertTrue(groupReservationDao.findGroupReservationByOpenDateInterval(new Interval(new DateMidnight().plusDays(4), new DateMidnight().plusDays(5))).isEmpty());
+		Assert.assertTrue(groupReservationDao.findByOpenDateInterval(new Interval(new DateMidnight().minusDays(5), new DateMidnight().minusDays(4))).isEmpty());
+		Assert.assertTrue(groupReservationDao.findByOpenDateInterval(new Interval(new DateMidnight().minusDays(4), new DateMidnight().minusDays(3))).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findByOpenDateInterval(new Interval(new DateMidnight().minusDays(3), new DateMidnight().minusDays(2))).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findByOpenDateInterval(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1))).isEmpty());
+		Assert.assertTrue(!groupReservationDao.findByOpenDateInterval(new Interval(new DateMidnight().plusDays(2), new DateMidnight().plusDays(3))).isEmpty());
+		Assert.assertTrue(groupReservationDao.findByOpenDateInterval(new Interval(new DateMidnight().plusDays(3), new DateMidnight().plusDays(4))).isEmpty());
+		Assert.assertTrue(groupReservationDao.findByOpenDateInterval(new Interval(new DateMidnight().plusDays(4), new DateMidnight().plusDays(5))).isEmpty());
 	}
 
 	@Test
 	public void testFindNoGroupReservation() {
-		final List<GroupReservation> groupReservationList = groupReservationDao.findGroupReservationByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), null);
+		final List<GroupReservation> groupReservationList = groupReservationDao.findByClosedDateInterval(new Interval(new DateMidnight().minusDays(2), new DateMidnight().plusDays(1)), null);
 		Assert.assertNotNull(groupReservationList);
 		Assert.assertTrue(groupReservationList.isEmpty());
 	}
 
 	@Test
 	public void testFindRoomByPrecedence() {
-		final List<Room> roomNotInUseList = roomDao.findByPrecedence(false);
+		final List<Room> roomNotInUseList = roomDao.findByInUse(false);
 		Assert.assertTrue(roomNotInUseList.isEmpty());
 
-		final List<Room> roomInUseList = roomDao.findByPrecedence(true);
+		final List<Room> roomInUseList = roomDao.findByInUse(true);
 		Assert.assertEquals(2, roomInUseList.size());
 		Assert.assertEquals(1, roomInUseList.get(0).getPrecedence());
 		Assert.assertEquals(2, roomInUseList.get(1).getPrecedence());
@@ -206,13 +206,22 @@ public class PersistenceDaoTest {
 	}
 
 	@Test
+	public void testFindLatestEvents() {
+		final User testUser = createTestUser();
+		final Event sessionEvent = eventDao.create(testUser, CategoryType.SESSION, "S0001");
+		eventDao.persist(sessionEvent);
+
+		Assert.assertFalse(eventDao.findLatest(null).isEmpty());
+	}
+
+	@Test
 	public void testFindEventByOpenDateInterval() {
 		final User testUser = createTestUser();
 		final Event sessionEvent = eventDao.create(testUser, CategoryType.SESSION, "S0001");
 		eventDao.persist(sessionEvent);
 
-		Assert.assertFalse(eventDao.findEventByOpenDateInterval(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1)), null).isEmpty());
-		Assert.assertTrue(eventDao.findEventByOpenDateInterval(new Interval(new DateMidnight().minusDays(5), new DateMidnight().minusDays(3)), null).isEmpty());
+		Assert.assertFalse(eventDao.findByOpenDateInterval(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1)), null).isEmpty());
+		Assert.assertTrue(eventDao.findByOpenDateInterval(new Interval(new DateMidnight().minusDays(5), new DateMidnight().minusDays(3)), null).isEmpty());
 	}
 
 	@Test
@@ -221,7 +230,7 @@ public class PersistenceDaoTest {
 		final Event sessionEvent = eventDao.create(testUser, CategoryType.SESSION, "S0001");
 		eventDao.persist(sessionEvent);
 
-		Assert.assertFalse(eventDao.findEventByUserId(testUser.getUserId(), null).isEmpty());
+		Assert.assertFalse(eventDao.findByUserId(testUser.getUserId(), null).isEmpty());
 	}
 
 	private GroupReservation createGroupReservation(final User user, final Room room, final DateTime booked, final DateMidnight arrival, final DateMidnight departure) {
