@@ -23,8 +23,8 @@ public class LogMdcPhaseListener implements PhaseListener {
 	}
 
 	protected void addSessionId(final PhaseEvent phaseEvent) {
-		FacesContext facesContext = phaseEvent.getFacesContext();
-		String sessionId = SessionUtils.determineSessionId(facesContext);
+		final FacesContext facesContext = phaseEvent.getFacesContext();
+		final String sessionId = SessionUtils.determineSessionId(facesContext);
 		if (null != sessionId) {
 			MDC.put(MDC_SESSION_ID, sessionId);
 		}
@@ -32,9 +32,9 @@ public class LogMdcPhaseListener implements PhaseListener {
 
 	protected void addUsername() {
 		try {
-			String user = SecurityUtils.determineUsername();
+			final String user = SecurityUtils.determineUsername();
 			MDC.put(MDC_USERNAME, user);
-		} catch (NoAuthenticationException noAuthenticationException) {
+		} catch (final NoAuthenticationException noAuthenticationException) {
 		}
 	}
 

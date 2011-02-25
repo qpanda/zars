@@ -8,7 +8,7 @@ import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 public class GroupReservationConflictException extends BusinessException {
 	private final List<GroupReservationBean> conflictingGroupReservations;
 
-	public GroupReservationConflictException(String message, List<GroupReservationBean> conflictingGroupReservations) {
+	public GroupReservationConflictException(final String message, final List<GroupReservationBean> conflictingGroupReservations) {
 		super(message);
 		this.conflictingGroupReservations = conflictingGroupReservations;
 	}

@@ -167,12 +167,12 @@ public class AddUserController implements Serializable {
 	}
 
 	protected void setDefaultSelectedTimezoneId() {
-		selectedTimezoneId = (String)PreferenceType.TIMEZONE.getPreferenceDefaultValue();
+		selectedTimezoneId = (String) PreferenceType.TIMEZONE.getPreferenceDefaultValue();
 	}
 
 	public List<SelectItem> getAvailableTimezones() {
 		if (null == availableTimezones) {
-			Locale preferredLocale = settingController.getPreferredLocale();
+			final Locale preferredLocale = settingController.getPreferredLocale();
 			final List<TimeZone> availableTimezoneList = LocaleUtils.determineSupportedTimezoneList();
 			availableTimezones = new ArrayList<SelectItem>();
 			for (final TimeZone availableTimezone : availableTimezoneList) {
@@ -192,12 +192,12 @@ public class AddUserController implements Serializable {
 	}
 
 	protected void setDefaultSelectedLocaleDisplayName() {
-		selectedLocaleDisplayName = (String)PreferenceType.LOCALE.getPreferenceDefaultValue();
+		selectedLocaleDisplayName = (String) PreferenceType.LOCALE.getPreferenceDefaultValue();
 	}
 
 	public List<SelectItem> getSupportedLocales() {
 		if (null == supportedLocales) {
-			Locale preferredLocale = settingController.getPreferredLocale();
+			final Locale preferredLocale = settingController.getPreferredLocale();
 			final List<Locale> supportedLocaleList = LocaleUtils.determineSupportedLocaleList();
 			supportedLocales = new ArrayList<SelectItem>();
 			for (final Locale supportedLocale : supportedLocaleList) {
@@ -230,7 +230,7 @@ public class AddUserController implements Serializable {
 
 	public String create() {
 		if (!StringUtils.equals(password, confirmPassword)) {
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR, (Object[])null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 			return null;
 		}
@@ -243,7 +243,7 @@ public class AddUserController implements Serializable {
 			return "addUserConfirmation";
 		} catch (final UniqueConstraintException uniqueConstraintException) {
 			final String uniqueConstraintMessageId = "sectionsApplicationUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, (Object[])null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, (Object[]) null);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 		}
 

@@ -21,11 +21,12 @@ public class HibernateHsqlDialect extends HSQLDialect {
 		 *            The exception that was the result of the constraint violation.
 		 * @return The extracted constraint name.
 		 */
-		public String extractConstraintName(SQLException sqle) {
+		@Override
+		public String extractConstraintName(final SQLException sqle) {
 			String constraintName = null;
 
-			int errorCode = JDBCExceptionHelper.extractErrorCode(sqle);
-			String sqlState = JDBCExceptionHelper.extractSqlState(sqle);
+			final int errorCode = JDBCExceptionHelper.extractErrorCode(sqle);
+			final String sqlState = JDBCExceptionHelper.extractSqlState(sqle);
 
 			if (errorCode == -8) {
 				constraintName = extractUsingTemplate("Integrity constraint violation ", " table:", sqle.getMessage());

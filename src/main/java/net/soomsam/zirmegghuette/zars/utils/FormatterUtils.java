@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 public class FormatterUtils {
 	public static String format(final UserBean userBean) {
-		StringBuffer stringBuffer = new StringBuffer(userBean.getUsername());
+		final StringBuffer stringBuffer = new StringBuffer(userBean.getUsername());
 		if (!StringUtils.isEmpty(userBean.getFirstName()) && !StringUtils.isEmpty(userBean.getLastName())) {
 			stringBuffer.append(" (");
 			stringBuffer.append(userBean.getFirstName());

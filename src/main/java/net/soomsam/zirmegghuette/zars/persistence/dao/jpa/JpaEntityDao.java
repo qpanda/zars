@@ -102,9 +102,9 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 
 	@Override
 	public void removeAll(final Set<Entity> entitySet) {
-		Iterator<Entity> entityIterator = entitySet.iterator();
+		final Iterator<Entity> entityIterator = entitySet.iterator();
 		while (entityIterator.hasNext()) {
-			Entity entity = entityIterator.next();
+			final Entity entity = entityIterator.next();
 			entityManager.remove(entity);
 		}
 	}
@@ -131,11 +131,11 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 			throw new IllegalArgumentException("'queryName' must not be null");
 		}
 
-		Query namedQuery = entityManager.createNamedQuery(queryName);
+		final Query namedQuery = entityManager.createNamedQuery(queryName);
 		namedQuery.setMaxResults(QUERY_MAXRESULTS);
 		return namedQuery;
 	}
-	
+
 	/**
 	 * creates a {@link TypedQuery} object for the named query
 	 * 
@@ -148,7 +148,7 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 			throw new IllegalArgumentException("'queryName' must not be null");
 		}
 
-		TypedQuery<Entity> namedTypedQuery = entityManager.createNamedQuery(queryName, determineEntityClass());
+		final TypedQuery<Entity> namedTypedQuery = entityManager.createNamedQuery(queryName, determineEntityClass());
 		namedTypedQuery.setMaxResults(QUERY_MAXRESULTS);
 		return namedTypedQuery;
 	}
@@ -165,11 +165,11 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 			throw new IllegalArgumentException("'jpQueryString' must not be null");
 		}
 
-		Query query = entityManager.createQuery(jpQueryString);
+		final Query query = entityManager.createQuery(jpQueryString);
 		query.setMaxResults(QUERY_MAXRESULTS);
 		return query;
 	}
-	
+
 	/**
 	 * dynamically creates a typed query from the JPQL string provided
 	 * 
@@ -182,7 +182,7 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 			throw new IllegalArgumentException("'jpQueryString' must not be null");
 		}
 
-		TypedQuery<Entity> typedQuery = entityManager.createQuery(jpQueryString, determineEntityClass());
+		final TypedQuery<Entity> typedQuery = entityManager.createQuery(jpQueryString, determineEntityClass());
 		typedQuery.setMaxResults(QUERY_MAXRESULTS);
 		return typedQuery;
 	}

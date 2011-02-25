@@ -55,7 +55,7 @@ public class UserBean extends BaseBean {
 		return userTimestamp;
 	}
 
-	public void setUserTimestamp(Date userTimestamp) {
+	public void setUserTimestamp(final Date userTimestamp) {
 		this.userTimestamp = userTimestamp;
 	}
 

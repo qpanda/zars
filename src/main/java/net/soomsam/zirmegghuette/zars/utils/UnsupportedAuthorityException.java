@@ -2,11 +2,11 @@ package net.soomsam.zirmegghuette.zars.utils;
 
 @SuppressWarnings("serial")
 public class UnsupportedAuthorityException extends RuntimeException {
-	public UnsupportedAuthorityException(String message, Throwable cause) {
+	public UnsupportedAuthorityException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public UnsupportedAuthorityException(String message) {
+	public UnsupportedAuthorityException(final String message) {
 		super(message);
 	}
 }

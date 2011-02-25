@@ -53,8 +53,8 @@ public class ViewGroupReservationController implements Serializable {
 	}
 
 	public String getInvalidGroupReservationIdMessage() {
-		Locale preferredLocale = settingController.getPreferredLocale();
-		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[])null).getSummary();
+		final Locale preferredLocale = settingController.getPreferredLocale();
+		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null).getSummary();
 	}
 
 	public void retrieveGroupReservation() {
@@ -69,7 +69,7 @@ public class ViewGroupReservationController implements Serializable {
 
 		if (null == this.groupReservationId) {
 			this.validNavigation = false;
-			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[])null);
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
 			return;
 		}
@@ -78,7 +78,7 @@ public class ViewGroupReservationController implements Serializable {
 			savedGroupReservation = groupReservationService.retrieveGroupReservation(groupReservationId);
 		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
-			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[])null);
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
 		}
 	}

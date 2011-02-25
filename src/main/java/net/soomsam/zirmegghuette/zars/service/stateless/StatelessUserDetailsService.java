@@ -23,17 +23,17 @@ public class StatelessUserDetailsService implements UserDetailsService {
 	private UserService userService;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException, DataAccessException {
 		try {
-			UserBean userBean = userService.retrieveUser(username);
+			final UserBean userBean = userService.retrieveUser(username);
 
-			List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
-			for (RoleBean roleBean : userBean.getRoles()) {
+			final List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
+			for (final RoleBean roleBean : userBean.getRoles()) {
 				grantedAuthorityList.add(new GrantedAuthorityImpl(roleBean.getName()));
 			}
 
 			return new User(userBean.getUsername(), userBean.getPassword(), userBean.isEnabled(), true, true, true, grantedAuthorityList);
-		} catch (EntityNotFoundException entityNotFoundException) {
+		} catch (final EntityNotFoundException entityNotFoundException) {
 			throw new UsernameNotFoundException("unable to load user with username [" + username + "]", entityNotFoundException);
 		}
 	}

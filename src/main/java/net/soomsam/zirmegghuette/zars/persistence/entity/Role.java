@@ -27,13 +27,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = Role.TABLENAME_ROLE)
-@NamedQueries( { @NamedQuery(name = Role.FINDROLE_ID_QUERYNAME, query = Role.FINDROLE_ID_QUERYSTRING), @NamedQuery(name = Role.FINDROLE_NAME_QUERYNAME, query = Role.FINDROLE_NAME_QUERYSTRING) })
+@NamedQueries({ @NamedQuery(name = Role.FINDROLE_ID_QUERYNAME, query = Role.FINDROLE_ID_QUERYSTRING), @NamedQuery(name = Role.FINDROLE_NAME_QUERYNAME, query = Role.FINDROLE_NAME_QUERYSTRING) })
 public class Role extends BaseEntity {
 	public static final String TABLENAME_ROLE = "zars_role";
 	public static final String COLUMNNAME_ROLEID = "role_id";
 	public static final String COLUMNNAME_ROLETIMESTAMP = "role_timestamp";
 	public static final String COLUMNNAME_NAME = "name";
-	
+
 	public static final int COLUMNLENGTH_NAME = 128;
 
 	public static final String FINDROLE_ID_QUERYNAME = "Role.findRoleById";

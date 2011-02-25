@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = User.TABLENAME_USER)
-@NamedQueries( { @NamedQuery(name = User.FINDUSER_ROLEID_QUERYNAME, query = User.FINDUSER_ROLEID_QUERYSTRING), @NamedQuery(name = User.FINDUSER_USERNAME_QUERYNAME, query = User.FINDUSER_USERNAME_QUERYSTRING) })
+@NamedQueries({ @NamedQuery(name = User.FINDUSER_ROLEID_QUERYNAME, query = User.FINDUSER_ROLEID_QUERYSTRING), @NamedQuery(name = User.FINDUSER_USERNAME_QUERYNAME, query = User.FINDUSER_USERNAME_QUERYSTRING) })
 public class User extends BaseEntity {
 	public static final String TABLENAME_USER = "zars_user";
 	public static final String COLUMNNAME_USERID = "user_id";
@@ -44,7 +44,7 @@ public class User extends BaseEntity {
 	public static final String COLUMNNAME_PASSWORD = "password";
 	public static final String COLUMNNAME_ENABLED = "active";
 	public static final String JOINTABLENAME_USER_ROLE = "zars_user_zars_role";
-	
+
 	public static final int COLUMNLENGTH_USERNAME = 128;
 	public static final int COLUMNLENGTH_PASSWORD = 256;
 	public static final int COLUMNLENGTH_EMAILADDRESS = 128;
@@ -100,7 +100,7 @@ public class User extends BaseEntity {
 
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "booker")
 	private final Set<GroupReservation> bookerGroupReservations = new HashSet<GroupReservation>(0);
-	
+
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "beneficiary")
 	private final Set<GroupReservation> beneficiaryGroupReservations = new HashSet<GroupReservation>(0);
 
@@ -109,7 +109,7 @@ public class User extends BaseEntity {
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
 	private final Set<Preference> preferences = new HashSet<Preference>(0);
-	
+
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "user")
 	private final Set<Event> events = new HashSet<Event>(0);
 
@@ -324,7 +324,7 @@ public class User extends BaseEntity {
 		unassociateRoles(removedRoleSet);
 		associateRoles(addedRoleSet);
 	}
-	
+
 	public Set<GroupReservation> getBookerGroupReservations() {
 		return Collections.unmodifiableSet(bookerGroupReservations);
 	}
@@ -466,7 +466,7 @@ public class User extends BaseEntity {
 
 		removePreferences(preferenceSet);
 	}
-	
+
 	public Set<Event> getEvents() {
 		return Collections.unmodifiableSet(events);
 	}
@@ -497,7 +497,7 @@ public class User extends BaseEntity {
 			return false;
 		}
 
-		final User other = (User)entity;
+		final User other = (User) entity;
 		return new EqualsBuilder().append(getUserId(), other.getUserId()).isEquals();
 	}
 
@@ -507,7 +507,7 @@ public class User extends BaseEntity {
 			return false;
 		}
 
-		final User other = (User)entity;
+		final User other = (User) entity;
 		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getUserTimestamp(), other.getUserTimestamp()).isEquals();
 	}
 
@@ -517,7 +517,7 @@ public class User extends BaseEntity {
 			return false;
 		}
 
-		final User other = (User)entity;
+		final User other = (User) entity;
 		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getUsername(), other.getUsername()).append(getPassword(), other.getPassword()).append(getEmailAddress(), other.getEmailAddress()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).append(isEnabled(), other.isEnabled()).isEquals();
 	}
 
@@ -531,7 +531,7 @@ public class User extends BaseEntity {
 			return false;
 		}
 
-		final User other = (User)obj;
+		final User other = (User) obj;
 		return new EqualsBuilder().append(getUserId(), other.getUserId()).append(getUserTimestamp(), other.getUserTimestamp()).append(getUsername(), other.getUsername()).append(getPassword(), other.getPassword()).append(getEmailAddress(), other.getEmailAddress()).append(getFirstName(), other.getFirstName()).append(getLastName(), other.getLastName()).append(isEnabled(), other.isEnabled()).isEquals();
 	}
 

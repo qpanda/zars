@@ -23,7 +23,7 @@ public class RoomBean extends BaseBean {
 		super();
 	}
 
-	public RoomBean(long roomId, Date roomTimestamp, String name, long capacity, long precedence, boolean inUse) {
+	public RoomBean(final long roomId, final Date roomTimestamp, final String name, final long capacity, final long precedence, final boolean inUse) {
 		super();
 		this.roomId = roomId;
 		this.roomTimestamp = roomTimestamp;
@@ -37,7 +37,7 @@ public class RoomBean extends BaseBean {
 		return roomId;
 	}
 
-	public void setRoomId(long roomId) {
+	public void setRoomId(final long roomId) {
 		this.roomId = roomId;
 	}
 
@@ -45,7 +45,7 @@ public class RoomBean extends BaseBean {
 		return roomTimestamp;
 	}
 
-	public void setRoomTimestamp(Date roomTimestamp) {
+	public void setRoomTimestamp(final Date roomTimestamp) {
 		this.roomTimestamp = roomTimestamp;
 	}
 
@@ -53,7 +53,7 @@ public class RoomBean extends BaseBean {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -61,7 +61,7 @@ public class RoomBean extends BaseBean {
 		return capacity;
 	}
 
-	public void setCapacity(long capacity) {
+	public void setCapacity(final long capacity) {
 		this.capacity = capacity;
 	}
 
@@ -69,7 +69,7 @@ public class RoomBean extends BaseBean {
 		return precedence;
 	}
 
-	public void setPrecedence(long precedence) {
+	public void setPrecedence(final long precedence) {
 		this.precedence = precedence;
 	}
 
@@ -77,7 +77,7 @@ public class RoomBean extends BaseBean {
 		return inUse;
 	}
 
-	public void setInUse(boolean inUse) {
+	public void setInUse(final boolean inUse) {
 		this.inUse = inUse;
 	}
 

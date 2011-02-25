@@ -21,7 +21,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = Setting.TABLENAME_SETTING)
-@NamedQueries( { @NamedQuery(name = Setting.FINDSETTING_QUERYNAME, query = Setting.FINDSETTING_QUERYSTRING) })
+@NamedQueries({ @NamedQuery(name = Setting.FINDSETTING_QUERYNAME, query = Setting.FINDSETTING_QUERYSTRING) })
 public class Setting extends BaseEntity {
 	public static final String TABLENAME_SETTING = "zars_setting";
 	public static final String COLUMNNAME_SETTINGID = "setting_id";
@@ -29,7 +29,7 @@ public class Setting extends BaseEntity {
 	public static final String COLUMNNAME_NAME = "name";
 	public static final String COLUMNNAME_VALUE = "value";
 	public static final String COLUMNNAME_TYPE = "type";
-	
+
 	public static final int COLUMNLENGTH_NAME = 128;
 	public static final int COLUMNLENGTH_VALUE = 256;
 	public static final int COLUMNLENGTH_TYPE = 256;

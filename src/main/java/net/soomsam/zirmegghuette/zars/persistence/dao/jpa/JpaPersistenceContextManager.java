@@ -31,7 +31,7 @@ public class JpaPersistenceContextManager implements PersistenceContextManager {
 	}
 
 	@Override
-	public void setFlushMode(FlushModeType flushMode) {
+	public void setFlushMode(final FlushModeType flushMode) {
 		entityManager.setFlushMode(flushMode);
 	}
 }

@@ -8,14 +8,14 @@ public class InsufficientPermissionException extends BusinessException {
 	private final Long objectId;
 	private final OperationType operationType;
 
-	public InsufficientPermissionException(String message, long userId, OperationType operationType) {
+	public InsufficientPermissionException(final String message, final long userId, final OperationType operationType) {
 		super(message);
 		this.userId = userId;
 		this.objectId = null;
 		this.operationType = operationType;
 	}
 
-	public InsufficientPermissionException(String message, long userId, Long objectId, OperationType operationType) {
+	public InsufficientPermissionException(final String message, final long userId, final Long objectId, final OperationType operationType) {
 		super(message);
 		this.userId = userId;
 		this.objectId = objectId;

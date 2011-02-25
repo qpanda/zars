@@ -48,7 +48,7 @@ public class TransactionalPreferenceService implements PreferenceService {
 			throw new IllegalArgumentException("'preferenceType' must not be null");
 		}
 
-		Preference preference = preferenceDao.findByUserIdAndPreferenceType(userId, preferenceType);
+		final Preference preference = preferenceDao.findByUserIdAndPreferenceType(userId, preferenceType);
 		if (null == preference) {
 			logger.debug("preference with name [" + preferenceType.getPreferenceName() + "] for user with id [" + userId + "] does not exist");
 			return null;
@@ -64,20 +64,20 @@ public class TransactionalPreferenceService implements PreferenceService {
 			throw new IllegalArgumentException("'preferenceType' must not be null");
 		}
 
-		Preference preference = preferenceDao.update(userId, preferenceType, value);
+		final Preference preference = preferenceDao.update(userId, preferenceType, value);
 		logger.debug("updating preference [" + preference + "] for user with id [" + userId + "]");
 		return map(preference);
 	}
 
 	@Override
 	public PreferenceBean findCurrentUserPreference(final PreferenceType preferenceType) {
-		User currentUser = userDao.retrieveCurrentUser();
+		final User currentUser = userDao.retrieveCurrentUser();
 		return findPreference(currentUser.getUserId(), preferenceType);
 	}
 
 	@Override
 	public PreferenceBean updateCurrentUserPreference(final PreferenceType preferenceType, final Object value) {
-		User currentUser = userDao.retrieveCurrentUser();
+		final User currentUser = userDao.retrieveCurrentUser();
 		return updatePreference(currentUser.getUserId(), preferenceType, value);
 	}
 
@@ -87,10 +87,10 @@ public class TransactionalPreferenceService implements PreferenceService {
 		}
 
 		try {
-			Class<?> preferenceValueType = Class.forName(preference.getType());
-			Object preferenceValue = beanWrapper.convertIfNecessary(preference.getValue(), preferenceValueType);
+			final Class<?> preferenceValueType = Class.forName(preference.getType());
+			final Object preferenceValue = beanWrapper.convertIfNecessary(preference.getValue(), preferenceValueType);
 			return new PreferenceBean(preference.getPreferenceId(), preference.getPreferenceTimestamp(), PreferenceType.valueOf(preference.getName()), preferenceValue, preferenceValueType);
-		} catch (ClassNotFoundException classNotFoundException) {
+		} catch (final ClassNotFoundException classNotFoundException) {
 			throw new ServiceException("converting value for preference [" + preference + "] failed", classNotFoundException);
 		}
 	}

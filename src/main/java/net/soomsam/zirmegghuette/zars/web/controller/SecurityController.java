@@ -18,19 +18,19 @@ import org.springframework.context.annotation.Scope;
 public class SecurityController implements Serializable {
 	@Inject
 	protected transient UserService userService;
-	
+
 	private UserBean cachedCurrentUserBean;
 
 	public synchronized UserBean getCurrentUser() {
 		if (null == cachedCurrentUserBean) {
-			cachedCurrentUserBean = userService.retrieveCurrentUser(); 
+			cachedCurrentUserBean = userService.retrieveCurrentUser();
 		}
-		
-		return cachedCurrentUserBean; 
+
+		return cachedCurrentUserBean;
 	}
 
 	public long getCurrentUserId() {
-		UserBean currentUser = getCurrentUser();
+		final UserBean currentUser = getCurrentUser();
 		return currentUser.getUserId();
 	}
 

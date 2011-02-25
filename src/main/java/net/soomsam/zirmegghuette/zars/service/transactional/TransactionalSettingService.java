@@ -42,7 +42,7 @@ public class TransactionalSettingService implements SettingService {
 			throw new IllegalArgumentException("'settingType' must not be null");
 		}
 
-		Setting setting = settingDao.findBySettingType(settingType);
+		final Setting setting = settingDao.findBySettingType(settingType);
 		if (null == setting) {
 			logger.debug("setting with name [" + settingType.getSettingName() + "] does not exist");
 			return null;
@@ -58,7 +58,7 @@ public class TransactionalSettingService implements SettingService {
 			throw new IllegalArgumentException("'settingType' must not be null");
 		}
 
-		Setting setting = settingDao.update(settingType, value);
+		final Setting setting = settingDao.update(settingType, value);
 		logger.debug("updating setting [" + setting + "]");
 		return map(setting);
 	}
@@ -69,10 +69,10 @@ public class TransactionalSettingService implements SettingService {
 		}
 
 		try {
-			Class<?> settingValueType = Class.forName(setting.getType());
-			Object settingValue = beanWrapper.convertIfNecessary(setting.getValue(), settingValueType);
+			final Class<?> settingValueType = Class.forName(setting.getType());
+			final Object settingValue = beanWrapper.convertIfNecessary(setting.getValue(), settingValueType);
 			return new SettingBean(setting.getSettingId(), setting.getSettingTimestamp(), SettingType.valueOf(setting.getName()), settingValue, settingValueType);
-		} catch (ClassNotFoundException classNotFoundException) {
+		} catch (final ClassNotFoundException classNotFoundException) {
 			throw new ServiceException("converting value for setting [" + setting + "] failed", classNotFoundException);
 		}
 	}

@@ -22,15 +22,15 @@ public class SettingServiceTest {
 
 	@Test
 	public void createSetting() {
-		String settingValue = "value01";
+		final String settingValue = "value01";
 		settingService.createSetting(SettingType.TEST, settingValue);
 	}
 
 	@Test
 	public void findSetting() {
-		String settingValue = "value02";
+		final String settingValue = "value02";
 		settingService.createSetting(SettingType.TEST, settingValue);
-		SettingBean settingBean = settingService.findSetting(SettingType.TEST);
+		final SettingBean settingBean = settingService.findSetting(SettingType.TEST);
 		Assert.assertEquals(SettingType.TEST, settingBean.getSettingType());
 		Assert.assertEquals(settingValue, settingBean.getValue());
 		Assert.assertEquals(String.class, settingBean.getType());
@@ -38,13 +38,13 @@ public class SettingServiceTest {
 
 	@Test
 	public void updateSetting() {
-		Integer settingValue01 = 1;
+		final Integer settingValue01 = 1;
 		settingService.createSetting(SettingType.TEST, settingValue01);
 
-		Integer settingValue02 = 2;
+		final Integer settingValue02 = 2;
 		settingService.updateSetting(SettingType.TEST, settingValue02);
 
-		SettingBean settingBean = settingService.findSetting(SettingType.TEST);
+		final SettingBean settingBean = settingService.findSetting(SettingType.TEST);
 		Assert.assertEquals(SettingType.TEST, settingBean.getSettingType());
 		Assert.assertEquals(settingValue02, settingBean.getValue());
 		Assert.assertEquals(Integer.class, settingBean.getType());
@@ -52,16 +52,16 @@ public class SettingServiceTest {
 
 	@Test
 	public void updateSettingWithDifferentType() {
-		String settingValue01 = "value01";
+		final String settingValue01 = "value01";
 		settingService.createSetting(SettingType.TEST, settingValue01);
-		SettingBean settingBean01 = settingService.findSetting(SettingType.TEST);
+		final SettingBean settingBean01 = settingService.findSetting(SettingType.TEST);
 		Assert.assertEquals(SettingType.TEST, settingBean01.getSettingType());
 		Assert.assertEquals(settingValue01, settingBean01.getValue());
 		Assert.assertEquals(String.class, settingBean01.getType());
 
-		Integer settingValue02 = 1234;
+		final Integer settingValue02 = 1234;
 		settingService.updateSetting(SettingType.TEST, settingValue02);
-		SettingBean settingBean02 = settingService.findSetting(SettingType.TEST);
+		final SettingBean settingBean02 = settingService.findSetting(SettingType.TEST);
 		Assert.assertEquals(SettingType.TEST, settingBean02.getSettingType());
 		Assert.assertEquals(settingValue02, settingBean02.getValue());
 		Assert.assertEquals(Integer.class, settingBean02.getType());
@@ -69,7 +69,7 @@ public class SettingServiceTest {
 
 	@Test
 	public void findNonExistingSetting() {
-		SettingBean settingBean = settingService.findSetting(SettingType.TEST);
+		final SettingBean settingBean = settingService.findSetting(SettingType.TEST);
 		Assert.assertNull(settingBean);
 	}
 }

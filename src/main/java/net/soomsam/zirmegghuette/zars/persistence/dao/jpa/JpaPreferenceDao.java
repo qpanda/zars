@@ -39,7 +39,7 @@ public class JpaPreferenceDao extends JpaEntityDao<Preference> implements Prefer
 
 		try {
 			return findPreferenceTypedQuery.getSingleResult();
-		} catch (NoResultException noResultException) {
+		} catch (final NoResultException noResultException) {
 			return null;
 		}
 	}
@@ -52,14 +52,14 @@ public class JpaPreferenceDao extends JpaEntityDao<Preference> implements Prefer
 			return new Preference(user, preferenceType.getPreferenceName(), Object.class.getCanonicalName());
 		}
 
-		String preferenceValue = beanWrapper.convertIfNecessary(value, String.class);
-		String preferenceValueType = value.getClass().getCanonicalName();
+		final String preferenceValue = beanWrapper.convertIfNecessary(value, String.class);
+		final String preferenceValueType = value.getClass().getCanonicalName();
 		return new Preference(user, preferenceType.getPreferenceName(), preferenceValue, preferenceValueType);
 	}
 
 	@Override
 	public Preference update(final long userId, final PreferenceType preferenceType, final Object value) {
-		Preference preference = findByUserIdAndPreferenceType(userId, preferenceType);
+		final Preference preference = findByUserIdAndPreferenceType(userId, preferenceType);
 		if (null == preference) {
 			throw new EntityNotFoundException("preference [" + preferenceType.getPreferenceName() + "] for user with id [" + userId + "] does not exist");
 		}
@@ -68,8 +68,8 @@ public class JpaPreferenceDao extends JpaEntityDao<Preference> implements Prefer
 			preference.setValue(null);
 			preference.setType(Object.class.getCanonicalName());
 		} else {
-			String preferenceValue = beanWrapper.convertIfNecessary(value, String.class);
-			String preferenceValueType = value.getClass().getCanonicalName();
+			final String preferenceValue = beanWrapper.convertIfNecessary(value, String.class);
+			final String preferenceValueType = value.getClass().getCanonicalName();
 			preference.setValue(preferenceValue);
 			preference.setType(preferenceValueType);
 		}

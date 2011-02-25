@@ -16,7 +16,7 @@ public class UserBeanFormatter implements Converter {
 	@Override
 	public String getAsString(final FacesContext facesContext, final UIComponent uiComponent, final Object value) {
 		if (value instanceof UserBean) {
-			UserBean userBean = (UserBean)value;
+			final UserBean userBean = (UserBean) value;
 			return FormatterUtils.format(userBean);
 		}
 

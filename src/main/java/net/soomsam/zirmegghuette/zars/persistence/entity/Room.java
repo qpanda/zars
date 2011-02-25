@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = Room.TABLENAME_ROOM)
-@NamedQueries( { @NamedQuery(name = Room.FINDROOM_INUSE_BYPRECEDENCE_QUERYNAME, query = Room.FINDROOM_INUSE_BYPRECEDENCE_QUERYSTRING) })
+@NamedQueries({ @NamedQuery(name = Room.FINDROOM_INUSE_BYPRECEDENCE_QUERYNAME, query = Room.FINDROOM_INUSE_BYPRECEDENCE_QUERYSTRING) })
 public class Room extends BaseEntity {
 	public static final String TABLENAME_ROOM = "zars_room";
 	public static final String COLUMNNAME_ROOMID = "room_id";
@@ -40,7 +40,7 @@ public class Room extends BaseEntity {
 	public static final String COLUMNNAME_INUSE = "in_use";
 
 	public static final int COLUMNLENGTH_NAME = 128;
-	
+
 	public static final String FINDROOM_INUSE_BYPRECEDENCE_QUERYNAME = "Room.findRoomInUseByPrecedence";
 	public static final String FINDROOM_INUSE_BYPRECEDENCE_QUERYSTRING = "from Room where inUse = :inUse order by precedence asc";
 

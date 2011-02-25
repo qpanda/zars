@@ -57,7 +57,7 @@ public class BusinessException extends Exception {
 	 * @param message
 	 *            the exception details message
 	 */
-	public BusinessException(String message) {
+	public BusinessException(final String message) {
 		super(message);
 	}
 
@@ -69,7 +69,7 @@ public class BusinessException extends Exception {
 	 * @param cause
 	 *            the cause for the {@link BusinessException}
 	 */
-	public BusinessException(String message, Throwable cause) {
+	public BusinessException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 }

@@ -35,8 +35,8 @@ public class AdminUserController implements Serializable {
 
 	public void onDisableUser(final ActionEvent commandLinkActionEvent) {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
-			final CommandLink commandLink = (CommandLink)commandLinkActionEvent.getComponent();
-			final Long selectedUserId = (Long)commandLink.getAttributes().get(commandLinkSelectedUserIdAttributeName);
+			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
+			final Long selectedUserId = (Long) commandLink.getAttributes().get(commandLinkSelectedUserIdAttributeName);
 
 			userService.disableUser(selectedUserId);
 			logger.debug("disabled user with id [" + selectedUserId + "]");
@@ -45,8 +45,8 @@ public class AdminUserController implements Serializable {
 
 	public void onEnableUser(final ActionEvent commandLinkActionEvent) {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
-			final CommandLink commandLink = (CommandLink)commandLinkActionEvent.getComponent();
-			final Long selectedUserId = (Long)commandLink.getAttributes().get(commandLinkSelectedUserIdAttributeName);
+			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
+			final Long selectedUserId = (Long) commandLink.getAttributes().get(commandLinkSelectedUserIdAttributeName);
 
 			userService.enableUser(selectedUserId);
 			logger.debug("enabled user with id [" + selectedUserId + "]");

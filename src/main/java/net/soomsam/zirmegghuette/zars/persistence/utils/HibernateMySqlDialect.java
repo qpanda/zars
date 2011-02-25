@@ -21,6 +21,7 @@ public class HibernateMySqlDialect extends MySQL5InnoDBDialect {
 		 *            The exception that was the result of the constraint violation.
 		 * @return The extracted constraint name.
 		 */
+		@Override
 		public String extractConstraintName(final SQLException sqle) {
 			String constraintName = null;
 

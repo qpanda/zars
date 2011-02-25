@@ -29,9 +29,9 @@ public class SettingController implements Serializable {
 	private TimeZone preferredTimeZone;
 
 	private Locale preferredLocale;
-	
+
 	private ThreadLocal<SimpleDateFormat> preferredDateFormat;
-	
+
 	private ThreadLocal<SimpleDateFormat> preferredDateFormatTime;
 
 	public void resetPreferredTimeZone() {
@@ -50,9 +50,9 @@ public class SettingController implements Serializable {
 	}
 
 	protected TimeZone determinePreferredTimeZone() {
-		PreferenceBean currentUserTimezonePreference = preferenceService.findCurrentUserPreference(PreferenceType.TIMEZONE);
+		final PreferenceBean currentUserTimezonePreference = preferenceService.findCurrentUserPreference(PreferenceType.TIMEZONE);
 		if (null != currentUserTimezonePreference) {
-			String currentUserTimezoneId = (String)currentUserTimezonePreference.getValue();
+			final String currentUserTimezoneId = (String) currentUserTimezonePreference.getValue();
 			return TimeZone.getTimeZone(currentUserTimezoneId);
 		}
 
@@ -75,9 +75,9 @@ public class SettingController implements Serializable {
 	}
 
 	protected Locale determinePreferredLocale() {
-		PreferenceBean currentUserLocalePreference = preferenceService.findCurrentUserPreference(PreferenceType.LOCALE);
+		final PreferenceBean currentUserLocalePreference = preferenceService.findCurrentUserPreference(PreferenceType.LOCALE);
 		if (null != currentUserLocalePreference) {
-			String currentUserLocaleDisplayName = (String)currentUserLocalePreference.getValue();
+			final String currentUserLocaleDisplayName = (String) currentUserLocalePreference.getValue();
 			return LocaleUtils.determineSupportedLocale(currentUserLocaleDisplayName);
 		}
 
@@ -89,13 +89,13 @@ public class SettingController implements Serializable {
 			preferredDateFormat = new ThreadLocal<SimpleDateFormat>() {
 				@Override
 				protected synchronized SimpleDateFormat initialValue() {
-					SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, getPreferredLocale());
+					final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.MEDIUM, getPreferredLocale());
 					simpleDateFormat.setTimeZone(getPreferredTimeZone());
 					return simpleDateFormat;
-				}				
+				}
 			};
 		}
-		
+
 		return preferredDateFormat.get();
 	}
 
@@ -108,7 +108,7 @@ public class SettingController implements Serializable {
 			preferredDateFormatTime = new ThreadLocal<SimpleDateFormat>() {
 				@Override
 				protected synchronized SimpleDateFormat initialValue() {
-					SimpleDateFormat simpleDateFormat = (SimpleDateFormat)SimpleDateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, getPreferredLocale());
+					final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, getPreferredLocale());
 					simpleDateFormat.setTimeZone(getPreferredTimeZone());
 					return simpleDateFormat;
 				}

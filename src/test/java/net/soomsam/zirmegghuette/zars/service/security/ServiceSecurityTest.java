@@ -117,8 +117,8 @@ public class ServiceSecurityTest {
 	}
 
 	protected void login(final String username, final String password) {
-		Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-		Authentication authentication = authenticationManager.authenticate(authenticationToken);
+		final Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+		final Authentication authentication = authenticationManager.authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
 
@@ -127,8 +127,8 @@ public class ServiceSecurityTest {
 	}
 
 	protected UserBean createUser(final String username, final String password) throws UniqueConstraintException {
-		List<RoleBean> roleBeanList = userService.findAllRoles();
-		Set<Long> roleIdSet = TestUtils.determineRoleIds(roleBeanList, RoleType.ROLE_USER);
+		final List<RoleBean> roleBeanList = userService.findAllRoles();
+		final Set<Long> roleIdSet = TestUtils.determineRoleIds(roleBeanList, RoleType.ROLE_USER);
 		return userService.createUser(username, password, "ghi@jkl.mno", "pqr", "stu", roleIdSet);
 	}
 }

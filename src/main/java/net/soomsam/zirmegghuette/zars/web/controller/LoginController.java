@@ -29,7 +29,7 @@ import com.sun.faces.util.MessageFactory;
 @SuppressWarnings("serial")
 public class LoginController implements Serializable {
 	private final static Logger logger = Logger.getLogger(LoginController.class);
-	
+
 	@Inject
 	private transient SecurityController securityController;
 
@@ -54,18 +54,18 @@ public class LoginController implements Serializable {
 	public void setPassword(final String password) {
 		this.password = password;
 	}
-	
+
 	public void checkAlreadyAuthenticated() throws IOException {
 		if (securityController.isFullyAuthenticated()) {
 			logger.debug("fully authenticated user detected, redirecting to default target URL");
-			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+			final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 			externalContext.redirect("/views/adminGroupReservation.jsf");
 		}
 	}
 
 	public String login() throws IOException, ServletException {
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		RequestDispatcher requestDispatcher = ((ServletRequest) externalContext.getRequest()).getRequestDispatcher("/j_spring_security_check");
+		final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		final RequestDispatcher requestDispatcher = ((ServletRequest) externalContext.getRequest()).getRequestDispatcher("/j_spring_security_check");
 		requestDispatcher.forward((ServletRequest) externalContext.getRequest(), (ServletResponse) externalContext.getResponse());
 		FacesContext.getCurrentInstance().responseComplete();
 		return null;
@@ -74,12 +74,12 @@ public class LoginController implements Serializable {
 	@PostConstruct
 	@SuppressWarnings("unused")
 	private void handleAuthenticationFailure() {
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		Map<String, Object> sessionMap = externalContext.getSessionMap();
-		Object authenticationExceptionObject = sessionMap.get(WebAttributes.AUTHENTICATION_EXCEPTION);
+		final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		final Map<String, Object> sessionMap = externalContext.getSessionMap();
+		final Object authenticationExceptionObject = sessionMap.get(WebAttributes.AUTHENTICATION_EXCEPTION);
 		if (authenticationExceptionObject instanceof AuthenticationException) {
-			AuthenticationException authenticationException = (AuthenticationException) authenticationExceptionObject;
-			Authentication authentication = authenticationException.getAuthentication();
+			final AuthenticationException authenticationException = (AuthenticationException) authenticationExceptionObject;
+			final Authentication authentication = authenticationException.getAuthentication();
 			if (null != authentication) {
 				setUsername(authentication.getName());
 				logger.warn("authentication for user [" + getUsername() + "] failed with 'AuthenticationException' [" + authenticationException.getCause() + "] and message [" + authenticationException.getMessage() + "]");
@@ -88,7 +88,7 @@ public class LoginController implements Serializable {
 			}
 
 			sessionMap.remove(WebAttributes.AUTHENTICATION_EXCEPTION);
-			final FacesMessage authenticationFailedFacesMessage = MessageFactory.getMessage("sectionsWelcomeLoginAuthenticationError", FacesMessage.SEVERITY_ERROR, (Object[])null);
+			final FacesMessage authenticationFailedFacesMessage = MessageFactory.getMessage("sectionsWelcomeLoginAuthenticationError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
 			FacesContext.getCurrentInstance().addMessage(null, authenticationFailedFacesMessage);
 		}
 	}

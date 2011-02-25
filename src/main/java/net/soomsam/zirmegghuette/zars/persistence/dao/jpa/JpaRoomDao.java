@@ -24,12 +24,12 @@ public class JpaRoomDao extends JpaEntityDao<Room> implements RoomDao {
 	}
 
 	@Override
-	public void removeAll(Set<Room> entitySet) {
+	public void removeAll(final Set<Room> entitySet) {
 		throw new OperationNotSupportedException("[" + JpaRoomDao.class.getSimpleName() + "] does not support operation 'removeAll'");
 	}
 
 	@Override
-	public List<Room> findByPrecedence(boolean inUse) {
+	public List<Room> findByPrecedence(final boolean inUse) {
 		final TypedQuery<Room> findRoomInUseByPrecedenceTypedQuery = createNamedTypedQuery(Room.FINDROOM_INUSE_BYPRECEDENCE_QUERYNAME);
 		findRoomInUseByPrecedenceTypedQuery.setParameter("inUse", inUse);
 		return findRoomInUseByPrecedenceTypedQuery.getResultList();

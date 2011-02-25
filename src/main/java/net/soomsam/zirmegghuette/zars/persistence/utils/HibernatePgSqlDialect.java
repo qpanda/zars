@@ -17,6 +17,7 @@ public class HibernatePgSqlDialect extends PostgreSQLDialect {
 	 * Constraint-name extractor for Postgres contraint violation exceptions. Orginally contributed by Denny Bartelt.
 	 */
 	private static ViolatedConstraintNameExtracter EXTRACTER = new TemplatedViolatedConstraintNameExtracter() {
+		@Override
 		public String extractConstraintName(final SQLException sqle) {
 			final String sqlState = JDBCExceptionHelper.extractSqlState(sqle);
 			final String constaintName = extractConstraintName(sqlState, sqle.getMessage());

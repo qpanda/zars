@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = Preference.TABLENAME_PREFERENCE, uniqueConstraints = { @UniqueConstraint(columnNames = { User.COLUMNNAME_USERID, Preference.COLUMNNAME_NAME }) })
-@NamedQueries( { @NamedQuery(name = Preference.FINDPREFERENCE_QUERYNAME, query = Preference.FINDPREFERENCE_QUERYSTRING) })
+@NamedQueries({ @NamedQuery(name = Preference.FINDPREFERENCE_QUERYNAME, query = Preference.FINDPREFERENCE_QUERYSTRING) })
 public class Preference extends BaseEntity {
 	public static final String TABLENAME_PREFERENCE = "zars_preference";
 	public static final String COLUMNNAME_PREFERENCEID = "preference_id";
@@ -34,7 +34,7 @@ public class Preference extends BaseEntity {
 	public static final String COLUMNNAME_NAME = "name";
 	public static final String COLUMNNAME_VALUE = "value";
 	public static final String COLUMNNAME_TYPE = "type";
-	
+
 	public static final int COLUMNLENGTH_NAME = 128;
 	public static final int COLUMNLENGTH_VALUE = 256;
 	public static final int COLUMNLENGTH_TYPE = 256;
@@ -161,7 +161,7 @@ public class Preference extends BaseEntity {
 			return false;
 		}
 
-		final Preference other = (Preference)entity;
+		final Preference other = (Preference) entity;
 		return new EqualsBuilder().append(getPreferenceId(), other.getPreferenceId()).isEquals();
 	}
 
@@ -171,7 +171,7 @@ public class Preference extends BaseEntity {
 			return false;
 		}
 
-		final Preference other = (Preference)entity;
+		final Preference other = (Preference) entity;
 		return new EqualsBuilder().append(getPreferenceId(), other.getPreferenceId()).append(getPreferenceTimestamp(), other.getPreferenceTimestamp()).isEquals();
 	}
 
@@ -181,7 +181,7 @@ public class Preference extends BaseEntity {
 			return false;
 		}
 
-		final Preference other = (Preference)entity;
+		final Preference other = (Preference) entity;
 		return new EqualsBuilder().append(getPreferenceId(), other.getPreferenceId()).append(getName(), other.getName()).append(getValue(), other.getValue()).append(getType(), other.getType()).isEquals();
 	}
 
@@ -195,7 +195,7 @@ public class Preference extends BaseEntity {
 			return false;
 		}
 
-		final Preference other = (Preference)obj;
+		final Preference other = (Preference) obj;
 		return new EqualsBuilder().append(getPreferenceId(), other.getPreferenceId()).append(getPreferenceTimestamp(), other.getPreferenceTimestamp()).append(getName(), other.getName()).append(getValue(), other.getValue()).append(getType(), other.getType()).isEquals();
 	}
 

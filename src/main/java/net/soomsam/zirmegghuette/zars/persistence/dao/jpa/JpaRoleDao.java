@@ -41,7 +41,7 @@ public class JpaRoleDao extends JpaEntityDao<Role> implements RoleDao {
 
 		try {
 			return findRoleByNameTypedQuery.getSingleResult();
-		} catch (NoResultException noResultException) {
+		} catch (final NoResultException noResultException) {
 			throw new EntityNotFoundException("role with name [" + name + "] not found", noResultException);
 		}
 	}

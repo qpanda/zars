@@ -17,7 +17,7 @@ public class RoleBean extends BaseBean {
 		super();
 	}
 
-	public RoleBean(long roleId, Date roleTimestamp, String name) {
+	public RoleBean(final long roleId, final Date roleTimestamp, final String name) {
 		super();
 		this.roleId = roleId;
 		this.roleTimestamp = roleTimestamp;
@@ -28,7 +28,7 @@ public class RoleBean extends BaseBean {
 		return roleId;
 	}
 
-	public void setRoleId(long roleId) {
+	public void setRoleId(final long roleId) {
 		this.roleId = roleId;
 	}
 
@@ -36,7 +36,7 @@ public class RoleBean extends BaseBean {
 		return roleTimestamp;
 	}
 
-	public void setRoleTimestamp(Date roleTimestamp) {
+	public void setRoleTimestamp(final Date roleTimestamp) {
 		this.roleTimestamp = roleTimestamp;
 	}
 
@@ -44,7 +44,7 @@ public class RoleBean extends BaseBean {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 

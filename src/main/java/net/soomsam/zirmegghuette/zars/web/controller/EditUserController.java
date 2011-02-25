@@ -153,7 +153,7 @@ public class EditUserController implements Serializable {
 
 	public List<SelectItem> getAvailableTimezones() {
 		if (null == availableTimezones) {
-			Locale preferredLocale = settingController.getPreferredLocale();
+			final Locale preferredLocale = settingController.getPreferredLocale();
 			final List<TimeZone> availableTimezoneList = LocaleUtils.determineSupportedTimezoneList();
 			availableTimezones = new ArrayList<SelectItem>();
 			for (final TimeZone availableTimezone : availableTimezoneList) {
@@ -174,7 +174,7 @@ public class EditUserController implements Serializable {
 
 	public List<SelectItem> getSupportedLocales() {
 		if (null == supportedLocales) {
-			Locale preferredLocale = settingController.getPreferredLocale();
+			final Locale preferredLocale = settingController.getPreferredLocale();
 			final List<Locale> supportedLocaleList = LocaleUtils.determineSupportedLocaleList();
 			supportedLocales = new ArrayList<SelectItem>();
 			for (final Locale supportedLocale : supportedLocaleList) {
@@ -206,8 +206,8 @@ public class EditUserController implements Serializable {
 	}
 
 	public String getInvalidUserIdMessage() {
-		Locale preferredLocale = settingController.getPreferredLocale();
-		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, (Object[])null).getSummary();
+		final Locale preferredLocale = settingController.getPreferredLocale();
+		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null).getSummary();
 	}
 
 	public void retrieveUser() {
@@ -222,7 +222,7 @@ public class EditUserController implements Serializable {
 
 		if (null == this.userId) {
 			this.validNavigation = false;
-			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, (Object[])null);
+			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
 			return;
 		}
@@ -237,13 +237,13 @@ public class EditUserController implements Serializable {
 			this.selectedRoleIds = userBean.getRoleIds();
 
 			final PreferenceBean timezonePreferenceBean = preferenceService.findPreference(userId, PreferenceType.TIMEZONE);
-			this.selectedTimezoneId = (String)timezonePreferenceBean.getValue();
+			this.selectedTimezoneId = (String) timezonePreferenceBean.getValue();
 
 			final PreferenceBean localePreferenceBean = preferenceService.findPreference(userId, PreferenceType.LOCALE);
-			this.selectedLocaleDisplayName = (String)localePreferenceBean.getValue();
+			this.selectedLocaleDisplayName = (String) localePreferenceBean.getValue();
 		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
-			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, (Object[])null);
+			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
 		}
 	}
@@ -257,7 +257,7 @@ public class EditUserController implements Serializable {
 			return "editUserConfirmation";
 		} catch (final UniqueConstraintException uniqueConstraintException) {
 			final String uniqueConstraintMessageId = "sectionsApplicationUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, (Object[])null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, (Object[]) null);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 		}
 

@@ -47,8 +47,8 @@ public class GroupReservationScheduleController implements Serializable {
 	}
 
 	public void onGroupReservationEventSelect(final ScheduleEntrySelectEvent scheduleEntrySelectEvent) {
-		ScheduleEvent selectedGroupReservationScheduleEvent = scheduleEntrySelectEvent.getScheduleEvent();
-		selectedGroupReservation = (GroupReservationBean)selectedGroupReservationScheduleEvent.getData();
+		final ScheduleEvent selectedGroupReservationScheduleEvent = scheduleEntrySelectEvent.getScheduleEvent();
+		selectedGroupReservation = (GroupReservationBean) selectedGroupReservationScheduleEvent.getData();
 	}
 
 	public String deleteGroupReservation() {
@@ -60,7 +60,7 @@ public class GroupReservationScheduleController implements Serializable {
 		try {
 			groupReservationService.deleteGroupReservation(selectedGroupReservation.getGroupReservationId());
 			return "groupReservationSchedule?faces-redirect=true";
-		} catch (InsufficientPermissionException insufficientPermissionException) {
+		} catch (final InsufficientPermissionException insufficientPermissionException) {
 			final FacesMessage insufficientPermissionFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);
 		}
@@ -71,22 +71,22 @@ public class GroupReservationScheduleController implements Serializable {
 	private class LazyGroupReservationScheduleModel extends LazyScheduleModel {
 		@Override
 		public ScheduleEvent getEvent(final String id) {
-			ScheduleEvent scheduleEvent = super.getEvent(id);
+			final ScheduleEvent scheduleEvent = super.getEvent(id);
 			if (null != scheduleEvent) {
 				return scheduleEvent;
 			}
 
-			long groupReservationId = Long.valueOf(id);
-			GroupReservationBean groupReservationBean = groupReservationService.retrieveGroupReservation(groupReservationId);
+			final long groupReservationId = Long.valueOf(id);
+			final GroupReservationBean groupReservationBean = groupReservationService.retrieveGroupReservation(groupReservationId);
 			return createScheduleEvent(groupReservationBean);
 		}
 
 		@Override
 		public void loadEvents(final Date dateRangeStartDate, final Date dateRangeEndDate) {
 			clear();
-			List<GroupReservationBean> groupReservationBeanList = groupReservationService.findGroupReservation(createSelectedDateRangeInterval(dateRangeStartDate, dateRangeEndDate), null);
-			for (GroupReservationBean groupReservationBean : groupReservationBeanList) {
-				ScheduleEvent groupReservationScheduleEvent = createScheduleEvent(groupReservationBean);
+			final List<GroupReservationBean> groupReservationBeanList = groupReservationService.findGroupReservation(createSelectedDateRangeInterval(dateRangeStartDate, dateRangeEndDate), null);
+			for (final GroupReservationBean groupReservationBean : groupReservationBeanList) {
+				final ScheduleEvent groupReservationScheduleEvent = createScheduleEvent(groupReservationBean);
 				addEvent(groupReservationScheduleEvent);
 			}
 		}
@@ -96,8 +96,8 @@ public class GroupReservationScheduleController implements Serializable {
 		}
 
 		protected Interval createSelectedDateRangeInterval(final Date dateRangeStartDate, final Date dateRangeEndDate) {
-			DateMidnight dateRangeStartDateMidnight = new DateMidnight(dateRangeStartDate);
-			DateMidnight dateRangeEndDateMidnight = new DateMidnight(dateRangeEndDate);
+			final DateMidnight dateRangeStartDateMidnight = new DateMidnight(dateRangeStartDate);
+			final DateMidnight dateRangeEndDateMidnight = new DateMidnight(dateRangeEndDate);
 			return new Interval(dateRangeStartDateMidnight, dateRangeEndDateMidnight);
 		}
 	}

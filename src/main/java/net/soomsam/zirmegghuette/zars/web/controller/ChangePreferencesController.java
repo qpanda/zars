@@ -44,7 +44,7 @@ public class ChangePreferencesController implements Serializable {
 
 	public List<SelectItem> getAvailableTimezones() {
 		if (null == availableTimezones) {
-			Locale preferredLocale = settingController.getPreferredLocale();
+			final Locale preferredLocale = settingController.getPreferredLocale();
 			final List<TimeZone> availableTimezoneList = LocaleUtils.determineSupportedTimezoneList();
 			availableTimezones = new ArrayList<SelectItem>();
 			for (final TimeZone availableTimezone : availableTimezoneList) {
@@ -65,7 +65,7 @@ public class ChangePreferencesController implements Serializable {
 
 	public List<SelectItem> getSupportedLocales() {
 		if (null == supportedLocales) {
-			Locale preferredLocale = settingController.getPreferredLocale();
+			final Locale preferredLocale = settingController.getPreferredLocale();
 			final List<Locale> supportedLocaleList = LocaleUtils.determineSupportedLocaleList();
 			supportedLocales = new ArrayList<SelectItem>();
 			for (final Locale supportedLocale : supportedLocaleList) {
@@ -90,10 +90,10 @@ public class ChangePreferencesController implements Serializable {
 		}
 
 		final PreferenceBean timezonePreferenceBean = preferenceService.findCurrentUserPreference(PreferenceType.TIMEZONE);
-		this.selectedTimezoneId = (String)timezonePreferenceBean.getValue();
+		this.selectedTimezoneId = (String) timezonePreferenceBean.getValue();
 
 		final PreferenceBean localePreferenceBean = preferenceService.findCurrentUserPreference(PreferenceType.LOCALE);
-		this.selectedLocaleDisplayName = (String)localePreferenceBean.getValue();
+		this.selectedLocaleDisplayName = (String) localePreferenceBean.getValue();
 	}
 
 	public String update() {

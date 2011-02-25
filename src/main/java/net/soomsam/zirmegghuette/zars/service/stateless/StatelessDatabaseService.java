@@ -48,7 +48,7 @@ public class StatelessDatabaseService implements DatabaseService {
 			return false;
 		}
 
-		final Integer databaseSchemaVersion = (Integer)databaseSchemaVersionSetting.getValue();
+		final Integer databaseSchemaVersion = (Integer) databaseSchemaVersionSetting.getValue();
 		if (null == databaseSchemaVersion) {
 			return true;
 		}

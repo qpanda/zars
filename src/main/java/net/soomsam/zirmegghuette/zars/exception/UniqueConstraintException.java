@@ -4,7 +4,7 @@ package net.soomsam.zirmegghuette.zars.exception;
 public class UniqueConstraintException extends BusinessException {
 	private final String uniqueConstraintField;
 
-	public UniqueConstraintException(String message, String uniqueConstraintField, Throwable cause) {
+	public UniqueConstraintException(final String message, final String uniqueConstraintField, final Throwable cause) {
 		super(message, cause);
 		this.uniqueConstraintField = uniqueConstraintField;
 	}

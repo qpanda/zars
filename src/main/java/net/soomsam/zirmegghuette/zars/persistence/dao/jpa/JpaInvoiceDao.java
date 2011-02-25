@@ -16,12 +16,12 @@ public class JpaInvoiceDao extends JpaEntityDao<Invoice> implements InvoiceDao {
 	}
 
 	@Override
-	public void remove(Invoice entity) {
+	public void remove(final Invoice entity) {
 		throw new OperationNotSupportedException("[" + JpaInvoiceDao.class.getSimpleName() + "] does not support operation 'remove'");
 	}
 
 	@Override
-	public void removeAll(Set<Invoice> entitySet) {
+	public void removeAll(final Set<Invoice> entitySet) {
 		throw new OperationNotSupportedException("[" + JpaInvoiceDao.class.getSimpleName() + "] does not support operation 'removeAll'");
 	}
 }

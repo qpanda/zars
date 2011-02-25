@@ -95,7 +95,7 @@ public class AdminGroupReservationController implements Serializable {
 		}
 
 		if (FacesContext.getCurrentInstance().isValidationFailed()) {
-			final FacesMessage invalidFilterSettingsFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationFilterSettingWarning", FacesMessage.SEVERITY_WARN, (Object[])null);
+			final FacesMessage invalidFilterSettingsFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationFilterSettingWarning", FacesMessage.SEVERITY_WARN, (Object[]) null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidFilterSettingsFacesMessage);
 		}
 	}
@@ -114,7 +114,7 @@ public class AdminGroupReservationController implements Serializable {
 				return groupReservationService.findGroupReservation(pagination);
 			}
 		} else if (BeneficiaryFilterOption.CURRENT_BENEFICIARY.equals(selectedBeneficiaryFilterOption)) {
-			long currentUserId = securityController.getCurrentUserId();
+			final long currentUserId = securityController.getCurrentUserId();
 			if (DateFilterOption.CURRENT_YEAR.equals(selectedDateFilterOption)) {
 				return groupReservationService.findGroupReservation(currentUserId, createCurrentYearInterval(), pagination);
 			} else if (DateFilterOption.SPECIFIED_RANGE.equals(selectedDateFilterOption)) {
@@ -129,26 +129,26 @@ public class AdminGroupReservationController implements Serializable {
 
 	protected Interval createCurrentYearInterval() {
 		// implements BR002
-		DateMidnight dateRangeStartDateMidnight = new DateMidnight().withDayOfYear(1);
-		DateMidnight dateRangeEndDateMidnight = dateRangeStartDateMidnight.plusYears(1);
+		final DateMidnight dateRangeStartDateMidnight = new DateMidnight().withDayOfYear(1);
+		final DateMidnight dateRangeEndDateMidnight = dateRangeStartDateMidnight.plusYears(1);
 		return new Interval(dateRangeStartDateMidnight, dateRangeEndDateMidnight);
 	}
 
 	protected Interval createSpecifiedDateRangeInterval() {
-		DateMidnight dateRangeStartDateMidnight = new DateMidnight(dateRangeStartDate);
-		DateMidnight dateRangeEndDateMidnight = new DateMidnight(dateRangeEndDate);
+		final DateMidnight dateRangeStartDateMidnight = new DateMidnight(dateRangeStartDate);
+		final DateMidnight dateRangeEndDateMidnight = new DateMidnight(dateRangeEndDate);
 		return new Interval(dateRangeStartDateMidnight, dateRangeEndDateMidnight);
 	}
 
 	public void onDeleteGroupReservation(final ActionEvent commandLinkActionEvent) {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
-			final CommandLink commandLink = (CommandLink)commandLinkActionEvent.getComponent();
-			final Long selectedGroupReservationId = (Long)commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
+			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
+			final Long selectedGroupReservationId = (Long) commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
 
 			logger.debug("deleting group reservation with groupReservationId [" + selectedGroupReservationId + "]");
 			try {
 				groupReservationService.deleteGroupReservation(selectedGroupReservationId);
-			} catch (InsufficientPermissionException insufficientPermissionException) {
+			} catch (final InsufficientPermissionException insufficientPermissionException) {
 				final FacesMessage insufficientPermissionFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);
 				FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);
 			}

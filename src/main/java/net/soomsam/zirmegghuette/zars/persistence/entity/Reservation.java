@@ -40,7 +40,7 @@ public class Reservation extends BaseEntity {
 
 	public static final int COLUMNLENGTH_GUESTFIRSTNAME = 256;
 	public static final int COLUMNLENGTH_GUESTLASTNAME = 256;
-	
+
 	@Id
 	@GeneratedValue
 	@Column(name = Reservation.COLUMNNAME_RESERVATIONID, unique = true, nullable = false)
@@ -142,7 +142,7 @@ public class Reservation extends BaseEntity {
 		return precedence;
 	}
 
-	public void setPrecedence(long precedence) {
+	public void setPrecedence(final long precedence) {
 		this.precedence = precedence;
 	}
 

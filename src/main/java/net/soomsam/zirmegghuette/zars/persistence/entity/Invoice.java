@@ -36,7 +36,7 @@ public class Invoice extends BaseEntity {
 	public static final String COLUMNNAME_STALE = "stale";
 	public static final String COLUMNNAME_PAYED = "payed";
 	public static final String COLUMNNAME_DOCUMENT = "document";
-	
+
 	public static final int COLUMNLENGTH_CURRENCY = 3;
 
 	@Id

@@ -36,7 +36,7 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 	}
 
 	@Override
-	public void removeAll(Set<User> entitySet) {
+	public void removeAll(final Set<User> entitySet) {
 		throw new OperationNotSupportedException("[" + JpaUserDao.class.getSimpleName() + "] does not support operation 'removeAll'");
 	}
 
@@ -69,7 +69,7 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 	}
 
 	@Override
-	public User retrieveByUsername(String username) {
+	public User retrieveByUsername(final String username) {
 		if (null == username) {
 			throw new IllegalArgumentException("'username' must not be null");
 		}
@@ -79,7 +79,7 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 
 		try {
 			return findUserByUsernameTypedQuery.getSingleResult();
-		} catch (NoResultException noResultException) {
+		} catch (final NoResultException noResultException) {
 			throw new EntityNotFoundException("user with username [" + username + "] not found", noResultException);
 		}
 	}

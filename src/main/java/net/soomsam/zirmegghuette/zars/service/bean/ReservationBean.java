@@ -45,7 +45,7 @@ public class ReservationBean extends BaseBean {
 		return precedence;
 	}
 
-	public void setPrecedence(long precedence) {
+	public void setPrecedence(final long precedence) {
 		this.precedence = precedence;
 	}
 

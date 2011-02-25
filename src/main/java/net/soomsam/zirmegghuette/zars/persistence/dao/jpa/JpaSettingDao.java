@@ -32,7 +32,7 @@ public class JpaSettingDao extends JpaEntityDao<Setting> implements SettingDao {
 
 		try {
 			return findSettingTypedQuery.getSingleResult();
-		} catch (NoResultException noResultException) {
+		} catch (final NoResultException noResultException) {
 			return null;
 		}
 
@@ -44,15 +44,15 @@ public class JpaSettingDao extends JpaEntityDao<Setting> implements SettingDao {
 			return new Setting(settingType.getSettingName(), Object.class.getCanonicalName());
 		}
 
-		String settingValue = beanWrapper.convertIfNecessary(value, String.class);
-		String settingValueType = value.getClass().getCanonicalName();
+		final String settingValue = beanWrapper.convertIfNecessary(value, String.class);
+		final String settingValueType = value.getClass().getCanonicalName();
 		return new Setting(settingType.getSettingName(), settingValue, settingValueType);
 
 	}
 
 	@Override
 	public Setting update(final SettingType settingType, final Object value) {
-		Setting setting = findBySettingType(settingType);
+		final Setting setting = findBySettingType(settingType);
 		if (null == setting) {
 			throw new EntityNotFoundException("setting [" + settingType.getSettingName() + "] does not exist");
 		}
@@ -61,8 +61,8 @@ public class JpaSettingDao extends JpaEntityDao<Setting> implements SettingDao {
 			setting.setValue(null);
 			setting.setType(Object.class.getCanonicalName());
 		} else {
-			String settingValue = beanWrapper.convertIfNecessary(value, String.class);
-			String settingValueType = value.getClass().getCanonicalName();
+			final String settingValue = beanWrapper.convertIfNecessary(value, String.class);
+			final String settingValueType = value.getClass().getCanonicalName();
 			setting.setValue(settingValue);
 			setting.setType(settingValueType);
 		}

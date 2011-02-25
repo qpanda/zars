@@ -46,8 +46,8 @@ public class LocaleController implements Serializable {
 
 	public void setSelectedLocale(final ActionEvent commandLinkActionEvent) {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
-			final CommandLink commandLink = (CommandLink)commandLinkActionEvent.getComponent();
-			final String commandLinkParameterValue = (String)commandLink.getAttributes().get(commandLinkSelectLocaleAttributeName);
+			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
+			final String commandLinkParameterValue = (String) commandLink.getAttributes().get(commandLinkSelectLocaleAttributeName);
 			setSelectedLocale(commandLinkParameterValue);
 		}
 	}

@@ -50,8 +50,8 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	}
 
 	public String getInvalidGroupReservationIdMessage() {
-		Locale preferredLocale = settingController.getPreferredLocale();
-		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[])null).getSummary();
+		final Locale preferredLocale = settingController.getPreferredLocale();
+		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null).getSummary();
 	}
 
 	public void retrieveGroupReservation() {
@@ -66,7 +66,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 
 		if (null == this.groupReservationId) {
 			this.validNavigation = false;
-			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[])null);
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
 			return;
 		}
@@ -83,24 +83,24 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 
 			if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && selectedBeneficiaryId != securityController.getCurrentUserId()) {
 				this.validNavigation = false;
-				final FacesMessage modificationNotAllowedFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR, (Object[])null);
+				final FacesMessage modificationNotAllowedFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
 				FacesContext.getCurrentInstance().addMessage(null, modificationNotAllowedFacesMessage);
 			}
 
-			List<ReservationBean> reservationBeanList = groupReservationBean.getReservations();
+			final List<ReservationBean> reservationBeanList = groupReservationBean.getReservations();
 			if ((null != reservationBeanList) && !reservationBeanList.isEmpty()) {
 				populateReservation(reservationBeanList);
 			}
 		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
-			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[])null);
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
 		}
 	}
 
 	protected void populateReservation(final List<ReservationBean> reservationBeanList) {
 		for (int i = 0; i < reservationBeanList.size(); ++i) {
-			ReservationBean reservationBean = reservationBeanList.get(i);
+			final ReservationBean reservationBean = reservationBeanList.get(i);
 			populateReservationArrivalCalendarComponent(i + 1, reservationBean.getArrival());
 			populateReservationDepartureCalendarComponent(i + 1, reservationBean.getDeparture());
 			populateReservationFirstNameInputTextComponent(i + 1, reservationBean.getFirstName());
@@ -121,24 +121,24 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	}
 
 	protected void populateReservationArrivalCalendarComponent(final int reservationPanelRow, final Date reservationArrival) {
-		String reservationArrivalCalendarComponentId = determineReservationComponentId(RESERVATIONARRIVAL_CALENDARCOMPONENT_IDPREFIX, reservationPanelRow);
-		Calendar reservationArrivalCalendarComponent = createReservationCalendarComponent(reservationArrivalCalendarComponentId, null);
+		final String reservationArrivalCalendarComponentId = determineReservationComponentId(RESERVATIONARRIVAL_CALENDARCOMPONENT_IDPREFIX, reservationPanelRow);
+		final Calendar reservationArrivalCalendarComponent = createReservationCalendarComponent(reservationArrivalCalendarComponentId, null);
 		reservationArrivalCalendarComponent.setValue(reservationArrival);
 		reservationArrivalCalendarComponent.setValid(true);
 		reservationPanelGrid.getChildren().add(reservationArrivalCalendarComponent);
 	}
 
 	protected void populateReservationDepartureCalendarComponent(final int reservationPanelRow, final Date reservationDeparture) {
-		String reservationDepartureCalendarComponentId = determineReservationComponentId(RESERVATIONDEPARTURE_CALENDARCOMPONENT_IDPREFIX, reservationPanelRow);
-		Calendar reservationDepartureCalendarComponent = createReservationCalendarComponent(reservationDepartureCalendarComponentId, null);
+		final String reservationDepartureCalendarComponentId = determineReservationComponentId(RESERVATIONDEPARTURE_CALENDARCOMPONENT_IDPREFIX, reservationPanelRow);
+		final Calendar reservationDepartureCalendarComponent = createReservationCalendarComponent(reservationDepartureCalendarComponentId, null);
 		reservationDepartureCalendarComponent.setValue(reservationDeparture);
 		reservationDepartureCalendarComponent.setValid(true);
 		reservationPanelGrid.getChildren().add(reservationDepartureCalendarComponent);
 	}
 
 	protected void populateReservationFirstNameInputTextComponent(final int reservationPanelRow, final String reservationFirstName) {
-		String reservationFirstNameInputTextComponent = determineReservationComponentId(RESERVATIONFIRSTNAME_INPUTTEXTCOMPONENT_IDPREFIX, reservationPanelRow);
-		HtmlInputText firstNameInputTextReservationComponent = createReservationInputTextComponent();
+		final String reservationFirstNameInputTextComponent = determineReservationComponentId(RESERVATIONFIRSTNAME_INPUTTEXTCOMPONENT_IDPREFIX, reservationPanelRow);
+		final HtmlInputText firstNameInputTextReservationComponent = createReservationInputTextComponent();
 		firstNameInputTextReservationComponent.setValue(reservationFirstName);
 		firstNameInputTextReservationComponent.setSubmittedValue(reservationFirstName);
 		firstNameInputTextReservationComponent.setLocalValueSet(false);
@@ -149,8 +149,8 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	}
 
 	protected void populateReservationLastNameInputTextComponent(final int reservationPanelRow, final String individualReservationLastName) {
-		String reservationLastNameInputTextComponentId = determineReservationComponentId(RESERVATIONLASTNAME_INPUTTEXTCOMPONENT_IDPREFIX, reservationPanelRow);
-		HtmlInputText reservationLastNameInputTextComponent = createReservationInputTextComponent();
+		final String reservationLastNameInputTextComponentId = determineReservationComponentId(RESERVATIONLASTNAME_INPUTTEXTCOMPONENT_IDPREFIX, reservationPanelRow);
+		final HtmlInputText reservationLastNameInputTextComponent = createReservationInputTextComponent();
 		reservationLastNameInputTextComponent.setValue(individualReservationLastName);
 		reservationLastNameInputTextComponent.setSubmittedValue(individualReservationLastName);
 		reservationLastNameInputTextComponent.setLocalValueSet(false);

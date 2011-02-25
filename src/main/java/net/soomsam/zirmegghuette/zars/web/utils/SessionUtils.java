@@ -22,7 +22,7 @@ public class SessionUtils {
 
 		final Object session = externalContext.getSession(false);
 		if (session instanceof HttpSession) {
-			final HttpSession httpSession = (HttpSession)session;
+			final HttpSession httpSession = (HttpSession) session;
 			return httpSession.getId();
 		}
 

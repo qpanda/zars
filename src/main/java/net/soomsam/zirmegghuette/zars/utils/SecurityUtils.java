@@ -16,13 +16,13 @@ public class SecurityUtils {
 	}
 
 	public final static boolean hasRole(final String role) {
-		Authentication authentication = determineAuthentication();
-		Collection<GrantedAuthority> grantedAuthorityCollection = authentication.getAuthorities();
+		final Authentication authentication = determineAuthentication();
+		final Collection<GrantedAuthority> grantedAuthorityCollection = authentication.getAuthorities();
 		return isAuthorityPresent(grantedAuthorityCollection, role);
 	}
 
 	public final static Authentication determineAuthentication() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (null == authentication) {
 			throw new NoAuthenticationException("no authentication information stored/available");
 		}
@@ -35,18 +35,18 @@ public class SecurityUtils {
 	}
 
 	public final static boolean isFullyAuthenticated() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (null == authentication) {
 			return false;
 		}
 
-		AuthenticationTrustResolver authenticationTrustResolver = new AuthenticationTrustResolverImpl();
+		final AuthenticationTrustResolver authenticationTrustResolver = new AuthenticationTrustResolverImpl();
 		return !authenticationTrustResolver.isAnonymous(authentication);
 	}
 
 	public final static boolean isAuthorityPresent(final Collection<GrantedAuthority> grantedAuthorityCollection, final String role) {
-		for (GrantedAuthority grantedAuthority : grantedAuthorityCollection) {
-			String authority = grantedAuthority.getAuthority();
+		for (final GrantedAuthority grantedAuthority : grantedAuthorityCollection) {
+			final String authority = grantedAuthority.getAuthority();
 			if (null == authority) {
 				throw new UnsupportedAuthorityException("no 'String' representation of authority available");
 			}

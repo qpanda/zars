@@ -39,7 +39,7 @@ import org.joda.time.DateTime;
 
 @Entity
 @Table(name = GroupReservation.TABLENAME_GROUPRESERVATION)
-@NamedQueries( { @NamedQuery(name = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING), @NamedQuery(name = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYNAME, query = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYSTRING), @NamedQuery(name = GroupReservation.COUNTGROUPRESERVATION_BENEFICIARYID_QUERYNAME, query = GroupReservation.COUNTGROUPRESERVATION_BENEFICIARYID_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATION_BENEFICIARYID_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATION_BENEFICIARYID_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYSTRING) })
+@NamedQueries({ @NamedQuery(name = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING), @NamedQuery(name = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYNAME, query = GroupReservation.COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYSTRING), @NamedQuery(name = GroupReservation.COUNTGROUPRESERVATION_BENEFICIARYID_QUERYNAME, query = GroupReservation.COUNTGROUPRESERVATION_BENEFICIARYID_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATION_BENEFICIARYID_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATION_BENEFICIARYID_QUERYSTRING), @NamedQuery(name = GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYNAME, query = GroupReservation.FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYSTRING) })
 public class GroupReservation extends BaseEntity {
 	public static final String TABLENAME_GROUPRESERVATION = "zars_group_reservation";
 	public static final String COLUMNNAME_GROUPRESERVATIONID = "group_reservation_id";
@@ -53,7 +53,7 @@ public class GroupReservation extends BaseEntity {
 	public static final String COLUMNNAME_BENEFICIARY_USERID = "beneficiary_user_id";
 	public static final String COLUMNNAME_ACCOUNTANT_USERID = "accountant_user_id";
 	public static final String JOINTABLENAME_GROUPRESERVATION_ROOM = "zars_group_reservation_zars_room";
-	
+
 	public static final int COLUMNLENGTH_COMMENT = 512;
 
 	public static final String COUNTGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.countGroupReservationByClosedStartEndIntervalQuery";
@@ -107,7 +107,7 @@ public class GroupReservation extends BaseEntity {
 
 	@Column(name = GroupReservation.COLUMNNAME_COMMENT, nullable = true, length = GroupReservation.COLUMNLENGTH_COMMENT)
 	private String comment;
-	
+
 	@NotNull
 	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = GroupReservation.COLUMNNAME_BOOKER_USERID, nullable = false)
@@ -322,7 +322,7 @@ public class GroupReservation extends BaseEntity {
 	public void setComment(final String comment) {
 		this.comment = comment;
 	}
-	
+
 	public User getBooker() {
 		return booker;
 	}
@@ -330,7 +330,7 @@ public class GroupReservation extends BaseEntity {
 	void setBooker(final User booker) {
 		this.booker = booker;
 	}
-	
+
 	public boolean hasBooker() {
 		return null != getBooker();
 	}
@@ -665,7 +665,7 @@ public class GroupReservation extends BaseEntity {
 	}
 
 	public void markInvoiceStale() {
-		Invoice invoice = getInvoice();
+		final Invoice invoice = getInvoice();
 		if (null != invoice) {
 			invoice.setStale(true);
 		}
@@ -673,7 +673,7 @@ public class GroupReservation extends BaseEntity {
 
 	public void markReportsStale() {
 		final Set<Report> reportSet = getReports();
-		for (Report report : reportSet) {
+		for (final Report report : reportSet) {
 			report.setStale(true);
 		}
 	}
@@ -684,7 +684,7 @@ public class GroupReservation extends BaseEntity {
 			return false;
 		}
 
-		final GroupReservation other = (GroupReservation)entity;
+		final GroupReservation other = (GroupReservation) entity;
 		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).isEquals();
 	}
 
@@ -694,7 +694,7 @@ public class GroupReservation extends BaseEntity {
 			return false;
 		}
 
-		final GroupReservation other = (GroupReservation)entity;
+		final GroupReservation other = (GroupReservation) entity;
 		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getGroupReservationTimestamp(), other.getGroupReservationTimestamp()).isEquals();
 	}
 
@@ -704,7 +704,7 @@ public class GroupReservation extends BaseEntity {
 			return false;
 		}
 
-		final GroupReservation other = (GroupReservation)entity;
+		final GroupReservation other = (GroupReservation) entity;
 		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getBooked(), other.getBooked()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
 	}
 
@@ -718,7 +718,7 @@ public class GroupReservation extends BaseEntity {
 			return false;
 		}
 
-		final GroupReservation other = (GroupReservation)obj;
+		final GroupReservation other = (GroupReservation) obj;
 		return new EqualsBuilder().append(getGroupReservationId(), other.getGroupReservationId()).append(getGroupReservationTimestamp(), other.getGroupReservationTimestamp()).append(getBooked(), other.getBooked()).append(getArrival(), other.getArrival()).append(getDeparture(), other.getDeparture()).append(getGuests(), other.getGuests()).append(getComment(), other.getComment()).isEquals();
 	}
 

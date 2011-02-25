@@ -17,12 +17,12 @@ import javax.faces.context.FacesContext;
 
 public class LocaleUtils {
 	public static Locale determineCurrentLocale() {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
+		final FacesContext facesContext = FacesContext.getCurrentInstance();
 		if (null == facesContext) {
 			return null;
 		}
 
-		ExternalContext externalContext = facesContext.getExternalContext();
+		final ExternalContext externalContext = facesContext.getExternalContext();
 		if (null == externalContext) {
 			return null;
 		}
@@ -31,18 +31,18 @@ public class LocaleUtils {
 	}
 
 	public static List<Locale> determineSupportedLocaleList() {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
+		final FacesContext facesContext = FacesContext.getCurrentInstance();
 		if (null == facesContext) {
 			return new ArrayList<Locale>();
 		}
 
-		Application application = facesContext.getApplication();
+		final Application application = facesContext.getApplication();
 		if (null == application) {
 			return new ArrayList<Locale>();
 		}
 
-		Iterator<Locale> supportedLocaleIterator = application.getSupportedLocales();
-		List<Locale> supportedLocaleList = new ArrayList<Locale>();
+		final Iterator<Locale> supportedLocaleIterator = application.getSupportedLocales();
+		final List<Locale> supportedLocaleList = new ArrayList<Locale>();
 		while (supportedLocaleIterator.hasNext()) {
 			supportedLocaleList.add(supportedLocaleIterator.next());
 		}
@@ -50,17 +50,17 @@ public class LocaleUtils {
 	}
 
 	public static Map<String, Locale> determineSupportedLocaleDisplayLanguageMap() {
-		List<Locale> supportedLocaleList = determineSupportedLocaleList();
-		Map<String, Locale> supportedLocaleDisplayLanguageMap = new HashMap<String, Locale>();
-		for (Locale supportedLocale : supportedLocaleList) {
+		final List<Locale> supportedLocaleList = determineSupportedLocaleList();
+		final Map<String, Locale> supportedLocaleDisplayLanguageMap = new HashMap<String, Locale>();
+		for (final Locale supportedLocale : supportedLocaleList) {
 			supportedLocaleDisplayLanguageMap.put(supportedLocale.getDisplayLanguage(), supportedLocale);
 		}
 		return supportedLocaleDisplayLanguageMap;
 	}
 
 	public static Locale determineSupportedLocale(final String localeDisplayName) {
-		List<Locale> supportedLocaleList = determineSupportedLocaleList();
-		for (Locale supportedLocale : supportedLocaleList) {
+		final List<Locale> supportedLocaleList = determineSupportedLocaleList();
+		for (final Locale supportedLocale : supportedLocaleList) {
 			if (supportedLocale.getDisplayName().equals(localeDisplayName)) {
 				return supportedLocale;
 			}
@@ -70,14 +70,14 @@ public class LocaleUtils {
 	}
 
 	public static void changeLocale(final String localeDisplayName) {
-		Locale locale = determineSupportedLocale(localeDisplayName);
+		final Locale locale = determineSupportedLocale(localeDisplayName);
 		changeLocale(locale);
 	}
 
 	public static void changeLocale(final Locale locale) {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
+		final FacesContext facesContext = FacesContext.getCurrentInstance();
 		if (null != facesContext) {
-			UIViewRoot uiViewRoot = facesContext.getViewRoot();
+			final UIViewRoot uiViewRoot = facesContext.getViewRoot();
 			if (null != uiViewRoot) {
 				uiViewRoot.setLocale(locale);
 			}
@@ -90,7 +90,7 @@ public class LocaleUtils {
 
 	public static List<TimeZone> determineSupportedTimezoneList() {
 		final String supportedTimezoneIdPrefix = "^(Africa|America|Asia|Atlantic|Australia|Europe|Indian|Pacific)/.*";
-		List<TimeZone> supportedTimezoneList = new ArrayList<TimeZone>();
+		final List<TimeZone> supportedTimezoneList = new ArrayList<TimeZone>();
 
 		for (final String availableTimezoneId : TimeZone.getAvailableIDs()) {
 			if (availableTimezoneId.matches(supportedTimezoneIdPrefix)) {
@@ -99,6 +99,7 @@ public class LocaleUtils {
 		}
 
 		Collections.sort(supportedTimezoneList, new Comparator<TimeZone>() {
+			@Override
 			public int compare(final TimeZone timezoneA, final TimeZone timezoneB) {
 				return timezoneA.getID().compareTo(timezoneB.getID());
 			}
