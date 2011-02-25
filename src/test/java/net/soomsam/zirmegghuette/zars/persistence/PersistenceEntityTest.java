@@ -1048,7 +1048,7 @@ public class PersistenceEntityTest {
 	@Test
 	public void testCreateEvent() {
 		final User testUser = createTestUser();
-		final Event testEvent = new Event(CategoryType.SESSION.getCategoryName(), "R0001", testUser);
+		final Event testEvent = new Event(CategoryType.SESSION.getCategoryName(), "S0001", testUser);
 		eventDao.persist(testEvent);
 		persistenceContextManager.flush();
 		logger.debug("persisted event as [" + testEvent + "]");
@@ -1056,7 +1056,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.clear();
 		final Event fetchedEvent = eventDao.findByPrimaryKey(testEvent.getEventId());
 		Assert.assertNotNull(fetchedEvent);
-		Assert.assertEquals("R0001", fetchedEvent.getMessage());
+		Assert.assertEquals("S0001", fetchedEvent.getMessage());
 		Assert.assertEquals(CategoryType.SESSION.getCategoryName(), fetchedEvent.getCategory());
 		Assert.assertTrue(testUser.sameValues(fetchedEvent.getUser()));
 	}

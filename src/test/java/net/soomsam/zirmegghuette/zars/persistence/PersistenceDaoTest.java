@@ -4,10 +4,14 @@ import java.util.List;
 
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
+import net.soomsam.zirmegghuette.zars.enums.CategoryType;
+import net.soomsam.zirmegghuette.zars.enums.OperationType;
+import net.soomsam.zirmegghuette.zars.persistence.dao.EventDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
+import net.soomsam.zirmegghuette.zars.persistence.entity.Event;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
@@ -42,6 +46,9 @@ public class PersistenceDaoTest {
 
 	@Autowired
 	private GroupReservationDao groupReservationDao;
+
+	@Autowired
+	private EventDao eventDao;
 
 	@Test
 	public void testFindGroupReservation() {
@@ -172,6 +179,30 @@ public class PersistenceDaoTest {
 		Assert.assertEquals(2, roomInUseList.size());
 		Assert.assertEquals(1, roomInUseList.get(0).getPrecedence());
 		Assert.assertEquals(2, roomInUseList.get(1).getPrecedence());
+	}
+
+	@Test
+	public void testCreateSessionEvent() {
+		final User testUser = createTestUser();
+		final Event sessionEvent = eventDao.create(testUser, CategoryType.SESSION, "S0001");
+
+		Assert.assertNotNull(sessionEvent);
+		Assert.assertEquals("S0001", sessionEvent.getMessage());
+		Assert.assertEquals(CategoryType.SESSION.getCategoryName(), sessionEvent.getCategory());
+		Assert.assertTrue(testUser.sameValues(sessionEvent.getUser()));
+	}
+
+	@Test
+	public void testCreatePersistenceEvent() {
+		final User testUser = createTestUser();
+		final Event persistenceEvent = eventDao.create(testUser, testUser.getUserId(), User.class, OperationType.ADD, "P0001");
+
+		Assert.assertNotNull(persistenceEvent);
+		Assert.assertEquals("P0001", persistenceEvent.getMessage());
+		Assert.assertEquals(CategoryType.PERSISTENCE.getCategoryName(), persistenceEvent.getCategory());
+		Assert.assertEquals(testUser.getUserId(), persistenceEvent.getEntityId());
+		Assert.assertEquals(OperationType.ADD.getOperationName(), persistenceEvent.getEntityOperation());
+		Assert.assertTrue(testUser.sameValues(persistenceEvent.getUser()));
 	}
 
 	private GroupReservation createGroupReservation(final User user, final Room room, final DateTime booked, final DateMidnight arrival, final DateMidnight departure) {
