@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,6 +25,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = Event.TABLENAME_EVENT)
+@NamedQueries({ @NamedQuery(name = Event.FINDEVENTOPENINTERVAL_STARTTIMESTAMP_ENDTIMESTAMP_QUERYNAME, query = Event.FINDEVENTOPENINTERVAL_STARTTIMESTAMP_ENDTIMESTAMP_QUERYSTRING), @NamedQuery(name = Event.FINDEVENT_USERID_QUERYNAME, query = Event.FINDEVENT_USERID_QUERYSTRING) })
 public class Event extends BaseEntity {
 	public static final String TABLENAME_EVENT = "zars_event";
 	public static final String COLUMNNAME_EVENTID = "event_id";
@@ -37,6 +40,12 @@ public class Event extends BaseEntity {
 	public static final int COLUMNLENGTH_MESSAGE = 128;
 	public static final int COLUMNLENGTH_ENTITYTYPE = 256;
 	public static final int COLUMNLENGTH_ENTITYOPERATION = 128;
+
+	public static final String FINDEVENTOPENINTERVAL_STARTTIMESTAMP_ENDTIMESTAMP_QUERYNAME = "Event.findEventByOpenStartEndIntervalQuery";
+	public static final String FINDEVENTOPENINTERVAL_STARTTIMESTAMP_ENDTIMESTAMP_QUERYSTRING = "from Event where :startTimestamp <= eventTimestamp and eventTimestamp <= :endTimestamp";
+
+	public static final String FINDEVENT_USERID_QUERYNAME = "Event.findEventByUserIdQuery";
+	public static final String FINDEVENT_USERID_QUERYSTRING = "from Event event where event.user.userId = :userId";
 
 	@Id
 	@GeneratedValue

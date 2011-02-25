@@ -205,6 +205,25 @@ public class PersistenceDaoTest {
 		Assert.assertTrue(testUser.sameValues(persistenceEvent.getUser()));
 	}
 
+	@Test
+	public void testFindEventByOpenDateInterval() {
+		final User testUser = createTestUser();
+		final Event sessionEvent = eventDao.create(testUser, CategoryType.SESSION, "S0001");
+		eventDao.persist(sessionEvent);
+
+		Assert.assertFalse(eventDao.findEventByOpenDateInterval(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1)), null).isEmpty());
+		Assert.assertTrue(eventDao.findEventByOpenDateInterval(new Interval(new DateMidnight().minusDays(5), new DateMidnight().minusDays(3)), null).isEmpty());
+	}
+
+	@Test
+	public void testFindEventByUserId() {
+		final User testUser = createTestUser();
+		final Event sessionEvent = eventDao.create(testUser, CategoryType.SESSION, "S0001");
+		eventDao.persist(sessionEvent);
+
+		Assert.assertFalse(eventDao.findEventByUserId(testUser.getUserId(), null).isEmpty());
+	}
+
 	private GroupReservation createGroupReservation(final User user, final Room room, final DateTime booked, final DateMidnight arrival, final DateMidnight departure) {
 		final Reservation testReservation = new Reservation(1, arrival, departure, "a", "b");
 		final GroupReservation testGroupReservation = new GroupReservation(user, user, user, booked, arrival, departure, 1);
