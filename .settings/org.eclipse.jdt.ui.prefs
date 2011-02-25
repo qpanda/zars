@@ -1,4 +1,4 @@
-#Fri Feb 25 14:28:55 SGT 2011
+#Fri Feb 25 14:30:34 SGT 2011
 cleanup.add_default_serial_version_id=true
 cleanup.add_generated_serial_version_id=false
 cleanup.add_missing_annotations=true
@@ -27,7 +27,7 @@ cleanup.organize_imports=false
 cleanup.qualify_static_field_accesses_with_declaring_class=false
 cleanup.qualify_static_member_accesses_through_instances_with_declaring_class=true
 cleanup.qualify_static_member_accesses_through_subtypes_with_declaring_class=true
-cleanup.qualify_static_member_accesses_with_declaring_class=false
+cleanup.qualify_static_member_accesses_with_declaring_class=true
 cleanup.qualify_static_method_accesses_with_declaring_class=false
 cleanup.remove_private_constructors=true
 cleanup.remove_trailing_whitespaces=true
