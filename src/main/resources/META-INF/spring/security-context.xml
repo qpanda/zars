@@ -25,6 +25,7 @@
 		<security:intercept-url pattern="/views/adminUser.jsf" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/views/editUser.jsf" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/views/resetUser.jsf" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/views/viewUser.jsf" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/**" access="isAuthenticated()" />
 		
 		<security:access-denied-handler error-page="/views/accessDenied.jsf"/>
