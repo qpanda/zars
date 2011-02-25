@@ -29,7 +29,7 @@
 					</p:column>
 					<p:column sortBy="#{event.entityType}">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventEntityTypeLabel}" /></f:facet>
-						<h:outputText value="#{event.entityType}" />
+						<h:outputText value="#{enumMessages[event.entityType]}" />
 					</p:column>
 					<p:column sortBy="#{event.entityOperation}">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventEntityOperationLabel}" /></f:facet>

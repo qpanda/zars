@@ -5,6 +5,7 @@ import java.util.List;
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
 import net.soomsam.zirmegghuette.zars.enums.CategoryType;
+import net.soomsam.zirmegghuette.zars.enums.EntityType;
 import net.soomsam.zirmegghuette.zars.enums.OperationType;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EventDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
@@ -195,13 +196,14 @@ public class PersistenceDaoTest {
 	@Test
 	public void testCreatePersistenceEvent() {
 		final User testUser = createTestUser();
-		final Event persistenceEvent = eventDao.create(testUser, testUser.getUserId(), User.class, OperationType.OPERATION_ADD, "P0001");
+		final Event persistenceEvent = eventDao.create(testUser, testUser.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_ADD, "EVENT_CREATEUSER");
 
 		Assert.assertNotNull(persistenceEvent);
-		Assert.assertEquals("P0001", persistenceEvent.getMessage());
+		Assert.assertEquals("EVENT_CREATEUSER", persistenceEvent.getMessage());
 		Assert.assertEquals(CategoryType.CATEGORY_PERSISTENCE.getCategoryName(), persistenceEvent.getCategory());
 		Assert.assertEquals(testUser.getUserId(), persistenceEvent.getEntityId());
 		Assert.assertEquals(OperationType.OPERATION_ADD.getOperationName(), persistenceEvent.getEntityOperation());
+		Assert.assertEquals(EntityType.ENTITY_USER.getEntityName(), persistenceEvent.getEntityType());
 		Assert.assertTrue(testUser.sameValues(persistenceEvent.getUser()));
 	}
 
