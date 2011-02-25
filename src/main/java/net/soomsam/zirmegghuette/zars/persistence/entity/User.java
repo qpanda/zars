@@ -109,6 +109,9 @@ public class User extends BaseEntity {
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
 	private final Set<Preference> preferences = new HashSet<Preference>(0);
+	
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "user")
+	private final Set<Event> events = new HashSet<Event>(0);
 
 	protected User() {
 		super();
@@ -462,6 +465,30 @@ public class User extends BaseEntity {
 		}
 
 		removePreferences(preferenceSet);
+	}
+	
+	public Set<Event> getEvents() {
+		return Collections.unmodifiableSet(events);
+	}
+
+	public boolean hasEvents() {
+		return !getEvents().isEmpty();
+	}
+
+	void addEvent(final Event event) {
+		if (null == event) {
+			throw new IllegalArgumentException("'event' must not be null");
+		}
+
+		this.events.add(event);
+	}
+
+	void addEvents(final Set<Event> eventSet) {
+		if (null == eventSet) {
+			throw new IllegalArgumentException("'eventSet' must not be null");
+		}
+
+		this.events.addAll(eventSet);
 	}
 
 	@Override

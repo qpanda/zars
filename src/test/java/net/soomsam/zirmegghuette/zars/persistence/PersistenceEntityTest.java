@@ -13,7 +13,9 @@ import javax.validation.ConstraintViolationException;
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.PersistenceEntityGenerator;
 import net.soomsam.zirmegghuette.zars.TestUtils;
+import net.soomsam.zirmegghuette.zars.enums.CategoryType;
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
+import net.soomsam.zirmegghuette.zars.persistence.dao.EventDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.InvoiceDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.OperationNotSupportedException;
@@ -25,6 +27,7 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.SettingDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
+import net.soomsam.zirmegghuette.zars.persistence.entity.Event;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Invoice;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Preference;
@@ -83,6 +86,9 @@ public class PersistenceEntityTest {
 
 	@Autowired
 	private PreferenceDao preferenceDao;
+
+	@Autowired
+	private EventDao eventDao;
 
 	@Test
 	public void testCreateUserRole() {
@@ -189,14 +195,14 @@ public class PersistenceEntityTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateUserWithoutRole() {
-		final User userWithoutRole = new User("test", "test", "test@test.com", true, (Role)null);
+		final User userWithoutRole = new User("test", "test", "test@test.com", true, (Role) null);
 		userDao.persist(userWithoutRole);
 		persistenceContextManager.flush();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateUserWithNullRoles() {
-		final User userWithoutRoles = new User("test", "test", "test@test.com", true, (Set<Role>)null);
+		final User userWithoutRoles = new User("test", "test", "test@test.com", true, (Set<Role>) null);
 		userDao.persist(userWithoutRoles);
 		persistenceContextManager.flush();
 	}
@@ -252,7 +258,7 @@ public class PersistenceEntityTest {
 		} catch (final PersistenceException persistenceException) {
 			final Throwable persistenceExceptionCause = persistenceException.getCause();
 			Assert.assertTrue(persistenceExceptionCause instanceof org.hibernate.exception.ConstraintViolationException);
-			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException)persistenceExceptionCause;
+			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
 			Assert.assertTrue(StringUtils.containsIgnoreCase(constraintViolationException.getConstraintName(), User.COLUMNNAME_USERNAME));
 			throw constraintViolationException;
 		}
@@ -274,7 +280,7 @@ public class PersistenceEntityTest {
 		} catch (final PersistenceException persistenceException) {
 			final Throwable persistenceExceptionCause = persistenceException.getCause();
 			Assert.assertTrue(persistenceExceptionCause instanceof org.hibernate.exception.ConstraintViolationException);
-			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException)persistenceExceptionCause;
+			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
 			Assert.assertTrue(StringUtils.containsIgnoreCase(constraintViolationException.getConstraintName(), User.COLUMNNAME_EMAILADDRESS));
 			throw constraintViolationException;
 		}
@@ -447,11 +453,11 @@ public class PersistenceEntityTest {
 		Assert.assertNotNull(fetchedGroupReservation);
 		Assert.assertNotNull(fetchedGroupReservation.getBooker());
 		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
-		Assert.assertNotNull(fetchedGroupReservation.getAccountant());		
+		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
 		Assert.assertTrue(bookerUser.sameValues(fetchedGroupReservation.getBooker()));
 		Assert.assertTrue(beneficiaryUser.sameValues(fetchedGroupReservation.getBeneficiary()));
 		Assert.assertTrue(accountantUser.sameValues(fetchedGroupReservation.getAccountant()));
-		
+
 		Assert.assertTrue(beneficiaryUser.getAccountantGroupReservations().isEmpty());
 		Assert.assertTrue(beneficiaryUser.getBookerGroupReservations().isEmpty());
 		Assert.assertFalse(beneficiaryUser.getBeneficiaryGroupReservations().isEmpty());
@@ -459,7 +465,7 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(accountantUser.getBeneficiaryGroupReservations().isEmpty());
 		Assert.assertTrue(accountantUser.getBookerGroupReservations().isEmpty());
 		Assert.assertFalse(accountantUser.getAccountantGroupReservations().isEmpty());
-		
+
 		Assert.assertTrue(bookerUser.getBeneficiaryGroupReservations().isEmpty());
 		Assert.assertTrue(bookerUser.getAccountantGroupReservations().isEmpty());
 		Assert.assertFalse(bookerUser.getBookerGroupReservations().isEmpty());
@@ -529,9 +535,9 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(TestUtils.containsEntity(fetchedGroupReservation.getReservations(), testReservation03));
 
 		long i = 0;
-		Iterator<Reservation> reservationIterator = fetchedGroupReservation.getReservations().iterator();
+		final Iterator<Reservation> reservationIterator = fetchedGroupReservation.getReservations().iterator();
 		while (reservationIterator.hasNext()) {
-			Reservation reservation = reservationIterator.next();
+			final Reservation reservation = reservationIterator.next();
 			Assert.assertEquals(++i, reservation.getPrecedence());
 		}
 	}
@@ -638,7 +644,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.clear();
 		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
 		Assert.assertNotNull(fetchedGroupReservation);
-		Assert.assertNotNull(fetchedGroupReservation.getBooker());		
+		Assert.assertNotNull(fetchedGroupReservation.getBooker());
 		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
 		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
 		Assert.assertNotNull(fetchedGroupReservation.getRooms());
@@ -679,7 +685,7 @@ public class PersistenceEntityTest {
 		persistenceContextManager.clear();
 		final GroupReservation fetchedGroupReservation = groupReservationDao.findByPrimaryKey(testGroupReservation.getGroupReservationId());
 		Assert.assertNotNull(fetchedGroupReservation);
-		Assert.assertNotNull(fetchedGroupReservation.getBooker());		
+		Assert.assertNotNull(fetchedGroupReservation.getBooker());
 		Assert.assertNotNull(fetchedGroupReservation.getBeneficiary());
 		Assert.assertNotNull(fetchedGroupReservation.getAccountant());
 		Assert.assertNotNull(fetchedGroupReservation.getRooms());
@@ -926,7 +932,7 @@ public class PersistenceEntityTest {
 		Assert.assertFalse(fetchedGroupReservation.getReports().isEmpty());
 		Assert.assertEquals(1, fetchedGroupReservation.getReports().size());
 
-		for (Report report : fetchedGroupReservation.getReports()) {
+		for (final Report report : fetchedGroupReservation.getReports()) {
 			Assert.assertTrue(report.isStale());
 		}
 	}
@@ -1023,8 +1029,8 @@ public class PersistenceEntityTest {
 		persistenceContextManager.flush();
 		persistenceContextManager.clear();
 
-		User fetchedUser = userDao.retrieveByPrimaryKey(testUser.getUserId());
-		Preference fetchedPreference = preferenceDao.findByUserIdAndPreferenceType(fetchedUser.getUserId(), PreferenceType.TIMEZONE);
+		final User fetchedUser = userDao.retrieveByPrimaryKey(testUser.getUserId());
+		final Preference fetchedPreference = preferenceDao.findByUserIdAndPreferenceType(fetchedUser.getUserId(), PreferenceType.TIMEZONE);
 		fetchedUser.unassociatePreference(fetchedPreference);
 		preferenceDao.remove(fetchedPreference);
 		userDao.persist(fetchedUser);
@@ -1037,6 +1043,33 @@ public class PersistenceEntityTest {
 		Assert.assertNull(verifyPreference02);
 		final User verifyUser = userDao.findByPrimaryKey(testUser.getUserId());
 		Assert.assertNotNull(verifyUser);
+	}
+
+	@Test
+	public void testCreateEvent() {
+		final User testUser = createTestUser();
+		final Event testEvent = new Event(CategoryType.SESSION.getCategoryName(), "R0001", testUser);
+		eventDao.persist(testEvent);
+		persistenceContextManager.flush();
+		logger.debug("persisted event as [" + testEvent + "]");
+
+		persistenceContextManager.clear();
+		final Event fetchedEvent = eventDao.findByPrimaryKey(testEvent.getEventId());
+		Assert.assertNotNull(fetchedEvent);
+		Assert.assertEquals("R0001", fetchedEvent.getMessage());
+		Assert.assertEquals(CategoryType.SESSION.getCategoryName(), fetchedEvent.getCategory());
+		Assert.assertTrue(testUser.sameValues(fetchedEvent.getUser()));
+	}
+
+	@Test(expected = OperationNotSupportedException.class)
+	public void testDeleteEvent() {
+		final User testUser = createTestUser();
+		final Event testEvent = new Event(CategoryType.SESSION.getCategoryName(), "R0001", testUser);
+		eventDao.persist(testEvent);
+		persistenceContextManager.flush();
+		logger.debug("persisted event as [" + testEvent + "]");
+
+		eventDao.remove(testEvent);
 	}
 
 	private Role createUserRole() {

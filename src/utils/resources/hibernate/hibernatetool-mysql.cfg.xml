@@ -16,6 +16,7 @@
         <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.User" />
         <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Report" />
         <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Setting" />
-        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Preference" />        
+        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Preference" />
+        <mapping class="net.soomsam.zirmegghuette.zars.persistence.entity.Event" />        
     </session-factory>
 </hibernate-configuration>
