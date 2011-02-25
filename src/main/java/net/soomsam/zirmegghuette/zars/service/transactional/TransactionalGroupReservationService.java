@@ -5,15 +5,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import net.soomsam.zirmegghuette.zars.enums.EntityType;
 import net.soomsam.zirmegghuette.zars.enums.OperationType;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationNonconsecutiveException;
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
+import net.soomsam.zirmegghuette.zars.persistence.dao.EventDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.GroupReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.ReservationDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoomDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
+import net.soomsam.zirmegghuette.zars.persistence.entity.Event;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Reservation;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Room;
@@ -50,6 +53,9 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	@Autowired
 	private RoomDao roomDao;
 
+	@Autowired
+	private EventDao eventDao;
+
 	@Override
 	public void createAllRooms() {
 		roomDao.persist(new Room("ROOM_PRIMARY", 4, 1, true));
@@ -74,6 +80,10 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		final GroupReservation groupReservation = new GroupReservation(booker, beneficiary, accountant, booked, arrival, departure, guests, comment);
 		groupReservation.associateRooms(requiredRooms);
 		groupReservationDao.persist(groupReservation);
+
+		final Event createGroupReservationEvent = eventDao.create(booker, groupReservation.getGroupReservationId(), EntityType.ENTITY_RESERVATION, OperationType.OPERATION_ADD, "EVENT_CREATEGROUPRESERVATION");
+		eventDao.persist(createGroupReservationEvent);
+
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
 
 		// TODO required capacity fulfilled???
@@ -110,6 +120,10 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 		assertConsecutiveArrivalDeparture(groupReservation);
 		groupReservationDao.persist(groupReservation);
+
+		final Event createGroupReservationEvent = eventDao.create(booker, groupReservation.getGroupReservationId(), EntityType.ENTITY_RESERVATION, OperationType.OPERATION_ADD, "EVENT_CREATEGROUPRESERVATION");
+		eventDao.persist(createGroupReservationEvent);
+
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
 
 		// TODO required capacity fulfilled???
@@ -149,6 +163,10 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		reservationDao.removeAll(oldReservations);
 
 		groupReservationDao.persist(groupReservation);
+
+		final Event updateGroupReservationEvent = eventDao.create(booker, groupReservation.getGroupReservationId(), EntityType.ENTITY_RESERVATION, OperationType.OPERATION_UPDATE, "EVENT_UPDATEGROUPRESERVATION");
+		eventDao.persist(updateGroupReservationEvent);
+
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
 
 		// TODO required capacity fulfilled???
@@ -198,6 +216,10 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 		assertConsecutiveArrivalDeparture(groupReservation);
 		groupReservationDao.persist(groupReservation);
+
+		final Event updateGroupReservationEvent = eventDao.create(booker, groupReservation.getGroupReservationId(), EntityType.ENTITY_RESERVATION, OperationType.OPERATION_UPDATE, "EVENT_UPDATEGROUPRESERVATION");
+		eventDao.persist(updateGroupReservationEvent);
+
 		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
 
 		// TODO required capacity fulfilled???
@@ -213,6 +235,9 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 		assertDeleteGroupReservationAllowed(groupReservationId, groupReservation.getBeneficiary().getUserId());
 
 		groupReservationDao.remove(groupReservation);
+
+		final Event deleteGroupReservationEvent = eventDao.create(userDao.retrieveCurrentUser(), groupReservation.getGroupReservationId(), EntityType.ENTITY_RESERVATION, OperationType.OPERATION_DELETE, "EVENT_DELETEGROUPRESERVATION");
+		eventDao.persist(deleteGroupReservationEvent);
 
 		// TODO only admin should be allowed to delete group reservation that had already been payed
 		// TODO search for reports covering new date range of group reservation and mark them as stale

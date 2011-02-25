@@ -4,12 +4,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.soomsam.zirmegghuette.zars.enums.EntityType;
+import net.soomsam.zirmegghuette.zars.enums.OperationType;
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
+import net.soomsam.zirmegghuette.zars.persistence.dao.EventDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.PreferenceDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.RoleDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
+import net.soomsam.zirmegghuette.zars.persistence.entity.Event;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Preference;
 import net.soomsam.zirmegghuette.zars.persistence.entity.Role;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
@@ -37,6 +41,9 @@ public class TransactionalUserService implements UserService {
 
 	@Autowired
 	private PreferenceDao preferenceDao;
+
+	@Autowired
+	private EventDao eventDao;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -74,6 +81,10 @@ public class TransactionalUserService implements UserService {
 		final List<Role> roleList = roleDao.findByPrimaryKeys(roleIdSet);
 		final User user = new User(username, encodePassword(password), emailAddress, firstName, lastName, true, new HashSet<Role>(roleList));
 		userDao.persistUser(user);
+
+		final Event createUserEvent = eventDao.create(userDao.retrieveCurrentUser(), user.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_ADD, "EVENT_CREATEUSER");
+		eventDao.persist(createUserEvent);
+
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
 
@@ -88,6 +99,10 @@ public class TransactionalUserService implements UserService {
 		user.setLastName(lastName);
 		user.updateRoles(new HashSet<Role>(roleList));
 		userDao.persistUser(user);
+
+		final Event updateUserEvent = eventDao.create(userDao.retrieveCurrentUser(), user.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_UPDATE, "EVENT_UPDATEUSER");
+		eventDao.persist(updateUserEvent);
+
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
 
@@ -97,6 +112,10 @@ public class TransactionalUserService implements UserService {
 		user.setPassword(encodePassword(password));
 		user.setEnabled(enabled);
 		userDao.persist(user);
+
+		final Event resetUserEvent = eventDao.create(userDao.retrieveCurrentUser(), user.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_UPDATE, "EVENT_RESETUSER");
+		eventDao.persist(resetUserEvent);
+
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
 
@@ -105,6 +124,10 @@ public class TransactionalUserService implements UserService {
 		final User user = userDao.retrieveCurrentUser();
 		user.setPassword(encodePassword(password));
 		userDao.persist(user);
+
+		final Event changePasswordUserEvent = eventDao.create(userDao.retrieveCurrentUser(), user.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_UPDATE, "EVENT_CHANGEPASSWORDUSER");
+		eventDao.persist(changePasswordUserEvent);
+
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
 
@@ -116,6 +139,10 @@ public class TransactionalUserService implements UserService {
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		userDao.persistUser(user);
+
+		final Event changeUserEvent = eventDao.create(userDao.retrieveCurrentUser(), user.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_UPDATE, "EVENT_CHANGEUSER");
+		eventDao.persist(changeUserEvent);
+
 		return serviceBeanMapper.map(UserBean.class, user);
 	}
 
@@ -133,12 +160,18 @@ public class TransactionalUserService implements UserService {
 	public void enableUser(final long userId) {
 		final User user = userDao.retrieveByPrimaryKey(userId);
 		user.setEnabled(true);
+
+		final Event enableUserEvent = eventDao.create(userDao.retrieveCurrentUser(), user.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_UPDATE, "EVENT_ENABLEUSER");
+		eventDao.persist(enableUserEvent);
 	}
 
 	@Override
 	public void disableUser(final long userId) {
 		final User user = userDao.retrieveByPrimaryKey(userId);
 		user.setEnabled(false);
+
+		final Event disableUserEvent = eventDao.create(userDao.retrieveCurrentUser(), user.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_UPDATE, "EVENT_DISABLEUSER");
+		eventDao.persist(disableUserEvent);
 	}
 
 	@Override
