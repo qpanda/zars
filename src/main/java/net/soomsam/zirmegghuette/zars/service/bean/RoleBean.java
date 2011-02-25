@@ -17,13 +17,6 @@ public class RoleBean extends BaseBean {
 		super();
 	}
 
-	public RoleBean(final long roleId, final Date roleTimestamp, final String name) {
-		super();
-		this.roleId = roleId;
-		this.roleTimestamp = roleTimestamp;
-		this.name = name;
-	}
-
 	public long getRoleId() {
 		return roleId;
 	}

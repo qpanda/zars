@@ -315,21 +315,21 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 	protected void assertCreateGroupReservationAllowed(final long groupReservationBeneficiaryId) throws InsufficientPermissionException {
 		final User currentUser = userDao.retrieveCurrentUser();
 		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && (groupReservationBeneficiaryId != currentUser.getUserId())) {
-			throw new InsufficientPermissionException("non admin users are not allowed to create group reservations for other users", currentUser.getUserId(), OperationType.ADD);
+			throw new InsufficientPermissionException("non admin users are not allowed to create group reservations for other users", currentUser.getUserId(), OperationType.OPERATION_ADD);
 		}
 	}
 
 	protected void assertUpdateGroupReservationAllowed(final long groupReservationId, final long groupReservationBeneficiaryId) throws InsufficientPermissionException {
 		final User currentUser = userDao.retrieveCurrentUser();
 		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && (groupReservationBeneficiaryId != currentUser.getUserId())) {
-			throw new InsufficientPermissionException("non admin users are not allowed to update group reservations of other users", currentUser.getUserId(), groupReservationBeneficiaryId, OperationType.UPDATE);
+			throw new InsufficientPermissionException("non admin users are not allowed to update group reservations of other users", currentUser.getUserId(), groupReservationBeneficiaryId, OperationType.OPERATION_UPDATE);
 		}
 	}
 
 	protected void assertDeleteGroupReservationAllowed(final long groupReservationId, final long groupReservationBeneficiaryId) throws InsufficientPermissionException {
 		final User currentUser = userDao.retrieveCurrentUser();
 		if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && (groupReservationBeneficiaryId != currentUser.getUserId())) {
-			throw new InsufficientPermissionException("non admin users are not allowed to delete group reservations of other users", currentUser.getUserId(), groupReservationBeneficiaryId, OperationType.DELETE);
+			throw new InsufficientPermissionException("non admin users are not allowed to delete group reservations of other users", currentUser.getUserId(), groupReservationBeneficiaryId, OperationType.OPERATION_DELETE);
 		}
 	}
 

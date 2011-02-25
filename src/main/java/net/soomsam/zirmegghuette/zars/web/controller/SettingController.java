@@ -32,12 +32,15 @@ public class SettingController implements Serializable {
 
 	private ThreadLocal<SimpleDateFormat> preferredDateFormat;
 
-	private ThreadLocal<SimpleDateFormat> preferredDateFormatTime;
+	private ThreadLocal<SimpleDateFormat> preferredDateTimeFormat;
+
+	private ThreadLocal<SimpleDateFormat> preferredTimestampFormat;
 
 	public void resetPreferredTimeZone() {
 		preferredTimeZone = null;
 		preferredDateFormat = null;
-		preferredDateFormatTime = null;
+		preferredDateTimeFormat = null;
+		preferredTimestampFormat = null;
 	}
 
 	public synchronized TimeZone getPreferredTimeZone() {
@@ -62,7 +65,8 @@ public class SettingController implements Serializable {
 	public void resetPreferredLocale() {
 		preferredLocale = null;
 		preferredDateFormat = null;
-		preferredDateFormatTime = null;
+		preferredDateTimeFormat = null;
+		preferredTimestampFormat = null;
 	}
 
 	public synchronized Locale getPreferredLocale() {
@@ -104,8 +108,8 @@ public class SettingController implements Serializable {
 	}
 
 	public synchronized SimpleDateFormat getPreferredDateTimeFormat() {
-		if (null == preferredDateFormatTime) {
-			preferredDateFormatTime = new ThreadLocal<SimpleDateFormat>() {
+		if (null == preferredDateTimeFormat) {
+			preferredDateTimeFormat = new ThreadLocal<SimpleDateFormat>() {
 				@Override
 				protected synchronized SimpleDateFormat initialValue() {
 					final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, getPreferredLocale());
@@ -115,10 +119,29 @@ public class SettingController implements Serializable {
 			};
 		}
 
-		return preferredDateFormatTime.get();
+		return preferredDateTimeFormat.get();
 	}
 
 	public String getPreferredDateTimeFormatPattern() {
 		return getPreferredDateTimeFormat().toPattern();
+	}
+
+	public synchronized SimpleDateFormat getPreferredTimestampFormat() {
+		if (null == preferredTimestampFormat) {
+			preferredTimestampFormat = new ThreadLocal<SimpleDateFormat>() {
+				@Override
+				protected synchronized SimpleDateFormat initialValue() {
+					final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.LONG, getPreferredLocale());
+					simpleDateFormat.setTimeZone(getPreferredTimeZone());
+					return simpleDateFormat;
+				}
+			};
+		}
+
+		return preferredTimestampFormat.get();
+	}
+
+	public String getPreferredTimestampFormatPattern() {
+		return getPreferredTimestampFormat().toPattern();
 	}
 }

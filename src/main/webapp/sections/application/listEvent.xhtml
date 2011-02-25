@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html_basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf_core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd">
+	<div class="applicationDialog">
+		<h:form id="listEvent" styleClass="applicationForm">
+			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationListEventDialogLabel}</div>
+			<div class="applicationFormItem">
+				<p:dataTable id="eventTable" var="event" value="#{listEventController.latestEvents}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationEventNoEventMessage}">
+					<p:column sortBy="#{event.eventId}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventEventIdLabel}" /></f:facet>
+						<h:outputText value="#{event.eventId}" />
+					</p:column>
+					<p:column sortBy="#{event.eventTimestamp}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventEventTimestampLabel}" /></f:facet>
+						<h:outputText value="#{event.eventTimestamp}">
+							<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredTimestampFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{event.user.username}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventUserUsernameLabel}" /></f:facet>
+						<h:outputText value="#{event.user.username}" />
+					</p:column>										
+					<p:column sortBy="#{event.category}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventCategoryLabel}" /></f:facet>
+						<h:outputText value="#{enumMessages[event.category]}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventMessageLabel}" /></f:facet>
+						<h:outputFormat escape="false" value="#{event.message}">
+							<f:param value="#{event.entityId}"/>
+						</h:outputFormat>
+					</p:column>
+				</p:dataTable>
+			</div>
+		</h:form>
+	</div>  
+</ui:composition>

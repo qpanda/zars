@@ -37,8 +37,8 @@ public class JpaEventDao extends JpaEntityDao<Event> implements EventDao {
 
 	@Override
 	public Event create(final User user, final CategoryType categoryType, final String message) {
-		if (CategoryType.PERSISTENCE.equals(categoryType)) {
-			throw new IllegalArgumentException("'categoryType' [" + CategoryType.PERSISTENCE.getCategoryName() + "] not supported");
+		if (CategoryType.CATEGORY_PERSISTENCE.equals(categoryType)) {
+			throw new IllegalArgumentException("'categoryType' [" + CategoryType.CATEGORY_PERSISTENCE.getCategoryName() + "] not supported");
 		}
 
 		return new Event(categoryType.getCategoryName(), message, user);
@@ -46,7 +46,7 @@ public class JpaEventDao extends JpaEntityDao<Event> implements EventDao {
 
 	@Override
 	public Event create(final User user, final long entityId, final Class<? extends BaseEntity> entityType, final OperationType entityOperation, final String message) {
-		return new Event(CategoryType.PERSISTENCE.getCategoryName(), message, entityId, entityType.getSimpleName(), entityOperation.getOperationName(), user);
+		return new Event(CategoryType.CATEGORY_PERSISTENCE.getCategoryName(), message, entityId, entityType.getSimpleName(), entityOperation.getOperationName(), user);
 	}
 
 	@Override

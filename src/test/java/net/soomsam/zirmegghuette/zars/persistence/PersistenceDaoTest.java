@@ -184,31 +184,31 @@ public class PersistenceDaoTest {
 	@Test
 	public void testCreateSessionEvent() {
 		final User testUser = createTestUser();
-		final Event sessionEvent = eventDao.create(testUser, CategoryType.SESSION, "S0001");
+		final Event sessionEvent = eventDao.create(testUser, CategoryType.CATEGORY_SESSION, "S0001");
 
 		Assert.assertNotNull(sessionEvent);
 		Assert.assertEquals("S0001", sessionEvent.getMessage());
-		Assert.assertEquals(CategoryType.SESSION.getCategoryName(), sessionEvent.getCategory());
+		Assert.assertEquals(CategoryType.CATEGORY_SESSION.getCategoryName(), sessionEvent.getCategory());
 		Assert.assertTrue(testUser.sameValues(sessionEvent.getUser()));
 	}
 
 	@Test
 	public void testCreatePersistenceEvent() {
 		final User testUser = createTestUser();
-		final Event persistenceEvent = eventDao.create(testUser, testUser.getUserId(), User.class, OperationType.ADD, "P0001");
+		final Event persistenceEvent = eventDao.create(testUser, testUser.getUserId(), User.class, OperationType.OPERATION_ADD, "P0001");
 
 		Assert.assertNotNull(persistenceEvent);
 		Assert.assertEquals("P0001", persistenceEvent.getMessage());
-		Assert.assertEquals(CategoryType.PERSISTENCE.getCategoryName(), persistenceEvent.getCategory());
+		Assert.assertEquals(CategoryType.CATEGORY_PERSISTENCE.getCategoryName(), persistenceEvent.getCategory());
 		Assert.assertEquals(testUser.getUserId(), persistenceEvent.getEntityId());
-		Assert.assertEquals(OperationType.ADD.getOperationName(), persistenceEvent.getEntityOperation());
+		Assert.assertEquals(OperationType.OPERATION_ADD.getOperationName(), persistenceEvent.getEntityOperation());
 		Assert.assertTrue(testUser.sameValues(persistenceEvent.getUser()));
 	}
 
 	@Test
 	public void testFindLatestEvents() {
 		final User testUser = createTestUser();
-		final Event sessionEvent = eventDao.create(testUser, CategoryType.SESSION, "S0001");
+		final Event sessionEvent = eventDao.create(testUser, CategoryType.CATEGORY_SESSION, "S0001");
 		eventDao.persist(sessionEvent);
 
 		Assert.assertFalse(eventDao.findLatest(null).isEmpty());
@@ -217,7 +217,7 @@ public class PersistenceDaoTest {
 	@Test
 	public void testFindEventByOpenDateInterval() {
 		final User testUser = createTestUser();
-		final Event sessionEvent = eventDao.create(testUser, CategoryType.SESSION, "S0001");
+		final Event sessionEvent = eventDao.create(testUser, CategoryType.CATEGORY_SESSION, "S0001");
 		eventDao.persist(sessionEvent);
 
 		Assert.assertFalse(eventDao.findByOpenDateInterval(new Interval(new DateMidnight().minusDays(1), new DateMidnight().plusDays(1)), null).isEmpty());
@@ -227,7 +227,7 @@ public class PersistenceDaoTest {
 	@Test
 	public void testFindEventByUserId() {
 		final User testUser = createTestUser();
-		final Event sessionEvent = eventDao.create(testUser, CategoryType.SESSION, "S0001");
+		final Event sessionEvent = eventDao.create(testUser, CategoryType.CATEGORY_SESSION, "S0001");
 		eventDao.persist(sessionEvent);
 
 		Assert.assertFalse(eventDao.findByUserId(testUser.getUserId(), null).isEmpty());

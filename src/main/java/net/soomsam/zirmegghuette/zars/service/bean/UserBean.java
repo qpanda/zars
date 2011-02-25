@@ -27,20 +27,8 @@ public class UserBean extends BaseBean {
 
 	private List<RoleBean> roles = new ArrayList<RoleBean>(0);
 
-	private UserBean() {
+	public UserBean() {
 		super();
-	}
-
-	private UserBean(final long userId, final Date userTimestamp, final String username, final String password, final String emailAddress, final String firstName, final String lastName, final boolean enabled) {
-		super();
-		this.userId = userId;
-		this.userTimestamp = userTimestamp;
-		this.username = username;
-		this.password = password;
-		this.emailAddress = emailAddress;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.enabled = enabled;
 	}
 
 	public long getUserId() {

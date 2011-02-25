@@ -23,16 +23,6 @@ public class RoomBean extends BaseBean {
 		super();
 	}
 
-	public RoomBean(final long roomId, final Date roomTimestamp, final String name, final long capacity, final long precedence, final boolean inUse) {
-		super();
-		this.roomId = roomId;
-		this.roomTimestamp = roomTimestamp;
-		this.name = name;
-		this.capacity = capacity;
-		this.precedence = precedence;
-		this.inUse = inUse;
-	}
-
 	public long getRoomId() {
 		return roomId;
 	}

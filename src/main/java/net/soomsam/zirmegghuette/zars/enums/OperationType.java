@@ -1,7 +1,7 @@
 package net.soomsam.zirmegghuette.zars.enums;
 
 public enum OperationType {
-	ADD("ADD"), UPDATE("UPDATE"), DELETE("DELETE");
+	OPERATION_ADD("OPERATION_ADD"), OPERATION_UPDATE("OPERATION_UPDATE"), OPERATION_DELETE("OPERATION_DELETE");
 
 	private final String operationName;
 
