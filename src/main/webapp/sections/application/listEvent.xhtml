@@ -27,9 +27,17 @@
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventCategoryLabel}" /></f:facet>
 						<h:outputText value="#{enumMessages[event.category]}" />
 					</p:column>
+					<p:column sortBy="#{event.entityType}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventEntityTypeLabel}" /></f:facet>
+						<h:outputText value="#{event.entityType}" />
+					</p:column>
+					<p:column sortBy="#{event.entityOperation}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventEntityOperationLabel}" /></f:facet>
+						<h:outputText value="#{enumMessages[event.entityOperation]}" />
+					</p:column>
 					<p:column>
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventMessageLabel}" /></f:facet>
-						<h:outputFormat escape="false" value="#{event.message}">
+						<h:outputFormat escape="false" value="#{enumMessages[event.message]}">
 							<f:param value="#{event.entityId}"/>
 						</h:outputFormat>
 					</p:column>
