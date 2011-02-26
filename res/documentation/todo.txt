@@ -10,7 +10,7 @@ MUST-HAVE
 	o test multiple users at the same time (same browser, different browser, different host)
 	o rename Leistungsberechtiger to Benutzer
 	o help/about pages
-	o audit table/log
+	x audit table/log
 	o email notification
 		o created/modified/locked account
 		o admin reservations added/updated/deleted
