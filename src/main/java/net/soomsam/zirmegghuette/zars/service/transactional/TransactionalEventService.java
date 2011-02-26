@@ -23,7 +23,7 @@ public class TransactionalEventService implements EventService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<EventBean> findLatestEvents() {
-		return serviceBeanMapper.map(EventBean.class, eventDao.findLatest(new Pagination(0, 200)));
+	public List<EventBean> findLatestEvents(final Pagination pagination) {
+		return serviceBeanMapper.map(EventBean.class, eventDao.findLatest(pagination));
 	}
 }

@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 import net.soomsam.zirmegghuette.zars.service.EventService;
 import net.soomsam.zirmegghuette.zars.service.bean.EventBean;
+import net.soomsam.zirmegghuette.zars.utils.Pagination;
 
 import org.springframework.context.annotation.Scope;
 
@@ -19,6 +20,6 @@ public class ListEventController implements Serializable {
 	private transient EventService eventService;
 
 	public List<EventBean> getLatestEvents() {
-		return eventService.findLatestEvents();
+		return eventService.findLatestEvents(new Pagination(0, 200));
 	}
 }
