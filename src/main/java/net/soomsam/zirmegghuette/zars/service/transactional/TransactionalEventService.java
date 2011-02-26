@@ -8,6 +8,7 @@ import net.soomsam.zirmegghuette.zars.service.bean.EventBean;
 import net.soomsam.zirmegghuette.zars.service.utils.ServiceBeanMapper;
 import net.soomsam.zirmegghuette.zars.utils.Pagination;
 
+import org.joda.time.Interval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,5 +26,17 @@ public class TransactionalEventService implements EventService {
 	@Transactional(readOnly = true)
 	public List<EventBean> findLatestEvents(final Pagination pagination) {
 		return serviceBeanMapper.map(EventBean.class, eventDao.findLatest(pagination));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<EventBean> findEventByOpenDateInterval(final Interval openDateInterval, final Pagination pagination) {
+		return serviceBeanMapper.map(EventBean.class, eventDao.findByOpenDateInterval(openDateInterval, pagination));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<EventBean> findEventByUserId(final long userId, final Pagination pagination) {
+		return serviceBeanMapper.map(EventBean.class, eventDao.findByUserId(userId, pagination));
 	}
 }
