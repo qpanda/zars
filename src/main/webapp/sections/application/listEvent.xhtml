@@ -7,8 +7,37 @@
 	<div class="applicationDialog">
 		<h:form id="listEvent" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationListEventDialogLabel}</div>
+			<p:panel id="eventFilterPanel" header="#{displayMessages.sectionsApplicationListEventFilterPanelTitle}" toggleable="true" collapsed="true" toggleSpeed="0">
+				<div class="applicationFormItem">
+					<h:outputLabel for="criteriaEventFilter" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationListEventCriteriaEventFilter}" /><br />
+					<h:panelGrid columns="3">
+						<h:panelGrid columns="1">
+							<h:selectOneRadio id="criteriaEventFilter" value="#{listEventController.selectedCriteriaFilterOption}" layout="pageDirection">
+								<f:selectItem itemValue="LATEST" itemLabel="#{displayMessages.sectionsApplicationListEventLatestEventFilter}"/>
+								<f:selectItem itemValue="SPECIFIED_DATERANGE" itemLabel="#{displayMessages.sectionsApplicationListEventSpecifiedDateRangeEventFilter}"/>
+								<f:selectItem itemValue="SPECIFIED_USER" itemLabel="#{displayMessages.sectionsApplicationListEventSpecifiedUserEventFilter}"/>
+							</h:selectOneRadio>
+						</h:panelGrid>
+						<h:panelGrid columns="1" rowClasses="applicationGridRow">
+							<h:column/>
+							<p:calendar id="dateRangeStartDate" value="#{listEventController.dateRangeStartDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+							<h:selectOneMenu id="user" styleClass="applicationFormInput" value="#{listEventController.selectedUserId}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationEventUserError}">
+								<f:selectItems value="#{listEventController.availableUsers}" var="user" itemLabel="#{user.username}" itemValue="#{user.userId}"/>
+							</h:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="1"  rowClasses="applicationGridRow">
+							<h:column/>
+							<p:calendar id="dateRangeEndDate" value="#{listEventController.dateRangeEndDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+							<h:column/>
+						</h:panelGrid>
+					</h:panelGrid>
+				</div>
+				<div class="applicationFormItem">
+					<h:commandButton id="applyFilterEventAction" type="submit" action="#{listEventController.applyFilter}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationListEventApplyFilterButton}"/>
+				</div>
+			</p:panel>
 			<div class="applicationFormItem">
-				<p:dataTable id="eventTable" var="event" value="#{listEventController.latestEvents}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationEventNoEventMessage}">
+				<p:dataTable id="eventTable" var="event" value="#{listEventController.events}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationEventNoEventMessage}">
 					<p:column sortBy="#{event.eventId}">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventEventIdLabel}" /></f:facet>
 						<h:outputText value="#{event.eventId}" />

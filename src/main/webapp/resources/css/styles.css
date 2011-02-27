@@ -359,6 +359,10 @@ textarea:focus, input:focus {
 	width: 500px;
 }
 
+.applicationGridRow {
+	height: 28px
+}
+
 .applicationLink:link {
 	color: #3C78B5;
 }

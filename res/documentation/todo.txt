@@ -9,7 +9,6 @@ MUST-HAVE
 	o order by in queries
 	o test multiple users at the same time (same browser, different browser, different host)
 	o rename Leistungsberechtiger to Benutzer
-	x audit table/log
 	o email notification
 		o created/modified/locked account
 		o admin reservations added/updated/deleted

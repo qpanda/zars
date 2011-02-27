@@ -5,6 +5,21 @@
 						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
 						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd"
 	template="/templates/applicationLayout.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam id="selectedCriteriaFilterOption" name="selectedCriteriaFilterOption" value="#{listEventController.selectedCriteriaFilterOption}"/>
+			<f:viewParam id="selectedDateRangeStartDate" name="selectedDateRangeStartDate" value="#{listEventController.dateRangeStartDate}">
+				<f:convertDateTime pattern="yyyyMMdd" timeZone="#{settingController.preferredTimeZone}"/>
+			</f:viewParam>
+			<f:viewParam id="selectedDateRangeEndDate" name="selectedDateRangeEndDate" value="#{listEventController.dateRangeEndDate}">
+				<f:convertDateTime pattern="yyyyMMdd" timeZone="#{settingController.preferredTimeZone}"/>
+			</f:viewParam>
+			<f:viewParam id="selectedUserId" name="selectedUserId" value="#{listEventController.selectedUserId}">
+				<f:validateLongRange minimum="1"/>
+			</f:viewParam>
+		</f:metadata>		
+		<f:event type="preRenderView" listener="#{listEventController.verifyFilterSettings}"/>
+	</ui:define>
 	<ui:define name="windowTitle">#{displayMessages.viewsListEventWindowTitle}</ui:define>
 	<ui:define name="header">
 		<ui:include src="/sections/application/header.xhtml"/>
