@@ -359,8 +359,14 @@ textarea:focus, input:focus {
 	width: 500px;
 }
 
-.applicationGridRow {
-	height: 28px
+.applicationSelectOneRadio tr {
+	height: 25px;
+	padding 0;
+}
+
+.applicationPanelGridRow {
+	height: 25px;
+	padding 0;
 }
 
 .applicationLink:link {

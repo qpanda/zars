@@ -12,7 +12,7 @@
 					<h:outputLabel for="beneficiaryGroupReservationFilter" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAdminGroupReservationBeneficiaryGroupReservationFilter}" /><br />
 					<h:panelGrid columns="1">
 						<h:panelGrid columns="1">
-							<h:selectOneRadio id="beneficiaryGroupReservationFilter" value="#{adminGroupReservationController.selectedBeneficiaryFilterOption}" layout="pageDirection">
+							<h:selectOneRadio id="beneficiaryGroupReservationFilter" value="#{adminGroupReservationController.selectedBeneficiaryFilterOption}" layout="pageDirection" styleClass="applicationSelectOneRadio">
 								<f:selectItem itemValue="ALL_BENEFICIARY" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationAllBeneficiaryGroupReservationFilter}"/>
 								<f:selectItem itemValue="CURRENT_BENEFICIARY" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationCurrentBeneficiaryGroupReservationFilter}"/>
 							</h:selectOneRadio>
@@ -23,17 +23,21 @@
 					<h:outputLabel for="dateGroupReservationFilter" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAdminGroupReservationDateRangeGroupReservationFilter}" /><br />
 					<h:panelGrid columns="3">
 						<h:panelGrid columns="1" >
-							<h:selectOneRadio id="dateGroupReservationFilter" value="#{adminGroupReservationController.selectedDateFilterOption}" layout="pageDirection">
+							<h:selectOneRadio id="dateGroupReservationFilter" value="#{adminGroupReservationController.selectedDateFilterOption}" layout="pageDirection" styleClass="applicationSelectOneRadio">
 								<f:selectItem itemValue="CURRENT_YEAR" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationCurrentYearGroupReservationFilter}"/>
 								<f:selectItem itemValue="SPECIFIED_RANGE" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationSpecifiedRangeGroupReservationFilter}"/>
 								<f:selectItem itemValue="ALL" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationAllGroupReservationFilter}"/>
 							</h:selectOneRadio>
 						</h:panelGrid>
-						<h:panelGrid columns="1">
+						<h:panelGrid columns="1" rowClasses="applicationPanelGridRow">
+							<h:column/>
 							<p:calendar id="dateRangeStartDate" value="#{adminGroupReservationController.dateRangeStartDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+							<h:column/>
 						</h:panelGrid>
-						<h:panelGrid columns="1">
+						<h:panelGrid columns="1" rowClasses="applicationPanelGridRow">
+							<h:column/>
 							<p:calendar id="dateRangeEndDate" value="#{adminGroupReservationController.dateRangeEndDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+							<h:column/>
 						</h:panelGrid>
 					</h:panelGrid>
 				</div>

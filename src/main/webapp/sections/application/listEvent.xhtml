@@ -12,20 +12,20 @@
 					<h:outputLabel for="criteriaEventFilter" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationListEventCriteriaEventFilter}" /><br />
 					<h:panelGrid columns="3">
 						<h:panelGrid columns="1">
-							<h:selectOneRadio id="criteriaEventFilter" value="#{listEventController.selectedCriteriaFilterOption}" layout="pageDirection">
+							<h:selectOneRadio id="criteriaEventFilter" value="#{listEventController.selectedCriteriaFilterOption}" layout="pageDirection" styleClass="applicationSelectOneRadio">
 								<f:selectItem itemValue="LATEST" itemLabel="#{displayMessages.sectionsApplicationListEventLatestEventFilter}"/>
 								<f:selectItem itemValue="SPECIFIED_DATERANGE" itemLabel="#{displayMessages.sectionsApplicationListEventSpecifiedDateRangeEventFilter}"/>
 								<f:selectItem itemValue="SPECIFIED_USER" itemLabel="#{displayMessages.sectionsApplicationListEventSpecifiedUserEventFilter}"/>
 							</h:selectOneRadio>
 						</h:panelGrid>
-						<h:panelGrid columns="1" rowClasses="applicationGridRow">
+						<h:panelGrid columns="1" rowClasses="applicationPanelGridRow">
 							<h:column/>
 							<p:calendar id="dateRangeStartDate" value="#{listEventController.dateRangeStartDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
 							<h:selectOneMenu id="user" styleClass="applicationFormInput" value="#{listEventController.selectedUserId}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationEventUserError}">
 								<f:selectItems value="#{listEventController.availableUsers}" var="user" itemLabel="#{user.username}" itemValue="#{user.userId}"/>
 							</h:selectOneMenu>
 						</h:panelGrid>
-						<h:panelGrid columns="1"  rowClasses="applicationGridRow">
+						<h:panelGrid columns="1" rowClasses="applicationPanelGridRow">
 							<h:column/>
 							<p:calendar id="dateRangeEndDate" value="#{listEventController.dateRangeEndDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
 							<h:column/>
