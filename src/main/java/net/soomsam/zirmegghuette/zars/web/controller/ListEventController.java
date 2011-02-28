@@ -108,7 +108,7 @@ public class ListEventController implements Serializable {
 
 	protected Interval createSpecifiedDateRangeInterval() {
 		final DateMidnight dateRangeStartDateMidnight = new DateMidnight(dateRangeStartDate);
-		final DateMidnight dateRangeEndDateMidnight = new DateMidnight(dateRangeEndDate);
+		final DateMidnight dateRangeEndDateMidnight = new DateMidnight(dateRangeEndDate).plusDays(1);
 		return new Interval(dateRangeStartDateMidnight, dateRangeEndDateMidnight);
 	}
 
