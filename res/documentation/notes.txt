@@ -17,6 +17,11 @@ MYSQL
 		> source schema-mysql.ddl;
 	DB DROP
 		> drop database zars;
+	DB TEARDOWN
+		# mysql -u root -p
+		> drop database zars;
+		> revoke all on zars.* from 'zars'@'localhost';
+		> drop user 'zars'@'localhost';
 	RMDS SHUTDOWN
 		# mysqladmin.exe -u root -p shutdown
 
