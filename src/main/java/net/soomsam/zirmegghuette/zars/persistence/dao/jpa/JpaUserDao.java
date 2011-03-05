@@ -13,6 +13,7 @@ import net.soomsam.zirmegghuette.zars.persistence.dao.OperationNotSupportedExcep
 import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
+import net.soomsam.zirmegghuette.zars.utils.Pagination;
 import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
 
 import org.apache.commons.lang.StringUtils;
@@ -59,6 +60,23 @@ public class JpaUserDao extends JpaEntityDao<User> implements UserDao {
 
 			throw persistenceException;
 		}
+	}
+
+	@Override
+	public List<User> findAll() {
+		return findAll(null);
+	}
+
+	@Override
+	public List<User> findAll(final Pagination pagination) {
+		final TypedQuery<User> findUserTypedQuery = createNamedTypedQuery(User.FINDUSER_QUERYNAME);
+
+		if (null != pagination) {
+			findUserTypedQuery.setFirstResult(pagination.getFirstResult());
+			findUserTypedQuery.setMaxResults(pagination.getMaxResults());
+		}
+
+		return findUserTypedQuery.getResultList();
 	}
 
 	@Override

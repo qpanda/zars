@@ -53,19 +53,18 @@ public abstract class JpaEntityDao<Entity extends BaseEntity> implements EntityD
 
 	@Override
 	public List<Entity> findAll() {
-		final TypedQuery<Entity> findAllTypedQuery = entityManager.createQuery("select x from " + determineEntityClass().getName() + " as x", determineEntityClass());
-		return findAllTypedQuery.getResultList();
+		return findAll(null);
 	}
 
 	@Override
 	public List<Entity> findAll(final Pagination pagination) {
-		if (null == pagination) {
-			throw new IllegalArgumentException("'pagination' must not be null");
+		final TypedQuery<Entity> findAllTypedQuery = entityManager.createQuery("select x from " + determineEntityClass().getName() + " as x", determineEntityClass());
+
+		if (null != pagination) {
+			findAllTypedQuery.setFirstResult(pagination.getFirstResult());
+			findAllTypedQuery.setMaxResults(pagination.getMaxResults());
 		}
 
-		final TypedQuery<Entity> findAllTypedQuery = entityManager.createQuery("select x from " + determineEntityClass().getName() + " as x", determineEntityClass());
-		findAllTypedQuery.setFirstResult(pagination.getFirstResult());
-		findAllTypedQuery.setMaxResults(pagination.getMaxResults());
 		return findAllTypedQuery.getResultList();
 	}
 

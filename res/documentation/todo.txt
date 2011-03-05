@@ -1,6 +1,3 @@
-MUST-HAVE
-	o order by in queries
-	
 SHOULD-HAVE
 	o email notification
 		o created/modified/locked account

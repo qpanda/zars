@@ -53,6 +53,23 @@ public class JpaGroupReservationDao extends JpaEntityDao<GroupReservation> imple
 	}
 
 	@Override
+	public List<GroupReservation> findAll() {
+		return findAll(null);
+	}
+
+	@Override
+	public List<GroupReservation> findAll(final Pagination pagination) {
+		final TypedQuery<GroupReservation> findGroupReservationTypedQuery = createNamedTypedQuery(GroupReservation.FINDGROUPRESERVATION_QUERYNAME);
+
+		if (null != pagination) {
+			findGroupReservationTypedQuery.setFirstResult(pagination.getFirstResult());
+			findGroupReservationTypedQuery.setMaxResults(pagination.getMaxResults());
+		}
+
+		return findGroupReservationTypedQuery.getResultList();
+	}
+
+	@Override
 	public List<GroupReservation> findByClosedDateInterval(final Interval closedDateInterval, final Pagination pagination) {
 		if (null == closedDateInterval) {
 			throw new IllegalArgumentException("'closedDateInterval' must not be null");
