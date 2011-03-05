@@ -4,14 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.FlushModeType;
-
 import junit.framework.Assert;
 import net.soomsam.zirmegghuette.zars.TestUtils;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
-import net.soomsam.zirmegghuette.zars.persistence.dao.PersistenceContextManager;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
@@ -39,9 +36,6 @@ public class UserServiceTest {
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private PersistenceContextManager persistenceContextManager;
 
 	@Before
 	public void login() {
@@ -150,25 +144,6 @@ public class UserServiceTest {
 		Assert.assertFalse(TestUtils.containsUser(userBeanList03, userBean01.getUserId()));
 		Assert.assertFalse(TestUtils.containsUser(userBeanList03, userBean02.getUserId()));
 		Assert.assertTrue(TestUtils.containsUser(userBeanList03, userBean03.getUserId()));
-	}
-
-	@Test
-	public void findMultipleUsersWithMultipleRoles() throws UniqueConstraintException {
-		final List<RoleBean> roleBeanList = userService.findAllRoles();
-		final Set<Long> roleIdSet01 = TestUtils.determineRoleIds(roleBeanList, RoleType.ROLE_USER, RoleType.ROLE_ADMIN);
-		final UserBean userBean01 = userService.createUser("abcd01", "efg01", "hi01@jkl.mno", "pqr01", "stu01", roleIdSet01);
-		final Set<Long> roleIdSet02 = TestUtils.determineRoleIds(roleBeanList, RoleType.ROLE_ADMIN);
-		final UserBean userBean02 = userService.createUser("abcd02", "efg02", "hi02@jkl.mno", "pqr02", "stu02", roleIdSet02);
-
-		persistenceContextManager.setFlushMode(FlushModeType.COMMIT);
-		final List<UserBean> userBeanList01 = userService.findUsers(RoleType.ROLE_USER);
-		Assert.assertTrue(TestUtils.containsUser(userBeanList01, userBean01.getUserId()));
-		Assert.assertFalse(TestUtils.containsUser(userBeanList01, userBean02.getUserId()));
-
-		persistenceContextManager.setFlushMode(FlushModeType.COMMIT);
-		final List<UserBean> userBeanList02 = userService.findUsers(RoleType.ROLE_ADMIN);
-		Assert.assertTrue(TestUtils.containsUser(userBeanList02, userBean01.getUserId()));
-		Assert.assertTrue(TestUtils.containsUser(userBeanList02, userBean02.getUserId()));
 	}
 
 	protected void doLogin(final String username, final String password) {
