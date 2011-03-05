@@ -1,3 +1,7 @@
+http://forum.springsource.org/showthread.php?t=70763&highlight=logouthandler
+http://forum.springsource.org/showthread.php?t=71954&highlight=logouthandler
+http://forum.springsource.org/showthread.php?t=59277&highlight=logouthandler
+http://forum.springsource.org/showthread.php?t=29115&highlight=logouthandler
 http://i-proving.ca/space/Technologies/Maven/Maven+Recipes
 http://i-proving.ca/space/Technologies/Maven/Maven+Recipes/Using+Hibernate+Annotations+and+Maven
 http://today.java.net/pub/a/today/2007/03/01/building-web-applications-with-maven-2.html
