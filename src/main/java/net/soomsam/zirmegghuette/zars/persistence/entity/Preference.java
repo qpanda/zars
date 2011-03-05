@@ -39,7 +39,7 @@ public class Preference extends BaseEntity {
 	public static final int COLUMNLENGTH_VALUE = 256;
 	public static final int COLUMNLENGTH_TYPE = 256;
 
-	public static final String FINDPREFERENCE_QUERYNAME = "Preference.findPreference";
+	public static final String FINDPREFERENCE_QUERYNAME = "Preference.findPreferenceQuery";
 	public static final String FINDPREFERENCE_QUERYSTRING = "from Preference preference where preference.user.userId = :userId and preference.name = :name";
 
 	@Id

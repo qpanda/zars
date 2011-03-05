@@ -30,7 +30,7 @@ public class JpaRoomDao extends JpaEntityDao<Room> implements RoomDao {
 
 	@Override
 	public List<Room> findByInUse(final boolean inUse) {
-		final TypedQuery<Room> findRoomByInUseTypedQuery = createNamedTypedQuery(Room.FINDROOM_INUSE_BYPRECEDENCE_QUERYNAME);
+		final TypedQuery<Room> findRoomByInUseTypedQuery = createNamedTypedQuery(Room.FINDROOM_INUSE_QUERYNAME);
 		findRoomByInUseTypedQuery.setParameter("inUse", inUse);
 		return findRoomByInUseTypedQuery.getResultList();
 	}

@@ -41,7 +41,7 @@ public class Event extends BaseEntity {
 	public static final int COLUMNLENGTH_ENTITYTYPE = 256;
 	public static final int COLUMNLENGTH_ENTITYOPERATION = 128;
 
-	public static final String FINDEVENT_QUERYNAME = "Event.findEvent";
+	public static final String FINDEVENT_QUERYNAME = "Event.findEventQuery";
 	public static final String FINDEVENT_QUERYSTRING = "from Event order by eventTimestamp desc";
 
 	public static final String FINDEVENTOPENINTERVAL_STARTTIMESTAMP_ENDTIMESTAMP_QUERYNAME = "Event.findEventByOpenStartEndIntervalQuery";

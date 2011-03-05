@@ -34,7 +34,7 @@ public class Setting extends BaseEntity {
 	public static final int COLUMNLENGTH_VALUE = 256;
 	public static final int COLUMNLENGTH_TYPE = 256;
 
-	public static final String FINDSETTING_QUERYNAME = "Setting.findSetting";
+	public static final String FINDSETTING_QUERYNAME = "Setting.findSettingQuery";
 	public static final String FINDSETTING_QUERYSTRING = "from Setting where name = :name";
 
 	@Id

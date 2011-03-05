@@ -52,10 +52,10 @@ public class User extends BaseEntity {
 	public static final int COLUMNLENGTH_FIRSTNAME = 256;
 	public static final int COLUMNLENGTH_LASTNAME = 256;
 
-	public static final String FINDUSER_ROLEID_QUERYNAME = "User.findUserByRoleId";
+	public static final String FINDUSER_ROLEID_QUERYNAME = "User.findUserByRoleIdQuery";
 	public static final String FINDUSER_ROLEID_QUERYSTRING = "select user from User as user inner join user.roles as role where role.roleId = :roleId";
 
-	public static final String FINDUSER_USERNAME_QUERYNAME = "User.findUserByUsername";
+	public static final String FINDUSER_USERNAME_QUERYNAME = "User.findUserByUsernameQuery";
 	public static final String FINDUSER_USERNAME_QUERYSTRING = "from User where username = :username";
 
 	@Id

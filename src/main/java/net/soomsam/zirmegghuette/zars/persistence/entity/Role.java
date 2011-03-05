@@ -36,10 +36,10 @@ public class Role extends BaseEntity {
 
 	public static final int COLUMNLENGTH_NAME = 128;
 
-	public static final String FINDROLE_ID_QUERYNAME = "Role.findRoleById";
+	public static final String FINDROLE_ID_QUERYNAME = "Role.findRoleByIdQuery";
 	public static final String FINDROLE_ID_QUERYSTRING = "from Role where roleId in (:roleIdSet)";
 
-	public static final String FINDROLE_NAME_QUERYNAME = "Role.findRoleByName";
+	public static final String FINDROLE_NAME_QUERYNAME = "Role.findRoleByNameQuery";
 	public static final String FINDROLE_NAME_QUERYSTRING = "from Role where name = :name";
 
 	@Id
