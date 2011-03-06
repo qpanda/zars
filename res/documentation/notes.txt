@@ -1,0 +1,40 @@
+MAVEN
+	process-classes				generate DDL from persistence entities using hibernate tools
+	process-test-resources		create schema based on generated generated DDL
+	jetty:run					executes jetty with the web application deployed
+	xml:transform				creates XSD schema out of the taglibs
+
+MYSQL
+	RMDS SETUP
+	DB SETUP
+		# mysql -u root -p
+		> create database zars;
+		> alter database zars charset=utf8;
+		> create user 'zars'@'localhost' identified by 'zars';
+		> grant all on zars.* to 'zars'@'localhost';	
+		# mysql -u zars -p
+		> use zars;
+		> source schema-mysql.ddl;
+	DB DROP
+		> drop database zars;
+	DB TEARDOWN
+		# mysql -u root -p
+		> drop database zars;
+		> revoke all on zars.* from 'zars'@'localhost';
+		> drop user 'zars'@'localhost';
+	RMDS SHUTDOWN
+		# mysqladmin.exe -u root -p shutdown
+
+POSTGRESQL
+	RMDS SETUP
+		# initdb -E UTF8 -D <DATA_DIR>
+		# postgres -D <DATA_DIR>
+		# createuser root
+		# createuser zars
+		# createdb -O zars -E UTF8 zars
+	DB SETUP
+		# psql -f schema-pgsql.ddl zars zars
+	DB DROP
+		# dropdb zars
+	RMDS SHUTDOWN
+		# pg_ctl.exe stop -D <DATA_DIR>

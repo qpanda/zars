@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html_basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf_core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd">
+	<div class="applicationDialog">
+		<div id="editGroupReservationConfirmation" class="applicationForm">
+			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationEditGroupReservationConfirmationDialogLabel}</div>
+			<div class="applicationFormItem">
+				<div class="applicationFormMessage">#{displayMessages.sectionsApplicationEditGroupReservationConfirmationMessage}</div>
+			</div>
+			<div class="applicationFormItem">
+				<table class="applicationFormTable">
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationGroupReservationIdLabel}</th>
+						<td class="applicationFormTableData">#{editGroupReservationController.savedGroupReservation.groupReservationId}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationBookedLabel}</th>
+						<td class="applicationFormTableData">
+							<h:outputText value="#{editGroupReservationController.savedGroupReservation.booked}">
+								<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateTimeFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
+							</h:outputText>
+						</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationBookerLabel}</th>
+						<td class="applicationFormTableData">
+							<h:outputText value="#{editGroupReservationController.savedGroupReservation.booker}">
+								<f:converter converterId="userBeanFormatter"/>
+							</h:outputText>
+						</td>
+					</tr>										
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}</th>
+						<td class="applicationFormTableData">
+							<h:outputText value="#{editGroupReservationController.savedGroupReservation.arrival}">
+								<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
+							</h:outputText>
+						</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationDepartureLabel}</th>
+						<td class="applicationFormTableData">
+							<h:outputText value="#{editGroupReservationController.savedGroupReservation.departure}">
+								<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
+							</h:outputText>
+						</td>
+					</tr>					
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}</th>
+						<td class="applicationFormTableData">
+							<h:outputText value="#{editGroupReservationController.savedGroupReservation.beneficiary}">
+								<f:converter converterId="userBeanFormatter"/>
+							</h:outputText>
+						</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationAccountantLabel}</th>
+						<td class="applicationFormTableData">
+							<h:outputText value="#{editGroupReservationController.savedGroupReservation.accountant}">
+								<f:converter converterId="userBeanFormatter"/>
+							</h:outputText>
+						</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationGuestsLabel}</th>
+						<td class="applicationFormTableData">#{editGroupReservationController.savedGroupReservation.guests}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationRoomsLabel}</th>										
+						<td class="applicationFormTableData">
+							<ui:repeat var="room" varStatus="roomIterator" value="#{editGroupReservationController.savedGroupReservation.rooms}">#{enumMessages[room.name]}<h:outputText rendered="#{!roomIterator.last}" value=", "/></ui:repeat>
+						</td>						
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationGroupReservationCommentLabel}</th>
+						<td class="applicationFormTableData">#{editGroupReservationController.savedGroupReservation.comment}</td>
+					</tr>
+				</table>
+			</div>
+			<f:subview id="editGroupReservationReservationsConfirmation" rendered="#{!empty editGroupReservationController.savedGroupReservation.reservations}">
+				<div class="applicationFormSeparator"/>
+				<div class="applicationFormItem">						
+					<h:dataTable id="reservations" var="reservation" value="#{editGroupReservationController.savedGroupReservation.reservations}" rendered="#{!empty editGroupReservationController.savedGroupReservation.reservations}" styleClass="applicationFormDataTable" captionClass="applicationFormDataTableCaption" headerClass="applicationFormDataTableHeader" columnClasses="applicationFormDataTableData, applicationFormDataTableData, applicationFormDataTableData">
+						<f:facet name="caption">
+							<h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationLabel}" />
+						</f:facet>						
+						<h:column>
+							<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationArrivalHeader}" /></f:facet>
+							<h:outputText value="#{reservation.arrival}">
+								<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
+							</h:outputText>
+						</h:column>
+						<h:column>
+							<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationDepartureHeader}" /></f:facet>
+							<h:outputText value="#{reservation.departure}">
+								<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
+							</h:outputText>
+						</h:column>
+						<h:column>
+							<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationReservationPersonHeader}" /></f:facet>
+							<h:outputText value="#{reservation.firstName} #{reservation.lastName}" />
+						</h:column>
+					</h:dataTable>
+				</div>
+			</f:subview>				
+			<div class="applicationFormItem">
+				<h:link outcome="adminGroupReservation" styleClass="applicationLink" value="#{displayMessages.sectionsApplicationAdminGroupReservationLink}"/>
+				<h:outputText value="&#160;&#160;&#160;" />
+				<h:link outcome="groupReservationSchedule" styleClass="applicationLink" value="#{displayMessages.sectionsApplicationGroupReservationScheduleLink}"/>
+			</div>
+		</div>
+	</div>
+</ui:composition>

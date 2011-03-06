@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html_basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf_core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd
+						http://java.sun.com/jsp/jstl/functions	../WEB-INF/schema/jstl_fn-1.2.xsd">
+	<div class="applicationDialog">
+		<div class="applicationError">
+			<div class="applicationErrorTitle">#{displayMessages.sectionsApplicationViewExpiredDialogLabel}</div>
+			<div class="applicationErrorItem">
+				<h:outputFormat escape="false" value="#{displayMessages.sectionsApplicationViewExpiredMessage}">
+					<f:param value="#{requestScope['javax.servlet.error.request_uri']}"/>
+				</h:outputFormat>
+			</div>
+			<div class="applicationErrorItem">
+				<h:outputFormat escape="false" value="#{displayMessages.sectionsApplicationViewExpiredInfo}">
+					<f:param value="#{requestScope['javax.servlet.error.request_uri']}"/>
+				</h:outputFormat>
+			</div>
+		</div>
+	</div>
+</ui:composition>

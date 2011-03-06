@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html_basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf_core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd">
+	<div class="applicationDialog">
+		<h:form id="adminGroupReservation" styleClass="applicationForm">
+			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAdminGroupReservationDialogLabel}</div>
+			<p:panel id="groupReservationFilterPanel" header="#{displayMessages.sectionsApplicationAdminGroupReservationFilterPanelTitle}" toggleable="true" collapsed="true" toggleSpeed="0">
+				<div class="applicationFormItem">
+					<h:outputLabel for="beneficiaryGroupReservationFilter" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAdminGroupReservationBeneficiaryGroupReservationFilter}" /><br />
+					<h:panelGrid columns="1">
+						<h:panelGrid columns="1">
+							<h:selectOneRadio id="beneficiaryGroupReservationFilter" value="#{adminGroupReservationController.selectedBeneficiaryFilterOption}" layout="pageDirection" styleClass="applicationSelectOneRadio">
+								<f:selectItem itemValue="ALL_BENEFICIARY" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationAllBeneficiaryGroupReservationFilter}"/>
+								<f:selectItem itemValue="CURRENT_BENEFICIARY" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationCurrentBeneficiaryGroupReservationFilter}"/>
+							</h:selectOneRadio>
+						</h:panelGrid>
+					</h:panelGrid>
+				</div>
+				<div class="applicationFormItem">
+					<h:outputLabel for="dateGroupReservationFilter" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationAdminGroupReservationDateRangeGroupReservationFilter}" /><br />
+					<h:panelGrid columns="3">
+						<h:panelGrid columns="1" >
+							<h:selectOneRadio id="dateGroupReservationFilter" value="#{adminGroupReservationController.selectedDateFilterOption}" layout="pageDirection" styleClass="applicationSelectOneRadio">
+								<f:selectItem itemValue="CURRENT_YEAR" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationCurrentYearGroupReservationFilter}"/>
+								<f:selectItem itemValue="SPECIFIED_RANGE" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationSpecifiedRangeGroupReservationFilter}"/>
+								<f:selectItem itemValue="ALL" itemLabel="#{displayMessages.sectionsApplicationAdminGroupReservationAllGroupReservationFilter}"/>
+							</h:selectOneRadio>
+						</h:panelGrid>
+						<h:panelGrid columns="1" rowClasses="applicationPanelGridRow">
+							<h:column/>
+							<p:calendar id="dateRangeStartDate" value="#{adminGroupReservationController.dateRangeStartDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+							<h:column/>
+						</h:panelGrid>
+						<h:panelGrid columns="1" rowClasses="applicationPanelGridRow">
+							<h:column/>
+							<p:calendar id="dateRangeEndDate" value="#{adminGroupReservationController.dateRangeEndDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+							<h:column/>
+						</h:panelGrid>
+					</h:panelGrid>
+				</div>
+				<div class="applicationFormItem">
+					<h:commandButton id="applyFilterGroupReservationAction" type="submit" action="#{adminGroupReservationController.applyFilter}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAdminGroupReservationApplyFilterButton}"/>
+				</div>
+			</p:panel>
+			<div class="applicationFormItem">
+				<p:dataTable id="groupReservationTable" var="groupReservation" value="#{adminGroupReservationController.groupReservations}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationGroupReservationNoGroupReservationMessage}">  
+					<p:column sortBy="#{groupReservation.groupReservationId}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationGroupReservationIdLabel}" /></f:facet>
+						<h:outputText value="#{groupReservation.groupReservationId}" />
+					</p:column>
+					<p:column sortBy="#{groupReservation.booked}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationBookedLabel}" /></f:facet>
+						<h:outputText value="#{groupReservation.booked}">
+							<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateTimeFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
+						</h:outputText>
+					</p:column>					
+					<p:column sortBy="#{groupReservation.arrival}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}" /></f:facet>
+						<h:outputText value="#{groupReservation.arrival}">
+							<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{groupReservation.departure}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationDepartureLabel}" /></f:facet>
+						<h:outputText value="#{groupReservation.departure}">
+							<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{groupReservation.guests}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationGuestsLabel}" /></f:facet>
+						<h:outputText value="#{groupReservation.guests}" />
+					</p:column>
+					<p:column sortBy="#{groupReservation.beneficiary.username}">
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}" /></f:facet>
+						<h:outputText value="#{groupReservation.beneficiary.username}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationActionLabel}" /></f:facet>
+						<h:link outcome="editGroupReservation" value="#{displayMessages.sectionsApplicationEditGroupReservationLink}" styleClass="applicationLink" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}">
+							<f:param name="groupReservationId" value="#{groupReservation.groupReservationId}"/>
+						</h:link>
+						<h:outputText value="&#160;|&#160;" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}" />
+						<p:commandLink actionListener="#{adminGroupReservationController.onDeleteGroupReservation}" value="#{displayMessages.sectionsApplicationDeleteGroupReservationLink}" ajax="false" update="groupReservationTable" styleClass="applicationLink" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}">
+							<f:attribute name="#{adminGroupReservationController.commandLinkSelectedGroupReservationIdAttributeName}" value="#{groupReservation.groupReservationId}" />
+						</p:commandLink>
+						<h:outputText value="&#160;|&#160;" rendered="#{securityController.currentUserAdmin or (groupReservation.beneficiary.userId eq securityController.currentUserId)}" />
+						<h:link outcome="viewGroupReservation" value="#{displayMessages.sectionsApplicationViewGroupReservationLink}" styleClass="applicationLink">
+							<f:param name="groupReservationId" value="#{groupReservation.groupReservationId}"/>
+						</h:link>
+					</p:column>				
+				</p:dataTable>
+			</div>
+			<div class="applicationFormItem">
+				<p:commandLink value="#{displayMessages.sectionsApplicationExportGroupReservationsLink}" styleClass="applicationLink" ajax="false">
+					<p:dataExporter type="xls" target="groupReservationTable" fileName="#{displayMessages.sectionsApplicationExportGroupReservationsFile}" excludeColumns="6"/>
+				</p:commandLink>
+			</div>
+		</h:form>
+	</div>
+	<p:messages globalOnly="false" redisplay="false"/>
+</ui:composition>

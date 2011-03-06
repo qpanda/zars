@@ -1,0 +1,2 @@
+o fixed problem with error-page not working in Tomcat by removing weld
+o fixed problem with broken sorting of reservation administration table

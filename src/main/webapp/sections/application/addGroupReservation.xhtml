@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../../WEB-INF/schema/html_basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../../WEB-INF/schema/jsf_core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../../WEB-INF/schema/primefaces-p-2.1.xsd">
+	<div class="applicationDialog">
+		<h:form id="addGroupReservationForm" styleClass="applicationForm">
+			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAddGroupReservationDialogLabel}</div>
+			<f:subview id="addGroupReservationView" rendered="#{addGroupReservationController.validNavigation}">
+				<div class="applicationFormItem">		
+					<h:outputLabel for="arrival" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}" /><br />
+					<p:calendar id="arrival" inputStyleClass="applicationFormInput" value="#{addGroupReservationController.arrival}" binding="#{addGroupReservationController.arrivalCalendar}" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+					<p:message for="arrival" />
+				</div>
+				<div class="applicationFormItem">		
+					<h:outputLabel for="departure" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationDepartureLabel}" /><br />
+					<p:calendar id="departure" inputStyleClass="applicationFormInput" value="#{addGroupReservationController.departure}" binding="#{addGroupReservationController.departureCalendar}" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+					<p:message for="departure" />
+				</div>
+				<div class="applicationFormItem">		
+					<h:outputLabel for="guests" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationGuestsLabel}" /><br />
+					<h:inputText id="guests" styleClass="applicationFormInput" value="#{addGroupReservationController.guests}" binding="#{addGroupReservationController.guestsInputText}" size="3" converterMessage="#{validationMessages.sectionsApplicationGroupReservationGuestsError}" />
+					<p:message for="guests" />
+				</div>
+				<div class="applicationFormItem">		
+					<h:outputLabel for="beneficiary" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationBeneficiaryLabel}" /><br />
+					<h:selectOneMenu id="beneficiary" styleClass="applicationFormInput" value="#{addGroupReservationController.selectedBeneficiaryId}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationGroupReservationBeneficiaryError}" disabled="#{!securityController.currentUserAdmin}">
+						<f:selectItems value="#{addGroupReservationController.availableBeneficiaries}" var="beneficiary" itemLabel="#{beneficiary.username}" itemValue="#{beneficiary.userId}"/>
+					</h:selectOneMenu>
+					<p:message for="beneficiary" />
+				</div>
+				<div class="applicationFormItem">
+					<h:outputLabel for="accountant" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationAccountantLabel}" /><br />
+					<h:selectOneMenu id="accountant" styleClass="applicationFormInput" value="#{addGroupReservationController.selectedAccountantId}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationGroupReservationAccountantError}">
+						<f:selectItems value="#{addGroupReservationController.availableAccountants}" var="accountant" itemLabel="#{accountant.username}" itemValue="#{accountant.userId}"/>
+					</h:selectOneMenu>
+					<p:message for="accountant" />
+				</div>
+				<div class="applicationFormItem">		
+					<h:outputLabel for="comment" styleClass="applicationFormLabelOptional" value="#{displayMessages.sectionsApplicationGroupReservationCommentLabel}" />
+					<p:message for="comment" />
+					<br />
+					<h:inputTextarea id="comment" styleClass="applicationFormInput" value="#{addGroupReservationController.comment}" rows="3" cols="70" />				
+				</div>
+				<div class="applicationFormSeparator"/>
+				<div class="applicationFormItem">
+					<h:outputLabel for="reservations" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationLabel}" /><br />
+					<h:outputText styleClass="applicationFormDescription" value="#{displayMessages.sectionsApplicationGroupReservationReservationDescription}" /><br />
+					<h:panelGrid id="reservations" styleClass="applicationFormDialog" binding="#{addGroupReservationController.reservationPanelGrid}" columns="4">
+						<h:outputText id="reservationArrivalHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationArrivalHeader}" rendered="#{addGroupReservationController.reservationPanelGrid.childCount &gt; addGroupReservationController.reservationPanelGrid.columns}" />
+						<h:outputText id="reservationDepartureHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationDepartureHeader}" rendered="#{addGroupReservationController.reservationPanelGrid.childCount &gt; addGroupReservationController.reservationPanelGrid.columns}" />
+						<h:outputText id="reservationFirstNameHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationFirstNameHeader}" rendered="#{addGroupReservationController.reservationPanelGrid.childCount &gt; addGroupReservationController.reservationPanelGrid.columns}" />
+						<h:outputText id="reservationLastNameHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationLastNameHeader}" rendered="#{addGroupReservationController.reservationPanelGrid.childCount &gt; addGroupReservationController.reservationPanelGrid.columns}" />
+						<f:facet name="footer">
+							<h:panelGroup>
+								<p:commandLink actionListener="#{addGroupReservationController.addReservation}" value="#{displayMessages.sectionsApplicationGroupReservationAddReservationLink}" immediate="true" update="arrival, departure, guests, reservations" styleClass="applicationLink"/>
+								<h:outputText value="&#160;&#160;&#160;" />
+								<p:commandLink actionListener="#{addGroupReservationController.removeReservation}" value="#{displayMessages.sectionsApplicationGroupReservationRemoveReservationLink}" immediate="true" update="arrival, departure, guests, reservations" styleClass="applicationLink"/>
+							</h:panelGroup>
+						</f:facet>					
+					</h:panelGrid>				
+				</div>
+				<div class="applicationFormItem">
+					<h:commandButton id="addGroupReservationAction" type="submit" action="#{addGroupReservationController.save}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAddGroupReservationCreateButton}"/>
+				</div>
+			</f:subview>
+		</h:form>
+	</div>
+	<p:messages globalOnly="false" redisplay="false"/>
+</ui:composition>

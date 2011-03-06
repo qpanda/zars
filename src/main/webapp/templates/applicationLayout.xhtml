@@ -1,0 +1,44 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:util="http://java.sun.com/jsf/composite/components/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/jsf/html		../WEB-INF/schema/html_basic-2.0.2.xsd
+						http://java.sun.com/jsf/core		../WEB-INF/schema/jsf_core-2.0.2.xsd
+						http://java.sun.com/jsf/facelets	../WEB-INF/schema/facelets-ui-2.0.xsd
+						http://primefaces.prime.com.tr/ui	../WEB-INF/schema/primefaces-p-2.1.xsd"
+	locale="#{settingController.preferredLocale}"
+	contentType="text/html">
+	<util:doctype type="transitional" />	
+	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+		<f:loadBundle var="displayMessages" basename="DisplayMessages" />
+		<f:loadBundle var="enumMessages" basename="EnumMessages" />
+		<f:loadBundle var="validationMessages" basename="ValidationMessages" />
+		<ui:insert name="metadata"/>		
+		<h:head>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<meta http-equiv="Pragma" content="no-cache"/>			
+			<meta http-equiv="Expires" content="-1"/>
+			<meta http-equiv="cache-control" content="no-cache"/>
+			<title>
+				<ui:insert name="windowTitle">#{displayMessages.defaultWindowTitle}</ui:insert>
+			</title>
+		</h:head>
+		<h:body>			
+			<div class="view">				
+				<div class="header">
+					<ui:insert name="header"/>
+        		</div>
+        		<div class="applicationPage">
+        			<div class="applicationMenu">
+	        			<ui:insert name="applicationMenu"/>
+    	    		</div>			
+					<div class="applicationSection">						
+						<ui:insert name="applicationSection" />
+					</div>
+				</div>
+				<div class="footer">
+					<ui:insert name="footer" />
+				</div>
+			</div>
+		</h:body>
+		<h:outputScript library="javascript" name="util.js" target="head"/>
+		<h:outputStylesheet library="css" name="styles.css" target="body"/>
+	</html>
+</f:view>
