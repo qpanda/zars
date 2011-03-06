@@ -66,19 +66,19 @@ public class GroupReservation extends BaseEntity {
 	public static final String COUNTGROUPRESERVATION_BENEFICIARYID_QUERYSTRING = "select count(groupReservation) from GroupReservation groupReservation where groupReservation.beneficiary.userId = :beneficiaryId";
 
 	public static final String FINDGROUPRESERVATION_QUERYNAME = "GroupReservation.findGroupReservationQuery";
-	public static final String FINDGROUPRESERVATION_QUERYSTRING = "from GroupReservation as groupReservation order by groupReservation.arrival desc";
+	public static final String FINDGROUPRESERVATION_QUERYSTRING = "from GroupReservation as groupReservation order by groupReservation.arrival asc";
 
 	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationByClosedStartEndIntervalQuery";
-	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation groupReservation where (:startDate <= groupReservation.arrival and groupReservation.arrival <= :endDate) or (:startDate <= groupReservation.departure and groupReservation.departure <= :endDate) or (groupReservation.arrival <= :startDate and :endDate <= groupReservation.departure) order by groupReservation.arrival desc";
+	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation groupReservation where (:startDate <= groupReservation.arrival and groupReservation.arrival <= :endDate) or (:startDate <= groupReservation.departure and groupReservation.departure <= :endDate) or (groupReservation.arrival <= :startDate and :endDate <= groupReservation.departure) order by groupReservation.arrival asc";
 
 	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYNAME = "GroupReservation.findGroupReservationByClosedStartEndIntervalAndBeneficiaryIdQuery";
-	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYSTRING = "from GroupReservation groupReservation where groupReservation.beneficiary.userId = :beneficiaryId and ((:startDate <= groupReservation.arrival and groupReservation.arrival <= :endDate) or (:startDate <= groupReservation.departure and groupReservation.departure <= :endDate) or (groupReservation.arrival <= :startDate and :endDate <= groupReservation.departure)) order by groupReservation.arrival desc";
+	public static final String FINDGROUPRESERVATIONCLOSEDINTERVAL_STARTDATE_ENDDATE_BENEFICIARYID_QUERYSTRING = "from GroupReservation groupReservation where groupReservation.beneficiary.userId = :beneficiaryId and ((:startDate <= groupReservation.arrival and groupReservation.arrival <= :endDate) or (:startDate <= groupReservation.departure and groupReservation.departure <= :endDate) or (groupReservation.arrival <= :startDate and :endDate <= groupReservation.departure)) order by groupReservation.arrival asc";
 
 	public static final String FINDGROUPRESERVATION_BENEFICIARYID_QUERYNAME = "GroupReservation.findGroupReservationByBeneficiaryIdQuery";
-	public static final String FINDGROUPRESERVATION_BENEFICIARYID_QUERYSTRING = "from GroupReservation groupReservation where groupReservation.beneficiary.userId = :beneficiaryId order by groupReservation.arrival desc";
+	public static final String FINDGROUPRESERVATION_BENEFICIARYID_QUERYSTRING = "from GroupReservation groupReservation where groupReservation.beneficiary.userId = :beneficiaryId order by groupReservation.arrival asc";
 
 	public static final String FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYNAME = "GroupReservation.findGroupReservationByOpenStartEndIntervalQuery";
-	public static final String FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival < :endDate) or (:startDate < departure and departure <= :endDate) or (arrival <= :startDate and :endDate < departure) order by arrival desc";
+	public static final String FINDGROUPRESERVATIONOPENINTERVAL_STARTDATE_ENDDATE_QUERYSTRING = "from GroupReservation where (:startDate <= arrival and arrival < :endDate) or (:startDate < departure and departure <= :endDate) or (arrival <= :startDate and :endDate < departure) order by arrival asc";
 
 	@Id
 	@GeneratedValue
