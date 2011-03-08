@@ -9,25 +9,22 @@
 						http://www.springframework.org/schema/aop		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 						http://www.springframework.org/schema/util		http://www.springframework.org/schema/util/spring-util-2.5.xsd
 						http://www.springframework.org/schema/jee		http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
-						http://www.springframework.org/schema/security	http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+						http://www.springframework.org/schema/security	http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">	
 
-	<import resource="classpath:/META-INF/spring/persistence-context.xml" />
-	<import resource="classpath:/META-INF/spring/security-context.xml" />
-	<import resource="classpath:/META-INF/spring/mail-context.xml" />
- 	
- 	<context:annotation-config />
- 	<context:component-scan base-package="net.soomsam.zirmegghuette.zars" />
-	<context:property-placeholder location="classpath:/META-INF/spring/context.properties" />
+	<bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+		<property name="templateLoaderPath" value="classpath:/META-INF/freemarker"/>
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
 	
-	<bean id="applicationInfoHolder" class="net.soomsam.zirmegghuette.zars.service.bean.ApplicationInfoHolder">
-		<property name="applicationInfoProperties">
-			<util:properties location="classpath:/META-INF/spring/zars.properties"/>
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="defaultEncoding" value="UTF-8"/>
+		<property name="host" value="${javamail.smtp.host}"/>
+		<property name="port" value="${javamail.smtp.port}"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.timeout">${javamail.smtp.sockettimeout}</prop>
+				<prop key="mail.smtp.connectiontimeout">${javamail.smtp.connectiontimeout}</prop>
+			</props>			
 		</property>
 	</bean>
-	
-	<bean id="dozerBeanMapper" class="org.dozer.spring.DozerBeanMapperFactoryBean">
-		<property name="mappingFiles" value="classpath:/META-INF/dozer/beanmapping.xml"/>
-	</bean>
-	
-	<bean id="databaseService" class="net.soomsam.zirmegghuette.zars.service.stateless.StatelessDatabaseService" init-method="createInitialDataSet"/>
 </beans>

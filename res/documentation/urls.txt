@@ -1,3 +1,4 @@
+http://javamail.kenai.com/nonav/javadocs/com/sun/mail/smtp/package-summary.html
 http://forum.springsource.org/showthread.php?t=70763&highlight=logouthandler
 http://forum.springsource.org/showthread.php?t=71954&highlight=logouthandler
 http://forum.springsource.org/showthread.php?t=59277&highlight=logouthandler
