@@ -22,6 +22,14 @@ SHOULD-HAVE
 	o EL expression in f:view should also default to request context if localeController.activeLocale is null
 	o check that user assigned to GroupReservation has role accountant
 	o mark Invoice and Report invalid if associated GroupReservation is changed
+	o bundle multiple subsequent service calls into a single transactional service call, e.g.:
+		transform
+			savedUser = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
+			savedTimezonePreference = preferenceService.createPreference(savedUser.getUserId(), PreferenceType.TIMEZONE, selectedTimezoneId);
+			savedLocalePreference = preferenceService.createPreference(savedUser.getUserId(), PreferenceType.LOCALE, selectedLocaleDisplayName);
+		to
+			savedUserResponse = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds(), preferenceVoList);
+	o use a manager layer to implement services like functionality without (1) security and (2) DTO mapping for re-use in service layer
 
 NICE-TO-HAVE
 	o generics based settings and preferences services and Dtos
