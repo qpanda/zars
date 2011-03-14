@@ -38,11 +38,11 @@
 			</p:panel>
 			<div class="applicationFormItem">
 				<p:dataTable id="eventTable" var="event" value="#{listEventController.events}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationEventNoEventMessage}">
-					<p:column sortBy="#{event.eventId}">
+					<p:column sortBy="#{event.eventId}" parser="number">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventEventIdLabel}" /></f:facet>
 						<h:outputText value="#{event.eventId}" />
 					</p:column>
-					<p:column sortBy="#{event.eventTimestamp}">
+					<p:column sortBy="#{event.eventTimestamp}" parser="date">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationEventEventTimestampLabel}" /></f:facet>
 						<h:outputText value="#{event.eventTimestamp}">
 							<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredTimestampFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>

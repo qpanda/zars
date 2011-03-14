@@ -9,7 +9,7 @@
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationAdminUserDialogLabel}</div>
 			<div class="applicationFormItem">
 				<p:dataTable id="userTable" var="user" value="#{adminUserController.allUsers}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationUserNoUserMessage}">
-					<p:column sortBy="#{user.userId}">
+					<p:column sortBy="#{user.userId}" parser="number">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserUserIdLabel}" /></f:facet>
 						<h:outputText value="#{user.userId}" />
 					</p:column>

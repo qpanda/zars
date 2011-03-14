@@ -47,29 +47,29 @@
 			</p:panel>
 			<div class="applicationFormItem">
 				<p:dataTable id="groupReservationTable" var="groupReservation" value="#{adminGroupReservationController.groupReservations}" paginator="true" rows="30" firstPageLinkLabel="&lt;&lt; #{displayMessages.componentDataTableFirstPageLinkLabel}" previousPageLinkLabel="&lt; #{displayMessages.componentDataTablePreviousPageLinkLabel}" nextPageLinkLabel="#{displayMessages.componentDataTableNextPageLinkLabel} &gt;" lastPageLinkLabel="#{displayMessages.componentDataTableLastPageLinkLabel} &gt;&gt;" emptyMessage="#{displayMessages.sectionsApplicationGroupReservationNoGroupReservationMessage}">  
-					<p:column sortBy="#{groupReservation.groupReservationId}">
+					<p:column sortBy="#{groupReservation.groupReservationId}" parser="number">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationGroupReservationIdLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.groupReservationId}" />
 					</p:column>
-					<p:column sortBy="#{groupReservation.booked}">
+					<p:column sortBy="#{groupReservation.booked}" parser="date">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationBookedLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.booked}">
 							<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateTimeFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
 						</h:outputText>
 					</p:column>					
-					<p:column sortBy="#{groupReservation.arrival}">
+					<p:column sortBy="#{groupReservation.arrival}" parser="date">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.arrival}">
 							<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
 						</h:outputText>
 					</p:column>
-					<p:column sortBy="#{groupReservation.departure}">
+					<p:column sortBy="#{groupReservation.departure}" parser="date">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationDepartureLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.departure}">
 							<f:convertDateTime locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}"/>
 						</h:outputText>
 					</p:column>
-					<p:column sortBy="#{groupReservation.guests}">
+					<p:column sortBy="#{groupReservation.guests}" parser="number">
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationGroupReservationGuestsLabel}" /></f:facet>
 						<h:outputText value="#{groupReservation.guests}" />
 					</p:column>
