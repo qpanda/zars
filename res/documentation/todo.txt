@@ -3,6 +3,7 @@ MUST-HAVE
 	o Reservierungsdetails Anzeigen 
 	o Email Eingabefeld optional
 	o Eventuell Emailbenachrichtigung
+	o sorting of dates / numbers
 
 SHOULD-HAVE
 	o email notification
