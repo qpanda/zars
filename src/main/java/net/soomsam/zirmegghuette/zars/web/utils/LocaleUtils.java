@@ -70,6 +70,10 @@ public class LocaleUtils {
 
 		return determineCurrentLocale();
 	}
+	
+	public static String determineLocaleDisplayName(Locale preferredLocale, Locale locale) {
+		return locale.getDisplayName(preferredLocale);
+	}
 
 	public static void changeLocale(final String localeDisplayName) {
 		final Locale locale = determineSupportedLocale(localeDisplayName);
@@ -92,6 +96,10 @@ public class LocaleUtils {
 	
 	public static TimeZone determineSupportedTimezone(String timezoneId) {
 		return TimeZone.getTimeZone(timezoneId);
+	}
+	
+	public static String determineTimezoneDisplayName(Locale preferredLocale, TimeZone timezone) {
+		return timezone.getID() + " - " + timezone.getDisplayName(preferredLocale);
 	}
 
 	public static List<TimeZone> determineSupportedTimezoneList() {

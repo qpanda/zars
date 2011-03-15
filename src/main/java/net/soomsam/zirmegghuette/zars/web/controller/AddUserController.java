@@ -176,7 +176,7 @@ public class AddUserController implements Serializable {
 			final List<TimeZone> availableTimezoneList = LocaleUtils.determineSupportedTimezoneList();
 			availableTimezones = new ArrayList<SelectItem>();
 			for (final TimeZone availableTimezone : availableTimezoneList) {
-				availableTimezones.add(new SelectItem(availableTimezone.getID(), availableTimezone.getID() + " - " + availableTimezone.getDisplayName(preferredLocale)));
+				availableTimezones.add(new SelectItem(availableTimezone.getID(), LocaleUtils.determineTimezoneDisplayName(preferredLocale, availableTimezone)));
 			}
 		}
 
@@ -201,7 +201,7 @@ public class AddUserController implements Serializable {
 			final List<Locale> supportedLocaleList = LocaleUtils.determineSupportedLocaleList();
 			supportedLocales = new ArrayList<SelectItem>();
 			for (final Locale supportedLocale : supportedLocaleList) {
-				supportedLocales.add(new SelectItem(supportedLocale.getDisplayName(), supportedLocale.getDisplayName(preferredLocale)));
+				supportedLocales.add(new SelectItem(supportedLocale.getDisplayName(), LocaleUtils.determineLocaleDisplayName(preferredLocale, supportedLocale)));
 			}
 		}
 
@@ -220,12 +220,18 @@ public class AddUserController implements Serializable {
 		return savedUser;
 	}
 
-	public PreferenceBean getSavedTimezonePreference() {
-		return savedTimezonePreference;
+	public String getSavedTimezonePreferenceDisplayName() {
+		final Locale preferredLocale = settingController.getPreferredLocale();
+		final String savedTimezoneIdPreference = (String) savedTimezonePreference.getValue();
+		final TimeZone savedTimezonePreference = LocaleUtils.determineSupportedTimezone(savedTimezoneIdPreference);
+		return LocaleUtils.determineTimezoneDisplayName(preferredLocale, savedTimezonePreference);
 	}
 
-	public PreferenceBean getSavedLocalePreference() {
-		return savedLocalePreference;
+	public String getSavedLocalePreferenceDisplayName() {
+		final Locale preferredLocale = settingController.getPreferredLocale();
+		final String savedLocalePreferenceDisplayName = (String) savedLocalePreference.getValue();
+		final Locale savedLocalePreference = LocaleUtils.determineSupportedLocale(savedLocalePreferenceDisplayName);
+		return LocaleUtils.determineLocaleDisplayName(preferredLocale, savedLocalePreference);
 	}
 
 	public String create() {

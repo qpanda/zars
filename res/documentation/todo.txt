@@ -1,7 +1,6 @@
 MUST-HAVE
 	o Email Eingabefeld optional
 	o Eventuell Emailbenachrichtigung
-	o user confirmation dialog shows non-localized version of timezone/locale
 
 SHOULD-HAVE
 	o email notification

@@ -2,6 +2,7 @@ package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -14,6 +15,7 @@ import net.soomsam.zirmegghuette.zars.service.PreferenceService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.PreferenceBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
+import net.soomsam.zirmegghuette.zars.web.utils.LocaleUtils;
 
 import org.springframework.context.annotation.Scope;
 
@@ -62,20 +64,18 @@ public class ViewUserController implements Serializable {
 		this.savedUser = savedUser;
 	}
 
-	public PreferenceBean getSavedTimezonePreference() {
-		return savedTimezonePreference;
+	public String getSavedTimezonePreferenceDisplayName() {
+		final Locale preferredLocale = settingController.getPreferredLocale();
+		final String savedTimezoneIdPreference = (String) savedTimezonePreference.getValue();
+		final TimeZone savedTimezonePreference = LocaleUtils.determineSupportedTimezone(savedTimezoneIdPreference);
+		return LocaleUtils.determineTimezoneDisplayName(preferredLocale, savedTimezonePreference);
 	}
 
-	public void setSavedTimezonePreference(final PreferenceBean savedTimezonePreference) {
-		this.savedTimezonePreference = savedTimezonePreference;
-	}
-
-	public PreferenceBean getSavedLocalePreference() {
-		return savedLocalePreference;
-	}
-
-	public void setSavedLocalePreference(final PreferenceBean savedLocalePreference) {
-		this.savedLocalePreference = savedLocalePreference;
+	public String getSavedLocalePreferenceDisplayName() {
+		final Locale preferredLocale = settingController.getPreferredLocale();
+		final String savedLocalePreferenceDisplayName = (String) savedLocalePreference.getValue();
+		final Locale savedLocalePreference = LocaleUtils.determineSupportedLocale(savedLocalePreferenceDisplayName);
+		return LocaleUtils.determineLocaleDisplayName(preferredLocale, savedLocalePreference);
 	}
 
 	public String getInvalidUserIdMessage() {
