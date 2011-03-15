@@ -27,7 +27,7 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationUserRolesLabel}" /></f:facet>
-						<ui:repeat var="role" varStatus="roleIterator" value="#{user.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
+						<ui:repeat var="role" varStatus="roleIterator" value="#{user.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=",&#160;"/></ui:repeat>
 					</p:column>
 					<p:column>
 						<f:facet name="header"><h:outputText value="#{displayMessages.sectionsApplicationActionLabel}" /></f:facet>
