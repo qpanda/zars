@@ -81,10 +81,8 @@ public class User extends BaseEntity {
 	@Column(name = User.COLUMNNAME_PASSWORD, nullable = false, length = User.COLUMNLENGTH_PASSWORD)
 	private String password;
 
-	@NotNull
-	@NotEmpty
 	@Email
-	@Column(name = User.COLUMNNAME_EMAILADDRESS, unique = true, nullable = false, length = User.COLUMNLENGTH_EMAILADDRESS)
+	@Column(name = User.COLUMNNAME_EMAILADDRESS, nullable = true, length = User.COLUMNLENGTH_EMAILADDRESS)
 	private String emailAddress;
 
 	@Column(name = User.COLUMNNAME_FIRSTNAME, nullable = true, length = User.COLUMNLENGTH_FIRSTNAME)

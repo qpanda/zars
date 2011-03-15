@@ -15,7 +15,6 @@ import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
 
 import com.sun.faces.util.MessageFactory;
@@ -32,7 +31,6 @@ public class ChangeUserController implements Serializable {
 	@Inject
 	private transient UserService userService;
 
-	@NotEmpty(message = "{sectionsApplicationUserEmailAddressEmptyError}")
 	@Email(message = "{sectionsApplicationUserEmailAddressInvalidError}")
 	@Length(max = User.COLUMNLENGTH_EMAILADDRESS, message = "{sectionsApplicationUserEmailAddressLengthError}")
 	private String emailAddress;

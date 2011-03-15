@@ -13,7 +13,7 @@ public class FormatterUtils {
 			stringBuffer.append(" ");
 			stringBuffer.append(userBean.getLastName());
 			stringBuffer.append(")");
-		} else {
+		} else if (!StringUtils.isEmpty(userBean.getEmailAddress())) {
 			stringBuffer.append(" <");
 			stringBuffer.append(userBean.getEmailAddress());
 			stringBuffer.append(">");

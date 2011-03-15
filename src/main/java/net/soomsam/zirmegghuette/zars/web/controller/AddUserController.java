@@ -62,7 +62,6 @@ public class AddUserController implements Serializable {
 	@Length(max = User.COLUMNLENGTH_PASSWORD, message = "{sectionsApplicationUserPasswordLengthError}")
 	private String confirmPassword;
 
-	@NotEmpty(message = "{sectionsApplicationUserEmailAddressEmptyError}")
 	@Email(message = "{sectionsApplicationUserEmailAddressInvalidError}")
 	@Length(max = User.COLUMNLENGTH_EMAILADDRESS, message = "{sectionsApplicationUserEmailAddressLengthError}")
 	private String emailAddress;

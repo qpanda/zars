@@ -8,7 +8,7 @@
 		<h:form id="changeUserForm" styleClass="applicationForm">
 			<div class="applicationFormTitle">#{displayMessages.sectionsApplicationChangeUserDialogLabel}</div>
 			<div class="applicationFormItem">
-				<h:outputLabel for="emailAddress" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationUserEmailAddressLabel}" /><br />
+				<h:outputLabel for="emailAddress" styleClass="applicationFormLabelOptional" value="#{displayMessages.sectionsApplicationUserEmailAddressLabel}" /><br />
 				<h:inputText id="emailAddress" styleClass="applicationFormInput" value="#{changeUserController.emailAddress}" size="35" />
 				<p:message for="emailAddress"/>
 			</div>

@@ -185,6 +185,42 @@ public class PersistenceEntityTest {
 		Assert.assertTrue(TestUtils.containsEntity(fetchedTestUser.getRoles(), userRole));
 		Assert.assertTrue(TestUtils.containsEntity(fetchedTestUser.getRoles(), adminRole));
 	}
+	
+	@Test
+	public void testCreateUserWithEmptyEmailAddress() {
+		final Role userRole = createUserRole();
+		final Role adminRole = createAdminRole();
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", "", userRole, adminRole);
+		userDao.persist(testUser);
+		persistenceContextManager.flush();
+		logger.debug("persisted user 'test' as [" + testUser + "]");
+
+		persistenceContextManager.clear();
+		final User fetchedTestUser = userDao.findByPrimaryKey(testUser.getUserId());
+		Assert.assertNotNull(fetchedTestUser);
+		Assert.assertNotNull(fetchedTestUser.getRoles());
+		Assert.assertEquals(2, fetchedTestUser.getRoles().size());
+		Assert.assertTrue(TestUtils.containsEntity(fetchedTestUser.getRoles(), userRole));
+		Assert.assertTrue(TestUtils.containsEntity(fetchedTestUser.getRoles(), adminRole));
+	}
+	
+	@Test
+	public void testCreateUserWithoutEmailAddress() {
+		final Role userRole = createUserRole();
+		final Role adminRole = createAdminRole();
+		final User testUser = PersistenceEntityGenerator.createUserTest("test", null, userRole, adminRole);
+		userDao.persist(testUser);
+		persistenceContextManager.flush();
+		logger.debug("persisted user 'test' as [" + testUser + "]");
+
+		persistenceContextManager.clear();
+		final User fetchedTestUser = userDao.findByPrimaryKey(testUser.getUserId());
+		Assert.assertNotNull(fetchedTestUser);
+		Assert.assertNotNull(fetchedTestUser.getRoles());
+		Assert.assertEquals(2, fetchedTestUser.getRoles().size());
+		Assert.assertTrue(TestUtils.containsEntity(fetchedTestUser.getRoles(), userRole));
+		Assert.assertTrue(TestUtils.containsEntity(fetchedTestUser.getRoles(), adminRole));
+	}
 
 	@Test(expected = ConstraintViolationException.class)
 	public void testCreateUserWithoutNameAndPassword() {
@@ -260,28 +296,6 @@ public class PersistenceEntityTest {
 			Assert.assertTrue(persistenceExceptionCause instanceof org.hibernate.exception.ConstraintViolationException);
 			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
 			Assert.assertTrue(StringUtils.containsIgnoreCase(constraintViolationException.getConstraintName(), User.COLUMNNAME_USERNAME));
-			throw constraintViolationException;
-		}
-	}
-
-	@Test(expected = org.hibernate.exception.ConstraintViolationException.class)
-	public void testCreateUsersWithNonUniqueEmailAddress() {
-		final Role userRole = createUserRole();
-		final Role adminRole = createAdminRole();
-		final User testUser01 = PersistenceEntityGenerator.createUserTest("test01", "test@test.com", userRole, adminRole);
-		userDao.persist(testUser01);
-		persistenceContextManager.flush();
-		logger.debug("persisted user 'test' as [" + testUser01 + "]");
-
-		final User testUser02 = PersistenceEntityGenerator.createUserTest("test02", "test@test.com", userRole, adminRole);
-		try {
-			userDao.persist(testUser02);
-			persistenceContextManager.flush();
-		} catch (final PersistenceException persistenceException) {
-			final Throwable persistenceExceptionCause = persistenceException.getCause();
-			Assert.assertTrue(persistenceExceptionCause instanceof org.hibernate.exception.ConstraintViolationException);
-			final org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) persistenceExceptionCause;
-			Assert.assertTrue(StringUtils.containsIgnoreCase(constraintViolationException.getConstraintName(), User.COLUMNNAME_EMAILADDRESS));
 			throw constraintViolationException;
 		}
 	}

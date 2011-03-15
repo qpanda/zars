@@ -1,5 +1,4 @@
 MUST-HAVE
-	o Email Eingabefeld optional
 	o Eventuell Emailbenachrichtigung
 
 SHOULD-HAVE
