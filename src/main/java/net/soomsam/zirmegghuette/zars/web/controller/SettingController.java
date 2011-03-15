@@ -1,7 +1,6 @@
 package net.soomsam.zirmegghuette.zars.web.controller;
 
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -56,7 +55,7 @@ public class SettingController implements Serializable {
 		final PreferenceBean currentUserTimezonePreference = preferenceService.findCurrentUserPreference(PreferenceType.TIMEZONE);
 		if (null != currentUserTimezonePreference) {
 			final String currentUserTimezoneId = (String) currentUserTimezonePreference.getValue();
-			return TimeZone.getTimeZone(currentUserTimezoneId);
+			return LocaleUtils.determineSupportedTimezone(currentUserTimezoneId);
 		}
 
 		return LocaleUtils.determineDefaultTimezone();
@@ -93,9 +92,7 @@ public class SettingController implements Serializable {
 			preferredDateFormat = new ThreadLocal<SimpleDateFormat>() {
 				@Override
 				protected synchronized SimpleDateFormat initialValue() {
-					final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.MEDIUM, getPreferredLocale());
-					simpleDateFormat.setTimeZone(getPreferredTimeZone());
-					return simpleDateFormat;
+					return LocaleUtils.determinePreferredDateFormat(getPreferredLocale(), getPreferredTimeZone());
 				}
 			};
 		}
@@ -112,9 +109,7 @@ public class SettingController implements Serializable {
 			preferredDateTimeFormat = new ThreadLocal<SimpleDateFormat>() {
 				@Override
 				protected synchronized SimpleDateFormat initialValue() {
-					final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, getPreferredLocale());
-					simpleDateFormat.setTimeZone(getPreferredTimeZone());
-					return simpleDateFormat;
+					return LocaleUtils.determinePreferredDateTimeFormat(getPreferredLocale(), getPreferredTimeZone());
 				}
 			};
 		}
@@ -131,9 +126,7 @@ public class SettingController implements Serializable {
 			preferredTimestampFormat = new ThreadLocal<SimpleDateFormat>() {
 				@Override
 				protected synchronized SimpleDateFormat initialValue() {
-					final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.LONG, getPreferredLocale());
-					simpleDateFormat.setTimeZone(getPreferredTimeZone());
-					return simpleDateFormat;
+					return LocaleUtils.determinePreferredTimestampFormat(getPreferredLocale(), getPreferredTimeZone());					
 				}
 			};
 		}

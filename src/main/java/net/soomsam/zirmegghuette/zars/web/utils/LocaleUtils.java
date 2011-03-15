@@ -1,5 +1,7 @@
 package net.soomsam.zirmegghuette.zars.web.utils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -87,6 +89,10 @@ public class LocaleUtils {
 	public static TimeZone determineDefaultTimezone() {
 		return TimeZone.getDefault();
 	}
+	
+	public static TimeZone determineSupportedTimezone(String timezoneId) {
+		return TimeZone.getTimeZone(timezoneId);
+	}
 
 	public static List<TimeZone> determineSupportedTimezoneList() {
 		final String supportedTimezoneIdPrefix = "^(Africa|America|Asia|Atlantic|Australia|Europe|Indian|Pacific)/.*";
@@ -106,5 +112,29 @@ public class LocaleUtils {
 		});
 
 		return supportedTimezoneList;
+	}
+	
+	public static SimpleDateFormat determinePreferredDateFormat(Locale preferredLocale, TimeZone preferredTimeZone) {
+		final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.MEDIUM, preferredLocale);
+		simpleDateFormat.setTimeZone(preferredTimeZone);
+		return simpleDateFormat;		
+	}
+	
+	public static SimpleDateFormat determinePreferredDateTimeFormat(Locale preferredLocale, TimeZone preferredTimeZone) {
+		final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, preferredLocale);
+		simpleDateFormat.setTimeZone(preferredTimeZone);
+		return simpleDateFormat;
+	}
+	
+	public static SimpleDateFormat determinePreferredTimeFormat(Locale preferredLocale, TimeZone preferredTimeZone) {
+		final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getTimeInstance(DateFormat.SHORT, preferredLocale);
+		simpleDateFormat.setTimeZone(preferredTimeZone);
+		return simpleDateFormat;
+	}
+
+	public static SimpleDateFormat determinePreferredTimestampFormat(Locale preferredLocale, TimeZone preferredTimeZone) {
+		final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.LONG, preferredLocale);
+		simpleDateFormat.setTimeZone(preferredTimeZone);
+		return simpleDateFormat;
 	}
 }
