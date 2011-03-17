@@ -22,8 +22,8 @@
 		<property name="port" value="${javamail.smtp.port}"/>
 		<property name="javaMailProperties">
 			<props>
-				<prop key="mail.smtp.timeout">${javamail.smtp.sockettimeout}</prop>
-				<prop key="mail.smtp.connectiontimeout">${javamail.smtp.connectiontimeout}</prop>
+				<prop key="mail.smtp.timeout">${javamail.smtp.socketTimeout}</prop>
+				<prop key="mail.smtp.connectiontimeout">${javamail.smtp.connectionTimeout}</prop>
 			</props>			
 		</property>
 	</bean>
