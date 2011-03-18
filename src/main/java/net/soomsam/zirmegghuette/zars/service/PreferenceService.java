@@ -1,9 +1,12 @@
 package net.soomsam.zirmegghuette.zars.service;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.service.bean.PreferenceBean;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 
 public interface PreferenceService {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -20,4 +23,10 @@ public interface PreferenceService {
 
 	@PreAuthorize("isAuthenticated()")
 	public PreferenceBean updateCurrentUserPreference(PreferenceType preferenceType, Object value);
+
+	@PreAuthorize("isAuthenticated()")
+	public Locale determinePreferredLocale(long userId);
+
+	@PreAuthorize("isAuthenticated()")
+	public TimeZone determinePreferredTimeZone(long userId);
 }

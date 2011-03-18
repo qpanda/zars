@@ -1,5 +1,8 @@
 package net.soomsam.zirmegghuette.zars.service.transactional;
 
+import java.util.Locale;
+import java.util.TimeZone;
+
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.persistence.dao.PreferenceDao;
 import net.soomsam.zirmegghuette.zars.persistence.dao.UserDao;
@@ -8,6 +11,7 @@ import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.PreferenceService;
 import net.soomsam.zirmegghuette.zars.service.ServiceException;
 import net.soomsam.zirmegghuette.zars.service.bean.PreferenceBean;
+import net.soomsam.zirmegghuette.zars.web.utils.LocaleUtils;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanWrapper;
@@ -79,6 +83,28 @@ public class TransactionalPreferenceService implements PreferenceService {
 	public PreferenceBean updateCurrentUserPreference(final PreferenceType preferenceType, final Object value) {
 		final User currentUser = userDao.retrieveCurrentUser();
 		return updatePreference(currentUser.getUserId(), preferenceType, value);
+	}
+
+	@Override
+	public Locale determinePreferredLocale(final long userId) {
+		final PreferenceBean userLocalePreference = findPreference(userId, PreferenceType.LOCALE);
+		if (null != userLocalePreference) {
+			final String userLocaleDisplayName = (String) userLocalePreference.getValue();
+			return LocaleUtils.determineSupportedLocale(userLocaleDisplayName);
+		}
+
+		return LocaleUtils.determineCurrentLocale();
+	}
+
+	@Override
+	public TimeZone determinePreferredTimeZone(final long userId) {
+		final PreferenceBean userTimezonePreference = findPreference(userId, PreferenceType.TIMEZONE);
+		if (null != userTimezonePreference) {
+			final String userTimezoneId = (String) userTimezonePreference.getValue();
+			return LocaleUtils.determineSupportedTimezone(userTimezoneId);
+		}
+
+		return LocaleUtils.determineDefaultTimezone();
 	}
 
 	protected PreferenceBean map(final Preference preference) {
