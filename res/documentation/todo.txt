@@ -1,5 +1,7 @@
 MUST-HAVE
-	o Eventuell Emailbenachrichtigung
+	o Emailbenachrichtigung
+	o revise message bundle/resource bundle usage (potentially fixed metadata validation message issue)
+	o remove need for PreferenceBean: User.determinePreferredLocale, User.determinePreferredTimezone, UserBean includes preferences
 
 SHOULD-HAVE
 	o email notification
