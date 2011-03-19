@@ -1,6 +1,11 @@
 MUST-HAVE
 	o Emailbenachrichtigung
 	o revise message bundle/resource bundle usage (potentially fixed metadata validation message issue)
+		http://stackoverflow.com/questions/2668161/jsf-when-to-use-message-bundle-and-resource-bundle
+		http://www.mkyong.com/jsf2/jsf-2-0-and-resource-bundles-example/
+		http://www.laliluna.de/articles/javaserver-faces-message-resource-bundle-tutorial.html
+		http://www.andygibson.net/blog/article/resource-bundles-in-jsf-2-0-applications/
+		http://java.dzone.com/articles/resource-bundles-jsf-20
 	o remove need for PreferenceBean: User.determinePreferredLocale, User.determinePreferredTimezone, UserBean includes preferences
 
 SHOULD-HAVE
