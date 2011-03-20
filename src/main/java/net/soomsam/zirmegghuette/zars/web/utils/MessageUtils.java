@@ -37,7 +37,7 @@ public class MessageUtils {
 			messageFormat.setLocale(resourceBundle.getLocale());
 			return messageFormat.format(messageParameters);
 		} catch (final MissingResourceException missingResourceException) {
-			return "??? [" + messageName + "] ??? not found";
+			return "message with name [" + messageName + "] not found in resource bundle [" + resourceBundleName + "]";
 		}
 	}
 
@@ -60,7 +60,7 @@ public class MessageUtils {
 			messageFormat.setLocale(locale);
 			return messageFormat.format(messageParameters);
 		} catch (final MissingResourceException missingResourceException) {
-			return "??? [" + messageName + "] ??? not found";
+			return "message with name [" + messageName + "] not found in resource bundle [" + resourceBundleName + "]";
 		}
 	}
 
