@@ -1,8 +1,9 @@
 MUST-HAVE
 	o Emailbenachrichtigung
-	o remove need for PreferenceBean: User.determinePreferredLocale, User.determinePreferredTimezone, UserBean includes preferences
 
 SHOULD-HAVE
+	o remove need for PreferenceBean: User.determinePreferredLocale, User.determinePreferredTimezone, UserBean includes preferences
+	o fiter setting error messages for admingroupreservation and listevent
 	o email notification
 		o created/modified/locked account
 		o admin reservations added/updated/deleted
