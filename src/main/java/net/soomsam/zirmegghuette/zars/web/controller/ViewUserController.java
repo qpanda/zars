@@ -10,16 +10,16 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
+import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.service.PreferenceService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.PreferenceBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.web.utils.LocaleUtils;
+import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
 import org.springframework.context.annotation.Scope;
-
-import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -80,7 +80,7 @@ public class ViewUserController implements Serializable {
 
 	public String getInvalidUserIdMessage() {
 		final Locale preferredLocale = settingController.getPreferredLocale();
-		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null).getSummary();
+		return MessageUtils.obtainMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserUserIdError", preferredLocale);
 	}
 
 	public void retrieveUser() {
@@ -95,7 +95,7 @@ public class ViewUserController implements Serializable {
 
 		if (null == this.userId) {
 			this.validNavigation = false;
-			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
+			final FacesMessage invalidUserIdFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
 			return;
 		}
@@ -106,7 +106,7 @@ public class ViewUserController implements Serializable {
 			savedLocalePreference = preferenceService.findPreference(userId, PreferenceType.LOCALE);
 		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
-			final FacesMessage invalidUserIdFacesMessage = MessageFactory.getMessage("sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
+			final FacesMessage invalidUserIdFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, invalidUserIdFacesMessage);
 		}
 	}

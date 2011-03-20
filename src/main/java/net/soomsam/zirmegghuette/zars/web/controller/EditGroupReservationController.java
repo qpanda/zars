@@ -10,6 +10,7 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationNonconsecutiveException;
@@ -19,13 +20,12 @@ import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.ReservationBean;
 import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
 import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
+import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
 import org.primefaces.component.calendar.Calendar;
 import org.springframework.context.annotation.Scope;
-
-import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -51,7 +51,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 
 	public String getInvalidGroupReservationIdMessage() {
 		final Locale preferredLocale = settingController.getPreferredLocale();
-		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null).getSummary();
+		return MessageUtils.obtainMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationGroupReservationIdError", preferredLocale);
 	}
 
 	public void retrieveGroupReservation() {
@@ -66,7 +66,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 
 		if (null == this.groupReservationId) {
 			this.validNavigation = false;
-			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
 			return;
 		}
@@ -83,7 +83,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 
 			if (!SecurityUtils.hasRole(RoleType.ROLE_ADMIN) && selectedBeneficiaryId != securityController.getCurrentUserId()) {
 				this.validNavigation = false;
-				final FacesMessage modificationNotAllowedFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
+				final FacesMessage modificationNotAllowedFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR);
 				FacesContext.getCurrentInstance().addMessage(null, modificationNotAllowedFacesMessage);
 			}
 
@@ -93,7 +93,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 			}
 		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
-			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
 		}
 	}
@@ -144,7 +144,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 		firstNameInputTextReservationComponent.setLocalValueSet(false);
 		firstNameInputTextReservationComponent.setValid(true);
 		firstNameInputTextReservationComponent.setId(reservationFirstNameInputTextComponent);
-		firstNameInputTextReservationComponent.setRequiredMessage(MessageFactory.getMessage("sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow).getDetail());
+		firstNameInputTextReservationComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow));
 		reservationPanelGrid.getChildren().add(firstNameInputTextReservationComponent);
 	}
 
@@ -156,7 +156,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 		reservationLastNameInputTextComponent.setLocalValueSet(false);
 		reservationLastNameInputTextComponent.setValid(true);
 		reservationLastNameInputTextComponent.setId(reservationLastNameInputTextComponentId);
-		reservationLastNameInputTextComponent.setRequiredMessage(MessageFactory.getMessage("sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow).getDetail());
+		reservationLastNameInputTextComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow));
 		reservationPanelGrid.getChildren().add(reservationLastNameInputTextComponent);
 	}
 

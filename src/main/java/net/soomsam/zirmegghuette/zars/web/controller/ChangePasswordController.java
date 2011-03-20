@@ -7,16 +7,16 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.UserService;
+import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
-
-import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -56,7 +56,7 @@ public class ChangePasswordController implements Serializable {
 
 	public String update() {
 		if (!StringUtils.equals(password, confirmPassword)) {
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 			return null;
 		}

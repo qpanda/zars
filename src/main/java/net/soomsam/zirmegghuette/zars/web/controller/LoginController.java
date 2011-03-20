@@ -15,14 +15,15 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
+import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
+
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.WebAttributes;
-
-import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -88,7 +89,7 @@ public class LoginController implements Serializable {
 			}
 
 			sessionMap.remove(WebAttributes.AUTHENTICATION_EXCEPTION);
-			final FacesMessage authenticationFailedFacesMessage = MessageFactory.getMessage("sectionsWelcomeLoginAuthenticationError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
+			final FacesMessage authenticationFailedFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsWelcomeLoginAuthenticationError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, authenticationFailedFacesMessage);
 		}
 	}

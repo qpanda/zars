@@ -7,17 +7,17 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
+import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.context.annotation.Scope;
-
-import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -83,7 +83,7 @@ public class ChangeUserController implements Serializable {
 			return "changeUserConfirmation";
 		} catch (final UniqueConstraintException uniqueConstraintException) {
 			final String uniqueConstraintMessageId = "sectionsApplicationUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, (Object[]) null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 		}
 

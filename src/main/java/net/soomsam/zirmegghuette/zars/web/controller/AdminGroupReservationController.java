@@ -10,18 +10,18 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.utils.Pagination;
+import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;
 import org.primefaces.component.commandlink.CommandLink;
 import org.springframework.context.annotation.Scope;
-
-import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -95,7 +95,7 @@ public class AdminGroupReservationController implements Serializable {
 		}
 
 		if (FacesContext.getCurrentInstance().isValidationFailed()) {
-			final FacesMessage invalidFilterSettingsFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationFilterSettingWarning", FacesMessage.SEVERITY_WARN, (Object[]) null);
+			final FacesMessage invalidFilterSettingsFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationFilterSettingWarning", FacesMessage.SEVERITY_WARN);
 			FacesContext.getCurrentInstance().addMessage(null, invalidFilterSettingsFacesMessage);
 		}
 	}
@@ -149,7 +149,7 @@ public class AdminGroupReservationController implements Serializable {
 			try {
 				groupReservationService.deleteGroupReservation(selectedGroupReservationId);
 			} catch (final InsufficientPermissionException insufficientPermissionException) {
-				final FacesMessage insufficientPermissionFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);
+				final FacesMessage insufficientPermissionFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);
 				FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);
 			}
 		}

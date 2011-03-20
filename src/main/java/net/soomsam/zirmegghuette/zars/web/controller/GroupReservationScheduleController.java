@@ -9,9 +9,11 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
+import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
@@ -22,8 +24,6 @@ import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import org.springframework.context.annotation.Scope;
-
-import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -61,7 +61,7 @@ public class GroupReservationScheduleController implements Serializable {
 			groupReservationService.deleteGroupReservation(selectedGroupReservation.getGroupReservationId());
 			return "groupReservationSchedule?faces-redirect=true";
 		} catch (final InsufficientPermissionException insufficientPermissionException) {
-			final FacesMessage insufficientPermissionFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);
+			final FacesMessage insufficientPermissionFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);
 		}
 

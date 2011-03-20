@@ -9,17 +9,17 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.service.EventService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.EventBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.utils.Pagination;
+import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;
 import org.springframework.context.annotation.Scope;
-
-import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -81,7 +81,7 @@ public class ListEventController implements Serializable {
 		}
 
 		if (FacesContext.getCurrentInstance().isValidationFailed()) {
-			final FacesMessage invalidFilterSettingsFacesMessage = MessageFactory.getMessage("sectionsApplicationEventFilterSettingWarning", FacesMessage.SEVERITY_WARN, (Object[]) null);
+			final FacesMessage invalidFilterSettingsFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationEventFilterSettingWarning", FacesMessage.SEVERITY_WARN);
 			FacesContext.getCurrentInstance().addMessage(null, invalidFilterSettingsFacesMessage);
 		}
 	}

@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationNonconsecutiveException;
@@ -28,13 +29,12 @@ import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.service.vo.ReservationVo;
 import net.soomsam.zirmegghuette.zars.utils.SecurityUtils;
+import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.DateMidnight;
 import org.primefaces.component.calendar.Calendar;
-
-import com.sun.faces.util.MessageFactory;
 
 @SuppressWarnings("serial")
 public abstract class ModifyGroupReservationController implements Serializable {
@@ -258,7 +258,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		final String reservationFirstNameInputTextComponentId = determineReservationComponentId(RESERVATIONFIRSTNAME_INPUTTEXTCOMPONENT_IDPREFIX, reservationPanelRow);
 		final HtmlInputText reservationFirstNameInputTextComponent = createReservationInputTextComponent();
 		reservationFirstNameInputTextComponent.setId(reservationFirstNameInputTextComponentId);
-		reservationFirstNameInputTextComponent.setRequiredMessage(MessageFactory.getMessage("sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow).getDetail());
+		reservationFirstNameInputTextComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow));
 		reservationPanelGrid.getChildren().add(reservationFirstNameInputTextComponent);
 	}
 
@@ -266,7 +266,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		final String reservationLastNameInputTextComponentId = determineReservationComponentId(RESERVATIONLASTNAME_INPUTTEXTCOMPONENT_IDPREFIX, reservationPanelRow);
 		final HtmlInputText reservationLastNameInputTextComponent = createReservationInputTextComponent();
 		reservationLastNameInputTextComponent.setId(reservationLastNameInputTextComponentId);
-		reservationLastNameInputTextComponent.setRequiredMessage(MessageFactory.getMessage("sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow).getDetail());
+		reservationLastNameInputTextComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow));
 		reservationPanelGrid.getChildren().add(reservationLastNameInputTextComponent);
 	}
 
@@ -367,13 +367,13 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		if (!validArrivalDepartureDateRange(arrival, departure)) {
 			final String arrivalValue = settingController.getPreferredDateFormat().format(arrival);
 			final String departureValue = settingController.getPreferredDateFormat().format(departure);
-			final FacesMessage arrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationArrivalDepartureError", FacesMessage.SEVERITY_ERROR, arrivalValue, departureValue);
+			final FacesMessage arrivalDepatureFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationArrivalDepartureError", FacesMessage.SEVERITY_ERROR, arrivalValue, departureValue);
 			FacesContext.getCurrentInstance().addMessage(null, arrivalDepatureFacesMessage);
 			return null;
 		}
 
 		if (null == selectedBeneficiaryId) {
-			final FacesMessage beneficiaryFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationBeneficiaryError", FacesMessage.SEVERITY_ERROR);
+			final FacesMessage beneficiaryFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationBeneficiaryError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, beneficiaryFacesMessage);
 			return null;
 		}
@@ -385,11 +385,11 @@ public abstract class ModifyGroupReservationController implements Serializable {
 			for (final GroupReservationBean conflictingGroupReservation : conflictingGroupReservationList) {
 				final String arrivalValue = settingController.getPreferredDateFormat().format(conflictingGroupReservation.getArrival());
 				final String departureValue = settingController.getPreferredDateFormat().format(conflictingGroupReservation.getDeparture());
-				final FacesMessage groupReservationConflictFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationConflictError", FacesMessage.SEVERITY_ERROR, conflictingGroupReservation.getGroupReservationId(), arrivalValue, departureValue, conflictingGroupReservation.getBeneficiary().getUsername());
+				final FacesMessage groupReservationConflictFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationConflictError", FacesMessage.SEVERITY_ERROR, conflictingGroupReservation.getGroupReservationId(), arrivalValue, departureValue, conflictingGroupReservation.getBeneficiary().getUsername());
 				FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
 			}
 		} catch (final InsufficientPermissionException insufficientPermissionException) {
-			final FacesMessage insufficientPermissionFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR);
+			final FacesMessage insufficientPermissionFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);
 		}
 
@@ -410,7 +410,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 			if (!validArrivalDepartureDateRange(reservationArrival, reservationDeparture)) {
 				final String reservationArrivalValue = settingController.getPreferredDateFormat().format(reservationArrival);
 				final String reservationDepatureValue = settingController.getPreferredDateFormat().format(reservationDeparture);
-				final FacesMessage reservationArrivalDepatureFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationReservationArrivalDepartureError", FacesMessage.SEVERITY_ERROR, reservationArrivalValue, reservationDepatureValue, i);
+				final FacesMessage reservationArrivalDepatureFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationArrivalDepartureError", FacesMessage.SEVERITY_ERROR, reservationArrivalValue, reservationDepatureValue, i);
 				FacesContext.getCurrentInstance().addMessage(null, reservationArrivalDepatureFacesMessage);
 				return null;
 			}
@@ -428,7 +428,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		}
 
 		if (null == selectedBeneficiaryId) {
-			final FacesMessage beneficiaryFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationBeneficiaryError", FacesMessage.SEVERITY_ERROR);
+			final FacesMessage beneficiaryFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationBeneficiaryError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, beneficiaryFacesMessage);
 			return null;
 		}
@@ -440,14 +440,14 @@ public abstract class ModifyGroupReservationController implements Serializable {
 			for (final GroupReservationBean conflictingGroupReservation : conflictingGroupReservationList) {
 				final String arrivalValue = settingController.getPreferredDateFormat().format(conflictingGroupReservation.getArrival());
 				final String departureValue = settingController.getPreferredDateFormat().format(conflictingGroupReservation.getDeparture());
-				final FacesMessage groupReservationConflictFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationConflictError", FacesMessage.SEVERITY_ERROR, conflictingGroupReservation.getGroupReservationId(), arrivalValue, departureValue, conflictingGroupReservation.getBeneficiary().getUsername());
+				final FacesMessage groupReservationConflictFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationConflictError", FacesMessage.SEVERITY_ERROR, conflictingGroupReservation.getGroupReservationId(), arrivalValue, departureValue, conflictingGroupReservation.getBeneficiary().getUsername());
 				FacesContext.getCurrentInstance().addMessage(null, groupReservationConflictFacesMessage);
 			}
 		} catch (final GroupReservationNonconsecutiveException groupReservationNonconsecutiveException) {
-			final FacesMessage groupReservationNonconsecutiveFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationNonconsecutiveError", FacesMessage.SEVERITY_ERROR);
+			final FacesMessage groupReservationNonconsecutiveFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationNonconsecutiveError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, groupReservationNonconsecutiveFacesMessage);
 		} catch (final InsufficientPermissionException insufficientPermissionException) {
-			final FacesMessage insufficientPermissionFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR);
+			final FacesMessage insufficientPermissionFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationModificationNotAllowedError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);
 		}
 

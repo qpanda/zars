@@ -8,13 +8,13 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
+import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
 import org.springframework.context.annotation.Scope;
-
-import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -54,7 +54,7 @@ public class ViewGroupReservationController implements Serializable {
 
 	public String getInvalidGroupReservationIdMessage() {
 		final Locale preferredLocale = settingController.getPreferredLocale();
-		return MessageFactory.getMessage(preferredLocale, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null).getSummary();
+		return MessageUtils.obtainMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationGroupReservationIdError", preferredLocale);
 	}
 
 	public void retrieveGroupReservation() {
@@ -69,7 +69,7 @@ public class ViewGroupReservationController implements Serializable {
 
 		if (null == this.groupReservationId) {
 			this.validNavigation = false;
-			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
 			return;
 		}
@@ -78,7 +78,7 @@ public class ViewGroupReservationController implements Serializable {
 			savedGroupReservation = groupReservationService.retrieveGroupReservation(groupReservationId);
 		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
-			final FacesMessage invalidGroupReservationIdFacesMessage = MessageFactory.getMessage("sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
+			final FacesMessage invalidGroupReservationIdFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationGroupReservationIdError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, invalidGroupReservationIdFacesMessage);
 		}
 	}

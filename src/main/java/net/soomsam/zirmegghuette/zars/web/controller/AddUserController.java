@@ -16,6 +16,7 @@ import javax.inject.Named;
 import javax.validation.constraints.Pattern;
 
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
+import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
 import net.soomsam.zirmegghuette.zars.service.PreferenceService;
@@ -24,6 +25,7 @@ import net.soomsam.zirmegghuette.zars.service.bean.PreferenceBean;
 import net.soomsam.zirmegghuette.zars.service.bean.RoleBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.web.utils.LocaleUtils;
+import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -31,8 +33,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
-
-import com.sun.faces.util.MessageFactory;
 
 @Named
 @Scope("request")
@@ -235,7 +235,7 @@ public class AddUserController implements Serializable {
 
 	public String create() {
 		if (!StringUtils.equals(password, confirmPassword)) {
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage("sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR, (Object[]) null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 			return null;
 		}
@@ -248,7 +248,7 @@ public class AddUserController implements Serializable {
 			return "addUserConfirmation";
 		} catch (final UniqueConstraintException uniqueConstraintException) {
 			final String uniqueConstraintMessageId = "sectionsApplicationUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";
-			final FacesMessage uniqueConstraintFacesMessage = MessageFactory.getMessage(uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR, (Object[]) null);
+			final FacesMessage uniqueConstraintFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, uniqueConstraintMessageId, FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
 		}
 
