@@ -2,6 +2,7 @@ package net.soomsam.zirmegghuette.zars.web.utils;
 
 import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import javax.faces.application.Application;
@@ -26,14 +27,18 @@ public class MessageUtils {
 	public static String obtainFacesMessage(final ResourceBundleType resourceBundleType, final String messageName, final Object... messageParameters) {
 		final String resourceBundleName = resourceBundleType.getResourceBundleName();
 		final ResourceBundle resourceBundle = obtainFacesResourceBundle(resourceBundleName);
-		final String messageText = resourceBundle.getString(messageName);
-		if (null == messageParameters) {
-			return messageText;
-		}
+		try {
+			final String messageText = resourceBundle.getString(messageName);
+			if (null == messageParameters) {
+				return messageText;
+			}
 
-		final MessageFormat messageFormat = new MessageFormat(messageText);
-		messageFormat.setLocale(resourceBundle.getLocale());
-		return messageFormat.format(messageParameters);
+			final MessageFormat messageFormat = new MessageFormat(messageText);
+			messageFormat.setLocale(resourceBundle.getLocale());
+			return messageFormat.format(messageParameters);
+		} catch (final MissingResourceException missingResourceException) {
+			return "??? [" + messageName + "] ??? not found";
+		}
 	}
 
 	public static ResourceBundle obtainFacesResourceBundle(final String resourceBundleName) {
@@ -45,14 +50,18 @@ public class MessageUtils {
 	public static String obtainMessage(final ResourceBundleType resourceBundleType, final String messageName, final Locale locale, final Object... messageParameters) {
 		final String resourceBundleName = resourceBundleType.getResourceBundleName();
 		final ResourceBundle resourceBundle = obtainResourceBundle(resourceBundleName, locale);
-		final String messageText = resourceBundle.getString(messageName);
-		if (null == messageParameters) {
-			return messageText;
-		}
+		try {
+			final String messageText = resourceBundle.getString(messageName);
+			if (null == messageParameters) {
+				return messageText;
+			}
 
-		final MessageFormat messageFormat = new MessageFormat(messageText);
-		messageFormat.setLocale(locale);
-		return messageFormat.format(messageParameters);
+			final MessageFormat messageFormat = new MessageFormat(messageText);
+			messageFormat.setLocale(locale);
+			return messageFormat.format(messageParameters);
+		} catch (final MissingResourceException missingResourceException) {
+			return "??? [" + messageName + "] ??? not found";
+		}
 	}
 
 	public static ResourceBundle obtainResourceBundle(final String resourceBundleName, final Locale locale) {
