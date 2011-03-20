@@ -2,7 +2,10 @@ MUST-HAVE
 	o Emailbenachrichtigung
 
 SHOULD-HAVE
-	o remove need for PreferenceBean: User.determinePreferredLocale, User.determinePreferredTimezone, UserBean includes preferences
+	o improve preferences
+		o remove need for PreferenceBean: User.determinePreferredLocale, User.determinePreferredTimezone
+		o UserBean includes preferences
+		o use different Locale persistence value (en instead of English)
 	o fiter setting error messages for admingroupreservation and listevent
 	o email notification
 		o created/modified/locked account
