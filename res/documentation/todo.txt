@@ -1,15 +1,11 @@
 MUST-HAVE
-	o Emailbenachrichtigung
-
-SHOULD-HAVE
-	o improve preferences
-		o remove need for PreferenceBean: User.determinePreferredLocale, User.determinePreferredTimezone
-		o UserBean includes preferences
-		o use different Locale persistence value (en instead of English)
-	o fiter setting error messages for admingroupreservation and listevent
 	o email notification
 		o created/modified/locked account
 		o admin reservations added/updated/deleted
+	o convert empty strings to null before persist
+
+SHOULD-HAVE
+	o fiter setting error messages for admingroupreservation and listevent
 	o fix ie and google chrome issues
 		o revise floating layout (use clearfix?)
 		o change menubar to menubutton(s) and commandbutton(s)?
@@ -24,6 +20,10 @@ SHOULD-HAVE
 	o EL expression in f:view should also default to request context if localeController.activeLocale is null
 	o check that user assigned to GroupReservation has role accountant
 	o mark Invoice and Report invalid if associated GroupReservation is changed
+	o improve preferences
+		o remove need for PreferenceBean: User.determinePreferredLocale, User.determinePreferredTimezone
+		o UserBean includes preferences
+		o use different Locale persistence value (en instead of English)
 	o bundle multiple subsequent service calls into a single transactional service call, e.g.:
 		transform
 			savedUser = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());

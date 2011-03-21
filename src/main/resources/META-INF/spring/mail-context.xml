@@ -18,12 +18,12 @@
 	
 	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="defaultEncoding" value="UTF-8"/>
-		<property name="host" value="${javamail.smtp.host}"/>
-		<property name="port" value="${javamail.smtp.port}"/>
+		<property name="host" value="${notification.javamail.smtp.host}"/>
+		<property name="port" value="${notification.javamail.smtp.port}"/>
 		<property name="javaMailProperties">
 			<props>
-				<prop key="mail.smtp.timeout">${javamail.smtp.socketTimeout}</prop>
-				<prop key="mail.smtp.connectiontimeout">${javamail.smtp.connectionTimeout}</prop>
+				<prop key="mail.smtp.timeout">${notification.javamail.smtp.socketTimeout}</prop>
+				<prop key="mail.smtp.connectiontimeout">${notification.javamail.smtp.connectionTimeout}</prop>
 			</props>			
 		</property>
 	</bean>

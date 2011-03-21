@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
 public class StatelessMailManager implements MailManager {
 	@Autowired
 	private JavaMailSender javaMailSender;
-	
-	@Value("${javamail.zars.notificationAddress}")
+
+	@Value("${notification.javamail.notificationAddress}")
 	private String notificationAddress;
 
 	@Override
-	public void sendMail(String to, String subject, String text) {
+	public void sendMail(final String to, final String subject, final String text) {
 		final SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 		simpleMailMessage.setFrom(notificationAddress);
 		simpleMailMessage.setTo(to);

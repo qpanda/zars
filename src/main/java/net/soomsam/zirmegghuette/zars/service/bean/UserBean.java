@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -69,6 +70,10 @@ public class UserBean extends BaseBean {
 
 	public void setEmailAddress(final String emailAddress) {
 		this.emailAddress = emailAddress;
+	}
+
+	public boolean hasEmailAddress() {
+		return !StringUtils.isEmpty(emailAddress);
 	}
 
 	public String getFirstName() {
