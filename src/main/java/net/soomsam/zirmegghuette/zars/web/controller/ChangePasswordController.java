@@ -56,8 +56,8 @@ public class ChangePasswordController implements Serializable {
 
 	public String update() {
 		if (!StringUtils.equals(password, confirmPassword)) {
-			final FacesMessage uniqueConstraintFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR);
-			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
+			final FacesMessage invalidPasswordFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, invalidPasswordFacesMessage);
 			return null;
 		}
 

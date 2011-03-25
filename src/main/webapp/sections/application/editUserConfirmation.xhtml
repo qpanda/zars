@@ -42,11 +42,6 @@
 							<ui:repeat var="role" varStatus="roleIterator" value="#{editUserController.savedUser.roles}">#{enumMessages[role.name]}<h:outputText rendered="#{!roleIterator.last}" value=", "/></ui:repeat>
 						</td>
 					</tr>
-				</table>
-			</div>
-			<div class="applicationFormSeparator"/>
-			<div class="applicationFormItem">						
-				<table class="applicationFormTable">
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserTimezonePreferenceLabel}</th>
 						<td class="applicationFormTableData">#{editUserController.savedTimezonePreferenceDisplayName}</td>
@@ -54,6 +49,10 @@
 					<tr class="applicationFormTableRow">
 						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserLocalePreferenceLabel}</th>
 						<td class="applicationFormTableData">#{editUserController.savedLocalePreferenceDisplayName}</td>
+					</tr>
+					<tr class="applicationFormTableRow">
+						<th class="applicationFormTableHeader">#{displayMessages.sectionsApplicationUserNotificationPreferenceLabel}</th>
+						<td class="applicationFormTableData">#{editUserController.savedNotificationPreferenceDisplayName}</td>
 					</tr>
 				</table>
 			</div>			

@@ -84,16 +84,21 @@ public class AddUserController implements Serializable {
 
 	private String selectedLocaleDisplayName;
 
+	private boolean emailNotification;
+
 	private UserBean savedUser;
 
 	private PreferenceBean savedTimezonePreference;
 
 	private PreferenceBean savedLocalePreference;
 
+	private PreferenceBean savedNotificationPreference;
+
 	public AddUserController() {
 		if (!FacesContext.getCurrentInstance().isPostback()) {
 			setDefaultSelectedTimezoneId();
 			setDefaultSelectedLocaleDisplayName();
+			setDefaultEmailNotification();
 		}
 	}
 
@@ -215,28 +220,51 @@ public class AddUserController implements Serializable {
 		this.selectedLocaleDisplayName = selectedLocaleDisplayName;
 	}
 
+	protected void setDefaultEmailNotification() {
+		emailNotification = (Boolean) PreferenceType.NOTIFICATION.getPreferenceDefaultValue();
+	}
+
+	public boolean isEmailNotification() {
+		return emailNotification;
+	}
+
+	public void setEmailNotification(final boolean emailNotification) {
+		this.emailNotification = emailNotification;
+	}
+
 	public UserBean getSavedUser() {
 		return savedUser;
 	}
 
 	public String getSavedTimezonePreferenceDisplayName() {
 		final Locale preferredLocale = settingController.getPreferredLocale();
-		final String savedTimezoneIdPreference = (String) savedTimezonePreference.getValue();
-		final TimeZone savedTimezonePreference = LocaleUtils.determineSupportedTimezone(savedTimezoneIdPreference);
+		final String savedTimezonePreferenceValue = (String) savedTimezonePreference.getValue();
+		final TimeZone savedTimezonePreference = LocaleUtils.determineSupportedTimezone(savedTimezonePreferenceValue);
 		return LocaleUtils.determineTimezoneDisplayName(preferredLocale, savedTimezonePreference);
 	}
 
 	public String getSavedLocalePreferenceDisplayName() {
 		final Locale preferredLocale = settingController.getPreferredLocale();
-		final String savedLocalePreferenceDisplayName = (String) savedLocalePreference.getValue();
-		final Locale savedLocalePreference = LocaleUtils.determineSupportedLocale(savedLocalePreferenceDisplayName);
+		final String savedLocalePreferenceValue = (String) savedLocalePreference.getValue();
+		final Locale savedLocalePreference = LocaleUtils.determineSupportedLocale(savedLocalePreferenceValue);
 		return LocaleUtils.determineLocaleDisplayName(preferredLocale, savedLocalePreference);
+	}
+
+	public String getSavedNotificationPreferenceDisplayName() {
+		final boolean savedNotificationPreferenceValue = (Boolean) savedNotificationPreference.getValue();
+		return MessageUtils.obtainFacesMessage(ResourceBundleType.DISPLAY_MESSAGES, "sectionsApplicationUserNotificationPreferenceDisplay", (savedNotificationPreferenceValue ? 1 : 0));
 	}
 
 	public String create() {
 		if (!StringUtils.equals(password, confirmPassword)) {
-			final FacesMessage uniqueConstraintFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR);
-			FacesContext.getCurrentInstance().addMessage(null, uniqueConstraintFacesMessage);
+			final FacesMessage invalidPasswordFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserPasswordInvalidError", FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, invalidPasswordFacesMessage);
+			return null;
+		}
+
+		if (StringUtils.isEmpty(emailAddress) && emailNotification) {
+			final FacesMessage notificationErrorFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserNotificationPreferenceError", FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, notificationErrorFacesMessage);
 			return null;
 		}
 
@@ -245,6 +273,7 @@ public class AddUserController implements Serializable {
 			savedUser = userService.createUser(username, password, emailAddress, firstName, lastName, determineSelectedRoleIds());
 			savedTimezonePreference = preferenceService.createPreference(savedUser.getUserId(), PreferenceType.TIMEZONE, selectedTimezoneId);
 			savedLocalePreference = preferenceService.createPreference(savedUser.getUserId(), PreferenceType.LOCALE, selectedLocaleDisplayName);
+			savedNotificationPreference = preferenceService.createPreference(savedUser.getUserId(), PreferenceType.NOTIFICATION, emailNotification);
 			return "addUserConfirmation";
 		} catch (final UniqueConstraintException uniqueConstraintException) {
 			final String uniqueConstraintMessageId = "sectionsApplicationUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";

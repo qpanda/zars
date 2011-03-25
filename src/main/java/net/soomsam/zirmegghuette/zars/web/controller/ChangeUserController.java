@@ -7,13 +7,17 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
+import net.soomsam.zirmegghuette.zars.service.PreferenceService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
+import net.soomsam.zirmegghuette.zars.service.bean.PreferenceBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -30,6 +34,9 @@ public class ChangeUserController implements Serializable {
 
 	@Inject
 	private transient UserService userService;
+
+	@Inject
+	private transient PreferenceService preferenceService;
 
 	@Email(message = "{sectionsApplicationUserEmailAddressInvalidError}")
 	@Length(max = User.COLUMNLENGTH_EMAILADDRESS, message = "{sectionsApplicationUserEmailAddressLengthError}")
@@ -77,6 +84,14 @@ public class ChangeUserController implements Serializable {
 	}
 
 	public String update() {
+		final PreferenceBean notificationPreferenceBean = preferenceService.findCurrentUserPreference(PreferenceType.NOTIFICATION);
+		final boolean emailNotification = (Boolean) notificationPreferenceBean.getValue();
+		if (StringUtils.isEmpty(emailAddress) && emailNotification) {
+			final FacesMessage emailAddressNotificationErrorFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserEmailAddressNotificationError", FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, emailAddressNotificationErrorFacesMessage);
+			return null;
+		}
+
 		logger.debug("changing email address, first name, and last name of current user [" + securityController.getCurrentUserId() + "]");
 		try {
 			userService.changeUser(emailAddress, firstName, lastName);

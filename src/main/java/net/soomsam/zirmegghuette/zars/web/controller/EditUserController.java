@@ -28,6 +28,7 @@ import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.web.utils.LocaleUtils;
 import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -80,11 +81,15 @@ public class EditUserController implements Serializable {
 
 	private String selectedLocaleDisplayName;
 
+	private boolean emailNotification;
+
 	private UserBean savedUser;
 
 	private PreferenceBean savedTimezonePreference;
 
 	private PreferenceBean savedLocalePreference;
+
+	private PreferenceBean savedNotificationPreference;
 
 	public boolean isValidNavigation() {
 		return validNavigation;
@@ -192,6 +197,14 @@ public class EditUserController implements Serializable {
 		this.selectedLocaleDisplayName = selectedLocaleDisplayName;
 	}
 
+	public boolean isEmailNotification() {
+		return emailNotification;
+	}
+
+	public void setEmailNotification(final boolean emailNotification) {
+		this.emailNotification = emailNotification;
+	}
+
 	public UserBean getSavedUser() {
 		return savedUser;
 	}
@@ -208,6 +221,11 @@ public class EditUserController implements Serializable {
 		final String savedLocalePreferenceDisplayName = (String) savedLocalePreference.getValue();
 		final Locale savedLocalePreference = LocaleUtils.determineSupportedLocale(savedLocalePreferenceDisplayName);
 		return LocaleUtils.determineLocaleDisplayName(preferredLocale, savedLocalePreference);
+	}
+
+	public String getSavedNotificationPreferenceDisplayName() {
+		final boolean savedNotificationPreferenceValue = (Boolean) savedNotificationPreference.getValue();
+		return MessageUtils.obtainFacesMessage(ResourceBundleType.DISPLAY_MESSAGES, "sectionsApplicationUserNotificationPreferenceDisplay", (savedNotificationPreferenceValue ? 1 : 0));
 	}
 
 	public String getInvalidUserIdMessage() {
@@ -246,6 +264,9 @@ public class EditUserController implements Serializable {
 
 			final PreferenceBean localePreferenceBean = preferenceService.findPreference(userId, PreferenceType.LOCALE);
 			this.selectedLocaleDisplayName = (String) localePreferenceBean.getValue();
+
+			final PreferenceBean notificationPreferenceBean = preferenceService.findPreference(userId, PreferenceType.NOTIFICATION);
+			this.emailNotification = (Boolean) notificationPreferenceBean.getValue();
 		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
 			final FacesMessage invalidUserIdFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR);
@@ -254,11 +275,18 @@ public class EditUserController implements Serializable {
 	}
 
 	public String update() {
+		if (StringUtils.isEmpty(emailAddress) && emailNotification) {
+			final FacesMessage notificationErrorFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserNotificationPreferenceError", FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null, notificationErrorFacesMessage);
+			return null;
+		}
+
 		logger.debug("updating user with id [" + userId + "] and roles [" + determineSelectedRoleIds() + "]");
 		try {
 			savedUser = userService.updateUser(userId, username, emailAddress, firstName, lastName, determineSelectedRoleIds());
 			savedTimezonePreference = preferenceService.updatePreference(savedUser.getUserId(), PreferenceType.TIMEZONE, selectedTimezoneId);
 			savedLocalePreference = preferenceService.updatePreference(savedUser.getUserId(), PreferenceType.LOCALE, selectedLocaleDisplayName);
+			savedNotificationPreference = preferenceService.updatePreference(savedUser.getUserId(), PreferenceType.NOTIFICATION, emailNotification);
 			return "editUserConfirmation";
 		} catch (final UniqueConstraintException uniqueConstraintException) {
 			final String uniqueConstraintMessageId = "sectionsApplicationUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";

@@ -61,6 +61,10 @@
 				</h:selectOneMenu>
 				<p:message for="timezonePreference" />
 			</div>						
+			<div class="applicationFormItem">				
+				<h:selectBooleanCheckbox id="notificationPreference" styleClass="applicationFormSelection" value="#{addUserController.emailNotification}" />
+				<h:outputLabel for="notificationPreference" styleClass="applicationFormLabelOptional" value="#{displayMessages.sectionsApplicationUserNotificationPreferenceLabel}" />
+			</div>
 			<div class="applicationFormItem">
 				<h:commandButton id="addUserAction" type="submit" action="#{addUserController.create}" styleClass="applicationFormButton" value="#{displayMessages.sectionsApplicationAddUserCreateButton}"/>
 			</div>

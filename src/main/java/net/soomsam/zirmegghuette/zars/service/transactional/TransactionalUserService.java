@@ -65,7 +65,7 @@ public class TransactionalUserService implements UserService {
 	@Override
 	public void createDefaultUsers() {
 		final Role adminRole = roleDao.retrieveByName(RoleType.ROLE_ADMIN.getRoleName());
-		final User adminUser = new User("admin", encodePassword("admin"), "admin@zars.soomsam.net", true, adminRole);
+		final User adminUser = new User("admin", encodePassword("admin"), null, true, adminRole);
 		userDao.persist(adminUser);
 
 		final Preference adminTimezonePreference = preferenceDao.create(adminUser.getUserId(), PreferenceType.TIMEZONE, PreferenceType.TIMEZONE.getPreferenceDefaultValue());
@@ -73,6 +73,9 @@ public class TransactionalUserService implements UserService {
 
 		final Preference adminLocalePreference = preferenceDao.create(adminUser.getUserId(), PreferenceType.LOCALE, PreferenceType.LOCALE.getPreferenceDefaultValue());
 		preferenceDao.persist(adminLocalePreference);
+
+		final Preference adminNotificationPreference = preferenceDao.create(adminUser.getUserId(), PreferenceType.NOTIFICATION, false);
+		preferenceDao.persist(adminNotificationPreference);
 	}
 
 	@Override

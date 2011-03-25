@@ -1,7 +1,7 @@
 package net.soomsam.zirmegghuette.zars.enums;
 
 public enum PreferenceType {
-	TIMEZONE("TIMEZONE", "Europe/Vienna"), LOCALE("LOCALE", "German");
+	TIMEZONE("TIMEZONE", "Europe/Vienna"), LOCALE("LOCALE", "German"), NOTIFICATION("NOTIFICATION", true);
 
 	private final String preferenceName;
 	private final Object preferenceDefaultValue;
