@@ -51,23 +51,28 @@ public class AsynchronousNotificationService implements NotificationService {
 	@Async
 	@Override
 	public void sendGroupReservationNotification(final OperationType operationType, final GroupReservationBean groupReservationBean) {
-		final UserBean booker = groupReservationBean.getBooker();
-		final UserBean beneficiary = groupReservationBean.getBeneficiary();
-		final UserBean accountant = groupReservationBean.getAccountant();
-		final List<UserBean> adminUserList = userService.findUsers(RoleType.ROLE_ADMIN);
+		try {
+			final UserBean booker = groupReservationBean.getBooker();
+			final UserBean beneficiary = groupReservationBean.getBeneficiary();
+			final UserBean accountant = groupReservationBean.getAccountant();
+			final List<UserBean> adminUserList = userService.findUsers(RoleType.ROLE_ADMIN);
 
-		final Set<UserBean> notifyUserBeanSet = new HashSet<UserBean>();
-		notifyUserBeanSet.add(booker);
-		notifyUserBeanSet.add(beneficiary);
-		notifyUserBeanSet.add(accountant);
-		notifyUserBeanSet.addAll(adminUserList);
+			final Set<UserBean> notifyUserBeanSet = new HashSet<UserBean>();
+			notifyUserBeanSet.add(booker);
+			notifyUserBeanSet.add(beneficiary);
+			notifyUserBeanSet.add(accountant);
+			notifyUserBeanSet.addAll(adminUserList);
 
-		sendNotifications(operationType, groupReservationBean, notifyUserBeanSet, "groupReservationNotification", "NOTIFICATION_GROUPRESERVATION");
+			sendNotifications(operationType, groupReservationBean, notifyUserBeanSet, "groupReservationNotification", "NOTIFICATION_GROUPRESERVATION");
+		} catch (final Exception exception) {
+			logger.error("error while preparing, generating, or sending notification for operation [" + operationType.getOperationName() + "] on [" + groupReservationBean.getClass().getSimpleName() + "]: " + exception.getMessage());
+			exception.printStackTrace();
+		}
 	}
 
 	protected void sendNotifications(final OperationType operationType, final BaseBean operationData, final Set<UserBean> notifyUserBeanSet, final String templateName, final String messageName) {
 		if (!notificationEnabled) {
-			logger.debug("notifications disabled, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData + "]");
+			logger.debug("notifications disabled, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
 			return;
 		}
 
@@ -78,18 +83,18 @@ public class AsynchronousNotificationService implements NotificationService {
 
 	protected void sendNotification(final OperationType operationType, final BaseBean operationData, final UserBean notifyUserBean, final String templateName, final String messageName) {
 		if (!notifyUserBean.isEnabled()) {
-			logger.debug("user [" + notifyUserBean + "] is disabled, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData + "]");
+			logger.debug("user [" + notifyUserBean.getUsername() + "] is disabled, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
 			return;
 		}
 
 		if (!notifyUserBean.hasEmailAddress()) {
-			logger.debug("user [" + notifyUserBean + "] has no email address, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData + "]");
+			logger.debug("user [" + notifyUserBean.getUsername() + "] has no email address, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
 			return;
 		}
 
 		final boolean emailNotification = preferenceService.determineNotification(notifyUserBean.getUserId());
 		if (!emailNotification) {
-			logger.debug("user [" + notifyUserBean + "] has no email notification disabled, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData + "]");
+			logger.debug("user [" + notifyUserBean.getUsername() + "] has no email notification disabled, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
 			return;
 		}
 
@@ -97,10 +102,11 @@ public class AsynchronousNotificationService implements NotificationService {
 
 		final Locale preferredLocale = preferenceService.determinePreferredLocale(notifyUserBean.getUserId());
 		final TimeZone preferredTimeZone = preferenceService.determinePreferredTimeZone(notifyUserBean.getUserId());
-		final String subject = MessageUtils.obtainMessage(ResourceBundleType.DISPLAY_MESSAGES, messageName, preferredLocale);
+		final String subject = MessageUtils.obtainMessage(ResourceBundleType.ENUM_MESSAGES, messageName, preferredLocale);
 
 		final String message = templateManager.generateDocument(templateName, templateModel, preferredLocale, preferredTimeZone);
 		mailManager.sendMail(notifyUserBean.getEmailAddress(), subject, message);
+		logger.debug("sent notification for operation [" + operationType.getOperationName() + "] on [" + operationData + "] to user [" + notifyUserBean + "]");
 	}
 
 	protected TemplateHashModel createTemplateModel(final OperationType operationType, final BaseBean operationData) {
