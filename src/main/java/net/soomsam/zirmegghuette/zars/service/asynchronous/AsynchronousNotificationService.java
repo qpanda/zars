@@ -97,17 +97,16 @@ public class AsynchronousNotificationService implements NotificationService {
 
 		final Locale preferredLocale = preferenceService.determinePreferredLocale(notifyUserBean.getUserId());
 		final TimeZone preferredTimeZone = preferenceService.determinePreferredTimeZone(notifyUserBean.getUserId());
-
 		final String subject = MessageUtils.obtainMessage(ResourceBundleType.DISPLAY_MESSAGES, messageName, preferredLocale);
-		final String message = templateManager.generateDocument(templateName, templateModel, preferredLocale, preferredTimeZone);
 
+		final String message = templateManager.generateDocument(templateName, templateModel, preferredLocale, preferredTimeZone);
 		mailManager.sendMail(notifyUserBean.getEmailAddress(), subject, message);
 	}
 
 	protected TemplateHashModel createTemplateModel(final OperationType operationType, final BaseBean operationData) {
 		final SimpleHash templateModel = new SimpleHash();
 		templateModel.put(createTemplateModelKey(operationType), operationType.getOperationName());
-		templateModel.put(createTemplateModelKey(operationType), operationData);
+		templateModel.put(createTemplateModelKey(operationData), operationData);
 		return templateModel;
 	}
 
