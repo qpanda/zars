@@ -40,7 +40,7 @@ public class StatelessTemplateManager implements TemplateManager {
 
 	protected Template prepareTemplate(final String templateName, final Locale preferredLocale, final TimeZone preferredTimeZone) {
 		try {
-			final Template template = freemarkerConfiguration.getTemplate(templateName);
+			final Template template = freemarkerConfiguration.getTemplate(templateName, preferredLocale);
 			applyLocaleSettings(template, preferredLocale, preferredTimeZone);
 			return template;
 		} catch (final IOException ioException) {
