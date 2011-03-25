@@ -29,4 +29,7 @@ public interface PreferenceService {
 
 	@PreAuthorize("isAuthenticated()")
 	public TimeZone determinePreferredTimeZone(long userId);
+
+	@PreAuthorize("isAuthenticated()")
+	public boolean determineNotification(final long userId);
 }

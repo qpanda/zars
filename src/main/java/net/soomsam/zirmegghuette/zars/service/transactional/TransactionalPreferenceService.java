@@ -107,6 +107,16 @@ public class TransactionalPreferenceService implements PreferenceService {
 		return LocaleUtils.determineDefaultTimezone();
 	}
 
+	@Override
+	public boolean determineNotification(final long userId) {
+		final PreferenceBean userNotificationPreference = findPreference(userId, PreferenceType.NOTIFICATION);
+		if (null != userNotificationPreference) {
+			return (Boolean) userNotificationPreference.getValue();
+		}
+
+		return false;
+	}
+
 	protected PreferenceBean map(final Preference preference) {
 		if (!preference.hasValue()) {
 			return new PreferenceBean(preference.getPreferenceId(), preference.getPreferenceTimestamp(), PreferenceType.valueOf(preference.getName()), Object.class);

@@ -87,13 +87,20 @@ public class AsynchronousNotificationService implements NotificationService {
 			return;
 		}
 
-		// TODO check notification preference
+		final boolean emailNotification = preferenceService.determineNotification(notifyUserBean.getUserId());
+		if (!emailNotification) {
+			logger.debug("user [" + notifyUserBean + "] has no email notification disabled, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData + "]");
+			return;
+		}
+
+		final TemplateHashModel templateModel = createTemplateModel(operationType, operationData);
+
 		final Locale preferredLocale = preferenceService.determinePreferredLocale(notifyUserBean.getUserId());
 		final TimeZone preferredTimeZone = preferenceService.determinePreferredTimeZone(notifyUserBean.getUserId());
-		final TemplateHashModel templateModel = createTemplateModel(operationType, operationData);
 
 		final String subject = MessageUtils.obtainMessage(ResourceBundleType.DISPLAY_MESSAGES, messageName, preferredLocale);
 		final String message = templateManager.generateDocument(templateName, templateModel, preferredLocale, preferredTimeZone);
+
 		mailManager.sendMail(notifyUserBean.getEmailAddress(), subject, message);
 	}
 
