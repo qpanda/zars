@@ -10,6 +10,7 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.OperationType;
 import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.exception.GroupReservationConflictException;
@@ -164,6 +165,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	protected String modifyGroupReservation() throws GroupReservationConflictException, InsufficientPermissionException {
 		logger.debug("updating group reservation with id [" + groupReservationId + "], beneficiaryId [" + selectedBeneficiaryId + "], accountantId [" + selectedAccountantId + "] and arrival/departure [" + arrival + "]-[" + departure + "] for [" + guests + "] guests");
 		savedGroupReservation = groupReservationService.updateGroupReservation(groupReservationId, selectedBeneficiaryId, selectedAccountantId, new DateMidnight(arrival), new DateMidnight(departure), guests, comment);
+		notificationService.sendGroupReservationNotification(OperationType.OPERATION_UPDATE, savedGroupReservation);
 		return "editGroupReservationConfirmation";
 	}
 
@@ -171,6 +173,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	protected String modifyGroupReservation(final Set<ReservationVo> reservationVoSet) throws GroupReservationConflictException, InsufficientPermissionException, GroupReservationNonconsecutiveException {
 		logger.debug("updating group reservation with id [" + groupReservationId + "], beneficiaryId [" + selectedBeneficiaryId + "], accountantId [" + selectedAccountantId + "] and [" + determineReservationCount() + "] reservations");
 		savedGroupReservation = groupReservationService.updateGroupReservation(groupReservationId, selectedBeneficiaryId, selectedAccountantId, reservationVoSet, comment);
+		notificationService.sendGroupReservationNotification(OperationType.OPERATION_UPDATE, savedGroupReservation);
 		return "editGroupReservationConfirmation";
 	}
 }

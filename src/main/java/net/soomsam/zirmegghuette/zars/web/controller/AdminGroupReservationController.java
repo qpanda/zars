@@ -10,9 +10,11 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.OperationType;
 import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
+import net.soomsam.zirmegghuette.zars.service.NotificationService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.utils.Pagination;
 import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
@@ -52,6 +54,9 @@ public class AdminGroupReservationController implements Serializable {
 
 	@Inject
 	protected transient SecurityController securityController;
+
+	@Inject
+	private transient NotificationService notificationService;
 
 	public String getCommandLinkSelectedGroupReservationIdAttributeName() {
 		return commandLinkSelectedGroupReservationIdAttributeName;
@@ -144,10 +149,12 @@ public class AdminGroupReservationController implements Serializable {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
 			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
 			final Long selectedGroupReservationId = (Long) commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
+			final GroupReservationBean selectedGroupReservation = groupReservationService.retrieveGroupReservation(selectedGroupReservationId);
 
 			logger.debug("deleting group reservation with groupReservationId [" + selectedGroupReservationId + "]");
 			try {
 				groupReservationService.deleteGroupReservation(selectedGroupReservationId);
+				notificationService.sendGroupReservationNotification(OperationType.OPERATION_DELETE, selectedGroupReservation);
 			} catch (final InsufficientPermissionException insufficientPermissionException) {
 				final FacesMessage insufficientPermissionFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);
 				FacesContext.getCurrentInstance().addMessage(null, insufficientPermissionFacesMessage);

@@ -24,6 +24,7 @@ import net.soomsam.zirmegghuette.zars.exception.GroupReservationNonconsecutiveEx
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.persistence.entity.GroupReservation;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
+import net.soomsam.zirmegghuette.zars.service.NotificationService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.GroupReservationBean;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
@@ -54,6 +55,9 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 	@Inject
 	protected transient GroupReservationService groupReservationService;
+
+	@Inject
+	protected transient NotificationService notificationService;
 
 	protected Date arrival;
 

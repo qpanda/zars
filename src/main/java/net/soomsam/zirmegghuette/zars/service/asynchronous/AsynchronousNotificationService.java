@@ -63,7 +63,7 @@ public class AsynchronousNotificationService implements NotificationService {
 			notifyUserBeanSet.add(accountant);
 			notifyUserBeanSet.addAll(adminUserList);
 
-			sendNotifications(operationType, groupReservationBean, notifyUserBeanSet, "groupReservationNotification", "NOTIFICATION_GROUPRESERVATION");
+			sendNotifications(operationType, groupReservationBean, notifyUserBeanSet, "groupReservationNotification.ftl", "NOTIFICATION_GROUPRESERVATION");
 		} catch (final Exception exception) {
 			logger.error("error while preparing, generating, or sending notification for operation [" + operationType.getOperationName() + "] on [" + groupReservationBean.getClass().getSimpleName() + "]: " + exception.getMessage());
 			exception.printStackTrace();
@@ -106,7 +106,7 @@ public class AsynchronousNotificationService implements NotificationService {
 
 		final String message = templateManager.generateDocument(templateName, templateModel, preferredLocale, preferredTimeZone);
 		mailManager.sendMail(notifyUserBean.getEmailAddress(), subject, message);
-		logger.debug("sent notification for operation [" + operationType.getOperationName() + "] on [" + operationData + "] to user [" + notifyUserBean + "]");
+		logger.debug("sent notification for operation [" + operationType.getOperationName() + "] on [" + operationData.getClass().getSimpleName() + "] to user [" + notifyUserBean.getUsername() + "] with subject [" + subject + "], locale [" + preferredLocale + "], and timezone [" + preferredTimeZone + "]");
 	}
 
 	protected TemplateHashModel createTemplateModel(final OperationType operationType, final BaseBean operationData) {

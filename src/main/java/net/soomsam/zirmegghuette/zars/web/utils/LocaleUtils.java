@@ -3,6 +3,7 @@ package net.soomsam.zirmegghuette.zars.web.utils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -30,6 +31,10 @@ public class LocaleUtils {
 		}
 
 		return externalContext.getRequestLocale();
+	}
+
+	public static List<Locale> determineAvailableLocaleList() {
+		return Arrays.asList(Locale.getAvailableLocales());
 	}
 
 	public static List<Locale> determineSupportedLocaleList() {
@@ -70,8 +75,19 @@ public class LocaleUtils {
 
 		return determineCurrentLocale();
 	}
-	
-	public static String determineLocaleDisplayName(Locale preferredLocale, Locale locale) {
+
+	public static Locale determineAvailableLocale(final String localeDisplayName) {
+		final List<Locale> availableLocaleList = determineAvailableLocaleList();
+		for (final Locale availableLocale : availableLocaleList) {
+			if (availableLocale.getDisplayName().equals(localeDisplayName)) {
+				return availableLocale;
+			}
+		}
+
+		return determineCurrentLocale();
+	}
+
+	public static String determineLocaleDisplayName(final Locale preferredLocale, final Locale locale) {
 		return locale.getDisplayName(preferredLocale);
 	}
 
@@ -93,12 +109,12 @@ public class LocaleUtils {
 	public static TimeZone determineDefaultTimezone() {
 		return TimeZone.getDefault();
 	}
-	
-	public static TimeZone determineSupportedTimezone(String timezoneId) {
+
+	public static TimeZone determineSupportedTimezone(final String timezoneId) {
 		return TimeZone.getTimeZone(timezoneId);
 	}
-	
-	public static String determineTimezoneDisplayName(Locale preferredLocale, TimeZone timezone) {
+
+	public static String determineTimezoneDisplayName(final Locale preferredLocale, final TimeZone timezone) {
 		return timezone.getID() + " - " + timezone.getDisplayName(preferredLocale);
 	}
 
@@ -121,26 +137,26 @@ public class LocaleUtils {
 
 		return supportedTimezoneList;
 	}
-	
-	public static SimpleDateFormat determinePreferredDateFormat(Locale preferredLocale, TimeZone preferredTimeZone) {
+
+	public static SimpleDateFormat determinePreferredDateFormat(final Locale preferredLocale, final TimeZone preferredTimeZone) {
 		final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.MEDIUM, preferredLocale);
 		simpleDateFormat.setTimeZone(preferredTimeZone);
-		return simpleDateFormat;		
+		return simpleDateFormat;
 	}
-	
-	public static SimpleDateFormat determinePreferredDateTimeFormat(Locale preferredLocale, TimeZone preferredTimeZone) {
+
+	public static SimpleDateFormat determinePreferredDateTimeFormat(final Locale preferredLocale, final TimeZone preferredTimeZone) {
 		final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, preferredLocale);
 		simpleDateFormat.setTimeZone(preferredTimeZone);
 		return simpleDateFormat;
 	}
-	
-	public static SimpleDateFormat determinePreferredTimeFormat(Locale preferredLocale, TimeZone preferredTimeZone) {
+
+	public static SimpleDateFormat determinePreferredTimeFormat(final Locale preferredLocale, final TimeZone preferredTimeZone) {
 		final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getTimeInstance(DateFormat.SHORT, preferredLocale);
 		simpleDateFormat.setTimeZone(preferredTimeZone);
 		return simpleDateFormat;
 	}
 
-	public static SimpleDateFormat determinePreferredTimestampFormat(Locale preferredLocale, TimeZone preferredTimeZone) {
+	public static SimpleDateFormat determinePreferredTimestampFormat(final Locale preferredLocale, final TimeZone preferredTimeZone) {
 		final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.LONG, preferredLocale);
 		simpleDateFormat.setTimeZone(preferredTimeZone);
 		return simpleDateFormat;

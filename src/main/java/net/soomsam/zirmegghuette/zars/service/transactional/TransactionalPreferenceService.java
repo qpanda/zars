@@ -90,7 +90,7 @@ public class TransactionalPreferenceService implements PreferenceService {
 		final PreferenceBean userLocalePreference = findPreference(userId, PreferenceType.LOCALE);
 		if (null != userLocalePreference) {
 			final String userLocaleDisplayName = (String) userLocalePreference.getValue();
-			return LocaleUtils.determineSupportedLocale(userLocaleDisplayName);
+			return LocaleUtils.determineAvailableLocale(userLocaleDisplayName);
 		}
 
 		return LocaleUtils.determineCurrentLocale();
