@@ -45,7 +45,6 @@ public interface UserService {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void disableUser(long userId);
 
-	@PreAuthorize("isAuthenticated()")
 	public List<UserBean> findUsers(final RoleType roleType);
 
 	public UserBean retrieveUser(String username);

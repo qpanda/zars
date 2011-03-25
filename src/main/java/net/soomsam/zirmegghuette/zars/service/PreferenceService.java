@@ -24,12 +24,9 @@ public interface PreferenceService {
 	@PreAuthorize("isAuthenticated()")
 	public PreferenceBean updateCurrentUserPreference(PreferenceType preferenceType, Object value);
 
-	@PreAuthorize("isAuthenticated()")
 	public Locale determinePreferredLocale(long userId);
 
-	@PreAuthorize("isAuthenticated()")
 	public TimeZone determinePreferredTimeZone(long userId);
 
-	@PreAuthorize("isAuthenticated()")
 	public boolean determineNotification(final long userId);
 }
