@@ -48,6 +48,9 @@ public class AsynchronousNotificationService implements NotificationService {
 	@Value("${notification.javamail.enabled}")
 	private boolean notificationEnabled;
 
+	@Value("${notification.javamail.notificationDomain}")
+	private String notificationDomain;
+
 	@Async
 	@Override
 	public void sendGroupReservationNotification(final OperationType operationType, final GroupReservationBean groupReservationBean) {
@@ -111,6 +114,7 @@ public class AsynchronousNotificationService implements NotificationService {
 
 	protected TemplateHashModel createTemplateModel(final OperationType operationType, final BaseBean operationData) {
 		final SimpleHash templateModel = new SimpleHash();
+		templateModel.put("notificationDomain", notificationDomain);
 		templateModel.put(createTemplateModelKey(operationType), operationType.getOperationName());
 		templateModel.put(createTemplateModelKey(operationData), operationData);
 		return templateModel;

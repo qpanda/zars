@@ -1,4 +1,4 @@
-Die folgende Reservierung wurde <#if operationType = "OPERATION_ADD">angelegt<#elseif operationType = "OPERATION_UPDATE">aktualisiert<#elseif operationType = "OPERATION_DELETE">geloescht</#if>:
+Die folgende Reservierung wurde <#if operationType = "OPERATION_ADD">angelegt<#elseif operationType = "OPERATION_UPDATE">aktualisiert<#elseif operationType = "OPERATION_DELETE">gelöscht</#if>.
 
  ID: ${groupReservationBean.groupReservationId}
  Buchungsdatum: ${groupReservationBean.booked?datetime}
@@ -8,9 +8,19 @@ Die folgende Reservierung wurde <#if operationType = "OPERATION_ADD">angelegt<#e
  Gruppenverantwortlicher: <#if groupReservationBean.beneficiary.firstName?has_content && groupReservationBean.beneficiary.lastName?has_content>${groupReservationBean.beneficiary.username} (${groupReservationBean.beneficiary.firstName} ${groupReservationBean.beneficiary.lastName})<#elseif groupReservationBean.beneficiary.emailAddress?has_content>${groupReservationBean.beneficiary.username} <${groupReservationBean.beneficiary.emailAddress}><#else>${groupReservationBean.beneficiary.username}</#if>
  Verrechnungsperson: <#if groupReservationBean.accountant.firstName?has_content && groupReservationBean.accountant.lastName?has_content>${groupReservationBean.accountant.username} (${groupReservationBean.accountant.firstName} ${groupReservationBean.accountant.lastName})<#elseif groupReservationBean.accountant.emailAddress?has_content>${groupReservationBean.accountant.username} <${groupReservationBean.accountant.emailAddress}><#else>${groupReservationBean.accountant.username}</#if>
  Gäste: ${groupReservationBean.guests}
+<#if groupReservationBean.reservations?has_content>
 
+ Individual Reservierungen
+   Ankunft		Abfahrt			Person
+<#list groupReservationBean.reservations as reservation>
+   ${reservation.arrival?date}		${reservation.departure?date}		${reservation.firstName} ${reservation.lastName}
+</#list>  
+</#if>
 <#if operationType = "OPERATION_ADD" || operationType = "OPERATION_UPDATE">
-Die Reservierung kann online unter http://zars.soomsam.net/views/viewGroupReservation.jsf?groupReservationId=${groupReservationBean.groupReservationId} abgerufen werden
+
+Die Reservierung kann mit folgendem Link abgerufen werden.
+http://${notificationDomain}/views/viewGroupReservation.jsf?groupReservationId=${groupReservationBean.groupReservationId}
 </#if>
 
-Dies ist eine automatisierte Email, bitte antworten Sie nicht auf diese Email.
+Der Empfang von ZARS Benachrichtigungen kann unter Preferenzen aktiviert und deaktiviert werden.
+http://${notificationDomain}/views/changePreferences.jsf
