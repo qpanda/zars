@@ -88,7 +88,9 @@ public class TransactionalUserService implements UserService {
 		final Event createUserEvent = eventDao.create(userDao.retrieveCurrentUser(), user.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_ADD, "EVENT_CREATEUSER");
 		eventDao.persist(createUserEvent);
 
-		return serviceBeanMapper.map(UserBean.class, user);
+		final UserBean userBean = serviceBeanMapper.map(UserBean.class, user);
+		userBean.setPassword(password);
+		return userBean;
 	}
 
 	@Override
@@ -119,7 +121,9 @@ public class TransactionalUserService implements UserService {
 		final Event resetUserEvent = eventDao.create(userDao.retrieveCurrentUser(), user.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_UPDATE, "EVENT_RESETUSER");
 		eventDao.persist(resetUserEvent);
 
-		return serviceBeanMapper.map(UserBean.class, user);
+		final UserBean userBean = serviceBeanMapper.map(UserBean.class, user);
+		userBean.setPassword(password);
+		return userBean;
 	}
 
 	@Override

@@ -39,7 +39,7 @@ http://${notificationDomain}/
 
 The password should be changed under 'Settings - Change Password' when using the application the first time.
 http://${notificationDomain}/views/changePassword.jsf
-<#elseif notificationType = "NOTIFICATION_USER_ENABLED">
+<#elseif notificationType = "NOTIFICATION_USER_ENABLE">
 The following user was enabled by the administrator.
 
  ID: ${userBean.userId}
@@ -49,7 +49,7 @@ The following user was enabled by the administrator.
  First Name: ${userBean.firstName}
  Last Name: ${userBean.lastName}
  Roles: <#list userBean.roles as role><#if role.name = "ROLE_USER">User<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>, </#if></#list>
-<#elseif notificationType = "NOTIFICATION_USER_DISABLED">
+<#elseif notificationType = "NOTIFICATION_USER_DISABLE">
 The following user was disabled by the administrator.
 
  ID: ${userBean.userId}

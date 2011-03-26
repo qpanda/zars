@@ -39,7 +39,7 @@ http://${notificationDomain}/
 
 Das Passwort sollte bei erster Verwendung unter 'Einstellungen - Passwort Ändern' geändert werden.
 http://${notificationDomain}/views/changePassword.jsf
-<#elseif notificationType = "NOTIFICATION_USER_ENABLED">
+<#elseif notificationType = "NOTIFICATION_USER_ENABLE">
 Der folgende Benutzer wurde vom Administrator aktiviert.
 
  ID: ${userBean.userId}
@@ -48,7 +48,7 @@ Der folgende Benutzer wurde vom Administrator aktiviert.
  Vorname: ${userBean.firstName}
  Nachname: ${userBean.lastName}
  Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>, </#if></#list>
-<#elseif notificationType = "NOTIFICATION_USER_DISABLED">
+<#elseif notificationType = "NOTIFICATION_USER_DISABLE">
 Der folgende Benutzer wurde vom Administrator deaktiviert.
 
  ID: ${userBean.userId}
