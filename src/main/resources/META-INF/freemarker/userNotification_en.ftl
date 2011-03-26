@@ -7,7 +7,7 @@ The administrator created the following user for ZARS.
  Email Address: ${userBean.emailAddress}
  First Name: ${userBean.firstName}
  Last Name: ${userBean.lastName}
- Roles: <#list userBean.roles as role><#if role = "ROLE_USER">User<#elseif role = "ROLE_ADMIN">Administrator<#elseif role = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>,</#if></#list>  
+ Roles: <#list userBean.roles as role><#if role.name = "ROLE_USER">User<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>,</#if></#list>
 
 To start using ZARS login with the specified username and password using the following link.
 http://${notificationDomain}/
@@ -22,7 +22,7 @@ The following user and / or the preferences of the user have been updated by the
  Email Address: ${userBean.emailAddress}
  First Name: ${userBean.firstName}
  Last Name: ${userBean.lastName}
- Roles: <#list userBean.roles as role><#if role = "ROLE_USER">User<#elseif role = "ROLE_ADMIN">Administrator<#elseif role = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>,</#if></#list>  
+ Roles: <#list userBean.roles as role><#if role.name = "ROLE_USER">User<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>,</#if></#list>  
 <#elseif notificationType = "NOTIFICATION_USER_RESET">
 The following user was reset by the administrator.
 
@@ -32,7 +32,7 @@ The following user was reset by the administrator.
  Email Address: ${userBean.emailAddress}
  First Name: ${userBean.firstName}
  Last Name: ${userBean.lastName}
- Roles: <#list userBean.roles as role><#if role = "ROLE_USER">User<#elseif role = "ROLE_ADMIN">Administrator<#elseif role = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>,</#if></#list>  
+ Roles: <#list userBean.roles as role><#if role.name = "ROLE_USER">User<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>,</#if></#list>  
 
 To use ZARS login with the rest username and password using the following link.
 http://${notificationDomain}/
@@ -48,7 +48,7 @@ The following user was enabled by the administrator.
  Email Address: ${userBean.emailAddress}
  First Name: ${userBean.firstName}
  Last Name: ${userBean.lastName}
- Roles: <#list userBean.roles as role><#if role = "ROLE_USER">User<#elseif role = "ROLE_ADMIN">Administrator<#elseif role = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>,</#if></#list>
+ Roles: <#list userBean.roles as role><#if role.name = "ROLE_USER">User<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>,</#if></#list>
 <#elseif notificationType = "NOTIFICATION_USER_DISABLED">
 The following user was disabled by the administrator.
 
@@ -58,7 +58,7 @@ The following user was disabled by the administrator.
  Email Address: ${userBean.emailAddress}
  First Name: ${userBean.firstName}
  Last Name: ${userBean.lastName}
- Roles: <#list userBean.roles as role><#if role = "ROLE_USER">User<#elseif role = "ROLE_ADMIN">Administrator<#elseif role = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>,</#if></#list>
+ Roles: <#list userBean.roles as role><#if role.name = "ROLE_USER">User<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>,</#if></#list>
 </#if>.
 
 Receiving ZARS Notifications can be enabled and disabled under 'Settings - Change Preferences'.
