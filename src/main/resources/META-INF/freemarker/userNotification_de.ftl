@@ -7,7 +7,7 @@ Der folgende Benutzer wurde vom Administrator für die Verwendung von ZARS angel
  Email Adresse: ${userBean.emailAddress}
  Vorname: ${userBean.firstName}
  Nachname: ${userBean.lastName}
- Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>,</#if></#list>
+ Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>, </#if></#list>
 
 Um ZARS verwenden zu können melden Sie sich bitte mit dem angegebenen Benutzernamen und Passwort unter folgendem Link an.
 http://${notificationDomain}/
@@ -22,7 +22,7 @@ Der folgende Benutzer und / oder dessen Preferenzen wurde vom Administrator aktu
  Email Adresse: ${userBean.emailAddress}
  Vorname: ${userBean.firstName}
  Nachname: ${userBean.lastName}
- Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>,</#if></#list>
+ Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>, </#if></#list>
 <#elseif notificationType = "NOTIFICATION_USER_RESET">
 Der folgende Benutzer wurde vom Administrator zurücksetzen.
 
@@ -32,7 +32,7 @@ Der folgende Benutzer wurde vom Administrator zurücksetzen.
  Email Adresse: ${userBean.emailAddress}
  Vorname: ${userBean.firstName}
  Nachname: ${userBean.lastName}
- Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>,</#if></#list>  
+ Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>, </#if></#list>  
 
 Um ZARS verwenden zu können melden Sie sich bitte mit dem zurücksetzen Benutzernamen und Passwort unter folgendem Link an.
 http://${notificationDomain}/
@@ -47,7 +47,7 @@ Der folgende Benutzer wurde vom Administrator aktiviert.
  Email Adresse: ${userBean.emailAddress}
  Vorname: ${userBean.firstName}
  Nachname: ${userBean.lastName}
- Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>,</#if></#list>
+ Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>, </#if></#list>
 <#elseif notificationType = "NOTIFICATION_USER_DISABLED">
 Der folgende Benutzer wurde vom Administrator deaktiviert.
 
@@ -56,7 +56,7 @@ Der folgende Benutzer wurde vom Administrator deaktiviert.
  Email Adresse: ${userBean.emailAddress}
  Vorname: ${userBean.firstName}
  Nachname: ${userBean.lastName}
- Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>,</#if></#list>
+ Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>, </#if></#list>
 </#if>
 
 Der Empfang von ZARS Benachrichtigungen kann unter 'Einstellungen - Preferenzen Ändern' aktiviert und deaktiviert werden.
