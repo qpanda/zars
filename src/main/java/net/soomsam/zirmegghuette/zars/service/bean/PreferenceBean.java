@@ -59,12 +59,12 @@ public class PreferenceBean extends BaseBean {
 
 	@Override
 	public boolean equals(final Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
+		return EqualsBuilder.reflectionEquals(this, obj, new String[] { "preferenceTimestamp" });
 	}
 
 	@Override
 	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
+		return HashCodeBuilder.reflectionHashCode(this, new String[] { "preferenceTimestamp" });
 	}
 
 	@Override

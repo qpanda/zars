@@ -92,12 +92,12 @@ public class EventBean extends BaseBean {
 
 	@Override
 	public boolean equals(final Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
+		return EqualsBuilder.reflectionEquals(this, obj, new String[] { "eventTimestamp" });
 	}
 
 	@Override
 	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
+		return HashCodeBuilder.reflectionHashCode(this, new String[] { "eventTimestamp" });
 	}
 
 	@Override
