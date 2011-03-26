@@ -100,7 +100,7 @@ public class AsynchronousNotificationService implements NotificationService {
 	}
 
 	protected void sendNotification(final NotificationType notificationType, final BaseBean operationData, final UserBean notifyUserBean, final String templateName, final String messageName) {
-		if (!notifyUserBean.isEnabled()) {
+		if (!notifyUserBean.isEnabled() && !NotificationType.NOTIFICATION_USER_DISABLE.equals(notificationType)) {
 			logger.debug("user [" + notifyUserBean.getUsername() + "] is disabled, not sending notification for operation [" + notificationType.getNotificationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
 			return;
 		}

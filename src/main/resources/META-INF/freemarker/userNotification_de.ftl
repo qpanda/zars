@@ -14,6 +14,9 @@ http://${notificationDomain}/
 
 Das Passwort sollte bei erster Verwendung unter 'Einstellungen - Passwort Ändern' geändert werden.
 http://${notificationDomain}/views/changePassword.jsf
+
+Der Empfang von ZARS Benachrichtigungen kann unter 'Einstellungen - Preferenzen Ändern' aktiviert und deaktiviert werden.
+http://${notificationDomain}/views/changePreferences.jsf
 <#elseif notificationType = "NOTIFICATION_USER_UPDATE">
 Der folgende Benutzer und / oder dessen Preferenzen wurde vom Administrator aktualisiert.
 
@@ -39,6 +42,9 @@ http://${notificationDomain}/
 
 Das Passwort sollte bei erster Verwendung unter 'Einstellungen - Passwort Ändern' geändert werden.
 http://${notificationDomain}/views/changePassword.jsf
+
+Der Empfang von ZARS Benachrichtigungen kann unter 'Einstellungen - Preferenzen Ändern' aktiviert und deaktiviert werden.
+http://${notificationDomain}/views/changePreferences.jsf
 <#elseif notificationType = "NOTIFICATION_USER_ENABLE">
 Der folgende Benutzer wurde vom Administrator aktiviert.
 
@@ -48,6 +54,9 @@ Der folgende Benutzer wurde vom Administrator aktiviert.
  Vorname: ${userBean.firstName}
  Nachname: ${userBean.lastName}
  Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>, </#if></#list>
+
+Der Empfang von ZARS Benachrichtigungen kann unter 'Einstellungen - Preferenzen Ändern' aktiviert und deaktiviert werden.
+http://${notificationDomain}/views/changePreferences.jsf
 <#elseif notificationType = "NOTIFICATION_USER_DISABLE">
 Der folgende Benutzer wurde vom Administrator deaktiviert.
 
@@ -58,6 +67,3 @@ Der folgende Benutzer wurde vom Administrator deaktiviert.
  Nachname: ${userBean.lastName}
  Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>, </#if></#list>
 </#if>
-
-Der Empfang von ZARS Benachrichtigungen kann unter 'Einstellungen - Preferenzen Ändern' aktiviert und deaktiviert werden.
-http://${notificationDomain}/views/changePreferences.jsf
