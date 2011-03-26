@@ -48,8 +48,8 @@ public class MessageUtils {
 	}
 
 	public static String obtainMessage(final ResourceBundleType resourceBundleType, final String messageName, final Locale locale, final Object... messageParameters) {
-		final String resourceBundleName = resourceBundleType.getResourceBundleName();
-		final ResourceBundle resourceBundle = obtainResourceBundle(resourceBundleName, locale);
+		final String resourceBundleFileName = resourceBundleType.getResourceBundleFileName();
+		final ResourceBundle resourceBundle = obtainResourceBundle(resourceBundleFileName, locale);
 		try {
 			final String messageText = resourceBundle.getString(messageName);
 			if (null == messageParameters) {
@@ -60,12 +60,12 @@ public class MessageUtils {
 			messageFormat.setLocale(locale);
 			return messageFormat.format(messageParameters);
 		} catch (final MissingResourceException missingResourceException) {
-			return "message with name [" + messageName + "] not found in resource bundle [" + resourceBundleName + "]";
+			return "message with name [" + messageName + "] not found in resource bundle [" + resourceBundleFileName + "]";
 		}
 	}
 
-	public static ResourceBundle obtainResourceBundle(final String resourceBundleName, final Locale locale) {
-		return ResourceBundle.getBundle(resourceBundleName, locale, determineCurrentClassLoader(resourceBundleName));
+	public static ResourceBundle obtainResourceBundle(final String resourceBundleFileName, final Locale locale) {
+		return ResourceBundle.getBundle(resourceBundleFileName, locale, determineCurrentClassLoader(resourceBundleFileName));
 	}
 
 	protected static ClassLoader determineCurrentClassLoader(final Object fallbackClass) {
