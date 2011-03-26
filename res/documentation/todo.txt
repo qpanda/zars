@@ -1,5 +1,5 @@
 MUST-HAVE
-	-
+	o view user should show the email notification setting
 
 SHOULD-HAVE
 	o improve preferences
