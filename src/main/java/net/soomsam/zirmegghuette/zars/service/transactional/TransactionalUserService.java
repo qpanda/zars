@@ -160,21 +160,25 @@ public class TransactionalUserService implements UserService {
 	}
 
 	@Override
-	public void enableUser(final long userId) {
+	public UserBean enableUser(final long userId) {
 		final User user = userDao.retrieveByPrimaryKey(userId);
 		user.setEnabled(true);
 
 		final Event enableUserEvent = eventDao.create(userDao.retrieveCurrentUser(), user.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_UPDATE, "EVENT_ENABLEUSER");
 		eventDao.persist(enableUserEvent);
+
+		return serviceBeanMapper.map(UserBean.class, user);
 	}
 
 	@Override
-	public void disableUser(final long userId) {
+	public UserBean disableUser(final long userId) {
 		final User user = userDao.retrieveByPrimaryKey(userId);
 		user.setEnabled(false);
 
 		final Event disableUserEvent = eventDao.create(userDao.retrieveCurrentUser(), user.getUserId(), EntityType.ENTITY_USER, OperationType.OPERATION_UPDATE, "EVENT_DISABLEUSER");
 		eventDao.persist(disableUserEvent);
+
+		return serviceBeanMapper.map(UserBean.class, user);
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import net.soomsam.zirmegghuette.zars.enums.OperationType;
+import net.soomsam.zirmegghuette.zars.enums.NotificationType;
 import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.exception.InsufficientPermissionException;
 import net.soomsam.zirmegghuette.zars.service.GroupReservationService;
@@ -64,7 +64,7 @@ public class GroupReservationScheduleController implements Serializable {
 		logger.debug("deleting group reservation with groupReservationId [" + selectedGroupReservation.getGroupReservationId() + "]");
 		try {
 			groupReservationService.deleteGroupReservation(selectedGroupReservation.getGroupReservationId());
-			notificationService.sendGroupReservationNotification(OperationType.OPERATION_DELETE, selectedGroupReservation);
+			notificationService.sendGroupReservationNotification(NotificationType.NOTIFICATION_GROUPRESERVATION_DELETE, selectedGroupReservation);
 			return "groupReservationSchedule?faces-redirect=true";
 		} catch (final InsufficientPermissionException insufficientPermissionException) {
 			final FacesMessage insufficientPermissionFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);

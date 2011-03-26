@@ -7,6 +7,8 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.NotificationType;
+import net.soomsam.zirmegghuette.zars.service.NotificationService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 
@@ -25,6 +27,9 @@ public class AdminUserController implements Serializable {
 	@Inject
 	private transient UserService userService;
 
+	@Inject
+	private transient NotificationService notificationService;
+
 	public String getCommandLinkSelectedUserIdAttributeName() {
 		return commandLinkSelectedUserIdAttributeName;
 	}
@@ -38,7 +43,8 @@ public class AdminUserController implements Serializable {
 			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
 			final Long selectedUserId = (Long) commandLink.getAttributes().get(commandLinkSelectedUserIdAttributeName);
 
-			userService.disableUser(selectedUserId);
+			final UserBean disabledUser = userService.disableUser(selectedUserId);
+			notificationService.sendUserNotification(NotificationType.NOTIFICATION_USER_DISABLE, disabledUser);
 			logger.debug("disabled user with id [" + selectedUserId + "]");
 		}
 	}
@@ -48,7 +54,8 @@ public class AdminUserController implements Serializable {
 			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
 			final Long selectedUserId = (Long) commandLink.getAttributes().get(commandLinkSelectedUserIdAttributeName);
 
-			userService.enableUser(selectedUserId);
+			final UserBean enabledUser = userService.enableUser(selectedUserId);
+			notificationService.sendUserNotification(NotificationType.NOTIFICATION_USER_ENABLE, enabledUser);
 			logger.debug("enabled user with id [" + selectedUserId + "]");
 		}
 	}

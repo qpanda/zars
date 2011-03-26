@@ -8,9 +8,11 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.soomsam.zirmegghuette.zars.enums.NotificationType;
 import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
+import net.soomsam.zirmegghuette.zars.service.NotificationService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.UserBean;
 import net.soomsam.zirmegghuette.zars.web.utils.MessageUtils;
@@ -32,6 +34,9 @@ public class ResetUserController implements Serializable {
 
 	@Inject
 	private transient SettingController settingController;
+
+	@Inject
+	private transient NotificationService notificationService;
 
 	private boolean validNavigation = true;
 
@@ -131,6 +136,7 @@ public class ResetUserController implements Serializable {
 
 		logger.debug("resetting user with id [" + userId + "]");
 		savedUser = userService.resetUser(userId, password, true);
+		notificationService.sendUserNotification(NotificationType.NOTIFICATION_USER_RESET, savedUser);
 		return "resetUserConfirmation";
 	}
 }

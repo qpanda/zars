@@ -1,7 +1,5 @@
 MUST-HAVE
-	o email notification
-		o created/modified/locked account
-		o admin reservations added/updated/deleted
+	-
 
 SHOULD-HAVE
 	o improve preferences

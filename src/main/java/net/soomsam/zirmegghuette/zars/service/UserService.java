@@ -40,10 +40,10 @@ public interface UserService {
 	public List<UserBean> findAllUsers();
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void enableUser(long userId);
+	public UserBean enableUser(long userId);
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void disableUser(long userId);
+	public UserBean disableUser(long userId);
 
 	public List<UserBean> findUsers(final RoleType roleType);
 

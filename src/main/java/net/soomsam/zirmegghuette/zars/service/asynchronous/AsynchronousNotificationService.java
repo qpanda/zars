@@ -6,7 +6,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TimeZone;
 
-import net.soomsam.zirmegghuette.zars.enums.OperationType;
+import net.soomsam.zirmegghuette.zars.enums.NotificationType;
 import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.enums.RoleType;
 import net.soomsam.zirmegghuette.zars.manager.MailManager;
@@ -53,7 +53,7 @@ public class AsynchronousNotificationService implements NotificationService {
 
 	@Async
 	@Override
-	public void sendGroupReservationNotification(final OperationType operationType, final GroupReservationBean groupReservationBean) {
+	public void sendGroupReservationNotification(final NotificationType notificationType, final GroupReservationBean groupReservationBean) {
 		try {
 			final UserBean booker = groupReservationBean.getBooker();
 			final UserBean beneficiary = groupReservationBean.getBeneficiary();
@@ -66,42 +66,56 @@ public class AsynchronousNotificationService implements NotificationService {
 			notifyUserBeanSet.add(accountant);
 			notifyUserBeanSet.addAll(adminUserList);
 
-			sendNotifications(operationType, groupReservationBean, notifyUserBeanSet, "groupReservationNotification.ftl", "NOTIFICATION_GROUPRESERVATION");
+			sendNotifications(notificationType, groupReservationBean, notifyUserBeanSet, "groupReservationNotification.ftl", "NOTIFICATION_GROUPRESERVATION");
 		} catch (final Exception exception) {
-			logger.error("error while preparing, generating, or sending notification for operation [" + operationType.getOperationName() + "] on [" + groupReservationBean.getClass().getSimpleName() + "]: " + exception.getMessage());
+			logger.error("error while preparing, generating, or sending notification for operation [" + notificationType.getNotificationName() + "] on [" + groupReservationBean.getClass().getSimpleName() + "]: " + exception.getMessage());
 			exception.printStackTrace();
 		}
 	}
 
-	protected void sendNotifications(final OperationType operationType, final BaseBean operationData, final Set<UserBean> notifyUserBeanSet, final String templateName, final String messageName) {
+	@Async
+	@Override
+	public void sendUserNotification(final NotificationType notificationType, final UserBean userBean) {
+		try {
+			final Set<UserBean> notifyUserBeanSet = new HashSet<UserBean>();
+			notifyUserBeanSet.add(userBean);
+
+			sendNotifications(notificationType, userBean, notifyUserBeanSet, "userNotification.ftl", "NOTIFICATION_USER");
+		} catch (final Exception exception) {
+			logger.error("error while preparing, generating, or sending notification for operation [" + notificationType.getNotificationName() + "] on [" + userBean.getClass().getSimpleName() + "]: " + exception.getMessage());
+			exception.printStackTrace();
+		}
+	}
+
+	protected void sendNotifications(final NotificationType notificationType, final BaseBean operationData, final Set<UserBean> notifyUserBeanSet, final String templateName, final String messageName) {
 		if (!notificationEnabled) {
-			logger.debug("notifications disabled, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
+			logger.debug("notifications disabled, not sending notification for operation [" + notificationType.getNotificationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
 			return;
 		}
 
 		for (final UserBean notifyUserBean : notifyUserBeanSet) {
-			sendNotification(operationType, operationData, notifyUserBean, templateName, messageName);
+			sendNotification(notificationType, operationData, notifyUserBean, templateName, messageName);
 		}
 	}
 
-	protected void sendNotification(final OperationType operationType, final BaseBean operationData, final UserBean notifyUserBean, final String templateName, final String messageName) {
+	protected void sendNotification(final NotificationType notificationType, final BaseBean operationData, final UserBean notifyUserBean, final String templateName, final String messageName) {
 		if (!notifyUserBean.isEnabled()) {
-			logger.debug("user [" + notifyUserBean.getUsername() + "] is disabled, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
+			logger.debug("user [" + notifyUserBean.getUsername() + "] is disabled, not sending notification for operation [" + notificationType.getNotificationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
 			return;
 		}
 
 		if (!notifyUserBean.hasEmailAddress()) {
-			logger.debug("user [" + notifyUserBean.getUsername() + "] has no email address, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
+			logger.debug("user [" + notifyUserBean.getUsername() + "] has no email address, not sending notification for operation [" + notificationType.getNotificationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
 			return;
 		}
 
 		final boolean emailNotification = preferenceService.determineNotification(notifyUserBean.getUserId());
 		if (!emailNotification) {
-			logger.debug("user [" + notifyUserBean.getUsername() + "] has no email notification disabled, not sending notification for operation [" + operationType.getOperationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
+			logger.debug("user [" + notifyUserBean.getUsername() + "] has no email notification disabled, not sending notification for operation [" + notificationType.getNotificationName() + "] on [" + operationData.getClass().getSimpleName() + "]");
 			return;
 		}
 
-		final TemplateHashModel templateModel = createTemplateModel(operationType, operationData);
+		final TemplateHashModel templateModel = createTemplateModel(notificationType, operationData);
 
 		final Locale preferredLocale = preferenceService.determinePreferredLocale(notifyUserBean.getUserId());
 		final TimeZone preferredTimeZone = preferenceService.determinePreferredTimeZone(notifyUserBean.getUserId());
@@ -109,13 +123,13 @@ public class AsynchronousNotificationService implements NotificationService {
 
 		final String message = templateManager.generateDocument(templateName, templateModel, preferredLocale, preferredTimeZone);
 		mailManager.sendMail(notifyUserBean.getEmailAddress(), subject, message);
-		logger.debug("sent notification for operation [" + operationType.getOperationName() + "] on [" + operationData.getClass().getSimpleName() + "] to user [" + notifyUserBean.getUsername() + "] with subject [" + subject + "], locale [" + preferredLocale + "], and timezone [" + preferredTimeZone + "]");
+		logger.debug("sent notification for operation [" + notificationType.getNotificationName() + "] on [" + operationData.getClass().getSimpleName() + "] to user [" + notifyUserBean.getUsername() + "] with subject [" + subject + "], locale [" + preferredLocale + "], and timezone [" + preferredTimeZone + "]");
 	}
 
-	protected TemplateHashModel createTemplateModel(final OperationType operationType, final BaseBean operationData) {
+	protected TemplateHashModel createTemplateModel(final NotificationType notificationType, final BaseBean operationData) {
 		final SimpleHash templateModel = new SimpleHash();
 		templateModel.put("notificationDomain", notificationDomain);
-		templateModel.put(createTemplateModelKey(operationType), operationType.getOperationName());
+		templateModel.put(createTemplateModelKey(notificationType), notificationType.getNotificationName());
 		templateModel.put(createTemplateModelKey(operationData), operationData);
 		return templateModel;
 	}

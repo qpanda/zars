@@ -15,11 +15,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Pattern;
 
+import net.soomsam.zirmegghuette.zars.enums.NotificationType;
 import net.soomsam.zirmegghuette.zars.enums.PreferenceType;
 import net.soomsam.zirmegghuette.zars.enums.ResourceBundleType;
 import net.soomsam.zirmegghuette.zars.exception.UniqueConstraintException;
 import net.soomsam.zirmegghuette.zars.persistence.dao.EntityNotFoundException;
 import net.soomsam.zirmegghuette.zars.persistence.entity.User;
+import net.soomsam.zirmegghuette.zars.service.NotificationService;
 import net.soomsam.zirmegghuette.zars.service.PreferenceService;
 import net.soomsam.zirmegghuette.zars.service.UserService;
 import net.soomsam.zirmegghuette.zars.service.bean.PreferenceBean;
@@ -49,6 +51,9 @@ public class EditUserController implements Serializable {
 
 	@Inject
 	private transient SettingController settingController;
+
+	@Inject
+	private transient NotificationService notificationService;
 
 	private boolean validNavigation = true;
 
@@ -287,6 +292,7 @@ public class EditUserController implements Serializable {
 			savedTimezonePreference = preferenceService.updatePreference(savedUser.getUserId(), PreferenceType.TIMEZONE, selectedTimezoneId);
 			savedLocalePreference = preferenceService.updatePreference(savedUser.getUserId(), PreferenceType.LOCALE, selectedLocaleDisplayName);
 			savedNotificationPreference = preferenceService.updatePreference(savedUser.getUserId(), PreferenceType.NOTIFICATION, emailNotification);
+			notificationService.sendUserNotification(NotificationType.NOTIFICATION_USER_UPDATE, savedUser);
 			return "editUserConfirmation";
 		} catch (final UniqueConstraintException uniqueConstraintException) {
 			final String uniqueConstraintMessageId = "sectionsApplicationUserUnique" + uniqueConstraintException.getUniqueConstraintField().toUpperCase() + "Error";

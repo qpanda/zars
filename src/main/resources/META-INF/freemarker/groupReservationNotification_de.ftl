@@ -1,4 +1,4 @@
-Die folgende Reservierung wurde <#if operationType = "OPERATION_ADD">angelegt<#elseif operationType = "OPERATION_UPDATE">aktualisiert<#elseif operationType = "OPERATION_DELETE">gelöscht</#if>.
+Die folgende Reservierung wurde <#if notificationType = "NOTIFICATION_GROUPRESERVATION_ADD">angelegt<#elseif notificationType = "NOTIFICATION_GROUPRESERVATION_UPDATE">aktualisiert<#elseif notificationType = "NOTIFICATION_GROUPRESERVATION_DELETE">gelöscht</#if>.
 
  ID: ${groupReservationBean.groupReservationId}
  Buchungsdatum: ${groupReservationBean.booked?datetime}
@@ -16,11 +16,11 @@ Die folgende Reservierung wurde <#if operationType = "OPERATION_ADD">angelegt<#e
    ${reservation.arrival?date}		${reservation.departure?date}		${reservation.firstName} ${reservation.lastName}
 </#list>  
 </#if>
-<#if operationType = "OPERATION_ADD" || operationType = "OPERATION_UPDATE">
+<#if notificationType = "NOTIFICATION_GROUPRESERVATION_ADD" || notificationType = "NOTIFICATION_GROUPRESERVATION_UPDATE">
 
 Die Reservierung kann mit folgendem Link abgerufen werden.
 http://${notificationDomain}/views/viewGroupReservation.jsf?groupReservationId=${groupReservationBean.groupReservationId}
 </#if>
 
-Der Empfang von ZARS Benachrichtigungen kann unter Preferenzen aktiviert und deaktiviert werden.
+Der Empfang von ZARS Benachrichtigungen kann unter 'Einstellungen - Preferenzen Ändern' aktiviert und deaktiviert werden.
 http://${notificationDomain}/views/changePreferences.jsf
