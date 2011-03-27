@@ -44,6 +44,8 @@ public class ViewUserController implements Serializable {
 
 	private PreferenceBean savedLocalePreference;
 
+	private PreferenceBean savedNotificationPreference;
+
 	public boolean isValidNavigation() {
 		return validNavigation;
 	}
@@ -78,6 +80,11 @@ public class ViewUserController implements Serializable {
 		return LocaleUtils.determineLocaleDisplayName(preferredLocale, savedLocalePreference);
 	}
 
+	public String getSavedNotificationPreferenceDisplayName() {
+		final boolean savedNotificationPreferenceValue = (Boolean) savedNotificationPreference.getValue();
+		return MessageUtils.obtainFacesMessage(ResourceBundleType.DISPLAY_MESSAGES, "sectionsApplicationUserNotificationPreferenceDisplay", (savedNotificationPreferenceValue ? 1 : 0));
+	}
+
 	public String getInvalidUserIdMessage() {
 		final Locale preferredLocale = settingController.getPreferredLocale();
 		return MessageUtils.obtainMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserUserIdError", preferredLocale);
@@ -104,6 +111,7 @@ public class ViewUserController implements Serializable {
 			savedUser = userService.retrieveUser(userId);
 			savedTimezonePreference = preferenceService.findPreference(userId, PreferenceType.TIMEZONE);
 			savedLocalePreference = preferenceService.findPreference(userId, PreferenceType.LOCALE);
+			savedNotificationPreference = preferenceService.findPreference(userId, PreferenceType.NOTIFICATION);
 		} catch (final EntityNotFoundException entityNotFoundException) {
 			this.validNavigation = false;
 			final FacesMessage invalidUserIdFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationUserUserIdError", FacesMessage.SEVERITY_ERROR);
