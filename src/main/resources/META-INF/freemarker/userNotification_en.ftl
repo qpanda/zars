@@ -40,7 +40,7 @@ The following user was reset by the administrator.
  Last Name: ${userBean.lastName}
  Roles: <#list userBean.roles as role><#if role.name = "ROLE_USER">User<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Accountant</#if><#if role_has_next>, </#if></#list>  
 
-To use ZARS login with the rest username and password using the following link.
+To use ZARS login with the reset username and password using the following link.
 http://${notificationDomain}/
 
 The password should be changed under 'Settings - Change Password' when using the application the first time.

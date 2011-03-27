@@ -9,7 +9,7 @@ Der folgende Benutzer wurde vom Administrator für die Verwendung von ZARS angel
  Nachname: ${userBean.lastName}
  Rollen: <#list userBean.roles as role><#if role.name = "ROLE_USER">Benutzer<#elseif role.name = "ROLE_ADMIN">Administrator<#elseif role.name = "ROLE_ACCOUNTANT">Verrechner</#if><#if role_has_next>, </#if></#list>
 
-Um ZARS verwenden zu können melden Sie sich bitte mit dem angegebenen Benutzernamen und Passwort unter folgendem Link an.
+Um ZARS zu verwenden melden Sie sich bitte mit dem angegebenen Benutzernamen und Passwort unter folgendem Link an.
 http://${notificationDomain}/
 
 Das Passwort sollte bei erster Verwendung unter 'Einstellungen - Passwort Ändern' geändert werden.
