@@ -1,5 +1,5 @@
 <#if notificationType = "NOTIFICATION_USER_ADD">
-The administrator created the following user for ZARS.
+The administrator created the following user for you for ZARS.
 
  ID: ${userBean.userId}
  Username: ${userBean.username}

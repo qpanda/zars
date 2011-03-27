@@ -1,5 +1,5 @@
 <#if notificationType = "NOTIFICATION_USER_ADD">
-Der folgende Benutzer wurde vom Administrator für die Verwendung von ZARS angelegt.
+Der folgende Benutzer wurde vom Administrator für Sie für die Verwendung von ZARS angelegt.
 
  ID: ${userBean.userId}
  Benutzername: ${userBean.username}
