@@ -1,6 +1,5 @@
 MUST-HAVE
-	o view user should show the email notification setting
-	o empty line at end of notification email
+	-
 
 SHOULD-HAVE
 	o improve preferences
