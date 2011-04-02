@@ -4,6 +4,7 @@ MUST-HAVE
 SHOULD-HAVE
 	o improve delete of individual reservations
 	o improve setting of end date
+	o allow direct input of dates
 	o improve preferences
 		o remove need for PreferenceBean: User.determinePreferredLocale, User.determinePreferredTimezone
 		o UserBean includes preferences
