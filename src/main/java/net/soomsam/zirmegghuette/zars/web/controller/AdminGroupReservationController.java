@@ -134,8 +134,8 @@ public class AdminGroupReservationController implements Serializable {
 
 	protected Interval createCurrentYearInterval() {
 		// implements BR002
-		final DateMidnight dateRangeStartDateMidnight = new DateMidnight().withDayOfYear(1);
-		final DateMidnight dateRangeEndDateMidnight = dateRangeStartDateMidnight.plusYears(1);
+		final DateMidnight dateRangeStartDateMidnight = new DateMidnight().minusMonths(3);
+		final DateMidnight dateRangeEndDateMidnight = new DateMidnight().plusYears(1);
 		return new Interval(dateRangeStartDateMidnight, dateRangeEndDateMidnight);
 	}
 

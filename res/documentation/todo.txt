@@ -1,10 +1,9 @@
 MUST-HAVE
-	o fix export + delete
-	o improve default date range for reservation filter
-	o improve delete of individual reservations
-	o improve setting of end date
+	-
 
 SHOULD-HAVE
+	o improve delete of individual reservations
+	o improve setting of end date
 	o improve preferences
 		o remove need for PreferenceBean: User.determinePreferredLocale, User.determinePreferredTimezone
 		o UserBean includes preferences
