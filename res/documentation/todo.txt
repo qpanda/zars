@@ -1,5 +1,8 @@
 MUST-HAVE
-	-
+	o fix export + delete
+	o improve default date range for reservation filter
+	o improve delete of individual reservations
+	o improve setting of end date
 
 SHOULD-HAVE
 	o improve preferences
