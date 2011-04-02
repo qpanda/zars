@@ -49,9 +49,9 @@
 				</p:dataTable>
 			</div>
 			<div class="applicationFormItem">
-				<p:commandLink value="#{displayMessages.sectionsApplicationExportUsersLink}" styleClass="applicationLink" ajax="false">
+				<h:commandLink value="#{displayMessages.sectionsApplicationExportUsersLink}" styleClass="applicationLink">
 					<p:dataExporter type="xls" target="userTable" fileName="#{displayMessages.sectionsApplicationExportUsersFile}" excludeColumns="3,4,5"/>
-				</p:commandLink>
+				</h:commandLink>
 			</div>
 		</h:form>
 	</div>  

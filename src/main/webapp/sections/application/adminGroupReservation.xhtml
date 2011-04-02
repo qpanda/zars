@@ -94,9 +94,9 @@
 				</p:dataTable>
 			</div>
 			<div class="applicationFormItem">
-				<p:commandLink value="#{displayMessages.sectionsApplicationExportGroupReservationsLink}" styleClass="applicationLink" ajax="false">
+				<h:commandLink value="#{displayMessages.sectionsApplicationExportGroupReservationsLink}" styleClass="applicationLink">
 					<p:dataExporter type="xls" target="groupReservationTable" fileName="#{displayMessages.sectionsApplicationExportGroupReservationsFile}" excludeColumns="6"/>
-				</p:commandLink>
+				</h:commandLink>
 			</div>
 		</h:form>
 	</div>
