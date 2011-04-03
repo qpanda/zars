@@ -229,7 +229,7 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 	@Override
 	@Transactional(rollbackFor = InsufficientPermissionException.class)
-	public void deleteGroupReservation(final long groupReservationId) throws InsufficientPermissionException {
+	public GroupReservationBean deleteGroupReservation(final long groupReservationId) throws InsufficientPermissionException {
 		final GroupReservation groupReservation = groupReservationDao.retrieveByPrimaryKey(groupReservationId);
 
 		assertDeleteGroupReservationAllowed(groupReservationId, groupReservation.getBeneficiary().getUserId());
@@ -238,6 +238,8 @@ public class TransactionalGroupReservationService implements GroupReservationSer
 
 		final Event deleteGroupReservationEvent = eventDao.create(userDao.retrieveCurrentUser(), groupReservation.getGroupReservationId(), EntityType.ENTITY_RESERVATION, OperationType.OPERATION_DELETE, "EVENT_DELETEGROUPRESERVATION");
 		eventDao.persist(deleteGroupReservationEvent);
+
+		return serviceBeanMapper.map(GroupReservationBean.class, groupReservation);
 
 		// TODO only admin should be allowed to delete group reservation that had already been payed
 		// TODO search for reports covering new date range of group reservation and mark them as stale

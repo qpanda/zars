@@ -149,11 +149,10 @@ public class AdminGroupReservationController implements Serializable {
 		if ((null != commandLinkActionEvent) && (commandLinkActionEvent.getComponent() instanceof CommandLink)) {
 			final CommandLink commandLink = (CommandLink) commandLinkActionEvent.getComponent();
 			final Long selectedGroupReservationId = (Long) commandLink.getAttributes().get(commandLinkSelectedGroupReservationIdAttributeName);
-			final GroupReservationBean selectedGroupReservation = groupReservationService.retrieveGroupReservation(selectedGroupReservationId);
 
 			logger.debug("deleting group reservation with groupReservationId [" + selectedGroupReservationId + "]");
 			try {
-				groupReservationService.deleteGroupReservation(selectedGroupReservationId);
+				final GroupReservationBean selectedGroupReservation = groupReservationService.deleteGroupReservation(selectedGroupReservationId);
 				notificationService.sendGroupReservationNotification(NotificationType.NOTIFICATION_GROUPRESERVATION_DELETE, selectedGroupReservation);
 			} catch (final InsufficientPermissionException insufficientPermissionException) {
 				final FacesMessage insufficientPermissionFacesMessage = MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationDeletionNotAllowedError", FacesMessage.SEVERITY_ERROR);

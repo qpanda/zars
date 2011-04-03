@@ -30,7 +30,7 @@ public interface GroupReservationService {
 	public GroupReservationBean updateGroupReservation(long groupReservationId, long beneficiaryId, long accountantId, Set<ReservationVo> reservationVoSet, String comment) throws GroupReservationConflictException, InsufficientPermissionException, GroupReservationNonconsecutiveException;
 
 	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-	public void deleteGroupReservation(long groupReservationId) throws InsufficientPermissionException;
+	public GroupReservationBean deleteGroupReservation(long groupReservationId) throws InsufficientPermissionException;
 
 	@PreAuthorize("isAuthenticated()")
 	public long countGroupReservation(Interval dateInterval);
