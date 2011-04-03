@@ -125,9 +125,9 @@ public class AsynchronousNotificationService implements NotificationService {
 		final String message = templateManager.generateDocument(templateName, templateModel, preferredLocale, preferredTimeZone);
 		if (NotificationModeType.ENABLED.equals(notificationMode)) {
 			mailManager.sendMail(notifyUserBean.getEmailAddress(), subject, message);
-			logger.debug("sent notification for operation [" + notificationType.getNotificationName() + "] on [" + operationData.getClass().getSimpleName() + "] to user [" + notifyUserBean.getUsername() + "] with subject [" + subject + "], locale [" + preferredLocale + "], and timezone [" + preferredTimeZone + "]");
+			logger.debug("sent notification for operation [" + notificationType.getNotificationName() + "] on [" + operationData.getClass().getSimpleName() + "] to user [" + notifyUserBean.getUsername() + "] with subject [" + subject + "], locale [" + preferredLocale + "], and timezone [" + preferredTimeZone.getID() + "]");
 		} else if (NotificationModeType.SIMULATE.equals(notificationMode)) {
-			logger.debug("would send notification for operation [" + notificationType.getNotificationName() + "] on [" + operationData.getClass().getSimpleName() + "] to user [" + notifyUserBean.getUsername() + "] with subject [" + subject + "], locale [" + preferredLocale + "], and timezone [" + preferredTimeZone + "]\n" + message);
+			logger.debug("would send notification for operation [" + notificationType.getNotificationName() + "] on [" + operationData.getClass().getSimpleName() + "] to user [" + notifyUserBean.getUsername() + "] with subject [" + subject + "], locale [" + preferredLocale + "], and timezone [" + preferredTimeZone.getID() + "]\n" + message);
 		}
 	}
 
