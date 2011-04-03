@@ -2,13 +2,6 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-	<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
-		<param name="Target" value="System.out" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{ISO8601} [%t][%X{SESSION_ID}/%X{USERNAME}] %-5p %c - %m%n" />
-		</layout>
-	</appender>
-
 	<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="/opt/apache-tomcat/logs/zars.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
@@ -21,13 +14,11 @@
 	<logger name="net.soomsam.zirmegghuette.zars" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="fileAppender" />
-		<appender-ref ref="consoleAppender" />
 	</logger>
 	
 	<root>
 		<priority value="INFO" />
 		<appender-ref ref="fileAppender" />
-		<appender-ref ref="consoleAppender" />
 	</root>
 
 </log4j:configuration>
