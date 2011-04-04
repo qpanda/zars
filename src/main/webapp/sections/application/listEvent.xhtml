@@ -20,14 +20,14 @@
 						</h:panelGrid>
 						<h:panelGrid columns="1" rowClasses="applicationPanelGridRow">
 							<h:column/>
-							<p:calendar id="dateRangeStartDate" value="#{listEventController.dateRangeStartDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+							<p:calendar id="dateRangeStartDate" value="#{listEventController.dateRangeStartDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" navigator="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
 							<h:selectOneMenu id="user" styleClass="applicationFormInput" value="#{listEventController.selectedUserId}" converter="javax.faces.Long" required="true" requiredMessage="#{validationMessages.sectionsApplicationEventUserError}">
 								<f:selectItems value="#{listEventController.availableUsers}" var="user" itemLabel="#{user.username}" itemValue="#{user.userId}"/>
 							</h:selectOneMenu>
 						</h:panelGrid>
 						<h:panelGrid columns="1" rowClasses="applicationPanelGridRow">
 							<h:column/>
-							<p:calendar id="dateRangeEndDate" value="#{listEventController.dateRangeEndDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+							<p:calendar id="dateRangeEndDate" value="#{listEventController.dateRangeEndDate}" inputStyleClass="applicationFormInput" mode="popup" showOn="button" popupIconOnly="true" navigator="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
 							<h:column/>
 						</h:panelGrid>
 					</h:panelGrid>

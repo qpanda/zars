@@ -84,6 +84,14 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 	protected GroupReservationBean savedGroupReservation;
 
+	public String getMinArrivalDeparture() {
+		// TODO we should determine the minArrivalDepatureDate based on the already accounted period
+		// due to bug http://code.google.com/p/primefaces/issues/detail?id=1434 we have to
+		// return a correctly formated date string instead of a data object
+		final Date minArrivalDepatureDate = new DateMidnight().withDayOfYear(1).toDate();
+		return settingController.getPreferredDateFormat().format(minArrivalDepatureDate);
+	}
+
 	public Date getArrival() {
 		return arrival;
 	}
@@ -281,6 +289,8 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		reservationCalendarComponent.setShowOn("button");
 		reservationCalendarComponent.setPopupIconOnly(true);
 		reservationCalendarComponent.setReadOnlyInputText(true);
+		reservationCalendarComponent.setNavigator(true);
+		reservationCalendarComponent.setMindate(getMinArrivalDeparture());
 		reservationCalendarComponent.setLocale(settingController.getPreferredLocale());
 		reservationCalendarComponent.setPattern(settingController.getPreferredDateFormatPattern());
 		reservationCalendarComponent.setTimeZone(settingController.getPreferredTimeZone());

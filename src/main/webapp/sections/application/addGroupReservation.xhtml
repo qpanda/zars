@@ -10,12 +10,12 @@
 			<f:subview id="addGroupReservationView" rendered="#{addGroupReservationController.validNavigation}">
 				<div class="applicationFormItem">		
 					<h:outputLabel for="arrival" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationArrivalLabel}" /><br />
-					<p:calendar id="arrival" inputStyleClass="applicationFormInput" value="#{addGroupReservationController.arrival}" binding="#{addGroupReservationController.arrivalCalendar}" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+					<p:calendar id="arrival" inputStyleClass="applicationFormInput" value="#{addGroupReservationController.arrival}" binding="#{addGroupReservationController.arrivalCalendar}" mode="popup" showOn="button" popupIconOnly="true" navigator="true" mindate="#{addGroupReservationController.minArrivalDeparture}" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
 					<p:message for="arrival" />
 				</div>
 				<div class="applicationFormItem">		
 					<h:outputLabel for="departure" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationDepartureLabel}" /><br />
-					<p:calendar id="departure" inputStyleClass="applicationFormInput" value="#{addGroupReservationController.departure}" binding="#{addGroupReservationController.departureCalendar}" mode="popup" showOn="button" popupIconOnly="true" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
+					<p:calendar id="departure" inputStyleClass="applicationFormInput" value="#{addGroupReservationController.departure}" binding="#{addGroupReservationController.departureCalendar}" mode="popup" showOn="button" popupIconOnly="true" navigator="true" mindate="#{addGroupReservationController.minArrivalDeparture}" locale="#{settingController.preferredLocale}" pattern="#{settingController.preferredDateFormatPattern}" timeZone="#{settingController.preferredTimeZone}" readOnlyInputText="true"/>
 					<p:message for="departure" />
 				</div>
 				<div class="applicationFormItem">		
