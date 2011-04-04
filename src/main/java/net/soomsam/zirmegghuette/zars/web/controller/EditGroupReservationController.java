@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -102,6 +103,7 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	protected void populateReservation(final List<ReservationBean> reservationBeanList) {
 		for (int i = 0; i < reservationBeanList.size(); ++i) {
 			final ReservationBean reservationBean = reservationBeanList.get(i);
+			populateReservationSelectedCheckboxComponent(i + 1);
 			populateReservationArrivalCalendarComponent(i + 1, reservationBean.getArrival());
 			populateReservationDepartureCalendarComponent(i + 1, reservationBean.getDeparture());
 			populateReservationFirstNameInputTextComponent(i + 1, reservationBean.getFirstName());
@@ -121,6 +123,13 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 		guestsInputText.setValid(true);
 	}
 
+	protected void populateReservationSelectedCheckboxComponent(final int reservationPanelRow) {
+		final String reservationSelectedCheckboxComponentId = determineReservationComponentId(RESERVATIONSELECTED_CHECKBOXCOMPONENT_IDPREFIX, reservationPanelRow);
+		final HtmlSelectBooleanCheckbox reservationSelectedCheckboxComponent = createReservationCheckboxComponent();
+		reservationSelectedCheckboxComponent.getAttributes().put(RESERVATION_COMPONENT_ID, reservationSelectedCheckboxComponentId);
+		reservationPanelGrid.getChildren().add(reservationSelectedCheckboxComponent);
+	}
+
 	protected void populateReservationArrivalCalendarComponent(final int reservationPanelRow, final Date reservationArrival) {
 		final String reservationArrivalCalendarComponentId = determineReservationComponentId(RESERVATIONARRIVAL_CALENDARCOMPONENT_IDPREFIX, reservationPanelRow);
 		final Calendar reservationArrivalCalendarComponent = createReservationCalendarComponent(reservationArrivalCalendarComponentId, null);
@@ -138,14 +147,14 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 	}
 
 	protected void populateReservationFirstNameInputTextComponent(final int reservationPanelRow, final String reservationFirstName) {
-		final String reservationFirstNameInputTextComponent = determineReservationComponentId(RESERVATIONFIRSTNAME_INPUTTEXTCOMPONENT_IDPREFIX, reservationPanelRow);
+		final String reservationFirstNameInputTextComponentId = determineReservationComponentId(RESERVATIONFIRSTNAME_INPUTTEXTCOMPONENT_IDPREFIX, reservationPanelRow);
 		final HtmlInputText firstNameInputTextReservationComponent = createReservationInputTextComponent();
 		firstNameInputTextReservationComponent.setValue(reservationFirstName);
 		firstNameInputTextReservationComponent.setSubmittedValue(reservationFirstName);
 		firstNameInputTextReservationComponent.setLocalValueSet(false);
 		firstNameInputTextReservationComponent.setValid(true);
-		firstNameInputTextReservationComponent.setId(reservationFirstNameInputTextComponent);
-		firstNameInputTextReservationComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow));
+		firstNameInputTextReservationComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestFirstNameError", reservationPanelRow));
+		firstNameInputTextReservationComponent.getAttributes().put(RESERVATION_COMPONENT_ID, reservationFirstNameInputTextComponentId);
 		reservationPanelGrid.getChildren().add(firstNameInputTextReservationComponent);
 	}
 
@@ -156,8 +165,8 @@ public class EditGroupReservationController extends ModifyGroupReservationContro
 		reservationLastNameInputTextComponent.setSubmittedValue(individualReservationLastName);
 		reservationLastNameInputTextComponent.setLocalValueSet(false);
 		reservationLastNameInputTextComponent.setValid(true);
-		reservationLastNameInputTextComponent.setId(reservationLastNameInputTextComponentId);
-		reservationLastNameInputTextComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow));
+		reservationLastNameInputTextComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestLastNameError", reservationPanelRow));
+		reservationLastNameInputTextComponent.getAttributes().put(RESERVATION_COMPONENT_ID, reservationLastNameInputTextComponentId);
 		reservationPanelGrid.getChildren().add(reservationLastNameInputTextComponent);
 	}
 

@@ -52,7 +52,8 @@
 				<div class="applicationFormItem">
 					<h:outputLabel for="reservations" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationLabel}" /><br />
 					<h:outputText styleClass="applicationFormDescription" value="#{displayMessages.sectionsApplicationGroupReservationReservationDescription}" /><br />
-					<h:panelGrid id="reservations" styleClass="applicationFormDialog" binding="#{editGroupReservationController.reservationPanelGrid}" columns="4">
+					<h:panelGrid id="reservations" styleClass="applicationFormDialog" binding="#{editGroupReservationController.reservationPanelGrid}" columns="5">
+						<h:outputText id="reservationSelectedHeader" styleClass="applicationFormLabel" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />
 						<h:outputText id="reservationArrivalHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationArrivalHeader}" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />
 						<h:outputText id="reservationDepartureHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationDepartureHeader}" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />
 						<h:outputText id="reservationFirstNameHeader" styleClass="applicationFormLabel" value="#{displayMessages.sectionsApplicationGroupReservationReservationFirstNameHeader}" rendered="#{editGroupReservationController.reservationPanelGrid.childCount &gt; editGroupReservationController.reservationPanelGrid.columns}" />

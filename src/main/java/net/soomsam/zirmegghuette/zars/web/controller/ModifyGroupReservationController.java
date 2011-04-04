@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlPanelGrid;
+import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
@@ -39,6 +41,8 @@ import org.primefaces.component.calendar.Calendar;
 
 @SuppressWarnings("serial")
 public abstract class ModifyGroupReservationController implements Serializable {
+	protected final static String RESERVATION_COMPONENT_ID = "componentId";
+	protected final static String RESERVATIONSELECTED_CHECKBOXCOMPONENT_IDPREFIX = "reservationSelected";
 	protected final static String RESERVATIONARRIVAL_CALENDARCOMPONENT_IDPREFIX = "reservationArrival";
 	protected final static String RESERVATIONDEPARTURE_CALENDARCOMPONENT_IDPREFIX = "reservationDepature";
 	protected final static String RESERVATIONFIRSTNAME_INPUTTEXTCOMPONENT_IDPREFIX = "reservationFirstName";
@@ -212,8 +216,57 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 	public void removeReservation(final ActionEvent removeReservationCommandLinkActionEvent) {
 		if (0 != determineReservationCount()) {
-			for (int i = 0; i < reservationPanelGrid.getColumns(); ++i) {
-				reservationPanelGrid.getChildren().remove(reservationPanelGrid.getChildCount() - 1);
+			for (int currentReservationIndex = 1, currentReservationCount = determineReservationCount(), resultingReservationIndex = 1; currentReservationIndex <= currentReservationCount; ++currentReservationIndex) {
+				final String currentReservationSelectedCheckboxComponentId = determineReservationComponentId(RESERVATIONSELECTED_CHECKBOXCOMPONENT_IDPREFIX, currentReservationIndex);
+				final HtmlSelectBooleanCheckbox reservationSelectedCheckboxComponent = (HtmlSelectBooleanCheckbox) determineReservationComponent(currentReservationSelectedCheckboxComponentId);
+
+				final String currentReservationArrivalCalendarComponentId = determineReservationComponentId(RESERVATIONARRIVAL_CALENDARCOMPONENT_IDPREFIX, currentReservationIndex);
+				final Calendar reservationArrivalCalendarComponent = (Calendar) determineReservationComponent(currentReservationArrivalCalendarComponentId);
+
+				final String currentReservationDepartureCalendarComponentId = determineReservationComponentId(RESERVATIONDEPARTURE_CALENDARCOMPONENT_IDPREFIX, currentReservationIndex);
+				final Calendar reservationDepartureCalendarComponent = (Calendar) determineReservationComponent(currentReservationDepartureCalendarComponentId);
+
+				final String currentReservationFirstNameInputTextComponentId = determineReservationComponentId(RESERVATIONFIRSTNAME_INPUTTEXTCOMPONENT_IDPREFIX, currentReservationIndex);
+				final HtmlInputText reservationFirstNameInputTextComponent = (HtmlInputText) determineReservationComponent(currentReservationFirstNameInputTextComponentId);
+
+				final String currentReservationLastNameInputTextComponentId = determineReservationComponentId(RESERVATIONLASTNAME_INPUTTEXTCOMPONENT_IDPREFIX, currentReservationIndex);
+				final HtmlInputText reservationLastNameInputTextComponent = (HtmlInputText) determineReservationComponent(currentReservationLastNameInputTextComponentId);
+
+				if (Boolean.TRUE.equals(reservationSelectedCheckboxComponent.getSubmittedValue())) {
+					reservationPanelGrid.getChildren().remove(reservationSelectedCheckboxComponent);
+					reservationSelectedCheckboxComponent.resetValue();
+
+					reservationPanelGrid.getChildren().remove(reservationArrivalCalendarComponent);
+					reservationArrivalCalendarComponent.resetValue();
+
+					reservationPanelGrid.getChildren().remove(reservationDepartureCalendarComponent);
+					reservationDepartureCalendarComponent.resetValue();
+
+					reservationPanelGrid.getChildren().remove(reservationFirstNameInputTextComponent);
+					reservationFirstNameInputTextComponent.resetValue();
+
+					reservationPanelGrid.getChildren().remove(reservationLastNameInputTextComponent);
+					reservationLastNameInputTextComponent.resetValue();
+				} else {
+					final String resultingReservationSelectedCheckboxComponentId = determineReservationComponentId(RESERVATIONSELECTED_CHECKBOXCOMPONENT_IDPREFIX, resultingReservationIndex);
+					reservationSelectedCheckboxComponent.getAttributes().put(RESERVATION_COMPONENT_ID, resultingReservationSelectedCheckboxComponentId);
+
+					final String resultingReservationArrivalCalendarComponentId = determineReservationComponentId(RESERVATIONARRIVAL_CALENDARCOMPONENT_IDPREFIX, resultingReservationIndex);
+					reservationArrivalCalendarComponent.getAttributes().put(RESERVATION_COMPONENT_ID, resultingReservationArrivalCalendarComponentId);
+
+					final String resultingReservationDepartureCalendarComponentId = determineReservationComponentId(RESERVATIONDEPARTURE_CALENDARCOMPONENT_IDPREFIX, resultingReservationIndex);
+					reservationDepartureCalendarComponent.getAttributes().put(RESERVATION_COMPONENT_ID, resultingReservationDepartureCalendarComponentId);
+
+					final String resultingReservationFirstNameInputTextComponentId = determineReservationComponentId(RESERVATIONFIRSTNAME_INPUTTEXTCOMPONENT_IDPREFIX, resultingReservationIndex);
+					reservationFirstNameInputTextComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestFirstNameError", resultingReservationIndex));
+					reservationFirstNameInputTextComponent.getAttributes().put(RESERVATION_COMPONENT_ID, resultingReservationFirstNameInputTextComponentId);
+
+					final String resultingReservationLastNameInputTextComponentId = determineReservationComponentId(RESERVATIONLASTNAME_INPUTTEXTCOMPONENT_IDPREFIX, resultingReservationIndex);
+					reservationLastNameInputTextComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestLastNameError", resultingReservationIndex));
+					reservationLastNameInputTextComponent.getAttributes().put(RESERVATION_COMPONENT_ID, resultingReservationLastNameInputTextComponentId);
+
+					++resultingReservationIndex;
+				}
 			}
 
 			guestsInputText.setValue(determineReservationCount());
@@ -238,10 +291,18 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 	protected void addReservationComponents() {
 		final int reservationPanelRow = determineReservationCount() + 1;
+		addReservationSelectedCheckboxComponent(reservationPanelRow);
 		addReservationArrivalCalendarComponent(reservationPanelRow);
 		addReservationDepartureCalendarComponent(reservationPanelRow);
 		addReservationFirstNameInputTextComponent(reservationPanelRow);
 		addReservationLastNameInputTextComponent(reservationPanelRow);
+	}
+
+	protected void addReservationSelectedCheckboxComponent(final int reservationPanelRow) {
+		final String reservationSelectedCheckboxComponentId = determineReservationComponentId(RESERVATIONSELECTED_CHECKBOXCOMPONENT_IDPREFIX, reservationPanelRow);
+		final HtmlSelectBooleanCheckbox reservationSelectedCheckboxComponent = createReservationCheckboxComponent();
+		reservationSelectedCheckboxComponent.getAttributes().put(RESERVATION_COMPONENT_ID, reservationSelectedCheckboxComponentId);
+		reservationPanelGrid.getChildren().add(reservationSelectedCheckboxComponent);
 	}
 
 	protected void addReservationArrivalCalendarComponent(final int reservationPanelRow) {
@@ -269,22 +330,21 @@ public abstract class ModifyGroupReservationController implements Serializable {
 	protected void addReservationFirstNameInputTextComponent(final int reservationPanelRow) {
 		final String reservationFirstNameInputTextComponentId = determineReservationComponentId(RESERVATIONFIRSTNAME_INPUTTEXTCOMPONENT_IDPREFIX, reservationPanelRow);
 		final HtmlInputText reservationFirstNameInputTextComponent = createReservationInputTextComponent();
-		reservationFirstNameInputTextComponent.setId(reservationFirstNameInputTextComponentId);
-		reservationFirstNameInputTextComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow));
+		reservationFirstNameInputTextComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestFirstNameError", reservationPanelRow));
+		reservationFirstNameInputTextComponent.getAttributes().put(RESERVATION_COMPONENT_ID, reservationFirstNameInputTextComponentId);
 		reservationPanelGrid.getChildren().add(reservationFirstNameInputTextComponent);
 	}
 
 	protected void addReservationLastNameInputTextComponent(final int reservationPanelRow) {
 		final String reservationLastNameInputTextComponentId = determineReservationComponentId(RESERVATIONLASTNAME_INPUTTEXTCOMPONENT_IDPREFIX, reservationPanelRow);
 		final HtmlInputText reservationLastNameInputTextComponent = createReservationInputTextComponent();
-		reservationLastNameInputTextComponent.setId(reservationLastNameInputTextComponentId);
-		reservationLastNameInputTextComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestNameError", reservationPanelRow));
+		reservationLastNameInputTextComponent.setRequiredMessage(MessageUtils.obtainFacesMessage(ResourceBundleType.VALIDATION_MESSAGES, "sectionsApplicationGroupReservationReservationGuestLastNameError", reservationPanelRow));
+		reservationLastNameInputTextComponent.getAttributes().put(RESERVATION_COMPONENT_ID, reservationLastNameInputTextComponentId);
 		reservationPanelGrid.getChildren().add(reservationLastNameInputTextComponent);
 	}
 
 	protected Calendar createReservationCalendarComponent(final String reservationCalendarComponentId, final Calendar templateCalendar) {
 		final Calendar reservationCalendarComponent = new Calendar();
-		reservationCalendarComponent.setId(reservationCalendarComponentId);
 		reservationCalendarComponent.setMode("popup");
 		reservationCalendarComponent.setShowOn("button");
 		reservationCalendarComponent.setPopupIconOnly(true);
@@ -307,6 +367,7 @@ public abstract class ModifyGroupReservationController implements Serializable {
 			}
 		}
 
+		reservationCalendarComponent.getAttributes().put(RESERVATION_COMPONENT_ID, reservationCalendarComponentId);
 		return reservationCalendarComponent;
 	}
 
@@ -315,6 +376,12 @@ public abstract class ModifyGroupReservationController implements Serializable {
 		reservationInputTextComponent.setStyleClass("applicationFormInput");
 		reservationInputTextComponent.setRequired(true);
 		return reservationInputTextComponent;
+	}
+
+	protected HtmlSelectBooleanCheckbox createReservationCheckboxComponent() {
+		final HtmlSelectBooleanCheckbox reservationCheckboxComponent = new HtmlSelectBooleanCheckbox();
+		reservationCheckboxComponent.setStyleClass("applicationFormInput");
+		return reservationCheckboxComponent;
 	}
 
 	protected int determineReservationCount() {
@@ -332,9 +399,11 @@ public abstract class ModifyGroupReservationController implements Serializable {
 
 	protected UIComponent determineReservationComponent(final String reservationComponentId) {
 		final List<UIComponent> reservationComponentList = reservationPanelGrid.getChildren();
-		for (final UIComponent reservationComponent : reservationComponentList) {
-			if (reservationComponentId.equals(reservationComponent.getId())) {
-				return reservationComponent;
+		for (final UIComponent currentReservationComponent : reservationComponentList) {
+			final Map<String, Object> currentReservationComponentAttributes = currentReservationComponent.getAttributes();
+			final String currentReservationComponentId = (String) currentReservationComponentAttributes.get(RESERVATION_COMPONENT_ID);
+			if (StringUtils.equals(reservationComponentId, currentReservationComponentId)) {
+				return currentReservationComponent;
 			}
 		}
 
