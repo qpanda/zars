@@ -5,7 +5,7 @@
 	<artifactId>zars</artifactId>
 	<packaging>war</packaging>
 	<name>zars</name>
-	<version>0.4.3</version>
+	<version>0.4.4</version>
 	<properties>
 		<zars.version>${project.version}</zars.version>
 		<zars.build.directory>target</zars.build.directory>
