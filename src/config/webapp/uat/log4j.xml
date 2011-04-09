@@ -3,7 +3,7 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
 	<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/opt/apache-tomcat/logs/zars.log" />
+		<param name="File" value="/opt/apache-tomcat/logs/zars_uat.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<param name="Append" value="true" />
 		<layout class="org.apache.log4j.PatternLayout">
