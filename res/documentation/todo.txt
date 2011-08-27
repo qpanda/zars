@@ -1,3 +1,6 @@
+PREPERATION FOR PHASE II
+	o setup trac
+
 MUST-HAVE
 	-
 
