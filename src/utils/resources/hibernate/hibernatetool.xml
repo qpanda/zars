@@ -3,7 +3,7 @@
 	<description>DDL generation</description>
 	<target name="generateDDL">
 		<mkdir dir="${basedir}/target/generated-sources/schema" />
-		<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" />
+		<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="maven.plugin.classpath"/>
 		<hibernatetool destdir="${basedir}/target/generated-sources/schema">
 			<classpath refid="maven.compile.classpath" />
 			<annotationconfiguration configurationfile="${basedir}/src/utils/resources/hibernate/hibernatetool-hsql.cfg.xml" />
