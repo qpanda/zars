@@ -812,22 +812,7 @@ determine if the rendered markup for the item receives normal JSF HTML escaping 
 
             ]]></xs:documentation>
             </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="itemLabelEscaped">
-            <xs:annotation>
-               <xs:documentation><![CDATA[
-
- <p class="changed_added_2_0">Is either an EL expression
-pointing to the element in the value collection whose value should be
-marked as a &#8220;no selection&#8221; item, or a literal string that
-exactly matches the value of the item in the collection that must be
-marked as the &#8220;no selection&#8221; item.  If the user selects such
-an item <strong>and</strong> the field is marked as required, then it
-will not pass validation.</p> 
-
-            ]]></xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
+         </xs:attribute>         
       </xs:complexType>
    </xs:element>
    <xs:element name="setPropertyActionListener">
