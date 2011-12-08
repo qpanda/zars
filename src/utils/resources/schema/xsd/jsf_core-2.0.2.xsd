@@ -1215,6 +1215,11 @@ will not pass validation.</p>
             ]]></xs:documentation>
             </xs:annotation>
          </xs:attribute>
+         <xs:attribute name="contentType">
+            <xs:annotation>
+               <xs:documentation><![CDATA[]]></xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
          <xs:attribute name="renderKitId">
             <xs:annotation>
                <xs:documentation><![CDATA[

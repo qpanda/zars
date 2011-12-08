@@ -1595,6 +1595,13 @@ will not pass validation.</p> ]]>
                 <type>java.lang.Object</type>
             </deferred-value>
         </attribute>
+        <attribute>
+            <description/>
+            <name>contentType</name>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
 
     <attribute>
       <description>
