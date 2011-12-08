@@ -1,0 +1,35 @@
+dtd/log4j-1.2.14.dtd
+	http://svn.apache.org/viewvc/logging/log4j/tags/v1_2_14/src/java/org/apache/log4j/xml/log4j.dtd?view=co
+
+tld/2.0/jstl_fn-1.2.tld
+	[Maven Dependencies]/jstl-1.2.jar/META-INF/fn.tld
+
+tld/2.1/jstl_c-1.2.tld
+	[Maven Dependencies]/jstl-1.2.jar/META-INF/c.tld
+
+tld/2.1/primefaces-i-2.1.tld
+	[Maven Dependencies]/primefaces-2.1.jar/META-INF/primefaces-i.tld
+
+tld/2.1/primefaces-p-2.1.tld
+	[Maven Dependencies]/primefaces-2.1.jar/META-INF/primefaces-p.tld
+
+xsd/facelets-ui-2.0.xsd
+	http://svn.codehaus.org/sonar-plugins/trunk/xml/src/main/resources/org/sonar/plugins/xml/schemas/jsf/facelets-ui-2.0.xsd
+
+xsd/html_basic-2.0.2.xsd
+	<generated using taglib2xsd-2.1.xslt>
+
+xsd/jsf_core-2.0.2.xsd
+	<generated using taglib2xsd-2.1.xslt>
+
+xsd/jstl_c-1.2.xsd
+	<generated using taglib2xsd-2.1.xslt>
+
+xsd/jstl_fn-1.2.xsd
+	<generated using taglib2xsd-2.0.xslt>
+
+xsd/primefaces-i-2.1.xsd
+	<generated using taglib2xsd-2.1.xslt>
+
+xsd/primefaces-p-2.1.xsd
+	<generated using taglib2xsd-2.1.xslt>

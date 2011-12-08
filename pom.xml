@@ -199,9 +199,20 @@
 				<configuration>
 					<transformationSets>
 						<transformationSet>
-							<dir>src/utils/resources/jsf/tld</dir>
-							<stylesheet>src/utils/resources/jsf/taglib2xsd.xslt</stylesheet>
-							<outputDir>src/main/webapp/WEB-INF/schema</outputDir>
+							<dir>src/utils/resources/schema/tld/2.0</dir>
+							<stylesheet>src/utils/resources/schema/taglib2xsd-2.0.xslt</stylesheet>
+							<outputDir>src/utils/resources/schema/xsd</outputDir>
+							<fileMappers>
+								<fileMapper
+									implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+									<targetExtension>.xsd</targetExtension>
+								</fileMapper>
+							</fileMappers>
+						</transformationSet>
+						<transformationSet>
+							<dir>src/utils/resources/schema/tld/2.1</dir>
+							<stylesheet>src/utils/resources/schema/taglib2xsd-2.1.xslt</stylesheet>
+							<outputDir>src/utils/resources/schema/xsd</outputDir>
 							<fileMappers>
 								<fileMapper
 									implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">

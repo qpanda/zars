@@ -1630,29 +1630,6 @@
 			</deferred-value>
 		</attribute>
 		<attribute>
-			<description><![CDATA[Id of the component]]></description>
-			<name>id</name>
-			<required>false</required>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description><![CDATA[Boolean value to specify the visibility of the component]]></description>
-			<name>rendered</name>
-			<required>false</required>
-			<deferred-value>
-				<type>boolean</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
-			<description><![CDATA[An EL expression that maps to a server-side component instance
-		in a backing bean]]></description>
-			<name>binding</name>
-			<required>false</required>
-			<deferred-value>
-				<type>javax.faces.component.UIComponent</type>
-			</deferred-value>
-		</attribute>
-		<attribute>
 			<description><![CDATA[Value of the component that can be either an EL expression or a
 		literal text]]></description>
 			<name>value</name>
