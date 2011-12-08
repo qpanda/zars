@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+  <uri name="http://java.sun.com/jsf/html" uri="platform:/resource/zars/src/utils/resources/schema/xsd/html_basic-2.0.2.xsd"/>
+  <uri name="http://java.sun.com/jsf/core" uri="platform:/resource/zars/src/utils/resources/schema/xsd/jsf_core-2.0.2.xsd"/>
+  <uri name="http://java.sun.com/jsf/facelets" uri="platform:/resource/zars/src/utils/resources/schema/xsd/facelets-ui-2.0.xsd"/>
+  <uri name="http://primefaces.prime.com.tr/ui" uri="platform:/resource/zars/src/utils/resources/schema/xsd/primefaces-p-2.1.xsd"/>
+</catalog>
