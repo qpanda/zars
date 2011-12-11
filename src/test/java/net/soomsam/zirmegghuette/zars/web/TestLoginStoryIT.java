@@ -15,7 +15,7 @@ import org.openqa.selenium.WebDriver;
 @RunWith(ThucydidesRunner.class)
 @Story(Zars.Login.TestLogin.class) 
 public class TestLoginStoryIT {
-    @Managed
+    @Managed(uniqueSession=true)
     public WebDriver webdriver;
 
     @ManagedPages(defaultUrl = "http://localhost:8080/views/login.jsf")
